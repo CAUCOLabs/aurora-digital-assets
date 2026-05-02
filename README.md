@@ -109,7 +109,7 @@ The first prototype will simulate:
 ## Repository Structure
 
 ```text
-agents/                  Codex and development agent instructions
+agents/                  Development guidance for coding assistants, not runtime product agents
 docs/                    Product, architecture, compliance and screenshots
 frontend/                Banking portal UI prototype
 backend/                 Simulated API and business logic
@@ -210,6 +210,17 @@ The UI should not look like a crypto exchange. It should look like a serious ban
 
 ---
 
+## Development Assistance Note
+
+This repository may include guidance files for external coding assistants used during development, such as Codex or similar tools.
+
+These files are only part of the development workflow.
+
+Aurora Digital Assets does not use Codex, AI agents, autonomous decision-making, or machine learning as part of the product runtime.
+
+The product logic is designed as a simulated banking and compliance prototype using deterministic, auditable flows and mock data only.
+
+----
 ## Status
 
 Project status: **Initial concept and repository setup**
