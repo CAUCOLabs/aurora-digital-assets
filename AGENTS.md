@@ -1,6 +1,12 @@
 
 # AGENTS.md
 
+This file provides development instructions for external coding assistants used during implementation.
+
+These instructions are for development workflow only.
+
+Aurora Digital Assets does not use Codex, AI agents, or autonomous decision-making as part of the product runtime.
+
 This repository uses AI coding agents to assist with implementation, documentation, UI prototyping, testing, and refactoring.
 
 All agents must follow the project principles below.
