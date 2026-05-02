@@ -104,3 +104,13 @@ backend/                 Simulated API and business logic
 mock-data/               Local mock data for the prototype
 prototypes/              Wireframes and demo scenarios
 scripts/                 Development scripts
+
+
+### Author
+
+## Claudio Valenzuela (CAUCO)
+
+# This concept connects with previous projects by the author:
+
+* WhaleScope Desktop — crypto market intelligence and on-chain analytics desktop application delivered during internship work with Aalto University.
+* Market Surveillance AI — deterministic market surveillance, compliance alerts, case management, evidence timelines, and audit-ready reporting.
