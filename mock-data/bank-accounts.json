@@ -1,0 +1,31 @@
+{
+  "accounts": [
+    {
+      "accountId": "acc_current_001",
+      "accountName": "Aurora Current Account",
+      "accountType": "current",
+      "currency": "EUR",
+      "balance": 2450.1,
+      "availableBalance": 2450.1,
+      "ibanMasked": "FI12 **** **** **** 1234"
+    },
+    {
+      "accountId": "acc_savings_001",
+      "accountName": "Aurora Savings Account",
+      "accountType": "savings",
+      "currency": "EUR",
+      "balance": 8920.0,
+      "availableBalance": 8920.0,
+      "ibanMasked": "FI45 **** **** **** 5678"
+    },
+    {
+      "accountId": "acc_credit_001",
+      "accountName": "Aurora Credit Card",
+      "accountType": "credit",
+      "currency": "EUR",
+      "balance": -203.33,
+      "availableBalance": 1796.67,
+      "ibanMasked": null
+    }
+  ]
+}

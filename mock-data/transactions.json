@@ -1,0 +1,37 @@
+{
+  "transactions": [
+    {
+      "transactionId": "tx_001",
+      "timestamp": "2026-05-02T09:15:00Z",
+      "type": "buy",
+      "asset": "BTC",
+      "amountCrypto": 0.00072,
+      "amountEur": 50,
+      "feeEur": 0.75,
+      "status": "completed",
+      "description": "BTC purchase from Aurora Current Account"
+    },
+    {
+      "transactionId": "tx_002",
+      "timestamp": "2026-05-01T14:30:00Z",
+      "type": "buy",
+      "asset": "ETH",
+      "amountCrypto": 0.0121,
+      "amountEur": 25,
+      "feeEur": 0.38,
+      "status": "completed",
+      "description": "ETH purchase from Aurora Current Account"
+    },
+    {
+      "transactionId": "tx_003",
+      "timestamp": "2026-04-29T16:10:00Z",
+      "type": "withdrawal_request",
+      "asset": "BTC",
+      "amountCrypto": 0.001,
+      "amountEur": 69.5,
+      "feeEur": 1.2,
+      "status": "pending_review",
+      "description": "External wallet withdrawal request"
+    }
+  ]
+}

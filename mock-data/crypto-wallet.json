@@ -1,0 +1,26 @@
+{
+  "walletId": "wallet_demo_001",
+  "walletType": "internal_custodial",
+  "custodyStatus": "regulated_custody_concept",
+  "totalValueEur": 1245.8,
+  "assets": [
+    {
+      "asset": "BTC",
+      "name": "Bitcoin",
+      "balance": 0.01245,
+      "priceEur": 69500,
+      "valueEur": 865.28,
+      "network": "Bitcoin"
+    },
+    {
+      "asset": "ETH",
+      "name": "Ethereum",
+      "balance": 0.1842,
+      "priceEur": 2066.88,
+      "valueEur": 380.52,
+      "network": "Ethereum"
+    }
+  ],
+  "externalWithdrawalsEnabled": true,
+  "withdrawalReviewRequired": true
+}

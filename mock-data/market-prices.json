@@ -1,0 +1,20 @@
+{
+  "baseCurrency": "EUR",
+  "prices": [
+    {
+      "asset": "BTC",
+      "name": "Bitcoin",
+      "priceEur": 69500,
+      "change24hPercent": 1.24,
+      "source": "mock_market_price"
+    },
+    {
+      "asset": "ETH",
+      "name": "Ethereum",
+      "priceEur": 2066.88,
+      "change24hPercent": -0.72,
+      "source": "mock_market_price"
+    }
+  ],
+  "lastUpdated": "2026-05-02T11:30:00Z"
+}

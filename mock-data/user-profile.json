@@ -1,0 +1,12 @@
+{
+  "userId": "user_demo_001",
+  "fullName": "Claudio Demo",
+  "customerType": "Retail Banking",
+  "country": "Finland",
+  "preferredLanguage": "en",
+  "kycStatus": "verified",
+  "riskProfile": "conservative",
+  "digitalAssetsEnabled": true,
+  "strongAuthenticationEnabled": true,
+  "taxReportingEnabled": true
+}

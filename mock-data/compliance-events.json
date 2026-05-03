@@ -1,0 +1,28 @@
+{
+  "events": [
+    {
+      "eventId": "event_001",
+      "timestamp": "2026-05-02T09:15:02Z",
+      "eventType": "transaction_monitoring",
+      "severity": "low",
+      "status": "passed",
+      "description": "BTC purchase checked against user profile and limits."
+    },
+    {
+      "eventId": "event_002",
+      "timestamp": "2026-04-29T16:10:12Z",
+      "eventType": "withdrawal_review",
+      "severity": "medium",
+      "status": "pending_review",
+      "description": "External wallet withdrawal requires additional review before approval."
+    },
+    {
+      "eventId": "event_003",
+      "timestamp": "2026-04-29T16:11:00Z",
+      "eventType": "audit_log",
+      "severity": "info",
+      "status": "recorded",
+      "description": "Withdrawal request added to audit trail."
+    }
+  ]
+}
