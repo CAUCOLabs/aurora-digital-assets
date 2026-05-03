@@ -1,3 +1,6 @@
+import { TopBar } from '../components/TopBar'
+import { Panel } from '../components/Panel'
+
 const accounts = [
   {
     name: 'Aurora Current Account',
@@ -43,30 +46,7 @@ const notifications = [
 export function DashboardPage() {
   return (
     <div className="bank-shell">
-      <header className="top-bar">
-        <div className="brand">
-          <div className="brand-mark">A</div>
-          <div>
-            <p className="brand-name">Aurora Bank</p>
-            <p className="brand-subtitle">Online Banking Demo</p>
-          </div>
-        </div>
-
-        <nav className="main-nav" aria-label="Main navigation">
-          <a className="active" href="#home">Home</a>
-          <a href="#payments">Payments</a>
-          <a href="#accounts">Accounts</a>
-          <a href="#cards">Cards and Currency</a>
-          <a href="#investments">Investments</a>
-          <a href="#digital-assets">Digital Assets</a>
-          <a href="#reports">Reports</a>
-        </nav>
-
-        <div className="user-area">
-          <span>Claudio Demo</span>
-          <button type="button">Log out</button>
-        </div>
-      </header>
+      <TopBar userName="Claudio Demo" />
 
       <main className="page">
         <section className="welcome-card">
@@ -87,7 +67,7 @@ export function DashboardPage() {
 
         <section className="content-grid">
           <div className="left-column">
-            <section className="panel">
+            <Panel>
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Accounts</p>
@@ -110,9 +90,9 @@ export function DashboardPage() {
                   </article>
                 ))}
               </div>
-            </section>
+            </Panel>
 
-            <section className="panel" id="digital-assets">
+            <Panel id="digital-assets">
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Digital Assets</p>
@@ -159,11 +139,11 @@ export function DashboardPage() {
                   Reports
                 </button>
               </div>
-            </section>
+            </Panel>
           </div>
 
           <aside className="right-column">
-            <section className="panel">
+            <Panel>
               <p className="eyebrow">Notifications</p>
               <h2>Important messages</h2>
 
@@ -172,9 +152,9 @@ export function DashboardPage() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </section>
+            </Panel>
 
-            <section className="panel risk-panel">
+            <Panel className="risk-panel">
               <p className="eyebrow">User protection</p>
               <h2>Digital assets risk notice</h2>
               <p>
@@ -184,9 +164,9 @@ export function DashboardPage() {
               <button className="secondary-button" type="button">
                 Read risk information
               </button>
-            </section>
+            </Panel>
 
-            <section className="panel">
+            <Panel>
               <p className="eyebrow">Compliance status</p>
               <h2>Security checks</h2>
 
@@ -204,7 +184,7 @@ export function DashboardPage() {
                   Withdrawal pending review
                 </div>
               </div>
-            </section>
+            </Panel>
           </aside>
         </section>
 
