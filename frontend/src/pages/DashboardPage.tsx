@@ -1,6 +1,9 @@
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { AccountRow } from '../components/AccountRow'
+import { DigitalAssetRow } from '../components/DigitalAssetRow'
+
+
 
 const accounts = [
   {
@@ -114,14 +117,8 @@ export function DashboardPage() {
 
               <div className="asset-list">
                 {digitalAssets.map((asset) => (
-                  <article className="asset-row" key={asset.symbol}>
-                    <div className="asset-symbol">{asset.symbol}</div>
-                    <div>
-                      <h3>{asset.asset}</h3>
-                      <p>{asset.balance}</p>
-                    </div>
-                    <strong>{asset.value}</strong>
-                  </article>
+                  <DigitalAssetRow key={asset.symbol} asset={asset} />
+                    
                 ))}
               </div>
 
