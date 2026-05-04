@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
@@ -81,9 +82,9 @@ export function DigitalAssetsPage() {
                   <p className="eyebrow">Wallet</p>
                   <h2>Your digital assets</h2>
                 </div>
-                <button className="secondary-button" type="button">
+                <Link className="button-link secondary-button" to="/wallet">
                   View wallet
-                </button>
+                </Link>
               </div>
 
               <div className="asset-list">
@@ -122,12 +123,18 @@ export function DigitalAssetsPage() {
               <h2>Manage digital assets</h2>
 
               <div className="action-row vertical-actions">
-                <button type="button">Buy digital assets</button>
-                <button type="button">Sell digital assets</button>
-                <button type="button">External withdrawal</button>
-                <button className="secondary-button" type="button">
+                <Link className="button-link" to="/buy-sell">
+                  Buy digital assets
+                </Link>
+                <Link className="button-link" to="/buy-sell">
+                  Sell digital assets
+                </Link>
+                <Link className="button-link" to="/withdrawals">
+                  External withdrawal
+                </Link>
+                <Link className="button-link secondary-button" to="/reports">
                   Tax reports
-                </button>
+                </Link>
               </div>
             </Panel>
 
