@@ -11,6 +11,7 @@ const navigationItems = [
   { label: 'Cards and Currency', to: '/cards' },
   { label: 'Investments', to: '/investments' },
   { label: 'Digital Assets', to: '/digital-assets' },
+  { label: 'Buy / Sell', to: '/buy-sell' },
   { label: 'Wallet', to: '/wallet' },
   { label: 'Withdrawals', to: '/withdrawals' },
   { label: 'Reports', to: '/reports' },
