@@ -220,18 +220,38 @@ Aurora Digital Assets does not use Codex, AI agents, autonomous decision-making,
 
 The product logic is designed as a simulated banking and compliance prototype using deterministic, auditable flows and mock data only.
 
-----
+---
+
+## Current Prototype Features
+
+- Banking dashboard
+- Digital Assets overview
+- Buy/Sell simulation
+- Internal custodial wallet view
+- External wallet withdrawal flow
+- Compliance and audit trail concepts
+- Digital assets reports page
+- Placeholder pages for traditional banking sections
+- React Router navigation
+- Mock data-driven prototype structure
+- Build and lint passing
+
+---
+
 ## Status
 
-Project status: **Initial concept and repository setup**
+Project status: **Frontend prototype in active development**
 
 Current phase:
 
-- Repository structure
-- Product documentation
-- Architecture planning
-- UI direction
-- Mock data design
+- React/Vite frontend prototype
+- Banking-style UI implementation
+- Digital Assets module navigation
+- Simulated buy/sell flow
+- Simulated wallet view
+- Simulated external withdrawal flow
+- Simulated reporting view
+- Product documentation and architecture planning
 
 ---
 
