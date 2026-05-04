@@ -82,7 +82,7 @@ export function BuySellPage() {
       netEur,
       cryptoAmount,
     }
-  }, [asset, isValidAmount, numericAmount, selectedMarket.priceEur, side])
+    }, [isValidAmount, numericAmount, selectedMarket.priceEur, side])
 
   const auditEvents = [
     {
