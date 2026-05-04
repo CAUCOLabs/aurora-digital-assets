@@ -1,5 +1,6 @@
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { AccountRow } from '../components/AccountRow'
 
 const accounts = [
   {
@@ -80,15 +81,8 @@ export function DashboardPage() {
 
               <div className="account-list">
                 {accounts.map((account) => (
-                  <article className="account-row" key={account.name}>
-                    <div>
-                      <h3>{account.name}</h3>
-                      <p>{account.type}</p>
-                      <span>{account.maskedIban}</span>
-                    </div>
-                    <strong>{account.balance}</strong>
-                  </article>
-                ))}
+                  <AccountRow key={account.name} account={account} />
+             ))}
               </div>
             </Panel>
 
