@@ -1,8 +1,13 @@
 import './App.css'
-import { DashboardPage } from './pages/DashboardPage'
+import { BrowserRouter } from 'react-router-dom'
+import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
-  return <DashboardPage />
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  )
 }
 
 export default App

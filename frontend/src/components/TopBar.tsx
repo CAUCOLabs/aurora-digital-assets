@@ -1,15 +1,15 @@
+import { NavLink } from 'react-router-dom'
+
 type TopBarProps = {
   userName: string
 }
 
 const navigationItems = [
-  { label: 'Home', href: '#home', active: true },
-  { label: 'Payments', href: '#payments' },
-  { label: 'Accounts', href: '#accounts' },
-  { label: 'Cards and Currency', href: '#cards' },
-  { label: 'Investments', href: '#investments' },
-  { label: 'Digital Assets', href: '#digital-assets' },
-  { label: 'Reports', href: '#reports' },
+  { label: 'Home', to: '/' },
+  { label: 'Digital Assets', to: '/digital-assets' },
+  { label: 'Wallet', to: '/wallet' },
+  { label: 'Withdrawals', to: '/withdrawals' },
+  { label: 'Reports', to: '/reports' },
 ]
 
 export function TopBar({ userName }: TopBarProps) {
@@ -25,13 +25,15 @@ export function TopBar({ userName }: TopBarProps) {
 
       <nav className="main-nav" aria-label="Main navigation">
         {navigationItems.map((item) => (
-          <a
+          <NavLink
             key={item.label}
-            className={item.active ? 'active' : undefined}
-            href={item.href}
+            to={item.to}
+            className={(props: { isActive: boolean }) =>
+              props.isActive ? 'active' : undefined
+            }
           >
             {item.label}
-          </a>
+          </NavLink>
         ))}
       </nav>
 

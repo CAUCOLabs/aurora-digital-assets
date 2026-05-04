@@ -385,3 +385,35 @@ a {
     justify-content: space-between;
   }
 }
+
+.vertical-actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.vertical-actions button {
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-grid label {
+  display: grid;
+  gap: 0.35rem;
+  color: #34495f;
+  font-weight: 700;
+}
+
+.form-grid input,
+.form-grid select {
+  width: 100%;
+  border: 1px solid #c8d8e8;
+  border-radius: 8px;
+  padding: 0.8rem 0.9rem;
+  color: #122033;
+  background: #ffffff;
+  font: inherit;
+}
