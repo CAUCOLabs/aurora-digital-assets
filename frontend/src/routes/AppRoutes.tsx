@@ -4,15 +4,62 @@ import { DigitalAssetsPage } from '../pages/DigitalAssetsPage'
 import { WalletPage } from '../pages/WalletPage'
 import { WithdrawalsPage } from '../pages/WithdrawalsPage'
 import { ReportsPage } from '../pages/ReportsPage'
+import { PlaceholderPage } from '../pages/PlaceholderPage'
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<DashboardPage />} />
+
+      <Route
+        path="/payments"
+        element={
+          <PlaceholderPage
+            eyebrow="Payments"
+            title="Payments"
+            description="Simulated payments section for the Aurora Bank online banking prototype."
+          />
+        }
+      />
+
+      <Route
+        path="/accounts"
+        element={
+          <PlaceholderPage
+            eyebrow="Accounts"
+            title="Accounts"
+            description="Simulated accounts section showing where traditional banking account tools would appear."
+          />
+        }
+      />
+
+      <Route
+        path="/cards"
+        element={
+          <PlaceholderPage
+            eyebrow="Cards and Currency"
+            title="Cards and Currency"
+            description="Simulated cards and currency section for the banking portal."
+          />
+        }
+      />
+
+      <Route
+        path="/investments"
+        element={
+          <PlaceholderPage
+            eyebrow="Investments"
+            title="Investments"
+            description="Simulated investments section. The prototype separates traditional investments from Digital Assets."
+          />
+        }
+      />
+
       <Route path="/digital-assets" element={<DigitalAssetsPage />} />
       <Route path="/wallet" element={<WalletPage />} />
       <Route path="/withdrawals" element={<WithdrawalsPage />} />
       <Route path="/reports" element={<ReportsPage />} />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

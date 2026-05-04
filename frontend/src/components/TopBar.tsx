@@ -6,6 +6,10 @@ type TopBarProps = {
 
 const navigationItems = [
   { label: 'Home', to: '/' },
+  { label: 'Payments', to: '/payments' },
+  { label: 'Accounts', to: '/accounts' },
+  { label: 'Cards and Currency', to: '/cards' },
+  { label: 'Investments', to: '/investments' },
   { label: 'Digital Assets', to: '/digital-assets' },
   { label: 'Wallet', to: '/wallet' },
   { label: 'Withdrawals', to: '/withdrawals' },
