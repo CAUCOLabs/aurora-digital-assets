@@ -1,10 +1,9 @@
+import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { AccountRow } from '../components/AccountRow'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
 import { accounts, digitalAssets, notifications } from '../data/dashboardData'
-
-
 
 export function DashboardPage() {
   return (
@@ -44,7 +43,7 @@ export function DashboardPage() {
               <div className="account-list">
                 {accounts.map((account) => (
                   <AccountRow key={account.name} account={account} />
-             ))}
+                ))}
               </div>
             </Panel>
 
@@ -77,17 +76,22 @@ export function DashboardPage() {
               <div className="asset-list">
                 {digitalAssets.map((asset) => (
                   <DigitalAssetRow key={asset.symbol} asset={asset} />
-                    
                 ))}
               </div>
 
               <div className="action-row">
-                <button type="button">Buy</button>
-                <button type="button">Sell</button>
-                <button type="button">Withdraw</button>
-                <button className="secondary-button" type="button">
+                <Link className="button-link" to="/buy-sell">
+                  Buy
+                </Link>
+                <Link className="button-link" to="/buy-sell">
+                  Sell
+                </Link>
+                <Link className="button-link" to="/withdrawals">
+                  Withdraw
+                </Link>
+                <Link className="button-link secondary-button" to="/reports">
                   Reports
-                </button>
+                </Link>
               </div>
             </Panel>
           </div>
@@ -111,9 +115,9 @@ export function DashboardPage() {
                 Crypto assets can lose value quickly. External wallet transfers
                 are irreversible and may require additional security review.
               </p>
-              <button className="secondary-button" type="button">
+              <Link className="button-link secondary-button" to="/digital-assets">
                 Read risk information
-              </button>
+              </Link>
             </Panel>
 
             <Panel>

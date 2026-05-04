@@ -452,3 +452,32 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 }
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: #005ea8;
+  color: white;
+  padding: 0.75rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 78, 140, 0.18);
+  text-decoration: none;
+}
+
+.button-link:hover {
+  background: #004f8d;
+}
+
+.button-link.secondary-button {
+  background: #eef5fb;
+  color: #004b83;
+  box-shadow: none;
+}
+
+.button-link.secondary-button:hover {
+  background: #dceaf5;
+}
