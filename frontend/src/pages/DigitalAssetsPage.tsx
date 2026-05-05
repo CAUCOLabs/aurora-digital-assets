@@ -40,7 +40,7 @@ export function DigitalAssetsPage() {
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            KYC verified
+            Digital assets access active
           </div>
         </section>
 
@@ -148,13 +148,13 @@ export function DigitalAssetsPage() {
             </Panel>
 
             <Panel>
-              <p className="eyebrow">Compliance status</p>
+              <p className="eyebrow">Protection status</p>
               <h2>Protection enabled</h2>
 
               <div className="check-list">
                 <div>
                   <span className="status-dot"></span>
-                  KYC verified
+                  Strong authentication active
                 </div>
                 <div>
                   <span className="status-dot"></span>

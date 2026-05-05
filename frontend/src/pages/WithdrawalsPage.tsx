@@ -25,7 +25,7 @@ export function WithdrawalsPage() {
 
     if (securityCheckRun) {
       events.push({
-        title: 'Security check completed',
+        title: 'Protection review completed',
         detail: 'Address format, user profile, and withdrawal policy reviewed.',
         status: 'Passed',
       })
@@ -167,7 +167,7 @@ export function WithdrawalsPage() {
 
               <div className="action-row">
                 <button type="button" onClick={handleSecurityCheck}>
-                  Run security check
+                  Run protection review
                 </button>
                 <button
                   type="button"
@@ -222,11 +222,11 @@ export function WithdrawalsPage() {
 
             <Panel>
               <p className="eyebrow">Review status</p>
-              <h2>Compliance checks</h2>
+              <h2>Transfer protection</h2>
               <div className="check-list">
                 <div>
                   <span className="status-dot"></span>
-                  KYC verified
+                  Strong authentication active
                 </div>
                 <div>
                   <span className={securityCheckRun ? 'status-dot' : 'warning-dot'}></span>
@@ -234,7 +234,7 @@ export function WithdrawalsPage() {
                 </div>
                 <div>
                   <span className="warning-dot"></span>
-                  Security delay may apply
+                  External transfer review active
                 </div>
                 <div>
                   <span

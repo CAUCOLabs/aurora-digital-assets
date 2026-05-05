@@ -69,7 +69,7 @@ export function DashboardPage() {
                 <div className="custody-card">
                   <p>Custody status</p>
                   <strong>Internal custodial wallet concept</strong>
-                  <span>KYC verified · Audit trail enabled</span>
+                  <span>Digital assets access active · Audit trail enabled</span>
                 </div>
               </div>
 
@@ -121,13 +121,13 @@ export function DashboardPage() {
             </Panel>
 
             <Panel>
-              <p className="eyebrow">Compliance status</p>
-              <h2>Security checks</h2>
+              <p className="eyebrow">Protection status</p>
+              <h2>Digital assets protection</h2>
 
               <div className="check-list">
                 <div>
                   <span className="status-dot"></span>
-                  KYC verified
+                  Strong authentication active
                 </div>
                 <div>
                   <span className="status-dot"></span>
