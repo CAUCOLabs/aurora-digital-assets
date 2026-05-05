@@ -238,6 +238,30 @@ The product logic is designed as a simulated banking and compliance prototype us
 
 ---
 
+## Screenshots
+
+### Banking Dashboard
+
+![Aurora Bank Dashboard](docs/screenshots/dashboard.png)
+
+### Digital Assets Overview
+
+![Digital Assets Overview](docs/screenshots/digital-assets.png)
+
+### Buy / Sell Flow
+
+![Buy Sell Flow](docs/screenshots/buy-sell.png)
+
+### External Wallet Withdrawal Flow
+
+![External Wallet Withdrawal](docs/screenshots/withdrawals.png)
+
+### Reports Page
+
+![Reports Page](docs/screenshots/reports.png)
+
+---
+
 ## Status
 
 Project status: **Frontend prototype in active development**
