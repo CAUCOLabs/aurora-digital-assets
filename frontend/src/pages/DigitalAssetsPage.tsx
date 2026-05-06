@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
+import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 import { digitalAssets } from '../data/dashboardData'
 
 const recentActivity = [
@@ -43,6 +44,8 @@ export function DigitalAssetsPage() {
             Digital assets access active
           </div>
         </section>
+
+        <DigitalAssetsSubnav />
 
         <section className="content-grid">
           <div className="left-column">

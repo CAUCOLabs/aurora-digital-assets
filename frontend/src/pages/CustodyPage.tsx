@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 
 const custodyQuestions = [
   {
@@ -59,6 +60,8 @@ export function CustodyPage() {
             Custody transparency
           </div>
         </section>
+
+        <DigitalAssetsSubnav />
 
         <section className="content-grid">
           <div className="left-column">

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 
 type TradeSide = 'buy' | 'sell'
 type TradeStatus = 'draft' | 'completed'
@@ -141,6 +142,8 @@ export function BuySellPage() {
             {status === 'completed' ? 'Completed simulation' : 'Draft'}
           </div>
         </section>
+
+        <DigitalAssetsSubnav />
 
         <section className="content-grid">
           <div className="left-column">

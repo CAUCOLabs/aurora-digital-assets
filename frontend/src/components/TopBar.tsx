@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 type TopBarProps = {
   userName: string
@@ -9,16 +9,20 @@ const navigationItems = [
   { label: 'Payments', to: '/payments' },
   { label: 'Accounts', to: '/accounts' },
   { label: 'Cards and Currency', to: '/cards' },
+  { label: 'Loans', to: '/loans' },
   { label: 'Investments', to: '/investments' },
-  { label: 'Digital Assets', to: '/digital-assets' },
-  { label: 'Buy / Sell', to: '/buy-sell' },
-  { label: 'Wallet', to: '/wallet' },
-  { label: 'Custody', to: '/custody' },
-  { label: 'Withdrawals', to: '/withdrawals' },
-  { label: 'Reports', to: '/reports' },
+  {
+    label: 'Digital Assets',
+    to: '/digital-assets',
+    activePaths: ['/buy-sell', '/wallet', '/custody', '/withdrawals'],
+  },
+  { label: 'Documents', to: '/reports' },
+  { label: 'Online Services', to: '/online-services' },
 ]
 
 export function TopBar({ userName }: TopBarProps) {
+  const location = useLocation()
+
   return (
     <header className="top-bar">
       <div className="brand">
@@ -35,7 +39,9 @@ export function TopBar({ userName }: TopBarProps) {
             key={item.label}
             to={item.to}
             className={(props: { isActive: boolean }) =>
-              props.isActive ? 'active' : undefined
+              props.isActive || item.activePaths?.includes(location.pathname)
+                ? 'active'
+                : undefined
             }
           >
             {item.label}

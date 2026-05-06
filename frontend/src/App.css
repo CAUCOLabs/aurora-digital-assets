@@ -113,6 +113,31 @@ a {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.module-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 1rem;
+  padding: 0.6rem;
+  background: #f7fafc;
+  border: 1px solid #d8e1eb;
+  border-radius: 8px;
+}
+
+.module-subnav a {
+  border-radius: 6px;
+  color: #294763;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.65rem 0.85rem;
+}
+
+.module-subnav a.active,
+.module-subnav a:hover {
+  background: #e7f0fb;
+  color: #003f73;
+}
+
 .user-area {
   display: flex;
   align-items: center;

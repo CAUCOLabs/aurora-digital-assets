@@ -48,6 +48,17 @@ export function AppRoutes() {
       />
 
       <Route
+        path="/loans"
+        element={
+          <PlaceholderPage
+            eyebrow="Loans"
+            title="Loans"
+            description="Simulated loans section for the Aurora Bank online banking prototype."
+          />
+        }
+      />
+
+      <Route
         path="/investments"
         element={
           <PlaceholderPage
@@ -65,6 +76,17 @@ export function AppRoutes() {
       <Route path="/reports" element={<ReportsPage />} />
       <Route path="/custody" element={<CustodyPage />} />
       <Route path="/operating-model" element={<OperatingModelPage />} />
+
+      <Route
+        path="/online-services"
+        element={
+          <PlaceholderPage
+            eyebrow="Online Services"
+            title="Online Services"
+            description="Simulated online services section for user settings, service messages, and bank portal tools."
+          />
+        }
+      />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

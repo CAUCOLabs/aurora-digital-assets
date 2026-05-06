@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 
 type WithdrawalStatus = 'draft' | 'pending_review'
 
@@ -83,6 +84,8 @@ export function WithdrawalsPage() {
             {status === 'pending_review' ? 'Pending review' : 'Draft'}
           </div>
         </section>
+
+        <DigitalAssetsSubnav />
 
         <section className="content-grid">
           <div className="left-column">

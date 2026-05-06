@@ -1,5 +1,6 @@
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 
 const reportableActivities = [
   {
@@ -41,6 +42,8 @@ export function ReportsPage() {
             Tax reporting enabled
           </div>
         </section>
+
+        <DigitalAssetsSubnav />
 
         <section className="content-grid">
           <div className="left-column">
