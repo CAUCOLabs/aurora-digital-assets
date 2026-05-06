@@ -6,6 +6,7 @@ import { WithdrawalsPage } from '../pages/WithdrawalsPage'
 import { ReportsPage } from '../pages/ReportsPage'
 import { PlaceholderPage } from '../pages/PlaceholderPage'
 import { BuySellPage } from '../pages/BuySellPage'
+import { CustodyPage } from '../pages/CustodyPage'
 
 export function AppRoutes() {
   return (
@@ -61,6 +62,7 @@ export function AppRoutes() {
       <Route path="/wallet" element={<WalletPage />} />
       <Route path="/withdrawals" element={<WithdrawalsPage />} />
       <Route path="/reports" element={<ReportsPage />} />
+      <Route path="/custody" element={<CustodyPage />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

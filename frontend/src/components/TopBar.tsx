@@ -13,6 +13,7 @@ const navigationItems = [
   { label: 'Digital Assets', to: '/digital-assets' },
   { label: 'Buy / Sell', to: '/buy-sell' },
   { label: 'Wallet', to: '/wallet' },
+  { label: 'Custody', to: '/custody' },
   { label: 'Withdrawals', to: '/withdrawals' },
   { label: 'Reports', to: '/reports' },
 ]
