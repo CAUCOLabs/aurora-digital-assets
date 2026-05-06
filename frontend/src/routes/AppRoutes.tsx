@@ -7,6 +7,7 @@ import { ReportsPage } from '../pages/ReportsPage'
 import { PlaceholderPage } from '../pages/PlaceholderPage'
 import { BuySellPage } from '../pages/BuySellPage'
 import { CustodyPage } from '../pages/CustodyPage'
+import { OperatingModelPage } from '../pages/OperatingModelPage'
 
 export function AppRoutes() {
   return (
@@ -63,6 +64,7 @@ export function AppRoutes() {
       <Route path="/withdrawals" element={<WithdrawalsPage />} />
       <Route path="/reports" element={<ReportsPage />} />
       <Route path="/custody" element={<CustodyPage />} />
+      <Route path="/operating-model" element={<OperatingModelPage />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
