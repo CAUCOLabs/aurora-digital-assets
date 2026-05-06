@@ -14,7 +14,6 @@ const navigationItems = [
   { label: 'Buy / Sell', to: '/buy-sell' },
   { label: 'Wallet', to: '/wallet' },
   { label: 'Custody', to: '/custody' },
-  { label: 'Operating Model', to: '/operating-model' },
   { label: 'Withdrawals', to: '/withdrawals' },
   { label: 'Reports', to: '/reports' },
 ]
