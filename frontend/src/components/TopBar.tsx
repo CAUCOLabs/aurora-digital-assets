@@ -160,6 +160,7 @@ const navigationItems: NavigationItem[] = [
       },
     ],
   },
+  { label: 'Insurance', to: '/insurance' },
   {
     label: 'Digital Assets',
     to: '/digital-assets',

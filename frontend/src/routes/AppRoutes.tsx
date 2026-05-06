@@ -69,6 +69,17 @@ export function AppRoutes() {
         }
       />
 
+      <Route
+        path="/insurance"
+        element={
+          <PlaceholderPage
+            eyebrow="Insurance"
+            title="Insurance"
+            description="Simulated insurance section for the Aurora Bank online banking prototype."
+          />
+        }
+      />
+
       <Route path="/digital-assets" element={<DigitalAssetsPage />} />
       <Route path="/buy-sell" element={<BuySellPage />} />
       <Route path="/wallet" element={<WalletPage />} />
