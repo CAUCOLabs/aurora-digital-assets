@@ -9,6 +9,7 @@ import { BuySellPage } from '../pages/BuySellPage'
 import { CustodyPage } from '../pages/CustodyPage'
 import { OperatingModelPage } from '../pages/OperatingModelPage'
 import { PaymentsPage } from '../pages/PaymentsPage'
+import { AccountsPage } from '../pages/AccountsPage'
 
 export function AppRoutes() {
   return (
@@ -16,16 +17,7 @@ export function AppRoutes() {
       <Route path="/" element={<DashboardPage />} />
       <Route path="/payments" element={<PaymentsPage />} />
 
-      <Route
-        path="/accounts"
-        element={
-          <PlaceholderPage
-            eyebrow="Accounts"
-            title="Accounts"
-            description="Simulated accounts section showing where traditional banking account tools would appear."
-          />
-        }
-      />
+      <Route path="/accounts" element={<AccountsPage />} />
 
       <Route
         path="/cards"
