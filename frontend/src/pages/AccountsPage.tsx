@@ -4,10 +4,13 @@ import { Panel } from '../components/Panel'
 
 const bankAccount = {
   name: 'Aurora Current Account',
+  owner: 'Claudio Demo',
   type: 'Current account',
   iban: 'FI12 0000 0000 1234 56',
-  balance: '2 450,10 €',
+  bic: 'AURAFIHH',
+  bookBalance: '2 450,10 €',
   availableBalance: '2 430,10 €',
+  reservedCardPayments: '20,00 €',
   status: 'Active',
 }
 
@@ -16,42 +19,46 @@ const recentTransactions = [
     title: 'Aurora Telecom Oyj invoice payment',
     amount: '-120,45 €',
     status: 'Pending',
+    detail: 'Aurora Current Account · Reference preserved',
   },
   {
     title: 'Salary payment',
     amount: '+2 850,00 €',
     status: 'Completed',
+    detail: 'Aurora Current Account · Salary',
   },
   {
     title: 'Grocery store card payment',
     amount: '-42,80 €',
     status: 'Completed',
+    detail: 'Aurora Current Account · Card purchase',
   },
   {
-    title: 'Digital asset payment estimate',
+    title: 'Digital asset invoice payment',
     amount: '0,00 €',
-    status: 'Draft',
+    status: 'Pending confirmation',
+    detail: 'Aurora Current Account · Digital asset payment draft',
   },
 ]
 
 const digitalAssetBalances = [
   {
-    name: 'BTC wallet',
+    name: 'BTC wallet balance',
     balance: '0.012450 BTC',
     detail: '865,28 €',
   },
   {
-    name: 'ETH wallet',
+    name: 'ETH wallet balance',
     balance: '0.184200 ETH',
     detail: '380,52 €',
   },
   {
-    name: 'USDC payment balance',
+    name: 'USDC payment asset balance',
     balance: '129.80 USDC',
     detail: 'Payment asset',
   },
   {
-    name: 'USDT payment balance',
+    name: 'USDT payment asset balance',
     balance: '129.60 USDT',
     detail: 'Payment asset',
   },
@@ -72,8 +79,8 @@ const openAccountOptions = [
 const documentOptions = [
   'Account statements',
   'Bank mail',
-  'Digital asset reports',
   'Payment receipts',
+  'Digital asset reports',
 ]
 
 export function AccountsPage() {
@@ -111,15 +118,33 @@ export function AccountsPage() {
 
               <div className="assets-summary">
                 <div>
-                  <p>{bankAccount.type}</p>
-                  <strong>{bankAccount.balance}</strong>
-                  <span>IBAN {bankAccount.iban}</span>
+                  <p>Book balance</p>
+                  <strong>{bankAccount.bookBalance}</strong>
+                  <span>
+                    {bankAccount.type} · Owner: {bankAccount.owner}
+                  </span>
                 </div>
 
                 <div className="custody-card">
                   <p>Available balance</p>
                   <strong>{bankAccount.availableBalance}</strong>
-                  <span>Status: {bankAccount.status}</span>
+                  <span>
+                    Reserved card payments: {bankAccount.reservedCardPayments}
+                  </span>
+                </div>
+              </div>
+
+              <div className="assets-summary trade-summary">
+                <div>
+                  <p>IBAN</p>
+                  <strong>{bankAccount.iban}</strong>
+                  <span>BIC {bankAccount.bic}</span>
+                </div>
+
+                <div className="custody-card">
+                  <p>Status</p>
+                  <strong>{bankAccount.status}</strong>
+                  <span>Account information is simulated.</span>
                 </div>
               </div>
 
@@ -131,7 +156,10 @@ export function AccountsPage() {
                   View transactions
                 </Link>
                 <Link className="button-link secondary-button" to="/accounts">
-                  Open account
+                  Account details
+                </Link>
+                <Link className="button-link secondary-button" to="/reports">
+                  Statements
                 </Link>
               </div>
             </Panel>
@@ -149,8 +177,8 @@ export function AccountsPage() {
                   <article className="account-row" key={transaction.title}>
                     <div>
                       <h3>{transaction.title}</h3>
-                      <p>{transaction.status}</p>
-                      <span>{bankAccount.name}</span>
+                      <p>{transaction.detail}</p>
+                      <span>{transaction.status}</span>
                     </div>
                     <strong>{transaction.amount}</strong>
                   </article>
@@ -162,14 +190,14 @@ export function AccountsPage() {
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Connected digital asset balances</p>
-                  <h2>Wallet balances linked to online banking</h2>
+                  <h2>Connected digital asset balances</h2>
                 </div>
                 <span className="module-tag">Separate from deposits</span>
               </div>
 
               <p>
-                Digital assets are connected to the banking environment for this
-                prototype, but they are separate from bank deposits.
+                These balances are linked to the online banking experience for
+                this prototype, but they are not bank deposits.
               </p>
 
               <div className="account-list">
@@ -191,6 +219,9 @@ export function AccountsPage() {
                 </Link>
                 <Link className="button-link secondary-button" to="/wallet">
                   View Wallet
+                </Link>
+                <Link className="button-link secondary-button" to="/custody">
+                  Custody Model
                 </Link>
               </div>
             </Panel>
@@ -253,9 +284,13 @@ export function AccountsPage() {
               <p className="eyebrow">Account note</p>
               <h2>Digital asset boundary</h2>
               <p>
-                Digital assets shown on this page are connected balances for
-                prototype purposes only. They are not bank deposits and do not
-                have the same protections as traditional accounts.
+                Connected digital asset balances are shown for prototype
+                purposes only. They are separate from bank deposits and do not
+                have the same protections as traditional bank accounts.
+              </p>
+              <p>
+                Account information and balances are simulated. No real
+                financial data is used.
               </p>
             </Panel>
           </aside>
