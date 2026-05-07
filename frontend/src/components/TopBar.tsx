@@ -36,16 +36,21 @@ const navigationItems: NavigationItem[] = [
         ],
       },
       {
+        title: 'Digital asset payments',
+        links: [
+          { label: 'Digital asset payment', to: '/payments' },
+          { label: 'Supported business recipients', to: '/payments' },
+          { label: 'Payment asset settings', to: '/payments' },
+          { label: 'Payment reporting', to: '/reports' },
+        ],
+      },
+      {
         title: 'E-invoices and agreements',
         links: [
           { label: 'Create e-invoice agreement', to: '/payments' },
           { label: 'Recurring payment', to: '/payments' },
           { label: 'View and edit payment agreements', to: '/payments' },
         ],
-      },
-      {
-        title: 'Frequently asked',
-        links: [{ label: 'Payment FAQ', to: '/payments' }],
       },
       {
         title: 'See also',
