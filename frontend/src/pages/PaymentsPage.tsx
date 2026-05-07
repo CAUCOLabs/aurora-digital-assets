@@ -6,15 +6,12 @@ type PaymentMethod = 'eur-transfer' | 'digital-asset'
 type PaymentAsset = 'EURD' | 'USDC' | 'USDT' | 'BTC' | 'ETH'
 type PaymentStatus = 'draft' | 'ready' | 'submitted'
 
-const invoice = {
+const initialInvoice = {
   recipient: 'Aurora Telecom Oyj',
-  businessAccountStatus: 'Active',
-  digitalAssetPayments: 'Enabled',
   invoiceNumber: '90495185862',
   referenceNumber: '80 60206 95479',
   dueDate: '19.05.2026',
-  amountEur: 120.45,
-  currency: 'EUR',
+  amount: '120.45',
   payerAccount: 'Aurora Current Account',
 }
 
@@ -49,10 +46,32 @@ function formatAssetAmount(value: number, asset: PaymentAsset) {
 }
 
 export function PaymentsPage() {
+  const [recipient, setRecipient] = useState(initialInvoice.recipient)
+  const [invoiceNumber, setInvoiceNumber] = useState(
+    initialInvoice.invoiceNumber,
+  )
+  const [referenceNumber, setReferenceNumber] = useState(
+    initialInvoice.referenceNumber,
+  )
+  const [dueDate, setDueDate] = useState(initialInvoice.dueDate)
+  const [amount, setAmount] = useState(initialInvoice.amount)
+  const [payerAccount, setPayerAccount] = useState(initialInvoice.payerAccount)
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethod>('eur-transfer')
   const [paymentAsset, setPaymentAsset] = useState<PaymentAsset>('EURD')
   const [status, setStatus] = useState<PaymentStatus>('draft')
+
+  const parsedAmount = Number(amount.replace(',', '.'))
+  const amountEur =
+    Number.isFinite(parsedAmount) && parsedAmount > 0 ? parsedAmount : 0
+  const currentRecipient = recipient.trim() || 'Selected business recipient'
+  const canSubmit =
+    recipient.trim().length > 0 &&
+    invoiceNumber.trim().length > 0 &&
+    referenceNumber.trim().length > 0 &&
+    dueDate.trim().length > 0 &&
+    payerAccount.trim().length > 0 &&
+    amountEur > 0
 
   const recipientEligible = true
   const isInternalDigitalAssetSettlement =
@@ -69,7 +88,7 @@ export function PaymentsPage() {
     : 'Simulated settlement fee. The invoice reference is preserved.'
 
   const estimate = useMemo(() => {
-    const totalCostEur = invoice.amountEur + serviceFee + settlementFee
+    const totalCostEur = amountEur + serviceFee + settlementFee
     const selectedRate = assetRates[paymentAsset]
     const assetAmount = totalCostEur / selectedRate
 
@@ -78,26 +97,45 @@ export function PaymentsPage() {
       assetAmount,
       selectedRate,
     }
-  }, [paymentAsset, serviceFee, settlementFee])
+  }, [amountEur, paymentAsset, serviceFee, settlementFee])
 
   const auditEvents = [
     {
       title: 'Payment form opened',
-      detail: 'User opened the simulated invoice payment flow.',
+      detail: `User opened the simulated payment flow for ${currentRecipient}.`,
       status: 'Recorded',
     },
     {
       title: 'Recipient eligibility checked',
-      detail:
-        'Business recipient has an active Aurora Bank account and accepts digital asset payments.',
+      detail: `${currentRecipient} is treated as a verified Aurora Bank business recipient for invoice ${invoiceNumber.trim() || 'not yet provided'}.`,
       status: 'Eligible',
     },
     ...(paymentMethod === 'digital-asset'
       ? [
           {
             title: 'Digital asset payment method selected',
-            detail: `${assetLabels[paymentAsset]} selected for invoice payment.`,
+            detail: `${assetLabels[paymentAsset]} selected for invoice ${invoiceNumber.trim() || 'not yet provided'} with reference ${referenceNumber.trim() || 'not yet provided'}.`,
             status: 'Estimated',
+          },
+        ]
+      : [
+          {
+            title: 'EUR bank transfer selected',
+            detail: `Standard EUR transfer selected for invoice ${invoiceNumber.trim() || 'not yet provided'} with reference ${referenceNumber.trim() || 'not yet provided'}.`,
+            status: 'Estimated',
+          },
+        ]),
+    {
+      title: 'Payment amount estimated',
+      detail: `Current editable amount is ${formatEur(amountEur)} for ${currentRecipient}.`,
+      status: amountEur > 0 ? 'Ready' : 'Draft',
+    },
+    ...(canSubmit
+      ? [
+          {
+            title: 'Payment form validated',
+            detail: `${currentRecipient}, invoice number, reference number, due date, payer account, and amount are present.`,
+            status: 'Ready',
           },
         ]
       : []),
@@ -107,19 +145,34 @@ export function PaymentsPage() {
             title: 'Payment submitted',
             detail:
               paymentMethod === 'digital-asset'
-                ? `Invoice payment submitted using ${assetLabels[paymentAsset]}. Recipient settlement remains linked to the invoice reference.`
-                : 'Invoice payment submitted as a standard EUR bank transfer.',
+                ? `Invoice ${invoiceNumber.trim()} submitted to ${currentRecipient} using ${assetLabels[paymentAsset]}. Settlement remains linked to reference ${referenceNumber.trim()}.`
+                : `Invoice ${invoiceNumber.trim()} submitted to ${currentRecipient} as a standard EUR bank transfer with reference ${referenceNumber.trim()}.`,
             status: 'Submitted',
           },
         ]
       : []),
   ]
 
+  function updateEditableField(
+    value: string,
+    updateValue: (nextValue: string) => void,
+  ) {
+    updateValue(value)
+    setStatus('draft')
+  }
+
   function handleSubmit() {
+    if (!canSubmit) return
     setStatus('submitted')
   }
 
   function handleReset() {
+    setRecipient(initialInvoice.recipient)
+    setInvoiceNumber(initialInvoice.invoiceNumber)
+    setReferenceNumber(initialInvoice.referenceNumber)
+    setDueDate(initialInvoice.dueDate)
+    setAmount(initialInvoice.amount)
+    setPayerAccount(initialInvoice.payerAccount)
     setPaymentMethod('eur-transfer')
     setPaymentAsset('EURD')
     setStatus('draft')
@@ -162,32 +215,64 @@ export function PaymentsPage() {
               <div className="form-grid">
                 <label>
                   Recipient
-                  <input value={invoice.recipient} readOnly />
+                  <input
+                    value={recipient}
+                    onChange={(event) =>
+                      updateEditableField(event.target.value, setRecipient)
+                    }
+                  />
                 </label>
 
                 <label>
                   Invoice number
-                  <input value={invoice.invoiceNumber} readOnly />
+                  <input
+                    value={invoiceNumber}
+                    onChange={(event) =>
+                      updateEditableField(event.target.value, setInvoiceNumber)
+                    }
+                  />
                 </label>
 
                 <label>
                   Reference number
-                  <input value={invoice.referenceNumber} readOnly />
+                  <input
+                    value={referenceNumber}
+                    onChange={(event) =>
+                      updateEditableField(event.target.value, setReferenceNumber)
+                    }
+                  />
                 </label>
 
                 <label>
                   Due date
-                  <input value={invoice.dueDate} readOnly />
+                  <input
+                    value={dueDate}
+                    onChange={(event) =>
+                      updateEditableField(event.target.value, setDueDate)
+                    }
+                  />
                 </label>
 
                 <label>
                   Amount
-                  <input value={formatEur(invoice.amountEur)} readOnly />
+                  <input
+                    value={amount}
+                    inputMode="decimal"
+                    onChange={(event) =>
+                      updateEditableField(event.target.value, setAmount)
+                    }
+                  />
+                  <span>Use dot or comma as decimal separator.</span>
                 </label>
 
                 <label>
                   Payer account
-                  <input value={invoice.payerAccount} readOnly />
+                  <input
+                    value={payerAccount}
+                    onChange={(event) =>
+                      updateEditableField(event.target.value, setPayerAccount)
+                    }
+                  />
                 </label>
               </div>
             </Panel>
@@ -263,7 +348,7 @@ export function PaymentsPage() {
                   <div className="withdrawal-preview">
                     <div>
                       <p>Invoice amount</p>
-                      <strong>{formatEur(invoice.amountEur)}</strong>
+                      <strong>{formatEur(amountEur)}</strong>
                     </div>
                     <div>
                       <p>Estimated asset amount</p>
@@ -305,7 +390,7 @@ export function PaymentsPage() {
 
                   <div className="custody-card">
                     <p>Total amount</p>
-                    <strong>{formatEur(invoice.amountEur)}</strong>
+                    <strong>{formatEur(amountEur)}</strong>
                     <span>
                       The recipient, reference number, and due date remain
                       attached to the payment.
@@ -315,7 +400,7 @@ export function PaymentsPage() {
               )}
 
               <div className="action-row">
-                <button type="button" onClick={handleSubmit}>
+                <button type="button" onClick={handleSubmit} disabled={!canSubmit}>
                   Submit payment
                 </button>
                 <button
@@ -355,12 +440,12 @@ export function PaymentsPage() {
           <aside className="right-column">
             <Panel>
               <p className="eyebrow">Recipient eligibility</p>
-              <h2>Verified business recipient</h2>
+              <h2>{currentRecipient}</h2>
 
               <div className="check-list">
                 <div>
                   <span className="status-dot"></span>
-                  Aurora Bank business account active
+                  Verified business recipient in this prototype
                 </div>
                 <div>
                   <span className="status-dot"></span>
