@@ -55,8 +55,18 @@ export function PaymentsPage() {
   const [status, setStatus] = useState<PaymentStatus>('draft')
 
   const recipientEligible = true
-  const serviceFee = paymentMethod === 'digital-asset' ? 1.2 : 0
-  const settlementFee = paymentMethod === 'digital-asset' ? 0.3 : 0
+  const isInternalDigitalAssetSettlement =
+    paymentMethod === 'digital-asset' && paymentAsset === 'EURD'
+  const isExternalDigitalAssetPayment =
+    paymentMethod === 'digital-asset' && paymentAsset !== 'EURD'
+  const serviceFee = isExternalDigitalAssetPayment ? 1.2 : 0
+  const settlementFee = isExternalDigitalAssetPayment ? 0.3 : 0
+  const feeExplanation = isInternalDigitalAssetSettlement
+    ? 'Internal EUR digital asset settlement concept. No additional processing fee in this prototype.'
+    : 'Simulated bank service fee for external digital asset payment processing.'
+  const settlementExplanation = isInternalDigitalAssetSettlement
+    ? 'Internal settlement concept. The invoice reference is preserved.'
+    : 'Simulated settlement fee. The invoice reference is preserved.'
 
   const estimate = useMemo(() => {
     const totalCostEur = invoice.amountEur + serviceFee + settlementFee
@@ -271,19 +281,13 @@ export function PaymentsPage() {
                     <div>
                       <p>Service fee</p>
                       <strong>{formatEur(serviceFee)}</strong>
-                      <span>
-                        Simulated bank service fee for digital asset payment
-                        processing.
-                      </span>
+                      <span>{feeExplanation}</span>
                     </div>
 
                     <div className="custody-card">
                       <p>Settlement fee</p>
                       <strong>{formatEur(settlementFee)}</strong>
-                      <span>
-                        Simulated settlement fee. The invoice reference is
-                        preserved.
-                      </span>
+                      <span>{settlementExplanation}</span>
                     </div>
                   </div>
                 </>
@@ -416,10 +420,18 @@ export function PaymentsPage() {
               <h2>Payment-oriented assets</h2>
 
               <ul className="notification-list">
-                <li>EUR digital asset concept</li>
-                <li>USDC</li>
-                <li>USDT</li>
-                <li>BTC and ETH shown as optional volatile assets</li>
+                <li>
+                  EUR digital asset concept is the internal no-extra-fee
+                  prototype option
+                </li>
+                <li>
+                  USDC and USDT may involve additional settlement costs in this
+                  simulation
+                </li>
+                <li>
+                  BTC and ETH are shown as optional volatile assets with
+                  additional settlement costs
+                </li>
               </ul>
             </Panel>
           </aside>
