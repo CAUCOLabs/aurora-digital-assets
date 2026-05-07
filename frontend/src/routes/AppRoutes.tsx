@@ -8,22 +8,13 @@ import { PlaceholderPage } from '../pages/PlaceholderPage'
 import { BuySellPage } from '../pages/BuySellPage'
 import { CustodyPage } from '../pages/CustodyPage'
 import { OperatingModelPage } from '../pages/OperatingModelPage'
+import { PaymentsPage } from '../pages/PaymentsPage'
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<DashboardPage />} />
-
-      <Route
-        path="/payments"
-        element={
-          <PlaceholderPage
-            eyebrow="Payments"
-            title="Payments"
-            description="Simulated payments section for the Aurora Bank online banking prototype."
-          />
-        }
-      />
+      <Route path="/payments" element={<PaymentsPage />} />
 
       <Route
         path="/accounts"
@@ -94,7 +85,7 @@ export function AppRoutes() {
           <PlaceholderPage
             eyebrow="Online Services"
             title="Online Services"
-            description="Simulated online services section for user settings, service messages, and bank portal tools."
+            description="Simulated online and mobile services section for the Aurora Bank online banking prototype."
           />
         }
       />
