@@ -10,6 +10,7 @@ import { CustodyPage } from '../pages/CustodyPage'
 import { OperatingModelPage } from '../pages/OperatingModelPage'
 import { PaymentsPage } from '../pages/PaymentsPage'
 import { AccountsPage } from '../pages/AccountsPage'
+import { CardsPage } from '../pages/CardsPage'
 
 export function AppRoutes() {
   return (
@@ -19,16 +20,7 @@ export function AppRoutes() {
 
       <Route path="/accounts" element={<AccountsPage />} />
 
-      <Route
-        path="/cards"
-        element={
-          <PlaceholderPage
-            eyebrow="Cards and Currency"
-            title="Cards and Currency"
-            description="Simulated cards and currency section for the banking portal."
-          />
-        }
-      />
+      <Route path="/cards" element={<CardsPage />} />
 
       <Route
         path="/loans"
