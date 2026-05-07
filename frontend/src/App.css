@@ -441,12 +441,15 @@ a {
   border-color: #efd8a5;
 }
 
-.check-list div {
+.check-list div,
+.check-list label,
+.check-list a {
   display: flex;
   align-items: center;
   gap: 0.55rem;
   color: #34495f;
   font-weight: 650;
+  text-decoration: none;
 }
 
 .disclaimer {
@@ -522,7 +525,8 @@ a {
 }
 
 .form-grid input,
-.form-grid select {
+.form-grid select,
+.form-grid textarea {
   width: 100%;
   border: 1px solid #c8d8e8;
   border-radius: 8px;
@@ -530,6 +534,10 @@ a {
   color: #122033;
   background: #ffffff;
   font: inherit;
+}
+
+.form-grid textarea {
+  resize: vertical;
 }
 
 .withdrawal-preview {
