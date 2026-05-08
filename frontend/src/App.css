@@ -540,6 +540,61 @@ a {
   resize: vertical;
 }
 
+.form-grid label > span,
+.panel-note {
+  color: #5d6f82;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-grid .field-warning {
+  color: #a35a00;
+  font-weight: 700;
+}
+
+.checkbox-label input,
+.check-list input {
+  width: auto;
+  accent-color: #005ea8;
+}
+
+.single-summary {
+  grid-template-columns: 1fr;
+  margin-bottom: 0;
+}
+
+.summary-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.summary-list div {
+  display: grid;
+  gap: 0.25rem;
+  border-bottom: 1px solid #e1e9f0;
+  padding-bottom: 0.75rem;
+}
+
+.summary-list div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.summary-list span {
+  color: #5d6f82;
+  font-size: 0.86rem;
+}
+
+.summary-list strong {
+  color: #102a43;
+  font-size: 0.98rem;
+}
+
+.compact-audit-list .account-row {
+  grid-template-columns: 1fr;
+}
+
 .withdrawal-preview {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
