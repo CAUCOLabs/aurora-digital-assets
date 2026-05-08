@@ -3,63 +3,188 @@ import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 
+type WithdrawalAsset = 'BTC' | 'ETH' | 'USDC' | 'USDT' | 'EURD'
+type WalletType =
+  | 'Personal self-custody wallet'
+  | 'Hardware wallet'
+  | 'External crypto service'
+  | 'Exchange deposit address'
 type WithdrawalStatus = 'draft' | 'pending_review'
 
-export function WithdrawalsPage() {
-  const [asset, setAsset] = useState('BTC')
-  const [network, setNetwork] = useState('Bitcoin')
-  const [address, setAddress] = useState('')
-  const [amount, setAmount] = useState('')
-  const [status, setStatus] = useState<WithdrawalStatus>('draft')
-  const [securityCheckRun, setSecurityCheckRun] = useState(false)
+const assetLabels: Record<WithdrawalAsset, string> = {
+  BTC: 'BTC — Bitcoin',
+  ETH: 'ETH — Ethereum',
+  USDC: 'USDC',
+  USDT: 'USDT',
+  EURD: 'EUR digital asset concept',
+}
 
-  const canSubmit = address.trim().length > 12 && amount.trim().length > 0
+const assetBalances: Record<WithdrawalAsset, string> = {
+  BTC: '0.012450 BTC',
+  ETH: '0.184200 ETH',
+  USDC: '129.80 USDC',
+  USDT: '129.60 USDT',
+  EURD: 'Internal settlement concept',
+}
+
+const networkOptions: Record<WithdrawalAsset, string[]> = {
+  BTC: ['Bitcoin'],
+  ETH: ['Ethereum'],
+  USDC: ['Ethereum', 'Polygon'],
+  USDT: ['Ethereum', 'Tron'],
+  EURD: ['Internal settlement only / External withdrawal unavailable concept'],
+}
+
+const initialWithdrawal = {
+  asset: 'BTC' as WithdrawalAsset,
+  amount: '0.001',
+  network: 'Bitcoin',
+  destinationAddress: '',
+  confirmDestinationAddress: '',
+  destinationLabel: 'Personal cold wallet',
+  walletType: 'Personal self-custody wallet' as WalletType,
+}
+
+function parseAmount(value: string) {
+  const parsedValue = Number(value.replace(',', '.'))
+  return Number.isFinite(parsedValue) && parsedValue > 0 ? parsedValue : 0
+}
+
+export function WithdrawalsPage() {
+  const [asset, setAsset] = useState<WithdrawalAsset>(initialWithdrawal.asset)
+  const [network, setNetwork] = useState(initialWithdrawal.network)
+  const [amount, setAmount] = useState(initialWithdrawal.amount)
+  const [destinationAddress, setDestinationAddress] = useState(
+    initialWithdrawal.destinationAddress,
+  )
+  const [confirmDestinationAddress, setConfirmDestinationAddress] = useState(
+    initialWithdrawal.confirmDestinationAddress,
+  )
+  const [destinationLabel, setDestinationLabel] = useState(
+    initialWithdrawal.destinationLabel,
+  )
+  const [walletType, setWalletType] = useState<WalletType>(
+    initialWithdrawal.walletType,
+  )
+  const [confirmAddressCorrect, setConfirmAddressCorrect] = useState(false)
+  const [confirmIrreversible, setConfirmIrreversible] = useState(false)
+  const [confirmLeavesProtection, setConfirmLeavesProtection] = useState(false)
+  const [confirmNetworkRisk, setConfirmNetworkRisk] = useState(false)
+  const [status, setStatus] = useState<WithdrawalStatus>('draft')
+
+  const amountValue = parseAmount(amount)
+  const addressEntered = destinationAddress.trim().length > 0
+  const addressesMatch =
+    addressEntered &&
+    destinationAddress.trim() === confirmDestinationAddress.trim()
+  const isEurd = asset === 'EURD'
+  const allConfirmationsChecked =
+    confirmAddressCorrect &&
+    confirmIrreversible &&
+    confirmLeavesProtection &&
+    confirmNetworkRisk
+  const canSubmit =
+    amountValue > 0 && addressesMatch && allConfirmationsChecked && !isEurd
+
+  const reviewStatus =
+    status === 'pending_review'
+      ? 'Pending review'
+      : !addressEntered
+        ? 'Draft'
+        : !addressesMatch
+          ? 'Address mismatch'
+          : amountValue > 0
+            ? 'Ready for review'
+            : 'Draft'
+
+  const riskLevel =
+    reviewStatus === 'Address mismatch' || walletType === 'Exchange deposit address'
+      ? 'High'
+      : addressEntered || walletType === 'External crypto service'
+        ? 'Medium'
+        : 'Low'
 
   const auditEvents = useMemo(() => {
     const events = [
       {
         title: 'Withdrawal form opened',
-        detail: 'User entered external wallet transfer flow.',
+        detail:
+          'User opened the simulated external wallet transfer flow.',
         status: 'Recorded',
+      },
+      {
+        title: 'Asset and network selected',
+        detail: `${assetLabels[asset]} selected on ${network}.`,
+        status: isEurd ? 'Unavailable externally' : 'Recorded',
       },
     ]
 
-    if (securityCheckRun) {
+    if (addressEntered) {
       events.push({
-        title: 'Protection review completed',
-        detail: 'Address format, user profile, and withdrawal policy reviewed.',
-        status: 'Passed',
+        title: 'Destination address entered',
+        detail: `${walletType} destination captured for review. No transfer is executed in this prototype.`,
+        status: addressesMatch ? 'Confirmed' : 'Needs correction',
+      })
+    }
+
+    if (addressesMatch && amountValue > 0 && !isEurd) {
+      events.push({
+        title: 'Protection review prepared',
+        detail:
+          'Address confirmation, network compatibility, and external transfer review requirements are ready for manual review.',
+        status: 'Ready for review',
       })
     }
 
     if (status === 'pending_review') {
       events.push({
-        title: 'Withdrawal submitted for review',
-        detail: `${amount || '0'} ${asset} transfer request is pending compliance review.`,
+        title: 'Submitted for review',
+        detail: `${amount || '0'} ${asset} external transfer request is pending review. No blockchain transaction is executed in this prototype.`,
         status: 'Pending review',
       })
     }
 
     return events
-  }, [asset, amount, securityCheckRun, status])
+  }, [
+    addressEntered,
+    addressesMatch,
+    amount,
+    amountValue,
+    asset,
+    isEurd,
+    network,
+    status,
+    walletType,
+  ])
 
-  function handleSecurityCheck() {
-    setSecurityCheckRun(true)
+  function markDraft() {
+    setStatus('draft')
+  }
+
+  function handleAssetChange(nextAsset: WithdrawalAsset) {
+    setAsset(nextAsset)
+    setNetwork(networkOptions[nextAsset][0])
+    setStatus('draft')
   }
 
   function handleSubmitReview() {
     if (!canSubmit) return
-    setSecurityCheckRun(true)
     setStatus('pending_review')
   }
 
   function handleReset() {
-    setAsset('BTC')
-    setNetwork('Bitcoin')
-    setAddress('')
-    setAmount('')
+    setAsset(initialWithdrawal.asset)
+    setNetwork(initialWithdrawal.network)
+    setAmount(initialWithdrawal.amount)
+    setDestinationAddress(initialWithdrawal.destinationAddress)
+    setConfirmDestinationAddress(initialWithdrawal.confirmDestinationAddress)
+    setDestinationLabel(initialWithdrawal.destinationLabel)
+    setWalletType(initialWithdrawal.walletType)
+    setConfirmAddressCorrect(false)
+    setConfirmIrreversible(false)
+    setConfirmLeavesProtection(false)
+    setConfirmNetworkRisk(false)
     setStatus('draft')
-    setSecurityCheckRun(false)
   }
 
   return (
@@ -72,8 +197,8 @@ export function WithdrawalsPage() {
             <p className="eyebrow">External withdrawals</p>
             <h1>External wallet transfer</h1>
             <p>
-              Simulate a controlled withdrawal flow from the internal digital
-              assets wallet to a personal external wallet.
+              Send digital assets from the internal custodial wallet concept to
+              a personal wallet or external crypto service.
             </p>
           </div>
 
@@ -92,10 +217,10 @@ export function WithdrawalsPage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Transfer request</p>
-                  <h2>Withdrawal details</h2>
+                  <p className="eyebrow">Asset and amount</p>
+                  <h2>Asset and amount</h2>
                 </div>
-                <span className="module-tag">Simulation</span>
+                <span className="module-tag">Simulated balance</span>
               </div>
 
               <div className="form-grid">
@@ -103,75 +228,257 @@ export function WithdrawalsPage() {
                   Asset
                   <select
                     value={asset}
-                    onChange={(event) => {
-                      const nextAsset = event.target.value
-                      setAsset(nextAsset)
-                      setNetwork(nextAsset === 'BTC' ? 'Bitcoin' : 'Ethereum')
-                    }}
+                    onChange={(event) =>
+                      handleAssetChange(event.target.value as WithdrawalAsset)
+                    }
                   >
                     <option value="BTC">BTC — Bitcoin</option>
                     <option value="ETH">ETH — Ethereum</option>
+                    <option value="USDC">USDC</option>
+                    <option value="USDT">USDT</option>
+                    <option value="EURD">EUR digital asset concept</option>
                   </select>
                 </label>
 
-                <label>
-                  Network
-                  <select
-                    value={network}
-                    onChange={(event) => setNetwork(event.target.value)}
-                  >
-                    {asset === 'BTC' ? (
-                      <option value="Bitcoin">Bitcoin</option>
-                    ) : (
-                      <option value="Ethereum">Ethereum</option>
-                    )}
-                  </select>
-                </label>
-
-                <label>
-                  Destination address
-                  <input
-                    value={address}
-                    onChange={(event) => setAddress(event.target.value)}
-                    placeholder={
-                      asset === 'BTC'
-                        ? 'Example: bc1q...'
-                        : 'Example: 0x...'
-                    }
-                  />
-                </label>
+                <div className="assets-summary single-summary">
+                  <div>
+                    <p>Available balance</p>
+                    <strong>{assetBalances[asset]}</strong>
+                    <span>Balance information is simulated.</span>
+                  </div>
+                </div>
 
                 <label>
                   Amount
                   <input
                     value={amount}
-                    onChange={(event) => setAmount(event.target.value)}
-                    placeholder={asset === 'BTC' ? '0.001 BTC' : '0.05 ETH'}
+                    inputMode="decimal"
+                    onChange={(event) => {
+                      setAmount(event.target.value)
+                      markDraft()
+                    }}
+                  />
+                  <span>Use dot or comma as decimal separator.</span>
+                  {amountValue <= 0 && (
+                    <span className="field-warning">Amount is required.</span>
+                  )}
+                </label>
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Network</p>
+                  <h2>Network</h2>
+                </div>
+              </div>
+
+              <div className="form-grid">
+                <label>
+                  Network
+                  <select
+                    value={network}
+                    onChange={(event) => {
+                      setNetwork(event.target.value)
+                      markDraft()
+                    }}
+                  >
+                    {networkOptions[asset].map((networkOption) => (
+                      <option value={networkOption} key={networkOption}>
+                        {networkOption}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              {isEurd && (
+                <p className="panel-note">
+                  EUR digital asset concept is designed for internal settlement
+                  in this prototype. External withdrawal is not available.
+                </p>
+              )}
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Destination</p>
+                  <h2>Destination</h2>
+                </div>
+                <span className="module-tag">External address</span>
+              </div>
+
+              <div className="form-grid">
+                <label>
+                  Destination address
+                  <input
+                    value={destinationAddress}
+                    onChange={(event) => {
+                      setDestinationAddress(event.target.value)
+                      markDraft()
+                    }}
+                    placeholder="Example: bc1q..."
                   />
                 </label>
+
+                <label>
+                  Confirm destination address
+                  <input
+                    value={confirmDestinationAddress}
+                    onChange={(event) => {
+                      setConfirmDestinationAddress(event.target.value)
+                      markDraft()
+                    }}
+                    placeholder="Example: bc1q..."
+                  />
+                  {addressEntered && !addressesMatch && (
+                    <span className="field-warning">
+                      Destination addresses do not match.
+                    </span>
+                  )}
+                </label>
+
+                <label>
+                  Destination label
+                  <input
+                    value={destinationLabel}
+                    onChange={(event) => {
+                      setDestinationLabel(event.target.value)
+                      markDraft()
+                    }}
+                  />
+                </label>
+
+                <label>
+                  Wallet type
+                  <select
+                    value={walletType}
+                    onChange={(event) => {
+                      setWalletType(event.target.value as WalletType)
+                      markDraft()
+                    }}
+                  >
+                    <option value="Personal self-custody wallet">
+                      Personal self-custody wallet
+                    </option>
+                    <option value="Hardware wallet">Hardware wallet</option>
+                    <option value="External crypto service">
+                      External crypto service
+                    </option>
+                    <option value="Exchange deposit address">
+                      Exchange deposit address
+                    </option>
+                  </select>
+                </label>
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Protection review</p>
+                  <h2>Protection review</h2>
+                </div>
+                <span className="module-tag">{reviewStatus}</span>
+              </div>
+
+              <div className="check-list">
+                <div>
+                  <span className={addressEntered ? 'status-dot' : 'warning-dot'}></span>
+                  Address format check
+                </div>
+                <div>
+                  <span className={addressesMatch ? 'status-dot' : 'warning-dot'}></span>
+                  Address confirmation
+                </div>
+                <div>
+                  <span className={!isEurd ? 'status-dot' : 'warning-dot'}></span>
+                  Network compatibility
+                </div>
+                <div>
+                  <span className={addressEntered ? 'warning-dot' : 'status-dot'}></span>
+                  New address review
+                </div>
+                <div>
+                  <span className="warning-dot"></span>
+                  External transfer review
+                </div>
               </div>
 
               <div className="withdrawal-preview">
                 <div>
-                  <p>Selected asset</p>
-                  <strong>{asset}</strong>
+                  <p>Risk level</p>
+                  <strong>{riskLevel}</strong>
                 </div>
                 <div>
-                  <p>Network</p>
-                  <strong>{network}</strong>
+                  <p>Review state</p>
+                  <strong>{reviewStatus}</strong>
                 </div>
                 <div>
-                  <p>Status</p>
-                  <strong>
-                    {status === 'pending_review' ? 'Pending review' : 'Draft'}
-                  </strong>
+                  <p>Execution</p>
+                  <strong>Not executed</strong>
+                </div>
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">User confirmations</p>
+                  <h2>User confirmations</h2>
                 </div>
               </div>
 
+              <div className="check-list">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={confirmAddressCorrect}
+                    onChange={(event) => {
+                      setConfirmAddressCorrect(event.target.checked)
+                      markDraft()
+                    }}
+                  />
+                  I confirm the destination address is correct.
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={confirmIrreversible}
+                    onChange={(event) => {
+                      setConfirmIrreversible(event.target.checked)
+                      markDraft()
+                    }}
+                  />
+                  I understand blockchain transfers are irreversible.
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={confirmLeavesProtection}
+                    onChange={(event) => {
+                      setConfirmLeavesProtection(event.target.checked)
+                      markDraft()
+                    }}
+                  />
+                  I understand assets may leave the bank protection environment.
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={confirmNetworkRisk}
+                    onChange={(event) => {
+                      setConfirmNetworkRisk(event.target.checked)
+                      markDraft()
+                    }}
+                  />
+                  I understand wrong network selection may cause permanent loss.
+                </label>
+              </div>
+
               <div className="action-row">
-                <button type="button" onClick={handleSecurityCheck}>
-                  Run protection review
-                </button>
                 <button
                   type="button"
                   onClick={handleSubmitReview}
@@ -188,38 +495,49 @@ export function WithdrawalsPage() {
                 </button>
               </div>
             </Panel>
-
-            <Panel>
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">Audit trail</p>
-                  <h2>Withdrawal evidence timeline</h2>
-                </div>
-                <span className="module-tag">Deterministic log</span>
-              </div>
-
-              <div className="account-list">
-                {auditEvents.map((event) => (
-                  <article className="account-row" key={event.title}>
-                    <div>
-                      <h3>{event.title}</h3>
-                      <p>{event.detail}</p>
-                      <span>{event.status}</span>
-                    </div>
-                    <strong>{event.status}</strong>
-                  </article>
-                ))}
-              </div>
-            </Panel>
           </div>
 
           <aside className="right-column">
+            <Panel>
+              <p className="eyebrow">Transfer summary</p>
+              <h2>Live summary</h2>
+
+              <div className="summary-list">
+                <div>
+                  <span>Asset</span>
+                  <strong>{assetLabels[asset]}</strong>
+                </div>
+                <div>
+                  <span>Network</span>
+                  <strong>{network}</strong>
+                </div>
+                <div>
+                  <span>Amount</span>
+                  <strong>
+                    {amountValue > 0 ? `${amount} ${asset}` : 'Not entered'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Destination label</span>
+                  <strong>{destinationLabel || 'Not entered'}</strong>
+                </div>
+                <div>
+                  <span>Wallet type</span>
+                  <strong>{walletType}</strong>
+                </div>
+                <div>
+                  <span>Status</span>
+                  <strong>{reviewStatus}</strong>
+                </div>
+              </div>
+            </Panel>
+
             <Panel className="risk-panel">
               <p className="eyebrow">Risk warning</p>
               <h2>Irreversible transfer</h2>
               <p>
-                Blockchain transfers cannot be reversed. Always verify the
-                address, network, and amount before continuing.
+                Blockchain transfers cannot usually be reversed. Always verify
+                the address, network, and wallet provider before submitting.
               </p>
             </Panel>
 
@@ -232,35 +550,48 @@ export function WithdrawalsPage() {
                   Strong authentication active
                 </div>
                 <div>
-                  <span className={securityCheckRun ? 'status-dot' : 'warning-dot'}></span>
-                  Address review {securityCheckRun ? 'completed' : 'required'}
+                  <span className="warning-dot"></span>
+                  Address review required
                 </div>
                 <div>
                   <span className="warning-dot"></span>
                   External transfer review active
                 </div>
                 <div>
-                  <span
-                    className={
-                      status === 'pending_review' ? 'warning-dot' : 'status-dot'
-                    }
-                  ></span>
-                  {status === 'pending_review'
-                    ? 'Manual review pending'
-                    : 'No active withdrawal request'}
+                  <span className="status-dot"></span>
+                  Audit trail enabled
+                </div>
+                <div>
+                  <span className="status-dot"></span>
+                  No transfer is executed in this prototype
                 </div>
               </div>
             </Panel>
 
             <Panel>
-              <p className="eyebrow">User protection</p>
-              <h2>Before submitting</h2>
-              <ul className="notification-list">
-                <li>Confirm that the destination address belongs to you.</li>
-                <li>Confirm that the selected network matches your wallet.</li>
-                <li>Understand that external transfers are not reversible.</li>
-                <li>Large or unusual withdrawals may require manual review.</li>
-              </ul>
+              <p className="eyebrow">Important boundary</p>
+              <h2>External transfer only</h2>
+              <p>
+                Payments to verified business recipients are handled in
+                Payments. This page is only for external wallet transfers.
+              </p>
+            </Panel>
+
+            <Panel>
+              <p className="eyebrow">Audit trail</p>
+              <h2>Withdrawal evidence timeline</h2>
+
+              <div className="account-list compact-audit-list">
+                {auditEvents.map((event) => (
+                  <article className="account-row" key={event.title}>
+                    <div>
+                      <h3>{event.title}</h3>
+                      <p>{event.detail}</p>
+                      <span>{event.status}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </Panel>
           </aside>
         </section>
