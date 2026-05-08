@@ -1,73 +1,11 @@
 import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
-
-const bankAccount = {
-  name: 'Aurora Current Account',
-  owner: 'Claudio Demo',
-  type: 'Current account',
-  iban: 'FI12 0000 0000 1234 56',
-  bic: 'AURAFIHH',
-  bookBalance: '2 450,10 €',
-  availableBalance: '2 430,10 €',
-  reservedCardPayments: '20,00 €',
-  status: 'Active',
-}
-
-const recentTransactions = [
-  {
-    title: 'Aurora Telecom Oyj invoice payment',
-    amount: '-120,45 €',
-    status: 'Pending',
-    detail: 'Aurora Current Account · Reference preserved',
-  },
-  {
-    title: 'Salary payment',
-    amount: '+2 850,00 €',
-    status: 'Completed',
-    detail: 'Aurora Current Account · Salary',
-  },
-  {
-    title: 'Grocery store card payment',
-    amount: '-42,80 €',
-    status: 'Completed',
-    detail: 'Aurora Current Account · Card purchase',
-  },
-  {
-    title: 'Digital asset invoice payment',
-    amount: '0,00 €',
-    status: 'Pending confirmation',
-    detail: 'Aurora Current Account · Digital asset payment draft',
-  },
-]
-
-const digitalAssetBalances = [
-  {
-    name: 'BTC wallet balance',
-    balance: '0.012450 BTC',
-    detail: '865,28 €',
-  },
-  {
-    name: 'ETH wallet balance',
-    balance: '0.184200 ETH',
-    detail: '380,52 €',
-  },
-  {
-    name: 'USDC payment asset balance',
-    balance: '129.80 USDC',
-    detail: 'Payment asset',
-  },
-  {
-    name: 'USDT payment asset balance',
-    balance: '129.60 USDT',
-    detail: 'Payment asset',
-  },
-  {
-    name: 'XRP cross-border concept',
-    balance: 'Future support',
-    detail: 'Concept only',
-  },
-]
+import {
+  connectedDigitalAssetBalances,
+  primaryBankAccount,
+  recentBankTransactions,
+} from '../data/bankAccounts'
 
 const openAccountOptions = [
   'Current account',
@@ -84,6 +22,8 @@ const documentOptions = [
 ]
 
 export function AccountsPage() {
+  const bankAccount = primaryBankAccount
+
   return (
     <div className="bank-shell">
       <TopBar userName="Claudio Demo" />
@@ -173,11 +113,13 @@ export function AccountsPage() {
               </div>
 
               <div className="account-list">
-                {recentTransactions.map((transaction) => (
-                  <article className="account-row" key={transaction.title}>
+                {recentBankTransactions.map((transaction) => (
+                  <article className="account-row" key={transaction.id}>
                     <div>
                       <h3>{transaction.title}</h3>
-                      <p>{transaction.detail}</p>
+                      <p>
+                        {transaction.accountName} · {transaction.detail}
+                      </p>
                       <span>{transaction.status}</span>
                     </div>
                     <strong>{transaction.amount}</strong>
@@ -201,14 +143,14 @@ export function AccountsPage() {
               </p>
 
               <div className="account-list">
-                {digitalAssetBalances.map((asset) => (
-                  <article className="account-row" key={asset.name}>
+                {connectedDigitalAssetBalances.map((asset) => (
+                  <article className="account-row" key={asset.id}>
                     <div>
                       <h3>{asset.name}</h3>
                       <p>{asset.balance}</p>
-                      <span>Connected digital asset balance</span>
+                      <span>{asset.detail}</span>
                     </div>
-                    <strong>{asset.detail}</strong>
+                    <strong>{asset.value}</strong>
                   </article>
                 ))}
               </div>
