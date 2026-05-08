@@ -1,10 +1,14 @@
 import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { primaryBankAccount } from '../data/bankAccounts'
 
 type PaymentMethod = 'eur-transfer' | 'digital-asset'
 type PaymentAsset = 'EURD' | 'USDC' | 'USDT' | 'BTC' | 'ETH'
 type PaymentStatus = 'draft' | 'ready' | 'submitted'
+type RecipientMode = 'own' | 'saved' | 'new'
+type ScheduleMode = 'one-time' | 'recurring'
+type DetailsMode = 'reference' | 'message'
 
 const initialInvoice = {
   recipient: 'Aurora Telecom Oyj',
@@ -13,6 +17,7 @@ const initialInvoice = {
   dueDate: '19.05.2026',
   amount: '120.45',
   payerAccount: 'Aurora Current Account',
+  recipientIban: 'FI98 0000 0000 5678 90',
 }
 
 const assetRates: Record<PaymentAsset, number> = {
@@ -47,12 +52,16 @@ function formatAssetAmount(value: number, asset: PaymentAsset) {
 
 export function PaymentsPage() {
   const [recipient, setRecipient] = useState(initialInvoice.recipient)
-  const [invoiceNumber, setInvoiceNumber] = useState(
-    initialInvoice.invoiceNumber,
-  )
+  const [recipientMode, setRecipientMode] = useState<RecipientMode>('saved')
+  const [recipientIban, setRecipientIban] = useState(initialInvoice.recipientIban)
+  const [saveRecipient, setSaveRecipient] = useState(false)
+  const [moveToApprovalQueue, setMoveToApprovalQueue] = useState(false)
+  const [scheduleMode, setScheduleMode] = useState<ScheduleMode>('one-time')
+  const [detailsMode, setDetailsMode] = useState<DetailsMode>('reference')
   const [referenceNumber, setReferenceNumber] = useState(
     initialInvoice.referenceNumber,
   )
+  const [message, setMessage] = useState('')
   const [dueDate, setDueDate] = useState(initialInvoice.dueDate)
   const [amount, setAmount] = useState(initialInvoice.amount)
   const [payerAccount, setPayerAccount] = useState(initialInvoice.payerAccount)
@@ -62,18 +71,27 @@ export function PaymentsPage() {
   const [status, setStatus] = useState<PaymentStatus>('draft')
 
   const parsedAmount = Number(amount.replace(',', '.'))
-  const amountEur =
-    Number.isFinite(parsedAmount) && parsedAmount > 0 ? parsedAmount : 0
-  const currentRecipient = recipient.trim() || 'Selected business recipient'
+  const amountIsValid = Number.isFinite(parsedAmount) && parsedAmount > 0
+  const amountEur = amountIsValid ? parsedAmount : 0
+  const currentRecipient =
+    recipientMode === 'own'
+      ? 'Own account not selected'
+      : recipient.trim() || 'Selected business recipient'
+  const hasRecipient =
+    recipientMode !== 'own' && recipient.trim().length > 0
+  const detailsValue =
+    detailsMode === 'reference' ? referenceNumber.trim() : message.trim()
+  const recipientEligible = recipientMode !== 'own' && recipient.trim().length > 0
   const canSubmit =
-    recipient.trim().length > 0 &&
-    invoiceNumber.trim().length > 0 &&
-    referenceNumber.trim().length > 0 &&
+    amountEur > 0 &&
     dueDate.trim().length > 0 &&
     payerAccount.trim().length > 0 &&
-    amountEur > 0
+    hasRecipient &&
+    detailsValue.length > 0 &&
+    (paymentMethod !== 'digital-asset' || recipientEligible)
 
-  const recipientEligible = true
+  const visibleStatus: PaymentStatus =
+    status === 'submitted' ? 'submitted' : canSubmit ? 'ready' : 'draft'
   const isInternalDigitalAssetSettlement =
     paymentMethod === 'digital-asset' && paymentAsset === 'EURD'
   const isExternalDigitalAssetPayment =
@@ -107,21 +125,21 @@ export function PaymentsPage() {
     },
     {
       title: 'Recipient eligibility checked',
-      detail: `${currentRecipient} is treated as a verified Aurora Bank business recipient for invoice ${invoiceNumber.trim() || 'not yet provided'}.`,
+      detail: `${currentRecipient} is treated as a verified Aurora Bank business recipient for invoice ${initialInvoice.invoiceNumber}.`,
       status: 'Eligible',
     },
     ...(paymentMethod === 'digital-asset'
       ? [
           {
             title: 'Digital asset payment method selected',
-            detail: `${assetLabels[paymentAsset]} selected for invoice ${invoiceNumber.trim() || 'not yet provided'} with reference ${referenceNumber.trim() || 'not yet provided'}.`,
+            detail: `${assetLabels[paymentAsset]} selected for invoice ${initialInvoice.invoiceNumber} with ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue || 'not yet provided'}.`,
             status: 'Estimated',
           },
         ]
       : [
           {
             title: 'EUR bank transfer selected',
-            detail: `Standard EUR transfer selected for invoice ${invoiceNumber.trim() || 'not yet provided'} with reference ${referenceNumber.trim() || 'not yet provided'}.`,
+            detail: `Standard EUR transfer selected for invoice ${initialInvoice.invoiceNumber} with ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue || 'not yet provided'}.`,
             status: 'Estimated',
           },
         ]),
@@ -134,7 +152,7 @@ export function PaymentsPage() {
       ? [
           {
             title: 'Payment form validated',
-            detail: `${currentRecipient}, invoice number, reference number, due date, payer account, and amount are present.`,
+            detail: `${currentRecipient}, payment details, date, payer account, and amount are present.`,
             status: 'Ready',
           },
         ]
@@ -145,8 +163,8 @@ export function PaymentsPage() {
             title: 'Payment submitted',
             detail:
               paymentMethod === 'digital-asset'
-                ? `Invoice ${invoiceNumber.trim()} submitted to ${currentRecipient} using ${assetLabels[paymentAsset]}. Settlement remains linked to reference ${referenceNumber.trim()}.`
-                : `Invoice ${invoiceNumber.trim()} submitted to ${currentRecipient} as a standard EUR bank transfer with reference ${referenceNumber.trim()}.`,
+                ? `Invoice ${initialInvoice.invoiceNumber} submitted to ${currentRecipient} using ${assetLabels[paymentAsset]}. Settlement remains linked to ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue}.`
+                : `Invoice ${initialInvoice.invoiceNumber} submitted to ${currentRecipient} as a standard EUR bank transfer with ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue}.`,
             status: 'Submitted',
           },
         ]
@@ -168,8 +186,14 @@ export function PaymentsPage() {
 
   function handleReset() {
     setRecipient(initialInvoice.recipient)
-    setInvoiceNumber(initialInvoice.invoiceNumber)
+    setRecipientMode('saved')
+    setRecipientIban(initialInvoice.recipientIban)
+    setSaveRecipient(false)
+    setMoveToApprovalQueue(false)
+    setScheduleMode('one-time')
+    setDetailsMode('reference')
     setReferenceNumber(initialInvoice.referenceNumber)
+    setMessage('')
     setDueDate(initialInvoice.dueDate)
     setAmount(initialInvoice.amount)
     setPayerAccount(initialInvoice.payerAccount)
@@ -186,18 +210,24 @@ export function PaymentsPage() {
         <section className="welcome-card">
           <div>
             <p className="eyebrow">Payments</p>
-            <h1>Invoice payment</h1>
+            <h1>New payment</h1>
             <p>
-              Pay a standard invoice using a normal EUR bank transfer or, when
-              the recipient supports it, a controlled digital asset payment.
+              Create a standard bank payment or, when the recipient supports it,
+              a controlled digital asset payment.
             </p>
           </div>
 
           <div className="security-badge">
             <span
-              className={status === 'submitted' ? 'status-dot' : 'warning-dot'}
+              className={
+                visibleStatus === 'draft' ? 'warning-dot' : 'status-dot'
+              }
             ></span>
-            {status === 'submitted' ? 'Submitted' : 'Draft'}
+            {visibleStatus === 'submitted'
+              ? 'Submitted'
+              : visibleStatus === 'ready'
+                ? 'Ready'
+                : 'Draft'}
           </div>
         </section>
 
@@ -206,53 +236,12 @@ export function PaymentsPage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">New payment</p>
-                  <h2>Invoice details</h2>
+                  <p className="eyebrow">Amount</p>
+                  <h2>Amount</h2>
                 </div>
-                <span className="module-tag">Mock invoice</span>
               </div>
 
               <div className="form-grid">
-                <label>
-                  Recipient
-                  <input
-                    value={recipient}
-                    onChange={(event) =>
-                      updateEditableField(event.target.value, setRecipient)
-                    }
-                  />
-                </label>
-
-                <label>
-                  Invoice number
-                  <input
-                    value={invoiceNumber}
-                    onChange={(event) =>
-                      updateEditableField(event.target.value, setInvoiceNumber)
-                    }
-                  />
-                </label>
-
-                <label>
-                  Reference number
-                  <input
-                    value={referenceNumber}
-                    onChange={(event) =>
-                      updateEditableField(event.target.value, setReferenceNumber)
-                    }
-                  />
-                </label>
-
-                <label>
-                  Due date
-                  <input
-                    value={dueDate}
-                    onChange={(event) =>
-                      updateEditableField(event.target.value, setDueDate)
-                    }
-                  />
-                </label>
-
                 <label>
                   Amount
                   <input
@@ -263,14 +252,217 @@ export function PaymentsPage() {
                     }
                   />
                   <span>Use dot or comma as decimal separator.</span>
+                  {!amountIsValid && (
+                    <span className="field-warning">Amount is required.</span>
+                  )}
                 </label>
 
                 <label>
+                  Currency
+                  <select defaultValue="EUR">
+                    <option value="EUR">EUR</option>
+                  </select>
+                </label>
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">From account</p>
+                  <h2>From account</h2>
+                </div>
+              </div>
+
+              <div className="form-grid">
+                <label>
                   Payer account
-                  <input
+                  <select
                     value={payerAccount}
                     onChange={(event) =>
                       updateEditableField(event.target.value, setPayerAccount)
+                    }
+                  >
+                    <option value={primaryBankAccount.name}>
+                      {primaryBankAccount.name}
+                    </option>
+                  </select>
+                </label>
+
+                <div className="assets-summary single-summary">
+                  <div>
+                    <p>Available balance</p>
+                    <strong>{primaryBankAccount.availableBalance}</strong>
+                    <span>
+                      {primaryBankAccount.type} · {primaryBankAccount.iban}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">To recipient</p>
+                  <h2>To recipient</h2>
+                </div>
+                <span className="module-tag">Simulated recipient data</span>
+              </div>
+
+              <div className="trade-toggle" aria-label="Recipient type">
+                <button
+                  type="button"
+                  className={
+                    recipientMode === 'own'
+                      ? 'toggle-active'
+                      : 'secondary-button'
+                  }
+                  onClick={() => {
+                    setRecipientMode('own')
+                    setStatus('draft')
+                  }}
+                >
+                  Own accounts
+                </button>
+
+                <button
+                  type="button"
+                  className={
+                    recipientMode === 'saved'
+                      ? 'toggle-active'
+                      : 'secondary-button'
+                  }
+                  onClick={() => {
+                    setRecipientMode('saved')
+                    setRecipient(initialInvoice.recipient)
+                    setStatus('draft')
+                  }}
+                >
+                  Saved recipient
+                </button>
+
+                <button
+                  type="button"
+                  className={
+                    recipientMode === 'new'
+                      ? 'toggle-active'
+                      : 'secondary-button'
+                  }
+                  onClick={() => {
+                    setRecipientMode('new')
+                    setStatus('draft')
+                  }}
+                >
+                  New recipient
+                </button>
+              </div>
+
+              {recipientMode === 'own' && (
+                <p className="panel-note">
+                  Own account transfers are shown as a placeholder in this
+                  prototype.
+                </p>
+              )}
+
+              {recipientMode === 'saved' && (
+                <div className="form-grid">
+                  <label>
+                    Saved recipient
+                    <input
+                      value={recipient}
+                      onChange={(event) =>
+                        updateEditableField(event.target.value, setRecipient)
+                      }
+                    />
+                  </label>
+                </div>
+              )}
+
+              {recipientMode === 'new' && (
+                <div className="form-grid">
+                  <label>
+                    Recipient name
+                    <input
+                      value={recipient}
+                      onChange={(event) =>
+                        updateEditableField(event.target.value, setRecipient)
+                      }
+                    />
+                  </label>
+
+                  <label>
+                    IBAN
+                    <input
+                      value={recipientIban}
+                      onChange={(event) =>
+                        updateEditableField(event.target.value, setRecipientIban)
+                      }
+                    />
+                  </label>
+
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={saveRecipient}
+                      onChange={(event) => {
+                        setSaveRecipient(event.target.checked)
+                        setStatus('draft')
+                      }}
+                    />
+                    Save recipient
+                  </label>
+                </div>
+              )}
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Date</p>
+                  <h2>Date</h2>
+                </div>
+              </div>
+
+              <div className="trade-toggle" aria-label="Payment schedule">
+                <button
+                  type="button"
+                  className={
+                    scheduleMode === 'one-time'
+                      ? 'toggle-active'
+                      : 'secondary-button'
+                  }
+                  onClick={() => {
+                    setScheduleMode('one-time')
+                    setStatus('draft')
+                  }}
+                >
+                  One-time payment
+                </button>
+
+                <button
+                  type="button"
+                  className={
+                    scheduleMode === 'recurring'
+                      ? 'toggle-active'
+                      : 'secondary-button'
+                  }
+                  onClick={() => {
+                    setScheduleMode('recurring')
+                    setStatus('draft')
+                  }}
+                >
+                  Recurring payment
+                </button>
+              </div>
+
+              <div className="form-grid">
+                <label>
+                  Payment date
+                  <input
+                    value={dueDate}
+                    onChange={(event) =>
+                      updateEditableField(event.target.value, setDueDate)
                     }
                   />
                 </label>
@@ -280,8 +472,76 @@ export function PaymentsPage() {
             <Panel>
               <div className="panel-header">
                 <div>
+                  <p className="eyebrow">Details</p>
+                  <h2>Details</h2>
+                </div>
+              </div>
+
+              <div className="trade-toggle" aria-label="Payment details type">
+                <button
+                  type="button"
+                  className={
+                    detailsMode === 'reference'
+                      ? 'toggle-active'
+                      : 'secondary-button'
+                  }
+                  onClick={() => {
+                    setDetailsMode('reference')
+                    setStatus('draft')
+                  }}
+                >
+                  Reference number
+                </button>
+
+                <button
+                  type="button"
+                  className={
+                    detailsMode === 'message'
+                      ? 'toggle-active'
+                      : 'secondary-button'
+                  }
+                  onClick={() => {
+                    setDetailsMode('message')
+                    setStatus('draft')
+                  }}
+                >
+                  Message
+                </button>
+              </div>
+
+              <div className="form-grid">
+                {detailsMode === 'reference' ? (
+                  <label>
+                    Reference number
+                    <input
+                      value={referenceNumber}
+                      onChange={(event) =>
+                        updateEditableField(
+                          event.target.value,
+                          setReferenceNumber,
+                        )
+                      }
+                    />
+                  </label>
+                ) : (
+                  <label>
+                    Message
+                    <input
+                      value={message}
+                      onChange={(event) =>
+                        updateEditableField(event.target.value, setMessage)
+                      }
+                    />
+                  </label>
+                )}
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
                   <p className="eyebrow">Payment method</p>
-                  <h2>Select how to pay</h2>
+                  <h2>Payment method</h2>
                 </div>
                 <span className="module-tag">Banking flow</span>
               </div>
@@ -398,6 +658,29 @@ export function PaymentsPage() {
                   </div>
                 </div>
               )}
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Settings</p>
+                  <h2>Settings</h2>
+                </div>
+              </div>
+
+              <div className="check-list">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={moveToApprovalQueue}
+                    onChange={(event) => {
+                      setMoveToApprovalQueue(event.target.checked)
+                      setStatus('draft')
+                    }}
+                  />
+                  Move to approval queue
+                </label>
+              </div>
 
               <div className="action-row">
                 <button type="button" onClick={handleSubmit} disabled={!canSubmit}>
@@ -412,32 +695,55 @@ export function PaymentsPage() {
                 </button>
               </div>
             </Panel>
-
-            <Panel>
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">Audit trail</p>
-                  <h2>Payment evidence timeline</h2>
-                </div>
-                <span className="module-tag">Deterministic log</span>
-              </div>
-
-              <div className="account-list">
-                {auditEvents.map((event) => (
-                  <article className="account-row" key={event.title}>
-                    <div>
-                      <h3>{event.title}</h3>
-                      <p>{event.detail}</p>
-                      <span>{event.status}</span>
-                    </div>
-                    <strong>{event.status}</strong>
-                  </article>
-                ))}
-              </div>
-            </Panel>
           </div>
 
           <aside className="right-column">
+            <Panel>
+              <p className="eyebrow">Payment details</p>
+              <h2>Live summary</h2>
+
+              <div className="summary-list">
+                <div>
+                  <span>Amount</span>
+                  <strong>{formatEur(amountEur)}</strong>
+                </div>
+                <div>
+                  <span>From</span>
+                  <strong>{payerAccount || 'Not selected'}</strong>
+                </div>
+                <div>
+                  <span>To</span>
+                  <strong>{currentRecipient}</strong>
+                </div>
+                <div>
+                  <span>Date</span>
+                  <strong>{dueDate || 'Not selected'}</strong>
+                </div>
+                <div>
+                  <span>Details</span>
+                  <strong>{detailsValue || 'Not provided'}</strong>
+                </div>
+                <div>
+                  <span>Payment method</span>
+                  <strong>
+                    {paymentMethod === 'digital-asset'
+                      ? `Digital asset payment · ${paymentAsset}`
+                      : 'EUR bank transfer'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Status</span>
+                  <strong>
+                    {visibleStatus === 'submitted'
+                      ? 'Submitted'
+                      : visibleStatus === 'ready'
+                        ? 'Ready'
+                        : 'Draft'}
+                  </strong>
+                </div>
+              </div>
+            </Panel>
+
             <Panel>
               <p className="eyebrow">Recipient eligibility</p>
               <h2>{currentRecipient}</h2>
@@ -445,7 +751,7 @@ export function PaymentsPage() {
               <div className="check-list">
                 <div>
                   <span className="status-dot"></span>
-                  Verified business recipient in this prototype
+                  Aurora Bank business account active
                 </div>
                 <div>
                   <span className="status-dot"></span>
@@ -501,23 +807,20 @@ export function PaymentsPage() {
             </Panel>
 
             <Panel>
-              <p className="eyebrow">Supported payment assets</p>
-              <h2>Payment-oriented assets</h2>
+              <p className="eyebrow">Audit trail</p>
+              <h2>Payment evidence timeline</h2>
 
-              <ul className="notification-list">
-                <li>
-                  EUR digital asset concept is the internal no-extra-fee
-                  prototype option
-                </li>
-                <li>
-                  USDC and USDT may involve additional settlement costs in this
-                  simulation
-                </li>
-                <li>
-                  BTC and ETH are shown as optional volatile assets with
-                  additional settlement costs
-                </li>
-              </ul>
+              <div className="account-list compact-audit-list">
+                {auditEvents.map((event) => (
+                  <article className="account-row" key={event.title}>
+                    <div>
+                      <h3>{event.title}</h3>
+                      <p>{event.detail}</p>
+                      <span>{event.status}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </Panel>
           </aside>
         </section>
