@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import {
+  listAuditEvents,
+  listReviewCases,
+  type AuditEvent,
+  type ReviewCase,
+} from '../services/complianceApi'
 
 const bankingDocuments = [
   {
@@ -102,6 +109,61 @@ const evidenceCoverage = [
 ]
 
 export function ReportsPage() {
+  const [backendAuditEvents, setBackendAuditEvents] = useState<AuditEvent[]>([])
+  const [backendReviewCases, setBackendReviewCases] = useState<ReviewCase[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [backendError, setBackendError] = useState<string | null>(null)
+
+  const visibleAuditEvents =
+    backendAuditEvents.length > 0
+      ? backendAuditEvents.map((event) => ({
+          title: event.action_type.replaceAll('_', ' '),
+          detail: [
+            event.module,
+            event.risk_level ? `${event.risk_level} risk` : null,
+            event.case_id ? `case ${event.case_id}` : null,
+          ]
+            .filter(Boolean)
+            .join(' · '),
+          status: event.status,
+          message: event.user_message,
+        }))
+      : auditEvents.map((event) => ({
+          ...event,
+          message: null,
+        }))
+  const reportStatusNote =
+    backendError ??
+    (backendAuditEvents.length > 0 || backendReviewCases.length > 0
+      ? 'Backend audit data loaded from local FastAPI prototype.'
+      : null)
+
+  useEffect(() => {
+    async function fetchReportingData() {
+      setIsLoading(true)
+
+      try {
+        const [events, cases] = await Promise.all([
+          listAuditEvents(),
+          listReviewCases(),
+        ])
+        setBackendAuditEvents(events)
+        setBackendReviewCases(cases)
+        setBackendError(null)
+      } catch {
+        setBackendAuditEvents([])
+        setBackendReviewCases([])
+        setBackendError(
+          'Backend reporting data unavailable. Showing local prototype reports.',
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    void fetchReportingData()
+  }, [])
+
   return (
     <div className="bank-shell">
       <TopBar userName="Claudio Demo" />
@@ -223,18 +285,79 @@ export function ReportsPage() {
                 </div>
                 <span className="module-tag">Deterministic log</span>
               </div>
+              {isLoading && <p className="panel-note">Loading report evidence...</p>}
+              {reportStatusNote && <p className="panel-note">{reportStatusNote}</p>}
 
               <div className="account-list">
-                {auditEvents.map((event) => (
+                {visibleAuditEvents.map((event) => (
                   <article className="account-row" key={event.title}>
                     <div>
                       <h3>{event.title}</h3>
                       <p>{event.detail}</p>
+                      {'message' in event && event.message && (
+                        <p>{event.message}</p>
+                      )}
                       <span>{event.status}</span>
                     </div>
                     <strong>{event.status}</strong>
                   </article>
                 ))}
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Review case evidence</p>
+                  <h2>Internal review cases</h2>
+                </div>
+                <span className="module-tag">
+                  {backendReviewCases.length > 0
+                    ? 'Backend evidence'
+                    : 'Prototype evidence'}
+                </span>
+              </div>
+
+              <div className="account-list">
+                {(backendReviewCases.length > 0 ? backendReviewCases : []).map(
+                  (reviewCase) => (
+                    <article className="account-row" key={reviewCase.case_id}>
+                      <div>
+                        <h3>{reviewCase.title}</h3>
+                        <p>
+                          {reviewCase.case_type.replaceAll('_', ' ')} ·{' '}
+                          {reviewCase.asset} · {reviewCase.amount}
+                        </p>
+                        <span>
+                          Destination / recipient:{' '}
+                          {reviewCase.destination_address}
+                        </span>
+                        {reviewCase.reviewer_decision && (
+                          <span>
+                            Reviewer decision:{' '}
+                            {reviewCase.reviewer_decision}
+                          </span>
+                        )}
+                      </div>
+                      <strong>
+                        {reviewCase.status} · {reviewCase.risk_level} risk
+                      </strong>
+                    </article>
+                  ),
+                )}
+                {backendReviewCases.length === 0 && (
+                  <article className="account-row">
+                    <div>
+                      <h3>Review evidence package</h3>
+                      <p>
+                        Review cases created by withdrawal and digital asset
+                        payment flows can be included in evidence packages.
+                      </p>
+                      <span>Prototype evidence</span>
+                    </div>
+                    <strong>Concept</strong>
+                  </article>
+                )}
               </div>
             </Panel>
 
@@ -296,6 +419,30 @@ export function ReportsPage() {
                 <div>
                   <span className="status-dot"></span>
                   Audit trail available
+                </div>
+                <div>
+                  <span
+                    className={
+                      backendAuditEvents.length > 0
+                        ? 'status-dot'
+                        : 'warning-dot'
+                    }
+                  ></span>
+                  Audit events loaded
+                </div>
+                <div>
+                  <span
+                    className={
+                      backendReviewCases.length > 0
+                        ? 'status-dot'
+                        : 'warning-dot'
+                    }
+                  ></span>
+                  Review cases available
+                </div>
+                <div>
+                  <span className="status-dot"></span>
+                  Evidence package concept ready
                 </div>
                 <div>
                   <span className="warning-dot"></span>
