@@ -1,5 +1,8 @@
+import json
 from datetime import datetime, timezone
+from sqlite3 import Row
 
+from app.db.database import get_connection
 from app.schemas.payment import (
     DigitalAssetPaymentEvaluateRequest,
     DigitalAssetPaymentEvaluateResponse,
@@ -19,10 +22,7 @@ REVIEW_DECISION_STATUSES = {
 
 
 class ReviewCaseService:
-    """In-memory case store for simulated compliance review workflows."""
-
-    def __init__(self) -> None:
-        self._cases: list[ReviewCase] = []
+    """SQLite-backed case store for simulated compliance review workflows."""
 
     def create_withdrawal_case(
         self,
@@ -46,7 +46,7 @@ class ReviewCaseService:
             destination_address=request.destination_address.strip(),
             wallet_type=request.wallet_type.strip(),
         )
-        self._cases.append(case)
+        self._insert_case(case)
         return case
 
     def create_digital_asset_payment_case(
@@ -71,17 +71,67 @@ class ReviewCaseService:
             destination_address=request.recipient_name.strip(),
             wallet_type="verified_business_recipient",
         )
-        self._cases.append(case)
+        self._insert_case(case)
         return case
 
     def list_cases(self) -> list[ReviewCase]:
-        return list(self._cases)
+        with get_connection() as connection:
+            rows = connection.execute(
+                """
+                SELECT
+                    case_id,
+                    created_at,
+                    case_type,
+                    title,
+                    status,
+                    risk_level,
+                    reasons,
+                    customer,
+                    action_type,
+                    asset,
+                    amount,
+                    network,
+                    destination_address,
+                    wallet_type,
+                    reviewer_decision,
+                    reviewer_notes
+                FROM review_cases
+                ORDER BY case_id ASC
+                """
+            ).fetchall()
+
+        return [self._row_to_case(row) for row in rows]
 
     def get_case(self, case_id: str) -> ReviewCase | None:
-        for case in self._cases:
-            if case.case_id == case_id:
-                return case
-        return None
+        with get_connection() as connection:
+            row = connection.execute(
+                """
+                SELECT
+                    case_id,
+                    created_at,
+                    case_type,
+                    title,
+                    status,
+                    risk_level,
+                    reasons,
+                    customer,
+                    action_type,
+                    asset,
+                    amount,
+                    network,
+                    destination_address,
+                    wallet_type,
+                    reviewer_decision,
+                    reviewer_notes
+                FROM review_cases
+                WHERE case_id = ?
+                """,
+                (case_id,),
+            ).fetchone()
+
+        if row is None:
+            return None
+        return self._row_to_case(row)
 
     def record_decision(
         self,
@@ -93,13 +143,98 @@ class ReviewCaseService:
         if case is None:
             return None
 
-        case.reviewer_decision = decision
-        case.reviewer_notes = notes
-        case.status = REVIEW_DECISION_STATUSES[decision]
-        return case
+        status = REVIEW_DECISION_STATUSES[decision]
+        with get_connection() as connection:
+            connection.execute(
+                """
+                UPDATE review_cases
+                SET reviewer_decision = ?,
+                    reviewer_notes = ?,
+                    status = ?
+                WHERE case_id = ?
+                """,
+                (decision, notes, status, case_id),
+            )
+
+        return self.get_case(case_id)
 
     def _next_case_id(self) -> str:
-        return f"CASE-DA-2026-{len(self._cases) + 1:03d}"
+        with get_connection() as connection:
+            rows = connection.execute(
+                "SELECT case_id FROM review_cases"
+            ).fetchall()
+
+        sequence_numbers = [
+            int(row["case_id"].rsplit("-", 1)[-1])
+            for row in rows
+            if row["case_id"].startswith("CASE-DA-2026-")
+        ]
+        next_sequence = max(sequence_numbers, default=0) + 1
+        return f"CASE-DA-2026-{next_sequence:03d}"
+
+    def _insert_case(self, case: ReviewCase) -> None:
+        with get_connection() as connection:
+            connection.execute(
+                """
+                INSERT INTO review_cases (
+                    case_id,
+                    created_at,
+                    case_type,
+                    title,
+                    status,
+                    risk_level,
+                    reasons,
+                    customer,
+                    action_type,
+                    asset,
+                    amount,
+                    network,
+                    destination_address,
+                    wallet_type,
+                    reviewer_decision,
+                    reviewer_notes
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    case.case_id,
+                    case.created_at,
+                    case.case_type,
+                    case.title,
+                    case.status,
+                    case.risk_level,
+                    json.dumps(case.reasons),
+                    case.customer,
+                    case.action_type,
+                    case.asset,
+                    case.amount,
+                    case.network,
+                    case.destination_address,
+                    case.wallet_type,
+                    case.reviewer_decision,
+                    case.reviewer_notes,
+                ),
+            )
+
+    def _row_to_case(self, row: Row) -> ReviewCase:
+        return ReviewCase(
+            case_id=row["case_id"],
+            created_at=row["created_at"],
+            case_type=row["case_type"],
+            title=row["title"],
+            status=row["status"],
+            risk_level=row["risk_level"],
+            reasons=json.loads(row["reasons"]),
+            customer=row["customer"],
+            action_type=row["action_type"],
+            asset=row["asset"],
+            amount=row["amount"],
+            network=row["network"],
+            destination_address=row["destination_address"],
+            wallet_type=row["wallet_type"],
+            reviewer_decision=row["reviewer_decision"],
+            reviewer_notes=row["reviewer_notes"],
+        )
 
 
 review_case_service = ReviewCaseService()

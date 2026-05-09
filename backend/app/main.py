@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -7,6 +9,13 @@ from app.api.routes.payments import router as payments_router
 from app.api.routes.review_cases import router as review_cases_router
 from app.api.routes.withdrawals import router as withdrawals_router
 from app.core.config import settings
+from app.db.database import initialize_database
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    initialize_database()
+    yield
 
 
 def create_app() -> FastAPI:
@@ -16,6 +25,7 @@ def create_app() -> FastAPI:
         description=(
             "Simulated backend for the Aurora Digital Assets banking prototype."
         ),
+        lifespan=lifespan,
     )
 
     app.add_middleware(
