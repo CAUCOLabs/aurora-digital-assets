@@ -2,6 +2,10 @@ import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { primaryBankAccount } from '../data/bankAccounts'
+import {
+  evaluateDigitalAssetPayment,
+  type DigitalAssetPaymentEvaluateResponse,
+} from '../services/paymentsApi'
 
 type PaymentMethod = 'eur-transfer' | 'digital-asset'
 type PaymentAsset = 'EURD' | 'USDC' | 'USDT' | 'BTC' | 'ETH'
@@ -69,6 +73,10 @@ export function PaymentsPage() {
     useState<PaymentMethod>('eur-transfer')
   const [paymentAsset, setPaymentAsset] = useState<PaymentAsset>('EURD')
   const [status, setStatus] = useState<PaymentStatus>('draft')
+  const [backendEvaluation, setBackendEvaluation] =
+    useState<DigitalAssetPaymentEvaluateResponse | null>(null)
+  const [backendError, setBackendError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const parsedAmount = Number(amount.replace(',', '.'))
   const amountIsValid = Number.isFinite(parsedAmount) && parsedAmount > 0
@@ -116,6 +124,21 @@ export function PaymentsPage() {
       selectedRate,
     }
   }, [amountEur, paymentAsset, serviceFee, settlementFee])
+  const displayedEstimate = backendEvaluation?.estimate
+    ? {
+        totalCostEur: backendEvaluation.estimate.total_estimated_cost_eur,
+        assetAmount: backendEvaluation.estimate.estimated_asset_amount,
+        serviceFee: backendEvaluation.estimate.service_fee_eur,
+        settlementFee: backendEvaluation.estimate.settlement_fee_eur,
+        paymentAsset: backendEvaluation.estimate.payment_asset as PaymentAsset,
+      }
+    : {
+        totalCostEur: estimate.totalCostEur,
+        assetAmount: estimate.assetAmount,
+        serviceFee,
+        settlementFee,
+        paymentAsset,
+      }
 
   const auditEvents = [
     {
@@ -169,19 +192,65 @@ export function PaymentsPage() {
           },
         ]
       : []),
+    ...(backendEvaluation
+      ? [
+          {
+            title: 'Backend evaluation recorded',
+            detail: backendEvaluation.case_id
+              ? `${backendEvaluation.user_message} Case ${backendEvaluation.case_id} was created.`
+              : backendEvaluation.user_message,
+            status: backendEvaluation.decision.replaceAll('_', ' '),
+          },
+        ]
+      : []),
   ]
+
+  function markDraft() {
+    setStatus('draft')
+    setBackendEvaluation(null)
+    setBackendError(null)
+  }
 
   function updateEditableField(
     value: string,
     updateValue: (nextValue: string) => void,
   ) {
     updateValue(value)
-    setStatus('draft')
+    markDraft()
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!canSubmit) return
-    setStatus('submitted')
+    setIsSubmitting(true)
+    setBackendError(null)
+
+    if (paymentMethod !== 'digital-asset') {
+      setStatus('submitted')
+      setIsSubmitting(false)
+      return
+    }
+
+    try {
+      const evaluation = await evaluateDigitalAssetPayment({
+        recipient_name: recipient.trim(),
+        invoice_number: initialInvoice.invoiceNumber,
+        reference_number:
+          detailsMode === 'reference' ? referenceNumber.trim() : '',
+        amount_eur: amountEur,
+        payment_asset: paymentAsset,
+        source_account_id: primaryBankAccount.id,
+      })
+      setBackendEvaluation(evaluation)
+      setStatus('submitted')
+    } catch {
+      setBackendError(
+        'Backend evaluation unavailable. Showing local prototype estimate.',
+      )
+      setBackendEvaluation(null)
+      setStatus('submitted')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   function handleReset() {
@@ -200,6 +269,8 @@ export function PaymentsPage() {
     setPaymentMethod('eur-transfer')
     setPaymentAsset('EURD')
     setStatus('draft')
+    setBackendEvaluation(null)
+    setBackendError(null)
   }
 
   return (
@@ -320,7 +391,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setRecipientMode('own')
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   Own accounts
@@ -336,7 +407,7 @@ export function PaymentsPage() {
                   onClick={() => {
                     setRecipientMode('saved')
                     setRecipient(initialInvoice.recipient)
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   Saved recipient
@@ -351,7 +422,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setRecipientMode('new')
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   New recipient
@@ -407,7 +478,7 @@ export function PaymentsPage() {
                       checked={saveRecipient}
                       onChange={(event) => {
                         setSaveRecipient(event.target.checked)
-                        setStatus('draft')
+                        markDraft()
                       }}
                     />
                     Save recipient
@@ -434,7 +505,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setScheduleMode('one-time')
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   One-time payment
@@ -449,7 +520,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setScheduleMode('recurring')
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   Recurring payment
@@ -487,7 +558,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setDetailsMode('reference')
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   Reference number
@@ -502,7 +573,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setDetailsMode('message')
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   Message
@@ -556,7 +627,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setPaymentMethod('eur-transfer')
-                    setStatus('draft')
+                    markDraft()
                   }}
                 >
                   EUR bank transfer
@@ -571,7 +642,7 @@ export function PaymentsPage() {
                   }
                   onClick={() => {
                     setPaymentMethod('digital-asset')
-                    setStatus('draft')
+                    markDraft()
                   }}
                   disabled={!recipientEligible}
                 >
@@ -588,7 +659,7 @@ export function PaymentsPage() {
                         value={paymentAsset}
                         onChange={(event) => {
                           setPaymentAsset(event.target.value as PaymentAsset)
-                          setStatus('draft')
+                          markDraft()
                         }}
                       >
                         <option value="EURD">EUR digital asset concept</option>
@@ -613,25 +684,28 @@ export function PaymentsPage() {
                     <div>
                       <p>Estimated asset amount</p>
                       <strong>
-                        {formatAssetAmount(estimate.assetAmount, paymentAsset)}
+                        {formatAssetAmount(
+                          displayedEstimate.assetAmount,
+                          displayedEstimate.paymentAsset,
+                        )}
                       </strong>
                     </div>
                     <div>
                       <p>Total estimated cost</p>
-                      <strong>{formatEur(estimate.totalCostEur)}</strong>
+                      <strong>{formatEur(displayedEstimate.totalCostEur)}</strong>
                     </div>
                   </div>
 
                   <div className="assets-summary trade-summary">
                     <div>
                       <p>Service fee</p>
-                      <strong>{formatEur(serviceFee)}</strong>
+                      <strong>{formatEur(displayedEstimate.serviceFee)}</strong>
                       <span>{feeExplanation}</span>
                     </div>
 
                     <div className="custody-card">
                       <p>Settlement fee</p>
-                      <strong>{formatEur(settlementFee)}</strong>
+                      <strong>{formatEur(displayedEstimate.settlementFee)}</strong>
                       <span>{settlementExplanation}</span>
                     </div>
                   </div>
@@ -672,19 +746,23 @@ export function PaymentsPage() {
                 <label>
                   <input
                     type="checkbox"
-                    checked={moveToApprovalQueue}
-                    onChange={(event) => {
-                      setMoveToApprovalQueue(event.target.checked)
-                      setStatus('draft')
-                    }}
-                  />
+                      checked={moveToApprovalQueue}
+                      onChange={(event) => {
+                        setMoveToApprovalQueue(event.target.checked)
+                        markDraft()
+                      }}
+                    />
                   Move to approval queue
                 </label>
               </div>
 
               <div className="action-row">
-                <button type="button" onClick={handleSubmit} disabled={!canSubmit}>
-                  Submit payment
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={!canSubmit || isSubmitting}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit payment'}
                 </button>
                 <button
                   className="secondary-button"
@@ -734,7 +812,9 @@ export function PaymentsPage() {
                 <div>
                   <span>Status</span>
                   <strong>
-                    {visibleStatus === 'submitted'
+                    {backendEvaluation
+                      ? backendEvaluation.decision
+                      : visibleStatus === 'submitted'
                       ? 'Submitted'
                       : visibleStatus === 'ready'
                         ? 'Ready'
@@ -781,6 +861,29 @@ export function PaymentsPage() {
             <Panel>
               <p className="eyebrow">Payment protection</p>
               <h2>Controls active</h2>
+              {backendError && <p className="panel-note">{backendError}</p>}
+              {backendEvaluation && (
+                <div className="summary-list">
+                  <div>
+                    <span>Decision</span>
+                    <strong>{backendEvaluation.decision}</strong>
+                  </div>
+                  <div>
+                    <span>Risk level</span>
+                    <strong>{backendEvaluation.risk_level}</strong>
+                  </div>
+                  <div>
+                    <span>Message</span>
+                    <strong>{backendEvaluation.user_message}</strong>
+                  </div>
+                  {backendEvaluation.case_id && (
+                    <div>
+                      <span>Review case</span>
+                      <strong>{backendEvaluation.case_id}</strong>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="check-list">
                 <div>

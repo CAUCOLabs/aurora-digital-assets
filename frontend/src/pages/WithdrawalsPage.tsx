@@ -2,6 +2,10 @@ import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import {
+  evaluateWithdrawal,
+  type RiskDecisionResponse,
+} from '../services/withdrawalsApi'
 
 type WithdrawalAsset = 'BTC' | 'ETH' | 'USDC' | 'USDT' | 'EURD'
 type WalletType =
@@ -9,7 +13,12 @@ type WalletType =
   | 'Hardware wallet'
   | 'External crypto service'
   | 'Exchange deposit address'
-type WithdrawalStatus = 'draft' | 'pending_review'
+type WithdrawalStatus =
+  | 'draft'
+  | 'pending_review'
+  | 'auto_approved'
+  | 'auto_rejected'
+  | 'blocked'
 
 const assetLabels: Record<WithdrawalAsset, string> = {
   BTC: 'BTC — Bitcoin',
@@ -71,6 +80,10 @@ export function WithdrawalsPage() {
   const [confirmLeavesProtection, setConfirmLeavesProtection] = useState(false)
   const [confirmNetworkRisk, setConfirmNetworkRisk] = useState(false)
   const [status, setStatus] = useState<WithdrawalStatus>('draft')
+  const [backendDecision, setBackendDecision] =
+    useState<RiskDecisionResponse | null>(null)
+  const [backendError, setBackendError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const amountValue = parseAmount(amount)
   const addressEntered = destinationAddress.trim().length > 0
@@ -87,7 +100,11 @@ export function WithdrawalsPage() {
     amountValue > 0 && addressesMatch && allConfirmationsChecked && !isEurd
 
   const reviewStatus =
-    status === 'pending_review'
+    backendDecision
+      ? backendDecision.decision
+          .replaceAll('_', ' ')
+          .replace(/^\w/, (letter) => letter.toUpperCase())
+      : status === 'pending_review'
       ? 'Pending review'
       : !addressEntered
         ? 'Draft'
@@ -98,7 +115,11 @@ export function WithdrawalsPage() {
             : 'Draft'
 
   const riskLevel =
-    reviewStatus === 'Address mismatch' || walletType === 'Exchange deposit address'
+    backendDecision
+      ? backendDecision.risk_level
+          .replace(/^\w/, (letter) => letter.toUpperCase())
+      : reviewStatus === 'Address mismatch' ||
+          walletType === 'Exchange deposit address'
       ? 'High'
       : addressEntered || walletType === 'External crypto service'
         ? 'Medium'
@@ -144,6 +165,16 @@ export function WithdrawalsPage() {
       })
     }
 
+    if (backendDecision) {
+      events.push({
+        title: 'Backend evaluation recorded',
+        detail: backendDecision.case_id
+          ? `${backendDecision.user_message} Case ${backendDecision.case_id} was created.`
+          : backendDecision.user_message,
+        status: backendDecision.decision.replaceAll('_', ' '),
+      })
+    }
+
     return events
   }, [
     addressEntered,
@@ -153,23 +184,58 @@ export function WithdrawalsPage() {
     asset,
     isEurd,
     network,
+    backendDecision,
     status,
     walletType,
   ])
 
   function markDraft() {
     setStatus('draft')
+    setBackendDecision(null)
+    setBackendError(null)
   }
 
   function handleAssetChange(nextAsset: WithdrawalAsset) {
     setAsset(nextAsset)
     setNetwork(networkOptions[nextAsset][0])
-    setStatus('draft')
+    markDraft()
   }
 
-  function handleSubmitReview() {
+  async function handleSubmitReview() {
     if (!canSubmit) return
-    setStatus('pending_review')
+    setIsSubmitting(true)
+    setBackendError(null)
+
+    try {
+      const decision = await evaluateWithdrawal({
+        asset,
+        network,
+        amount: amountValue,
+        destination_address: destinationAddress.trim(),
+        confirm_destination_address: confirmDestinationAddress.trim(),
+        wallet_type:
+          walletType === 'Hardware wallet' ? 'trusted_address' : 'external_wallet',
+      })
+      setBackendDecision(decision)
+      if (
+        decision.decision === 'auto_approved' ||
+        decision.decision === 'pending_review' ||
+        decision.decision === 'auto_rejected' ||
+        decision.decision === 'blocked'
+      ) {
+        setStatus(decision.decision)
+      } else {
+        setStatus('pending_review')
+      }
+    } catch {
+      setBackendError(
+        'Backend evaluation unavailable. Showing local prototype status.',
+      )
+      setBackendDecision(null)
+      setStatus('pending_review')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   function handleReset() {
@@ -185,6 +251,8 @@ export function WithdrawalsPage() {
     setConfirmLeavesProtection(false)
     setConfirmNetworkRisk(false)
     setStatus('draft')
+    setBackendDecision(null)
+    setBackendError(null)
   }
 
   return (
@@ -482,9 +550,9 @@ export function WithdrawalsPage() {
                 <button
                   type="button"
                   onClick={handleSubmitReview}
-                  disabled={!canSubmit}
+                  disabled={!canSubmit || isSubmitting}
                 >
-                  Submit for review
+                  {isSubmitting ? 'Submitting...' : 'Submit for review'}
                 </button>
                 <button
                   className="secondary-button"
@@ -544,6 +612,31 @@ export function WithdrawalsPage() {
             <Panel>
               <p className="eyebrow">Review status</p>
               <h2>Transfer protection</h2>
+              {backendError && (
+                <p className="panel-note">{backendError}</p>
+              )}
+              {backendDecision && (
+                <div className="summary-list">
+                  <div>
+                    <span>Decision</span>
+                    <strong>{backendDecision.decision}</strong>
+                  </div>
+                  <div>
+                    <span>Risk level</span>
+                    <strong>{backendDecision.risk_level}</strong>
+                  </div>
+                  <div>
+                    <span>Message</span>
+                    <strong>{backendDecision.user_message}</strong>
+                  </div>
+                  {backendDecision.case_id && (
+                    <div>
+                      <span>Review case</span>
+                      <strong>{backendDecision.case_id}</strong>
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="check-list">
                 <div>
                   <span className="status-dot"></span>
