@@ -138,6 +138,9 @@ const monitoringSignals = [
   'Audit trail available',
 ]
 
+const defaultDecisionNotes =
+  'Simulated reviewer decision from Compliance Review dashboard.'
+
 export function ComplianceReviewPage() {
   const [selectedDecision, setSelectedDecision] =
     useState<ReviewerDecision | null>(null)
@@ -146,8 +149,9 @@ export function ComplianceReviewPage() {
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isRecordingDecision, setIsRecordingDecision] = useState(false)
-  const [backendUnavailable, setBackendUnavailable] = useState(false)
+  const [backendError, setBackendError] = useState<string | null>(null)
   const [reviewerMessage, setReviewerMessage] = useState<string | null>(null)
+  const [decisionNotes, setDecisionNotes] = useState(defaultDecisionNotes)
 
   const activeReviewCases = reviewCases.length > 0 ? reviewCases : reviewQueue
   const selectedCaseIdOrDefault =
@@ -157,9 +161,15 @@ export function ComplianceReviewPage() {
       (reviewCase) => reviewCase.case_id === selectedCaseIdOrDefault,
     ) ??
     activeReviewCases[0]
+  const selectedCaseAuditEvents =
+    selectedCase?.case_id && auditEvents.length > 0
+      ? auditEvents.filter((event) => event.case_id === selectedCase.case_id)
+      : []
+  const visibleAuditEvents =
+    selectedCaseAuditEvents.length > 0 ? selectedCaseAuditEvents : auditEvents
   const activeEvidenceTimeline =
-    auditEvents.length > 0
-      ? auditEvents.map((event) => ({
+    visibleAuditEvents.length > 0
+      ? visibleAuditEvents.map((event) => ({
           title: event.action_type.replaceAll('_', ' '),
           detail:
             event.user_message ??
@@ -189,12 +199,14 @@ export function ComplianceReviewPage() {
       ])
       setReviewCases(cases)
       setAuditEvents(events)
-      setBackendUnavailable(false)
+      setBackendError(null)
       setSelectedCaseId((currentCaseId) => currentCaseId ?? cases[0]?.case_id ?? null)
     } catch {
       setReviewCases([])
       setAuditEvents([])
-      setBackendUnavailable(true)
+      setBackendError(
+        'Backend review data unavailable. Showing local prototype data.',
+      )
     } finally {
       setIsLoading(false)
     }
@@ -206,8 +218,10 @@ export function ComplianceReviewPage() {
   ) {
     setSelectedDecision(nextDecision)
 
-    if (backendUnavailable || !selectedCase) {
-      setReviewerMessage('Reviewer decision recorded in local prototype view.')
+    if (backendError || !selectedCase || reviewCases.length === 0) {
+      setReviewerMessage(
+        `Reviewer decision recorded locally: ${backendDecision}`,
+      )
       return
     }
 
@@ -217,13 +231,15 @@ export function ComplianceReviewPage() {
     try {
       const updatedCase = await recordReviewerDecision(selectedCase.case_id, {
         decision: backendDecision,
-        notes: `Reviewer selected ${nextDecision}.`,
+        notes: decisionNotes.trim() || defaultDecisionNotes,
       })
       setSelectedCaseId(updatedCase.case_id)
-      setReviewerMessage('Reviewer decision recorded.')
+      setReviewerMessage(`Reviewer decision recorded: ${backendDecision}`)
       await fetchBackendReviewData()
     } catch {
-      setBackendUnavailable(true)
+      setBackendError(
+        'Backend review data unavailable. Showing local prototype data.',
+      )
       setReviewerMessage(
         'Backend review data unavailable. Showing local prototype data.',
       )
@@ -266,11 +282,7 @@ export function ComplianceReviewPage() {
                 </span>
               </div>
               {isLoading && <p className="panel-note">Loading review data...</p>}
-              {backendUnavailable && (
-                <p className="panel-note">
-                  Backend review data unavailable. Showing local prototype data.
-                </p>
-              )}
+              {backendError && <p className="panel-note">{backendError}</p>}
 
               <div className="account-list">
                 {activeReviewCases.map((reviewCase) => (
@@ -387,6 +399,16 @@ export function ComplianceReviewPage() {
             <Panel>
               <p className="eyebrow">Reviewer actions</p>
               <h2>Decision workflow</h2>
+
+              <div className="form-grid">
+                <label>
+                  Reviewer notes
+                  <textarea
+                    value={decisionNotes}
+                    onChange={(event) => setDecisionNotes(event.target.value)}
+                  />
+                </label>
+              </div>
 
               <div className="action-row vertical-actions">
                 <button
