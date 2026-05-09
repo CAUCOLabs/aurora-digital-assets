@@ -1,6 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import {
+  listAuditEvents,
+  listReviewCases,
+  recordReviewerDecision,
+  type AuditEvent,
+  type ReviewCase,
+} from '../services/complianceApi'
 
 type ReviewerDecision =
   | 'Approve'
@@ -8,38 +15,87 @@ type ReviewerDecision =
   | 'Request information'
   | 'Escalate'
 
+type LocalReviewCase = {
+  case_id: string
+  case_type: string
+  title: string
+  detail: string
+  status: string
+  risk_level: string
+  customer: string
+  asset: string
+  amount: number
+  network: string
+  reasons: string[]
+}
+
 const reviewQueue = [
   {
+    case_id: 'CASE-DA-2026-001',
+    case_type: 'external_withdrawal_review',
     title: 'External BTC withdrawal',
     detail: 'Pending review',
     status: 'Pending review',
-    risk: 'Medium risk',
+    risk_level: 'medium',
+    customer: 'Claudio Demo',
+    asset: 'BTC',
+    amount: 0.001,
+    network: 'Bitcoin',
+    reasons: ['New wallet address', 'External transfer requested'],
   },
   {
+    case_id: 'CASE-DA-2026-002',
+    case_type: 'external_withdrawal_review',
     title: 'New external wallet address',
     detail: 'Review required',
     status: 'Review required',
-    risk: 'Medium risk',
+    risk_level: 'medium',
+    customer: 'Claudio Demo',
+    asset: 'ETH',
+    amount: 0.05,
+    network: 'Ethereum',
+    reasons: ['Address review required'],
   },
   {
+    case_id: 'CASE-DA-2026-003',
+    case_type: 'digital_asset_payment_review',
     title: 'Digital asset invoice payment',
     detail: 'Recorded',
     status: 'Recorded',
-    risk: 'Low risk',
+    risk_level: 'low',
+    customer: 'Claudio Demo',
+    asset: 'EURD',
+    amount: 120.45,
+    network: 'banking settlement',
+    reasons: ['Eligible business recipient'],
   },
   {
+    case_id: 'CASE-DA-2026-004',
+    case_type: 'digital_asset_payment_review',
     title: 'Large USDC payment',
     detail: 'Monitoring event',
     status: 'Monitoring event',
-    risk: 'Low risk',
+    risk_level: 'low',
+    customer: 'Claudio Demo',
+    asset: 'USDC',
+    amount: 750,
+    network: 'banking settlement',
+    reasons: ['High value digital asset payment'],
   },
   {
+    case_id: 'CASE-DA-2026-005',
+    case_type: 'wallet_risk_review',
     title: 'Wallet risk check',
     detail: 'Escalated',
     status: 'Escalated',
-    risk: 'High risk',
+    risk_level: 'high',
+    customer: 'Claudio Demo',
+    asset: 'BTC',
+    amount: 0.002,
+    network: 'Bitcoin',
+    reasons: ['Wallet risk check enabled'],
   },
-]
+] satisfies LocalReviewCase[]
 
 const evidenceTimeline = [
   {
@@ -85,6 +141,96 @@ const monitoringSignals = [
 export function ComplianceReviewPage() {
   const [selectedDecision, setSelectedDecision] =
     useState<ReviewerDecision | null>(null)
+  const [reviewCases, setReviewCases] = useState<ReviewCase[]>([])
+  const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([])
+  const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isRecordingDecision, setIsRecordingDecision] = useState(false)
+  const [backendUnavailable, setBackendUnavailable] = useState(false)
+  const [reviewerMessage, setReviewerMessage] = useState<string | null>(null)
+
+  const activeReviewCases = reviewCases.length > 0 ? reviewCases : reviewQueue
+  const selectedCaseIdOrDefault =
+    selectedCaseId ?? activeReviewCases[0]?.case_id ?? null
+  const selectedCase =
+    activeReviewCases.find(
+      (reviewCase) => reviewCase.case_id === selectedCaseIdOrDefault,
+    ) ??
+    activeReviewCases[0]
+  const activeEvidenceTimeline =
+    auditEvents.length > 0
+      ? auditEvents.map((event) => ({
+          title: event.action_type.replaceAll('_', ' '),
+          detail:
+            event.user_message ??
+            `${event.module} event ${event.event_id} recorded.`,
+          status: event.status,
+        }))
+      : evidenceTimeline
+  const activeMonitoringSignals = useMemo(() => {
+    if (!selectedCase) return monitoringSignals
+    const reasonSignals = selectedCase.reasons.map((reason) =>
+      reason.replaceAll('_', ' '),
+    )
+    return reasonSignals.length > 0 ? reasonSignals : monitoringSignals
+  }, [selectedCase])
+
+  useEffect(() => {
+    void fetchBackendReviewData()
+  }, [])
+
+  async function fetchBackendReviewData() {
+    setIsLoading(true)
+
+    try {
+      const [cases, events] = await Promise.all([
+        listReviewCases(),
+        listAuditEvents(),
+      ])
+      setReviewCases(cases)
+      setAuditEvents(events)
+      setBackendUnavailable(false)
+      setSelectedCaseId((currentCaseId) => currentCaseId ?? cases[0]?.case_id ?? null)
+    } catch {
+      setReviewCases([])
+      setAuditEvents([])
+      setBackendUnavailable(true)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function handleReviewerDecision(
+    nextDecision: ReviewerDecision,
+    backendDecision: string,
+  ) {
+    setSelectedDecision(nextDecision)
+
+    if (backendUnavailable || !selectedCase) {
+      setReviewerMessage('Reviewer decision recorded in local prototype view.')
+      return
+    }
+
+    setIsRecordingDecision(true)
+    setReviewerMessage(null)
+
+    try {
+      const updatedCase = await recordReviewerDecision(selectedCase.case_id, {
+        decision: backendDecision,
+        notes: `Reviewer selected ${nextDecision}.`,
+      })
+      setSelectedCaseId(updatedCase.case_id)
+      setReviewerMessage('Reviewer decision recorded.')
+      await fetchBackendReviewData()
+    } catch {
+      setBackendUnavailable(true)
+      setReviewerMessage(
+        'Backend review data unavailable. Showing local prototype data.',
+      )
+    } finally {
+      setIsRecordingDecision(false)
+    }
+  }
 
   return (
     <div className="bank-shell">
@@ -115,18 +261,34 @@ export function ComplianceReviewPage() {
                   <p className="eyebrow">Review queue</p>
                   <h2>Open review queue</h2>
                 </div>
-                <span className="module-tag">Simulated cases</span>
+                <span className="module-tag">
+                  {reviewCases.length > 0 ? 'Backend cases' : 'Simulated cases'}
+                </span>
               </div>
+              {isLoading && <p className="panel-note">Loading review data...</p>}
+              {backendUnavailable && (
+                <p className="panel-note">
+                  Backend review data unavailable. Showing local prototype data.
+                </p>
+              )}
 
               <div className="account-list">
-                {reviewQueue.map((reviewCase) => (
-                  <article className="account-row" key={reviewCase.title}>
+                {activeReviewCases.map((reviewCase) => (
+                  <article
+                    className="account-row"
+                    key={reviewCase.case_id}
+                    onClick={() => setSelectedCaseId(reviewCase.case_id)}
+                  >
                     <div>
                       <h3>{reviewCase.title}</h3>
-                      <p>{reviewCase.detail}</p>
+                      <p>
+                        {'detail' in reviewCase
+                          ? reviewCase.detail
+                          : reviewCase.case_type.replaceAll('_', ' ')}
+                      </p>
                       <span>{reviewCase.status}</span>
                     </div>
-                    <strong>{reviewCase.risk}</strong>
+                    <strong>{reviewCase.risk_level} risk</strong>
                   </article>
                 ))}
               </div>
@@ -142,7 +304,7 @@ export function ComplianceReviewPage() {
               </div>
 
               <div className="account-list">
-                {evidenceTimeline.map((event) => (
+                {activeEvidenceTimeline.map((event) => (
                   <article className="account-row" key={event.title}>
                     <div>
                       <h3>{event.title}</h3>
@@ -164,7 +326,7 @@ export function ComplianceReviewPage() {
               </div>
 
               <div className="check-list">
-                {monitoringSignals.map((signal) => (
+                {activeMonitoringSignals.map((signal) => (
                   <div key={signal}>
                     <span className="status-dot"></span>
                     {signal}
@@ -177,40 +339,47 @@ export function ComplianceReviewPage() {
           <aside className="right-column">
             <Panel>
               <p className="eyebrow">Selected case</p>
-              <h2>CASE-DA-2026-001</h2>
+              <h2>{selectedCase?.case_id ?? 'No case selected'}</h2>
 
               <div className="summary-list">
                 <div>
                   <span>Case ID</span>
-                  <strong>CASE-DA-2026-001</strong>
+                  <strong>{selectedCase?.case_id ?? 'Not available'}</strong>
                 </div>
                 <div>
                   <span>Type</span>
-                  <strong>External withdrawal review</strong>
+                  <strong>
+                    {selectedCase?.case_type.replaceAll('_', ' ') ??
+                      'Not available'}
+                  </strong>
                 </div>
                 <div>
                   <span>Customer</span>
-                  <strong>Claudio Demo</strong>
+                  <strong>{selectedCase?.customer ?? 'Not available'}</strong>
                 </div>
                 <div>
                   <span>Asset</span>
-                  <strong>BTC</strong>
+                  <strong>{selectedCase?.asset ?? 'Not available'}</strong>
                 </div>
                 <div>
                   <span>Amount</span>
-                  <strong>0.001 BTC</strong>
+                  <strong>
+                    {selectedCase
+                      ? `${selectedCase.amount} ${selectedCase.asset}`
+                      : 'Not available'}
+                  </strong>
                 </div>
                 <div>
                   <span>Network</span>
-                  <strong>Bitcoin</strong>
+                  <strong>{selectedCase?.network ?? 'Not available'}</strong>
                 </div>
                 <div>
                   <span>Status</span>
-                  <strong>Pending review</strong>
+                  <strong>{selectedCase?.status ?? 'Not available'}</strong>
                 </div>
                 <div>
                   <span>Risk score</span>
-                  <strong>Medium</strong>
+                  <strong>{selectedCase?.risk_level ?? 'Not available'}</strong>
                 </div>
               </div>
             </Panel>
@@ -220,27 +389,39 @@ export function ComplianceReviewPage() {
               <h2>Decision workflow</h2>
 
               <div className="action-row vertical-actions">
-                <button type="button" onClick={() => setSelectedDecision('Approve')}>
+                <button
+                  type="button"
+                  disabled={isRecordingDecision || !selectedCase}
+                  onClick={() => handleReviewerDecision('Approve', 'approve')}
+                >
                   Approve
                 </button>
                 <button
                   className="secondary-button"
                   type="button"
-                  onClick={() => setSelectedDecision('Reject')}
+                  disabled={isRecordingDecision || !selectedCase}
+                  onClick={() => handleReviewerDecision('Reject', 'reject')}
                 >
                   Reject
                 </button>
                 <button
                   className="secondary-button"
                   type="button"
-                  onClick={() => setSelectedDecision('Request information')}
+                  disabled={isRecordingDecision || !selectedCase}
+                  onClick={() =>
+                    handleReviewerDecision(
+                      'Request information',
+                      'request_information',
+                    )
+                  }
                 >
                   Request information
                 </button>
                 <button
                   className="secondary-button"
                   type="button"
-                  onClick={() => setSelectedDecision('Escalate')}
+                  disabled={isRecordingDecision || !selectedCase}
+                  onClick={() => handleReviewerDecision('Escalate', 'escalate')}
                 >
                   Escalate
                 </button>
@@ -250,6 +431,9 @@ export function ComplianceReviewPage() {
                 Reviewer decision:{' '}
                 {selectedDecision ?? 'No decision selected'}
               </p>
+              {reviewerMessage && (
+                <p className="panel-note">{reviewerMessage}</p>
+              )}
             </Panel>
 
             <Panel>
