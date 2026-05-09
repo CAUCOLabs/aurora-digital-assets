@@ -1,5 +1,9 @@
 from datetime import datetime, timezone
 
+from app.schemas.payment import (
+    DigitalAssetPaymentEvaluateRequest,
+    DigitalAssetPaymentEvaluateResponse,
+)
 from app.schemas.review_case import ReviewCase
 from app.schemas.risk_review import RiskDecisionResponse
 from app.schemas.withdrawal import WithdrawalEvaluateRequest
@@ -41,6 +45,31 @@ class ReviewCaseService:
             network=request.network.strip(),
             destination_address=request.destination_address.strip(),
             wallet_type=request.wallet_type.strip(),
+        )
+        self._cases.append(case)
+        return case
+
+    def create_digital_asset_payment_case(
+        self,
+        request: DigitalAssetPaymentEvaluateRequest,
+        decision: DigitalAssetPaymentEvaluateResponse,
+    ) -> ReviewCase:
+        asset = request.payment_asset.strip().upper()
+        case = ReviewCase(
+            case_id=self._next_case_id(),
+            created_at=datetime.now(timezone.utc).isoformat(),
+            case_type=decision.case_type or "digital_asset_payment_review",
+            title="Digital asset invoice payment",
+            status="Pending review",
+            risk_level=decision.risk_level,
+            reasons=decision.reasons,
+            customer="Claudio Demo",
+            action_type=decision.audit_event_type,
+            asset=asset,
+            amount=request.amount_eur,
+            network="banking settlement",
+            destination_address=request.recipient_name.strip(),
+            wallet_type="verified_business_recipient",
         )
         self._cases.append(case)
         return case
