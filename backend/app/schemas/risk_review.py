@@ -20,5 +20,6 @@ class RiskDecisionResponse(BaseModel):
     reasons: list[str]
     case_required: bool
     case_type: str | None
+    case_id: str | None = None
     user_message: str
     audit_event_type: str
