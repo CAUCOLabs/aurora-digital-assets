@@ -3,6 +3,7 @@ import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { AccountRow } from '../components/AccountRow'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
+import { PrivacyAmount } from '../components/PrivacyAmount'
 import { accounts, digitalAssets, notifications } from '../data/dashboardData'
 
 export function DashboardPage() {
@@ -59,7 +60,12 @@ export function DashboardPage() {
               <div className="assets-summary">
                 <div>
                   <p>Total digital assets value</p>
-                  <strong>1 245,80 €</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value="1 245,80 €"
+                      label="Total digital assets value"
+                    />
+                  </strong>
                   <span>
                     Digital assets are volatile and are separate from bank
                     deposits.

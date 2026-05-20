@@ -1,3 +1,5 @@
+import { PrivacyAmount } from './PrivacyAmount'
+
 type DigitalAsset = {
   asset: string
   symbol: string
@@ -15,9 +17,16 @@ export function DigitalAssetRow({ asset }: DigitalAssetRowProps) {
       <div className="asset-symbol">{asset.symbol}</div>
       <div>
         <h3>{asset.asset}</h3>
-        <p>{asset.balance}</p>
+        <p>
+          <PrivacyAmount
+            value={asset.balance}
+            label={`${asset.asset} balance`}
+          />
+        </p>
       </div>
-      <strong>{asset.value}</strong>
+      <strong>
+        <PrivacyAmount value={asset.value} label={`${asset.asset} value`} />
+      </strong>
     </article>
   )
 }

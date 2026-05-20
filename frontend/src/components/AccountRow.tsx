@@ -1,3 +1,5 @@
+import { PrivacyAmount } from './PrivacyAmount'
+
 type Account = {
   name: string
   type: string
@@ -17,7 +19,9 @@ export function AccountRow({ account }: AccountRowProps) {
         <p>{account.type}</p>
         <span>{account.maskedIban}</span>
       </div>
-      <strong>{account.balance}</strong>
+      <strong>
+        <PrivacyAmount value={account.balance} label={`${account.name} balance`} />
+      </strong>
     </article>
   )
 }

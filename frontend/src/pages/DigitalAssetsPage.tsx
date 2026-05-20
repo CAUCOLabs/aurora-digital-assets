@@ -3,6 +3,7 @@ import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import { PrivacyAmount } from '../components/PrivacyAmount'
 import { digitalAssets } from '../data/dashboardData'
 
 const recentActivity = [
@@ -61,7 +62,12 @@ export function DigitalAssetsPage() {
               <div className="assets-summary">
                 <div>
                   <p>Current estimated value</p>
-                  <strong>1 245,80 €</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value="1 245,80 €"
+                      label="Current estimated value"
+                    />
+                  </strong>
                   <span>
                     This value is based on mock market prices and is shown for
                     prototype purposes only.

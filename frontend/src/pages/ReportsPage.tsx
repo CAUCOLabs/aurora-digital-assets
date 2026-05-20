@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import { PrivacyAmount } from '../components/PrivacyAmount'
 import {
   listAuditEvents,
   listReviewCases,
@@ -381,17 +382,30 @@ export function ReportsPage() {
                     <div>
                       <p>Total purchases</p>
                       <strong>
-                        {formatEur(taxSummary.total_purchases_eur)}
+                        <PrivacyAmount
+                          value={formatEur(taxSummary.total_purchases_eur)}
+                          label="Total purchases"
+                        />
                       </strong>
                     </div>
                     <div>
                       <p>Total sales</p>
-                      <strong>{formatEur(taxSummary.total_sales_eur)}</strong>
+                      <strong>
+                        <PrivacyAmount
+                          value={formatEur(taxSummary.total_sales_eur)}
+                          label="Total sales"
+                        />
+                      </strong>
                     </div>
                     <div>
                       <p>Digital asset payments</p>
                       <strong>
-                        {formatEur(taxSummary.digital_asset_payments_eur)}
+                        <PrivacyAmount
+                          value={formatEur(
+                            taxSummary.digital_asset_payments_eur,
+                          )}
+                          label="Digital asset payments"
+                        />
                       </strong>
                     </div>
                     <div>
@@ -403,9 +417,12 @@ export function ReportsPage() {
                     <div>
                       <p>Estimated realized gain/loss</p>
                       <strong>
-                        {formatEur(
-                          taxSummary.estimated_realized_gain_loss_eur,
-                        )}
+                        <PrivacyAmount
+                          value={formatEur(
+                            taxSummary.estimated_realized_gain_loss_eur,
+                          )}
+                          label="Estimated realized gain or loss"
+                        />
                       </strong>
                     </div>
                   </div>

@@ -3,6 +3,7 @@ import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import { PrivacyAmount } from '../components/PrivacyAmount'
 import { digitalAssets } from '../data/dashboardData'
 
 const walletActivity = [
@@ -62,7 +63,12 @@ export function WalletPage() {
               <div className="assets-summary">
                 <div>
                   <p>Total wallet value</p>
-                  <strong>1 245,80 €</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value="1 245,80 €"
+                      label="Total wallet value"
+                    />
+                  </strong>
                   <span>
                     Estimated value based on mock market prices. Digital assets
                     are separate from bank deposits.
