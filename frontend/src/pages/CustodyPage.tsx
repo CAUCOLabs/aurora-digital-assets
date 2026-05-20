@@ -1,25 +1,29 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import {
+  getCustodyStatus,
+  type CustodyStatus,
+} from '../services/digitalAssetsApi'
 
-const custodyQuestions = [
-  {
-    question: 'Who holds the asset?',
-    answer:
-      'In this concept, assets are shown inside the banking interface through an internal custodial wallet or regulated custody partner model.',
-  },
-  {
-    question: 'Does the user manage private keys?',
-    answer:
-      'No. In the internal custodial wallet concept, the user does not see seed phrases or sign blockchain transactions manually.',
-  },
-  {
-    question: 'Can the user withdraw externally?',
-    answer:
-      'Yes, but external withdrawals are treated as higher-risk actions and may require security review before completion.',
-  },
-]
+const fallbackCustodyStatus: CustodyStatus = {
+  custodyMode: 'Internal custodial wallet concept',
+  privateKeysExposed: false,
+  assetsSeparateFromDeposits: true,
+  auditTrailEnabled: true,
+  externalWithdrawalsRequireReview: true,
+  userMessage:
+    'Digital assets are visible inside online banking, but the user does not manage private keys directly in this prototype.',
+  controls: [
+    'Strong authentication active',
+    'User does not manage private keys',
+    'Audit trail enabled',
+    'External withdrawals require review',
+    'Digital assets are separate from deposits',
+  ],
+}
 
 const custodyEvents = [
   {
@@ -39,7 +43,89 @@ const custodyEvents = [
   },
 ]
 
+function getCustodyQuestions(custodyStatus: CustodyStatus) {
+  return [
+    {
+      question: 'Who holds the asset?',
+      answer: `In this prototype, assets are shown inside the banking interface through the ${custodyStatus.custodyMode.toLowerCase()}.`,
+    },
+    {
+      question: 'Does the user manage private keys?',
+      answer: custodyStatus.privateKeysExposed
+        ? 'This prototype status indicates private key exposure, which would require additional user warnings and controls.'
+        : 'No. In this prototype, the user does not see seed phrases or sign blockchain transactions manually.',
+    },
+    {
+      question: 'Can the user withdraw externally?',
+      answer: custodyStatus.externalWithdrawalsRequireReview
+        ? 'Yes, but external withdrawals are treated as higher-risk actions and require review before completion in this prototype.'
+        : 'External withdrawal review is not marked as active in the current prototype status.',
+    },
+  ]
+}
+
+function getStatusItems(custodyStatus: CustodyStatus) {
+  return [
+    {
+      label: 'Digital assets visible in banking UI',
+      active: true,
+      warning: false,
+    },
+    {
+      label: custodyStatus.privateKeysExposed
+        ? 'Private keys exposed to user'
+        : 'User does not manage private keys',
+      active: !custodyStatus.privateKeysExposed,
+      warning: custodyStatus.privateKeysExposed,
+    },
+    {
+      label: 'Digital assets are separate from deposits',
+      active: custodyStatus.assetsSeparateFromDeposits,
+      warning: true,
+    },
+    {
+      label: 'Audit trail enabled',
+      active: custodyStatus.auditTrailEnabled,
+      warning: false,
+    },
+    {
+      label: 'External withdrawals require review',
+      active: custodyStatus.externalWithdrawalsRequireReview,
+      warning: true,
+    },
+  ]
+}
+
 export function CustodyPage() {
+  const [custodyStatus, setCustodyStatus] = useState<CustodyStatus | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [backendError, setBackendError] = useState<string | null>(null)
+
+  const visibleCustodyStatus = custodyStatus ?? fallbackCustodyStatus
+  const custodyQuestions = getCustodyQuestions(visibleCustodyStatus)
+  const statusItems = getStatusItems(visibleCustodyStatus)
+
+  useEffect(() => {
+    async function fetchCustodyStatus() {
+      setIsLoading(true)
+
+      try {
+        const status = await getCustodyStatus()
+        setCustodyStatus(status)
+        setBackendError(null)
+      } catch {
+        setCustodyStatus(fallbackCustodyStatus)
+        setBackendError(
+          'Backend custody data unavailable. Showing local prototype fallback.',
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    void fetchCustodyStatus()
+  }, [])
+
   return (
     <div className="bank-shell">
       <TopBar userName="Claudio Demo" />
@@ -74,19 +160,31 @@ export function CustodyPage() {
                 <span className="module-tag">v0.2 concept</span>
               </div>
 
+              {isLoading && <p className="panel-note">Loading custody data...</p>}
+              {backendError ? (
+                <p className="panel-note">{backendError}</p>
+              ) : (
+                !isLoading && (
+                  <p className="panel-note">
+                    Custody data loaded from local FastAPI prototype.
+                  </p>
+                )
+              )}
+
               <div className="assets-summary">
                 <div>
                   <p>Custody model</p>
-                  <strong>Internal custodial wallet</strong>
-                  <span>
-                    Digital assets are visible inside online banking, but the
-                    user does not manage private keys directly.
-                  </span>
+                  <strong>{visibleCustodyStatus.custodyMode}</strong>
+                  <span>{visibleCustodyStatus.userMessage}</span>
                 </div>
 
                 <div className="custody-card">
                   <p>Product boundary</p>
-                  <strong>Separate from bank deposits</strong>
+                  <strong>
+                    {visibleCustodyStatus.assetsSeparateFromDeposits
+                      ? 'Separate from bank deposits'
+                      : 'Deposit boundary not confirmed'}
+                  </strong>
                   <span>
                     Digital assets can lose value and are not presented as
                     deposit-like products in this prototype.
@@ -131,16 +229,25 @@ export function CustodyPage() {
               <div className="assets-summary">
                 <div>
                   <p>Inside banking environment</p>
-                  <strong>Controls active</strong>
+                  <strong>
+                    {visibleCustodyStatus.auditTrailEnabled
+                      ? 'Controls active'
+                      : 'Controls not confirmed'}
+                  </strong>
                   <span>
                     Authentication, monitoring, reporting, support processes,
-                    withdrawal review, and audit trail concepts may apply.
+                    withdrawal review, and audit trail concepts may apply in
+                    this prototype.
                   </span>
                 </div>
 
                 <div className="custody-card">
                   <p>Outside banking environment</p>
-                  <strong>User responsibility increases</strong>
+                  <strong>
+                    {visibleCustodyStatus.externalWithdrawalsRequireReview
+                      ? 'Review required before transfer'
+                      : 'User responsibility increases'}
+                  </strong>
                   <span>
                     Wrong addresses, private key loss, scams, or incompatible
                     networks may be difficult or impossible to recover.
@@ -179,22 +286,38 @@ export function CustodyPage() {
               <h2>What the user sees</h2>
 
               <div className="check-list">
-                <div>
-                  <span className="status-dot"></span>
-                  Digital assets visible in banking UI
-                </div>
-                <div>
-                  <span className="status-dot"></span>
-                  Private keys not exposed to user
-                </div>
-                <div>
-                  <span className="status-dot"></span>
-                  Audit trail enabled
-                </div>
-                <div>
-                  <span className="warning-dot"></span>
-                  Assets are separate from deposits
-                </div>
+                {statusItems.map((item) => (
+                  <div key={item.label}>
+                    <span
+                      className={
+                        item.warning || !item.active
+                          ? 'warning-dot'
+                          : 'status-dot'
+                      }
+                    ></span>
+                    {item.label}
+                  </div>
+                ))}
+              </div>
+            </Panel>
+
+            <Panel>
+              <p className="eyebrow">Backend controls</p>
+              <h2>Controls</h2>
+
+              <div className="check-list">
+                {visibleCustodyStatus.controls.map((control) => (
+                  <div key={control}>
+                    <span
+                      className={
+                        control.toLowerCase().includes('separate')
+                          ? 'warning-dot'
+                          : 'status-dot'
+                      }
+                    ></span>
+                    {control}
+                  </div>
+                ))}
               </div>
             </Panel>
 
@@ -206,6 +329,7 @@ export function CustodyPage() {
                 lose access to bank-side controls such as withdrawal review,
                 support workflows, and organized reporting.
               </p>
+              <p>{visibleCustodyStatus.userMessage}</p>
             </Panel>
 
             <Panel>
