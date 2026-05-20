@@ -1,11 +1,20 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import {
-  connectedDigitalAssetBalances,
+  connectedDigitalAssetBalances as fallbackConnectedDigitalAssetBalances,
   primaryBankAccount,
-  recentBankTransactions,
+  recentBankTransactions as fallbackRecentBankTransactions,
 } from '../data/bankAccounts'
+import {
+  listAccountTransactions,
+  listAccounts,
+  listConnectedDigitalAssetBalances,
+  type BankAccount,
+  type BankTransaction,
+  type ConnectedDigitalAssetBalance,
+} from '../services/accountsApi'
 
 const openAccountOptions = [
   'Current account',
@@ -22,7 +31,59 @@ const documentOptions = [
 ]
 
 export function AccountsPage() {
-  const bankAccount = primaryBankAccount
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([
+    primaryBankAccount,
+  ])
+  const [transactions, setTransactions] = useState<BankTransaction[]>(
+    fallbackRecentBankTransactions,
+  )
+  const [connectedAssets, setConnectedAssets] = useState<
+    ConnectedDigitalAssetBalance[]
+  >(fallbackConnectedDigitalAssetBalances)
+  const [isLoading, setIsLoading] = useState(true)
+  const [backendError, setBackendError] = useState<string | null>(null)
+
+  const bankAccount = bankAccounts[0] ?? primaryBankAccount
+
+  useEffect(() => {
+    async function fetchAccountsData() {
+      setIsLoading(true)
+
+      try {
+        const accounts = await listAccounts()
+        const selectedAccount = accounts[0] ?? primaryBankAccount
+
+        const [accountTransactions, digitalAssetBalances] = await Promise.all([
+          listAccountTransactions(selectedAccount.id),
+          listConnectedDigitalAssetBalances(),
+        ])
+
+        setBankAccounts(accounts.length > 0 ? accounts : [primaryBankAccount])
+        setTransactions(
+          accountTransactions.length > 0
+            ? accountTransactions
+            : fallbackRecentBankTransactions,
+        )
+        setConnectedAssets(
+          digitalAssetBalances.length > 0
+            ? digitalAssetBalances
+            : fallbackConnectedDigitalAssetBalances,
+        )
+        setBackendError(null)
+      } catch {
+        setBankAccounts([primaryBankAccount])
+        setTransactions(fallbackRecentBankTransactions)
+        setConnectedAssets(fallbackConnectedDigitalAssetBalances)
+        setBackendError(
+          'Backend account data unavailable. Showing local prototype fallback.',
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    void fetchAccountsData()
+  }, [])
 
   return (
     <div className="bank-shell">
@@ -55,6 +116,14 @@ export function AccountsPage() {
                 </div>
                 <span className="module-tag">{bankAccount.status}</span>
               </div>
+
+              {isLoading && <p className="panel-note">Loading account data...</p>}
+              {backendError && <p className="panel-note">{backendError}</p>}
+              {!backendError && !isLoading && (
+                <p className="panel-note">
+                  Account data loaded from local FastAPI prototype.
+                </p>
+              )}
 
               <div className="assets-summary">
                 <div>
@@ -110,10 +179,13 @@ export function AccountsPage() {
                   <p className="eyebrow">Recent account transactions</p>
                   <h2>Account activity</h2>
                 </div>
+                <span className="module-tag">
+                  {backendError ? 'Fallback data' : 'Backend data'}
+                </span>
               </div>
 
               <div className="account-list">
-                {recentBankTransactions.map((transaction) => (
+                {transactions.map((transaction) => (
                   <article className="account-row" key={transaction.id}>
                     <div>
                       <h3>{transaction.title}</h3>
@@ -143,7 +215,7 @@ export function AccountsPage() {
               </p>
 
               <div className="account-list">
-                {connectedDigitalAssetBalances.map((asset) => (
+                {connectedAssets.map((asset) => (
                   <article className="account-row" key={asset.id}>
                     <div>
                       <h3>{asset.name}</h3>
