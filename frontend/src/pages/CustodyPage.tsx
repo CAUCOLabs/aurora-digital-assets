@@ -114,7 +114,7 @@ export function CustodyPage() {
         setCustodyStatus(status)
         setBackendError(null)
       } catch {
-        setCustodyStatus(fallbackCustodyStatus)
+        setCustodyStatus(null)
         setBackendError(
           'Backend custody data unavailable. Showing local prototype fallback.',
         )
@@ -166,7 +166,7 @@ export function CustodyPage() {
               ) : (
                 !isLoading && (
                   <p className="panel-note">
-                    Custody data loaded from local FastAPI prototype.
+                    Custody status loaded from local FastAPI prototype.
                   </p>
                 )
               )}
