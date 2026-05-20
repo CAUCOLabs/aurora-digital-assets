@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
+import { usePrivacyMode } from '../context/PrivacyModeContext'
 
 type TopBarProps = {
   userName: string
@@ -247,6 +248,7 @@ const navigationItems: NavigationItem[] = [
 
 export function TopBar({ userName }: TopBarProps) {
   const location = useLocation()
+  const { amountsVisible, toggleAmountsVisible } = usePrivacyMode()
 
   return (
     <header className="top-bar">
@@ -301,6 +303,14 @@ export function TopBar({ userName }: TopBarProps) {
       </nav>
 
       <div className="user-area">
+        <button
+          type="button"
+          className="privacy-toggle"
+          aria-pressed={amountsVisible}
+          onClick={toggleAmountsVisible}
+        >
+          {amountsVisible ? 'Hide balances' : 'Show balances'}
+        </button>
         <span>{userName}</span>
         <button type="button">Log out</button>
       </div>

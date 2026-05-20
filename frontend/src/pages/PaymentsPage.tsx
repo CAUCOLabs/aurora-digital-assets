@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { PrivacyAmount } from '../components/PrivacyAmount'
 import { primaryBankAccount } from '../data/bankAccounts'
 import {
   evaluateDigitalAssetPayment,
@@ -363,7 +364,12 @@ export function PaymentsPage() {
                 <div className="assets-summary single-summary">
                   <div>
                     <p>Available balance</p>
-                    <strong>{primaryBankAccount.availableBalance}</strong>
+                    <strong>
+                      <PrivacyAmount
+                        value={primaryBankAccount.availableBalance}
+                        label="Available balance"
+                      />
+                    </strong>
                     <span>
                       {primaryBankAccount.type} · {primaryBankAccount.iban}
                     </span>
@@ -679,33 +685,56 @@ export function PaymentsPage() {
                   <div className="withdrawal-preview">
                     <div>
                       <p>Invoice amount</p>
-                      <strong>{formatEur(amountEur)}</strong>
+                      <strong>
+                        <PrivacyAmount
+                          value={formatEur(amountEur)}
+                          label="Invoice amount"
+                        />
+                      </strong>
                     </div>
                     <div>
                       <p>Estimated asset amount</p>
                       <strong>
-                        {formatAssetAmount(
-                          displayedEstimate.assetAmount,
-                          displayedEstimate.paymentAsset,
-                        )}
+                        <PrivacyAmount
+                          value={formatAssetAmount(
+                            displayedEstimate.assetAmount,
+                            displayedEstimate.paymentAsset,
+                          )}
+                          label="Estimated asset amount"
+                        />
                       </strong>
                     </div>
                     <div>
                       <p>Total estimated cost</p>
-                      <strong>{formatEur(displayedEstimate.totalCostEur)}</strong>
+                      <strong>
+                        <PrivacyAmount
+                          value={formatEur(displayedEstimate.totalCostEur)}
+                          label="Total estimated cost"
+                        />
+                      </strong>
                     </div>
                   </div>
 
                   <div className="assets-summary trade-summary">
                     <div>
                       <p>Service fee</p>
-                      <strong>{formatEur(displayedEstimate.serviceFee)}</strong>
+                      <strong>
+                        <PrivacyAmount
+                          value={formatEur(displayedEstimate.serviceFee)}
+                          label="Service fee"
+                        />
+                      </strong>
                       <span>{feeExplanation}</span>
                     </div>
 
                     <div className="custody-card">
                       <p>Settlement fee</p>
-                      <strong>{formatEur(displayedEstimate.settlementFee)}</strong>
+                      <strong>
+                        <PrivacyAmount
+                          value={formatEur(displayedEstimate.settlementFee)}
+                          label="Settlement fee"
+                        />
+                      </strong>
                       <span>{settlementExplanation}</span>
                     </div>
                   </div>
@@ -724,7 +753,12 @@ export function PaymentsPage() {
 
                   <div className="custody-card">
                     <p>Total amount</p>
-                    <strong>{formatEur(amountEur)}</strong>
+                    <strong>
+                      <PrivacyAmount
+                        value={formatEur(amountEur)}
+                        label="Total amount"
+                      />
+                    </strong>
                     <span>
                       The recipient, reference number, and due date remain
                       attached to the payment.
@@ -783,7 +817,12 @@ export function PaymentsPage() {
               <div className="summary-list">
                 <div>
                   <span>Amount</span>
-                  <strong>{formatEur(amountEur)}</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value={formatEur(amountEur)}
+                      label="Payment amount"
+                    />
+                  </strong>
                 </div>
                 <div>
                   <span>From</span>

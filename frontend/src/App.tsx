@@ -1,12 +1,15 @@
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
+import { PrivacyModeProvider } from './context/PrivacyModeContext'
 import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <PrivacyModeProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </PrivacyModeProvider>
   )
 }
 

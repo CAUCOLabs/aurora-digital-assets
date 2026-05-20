@@ -233,6 +233,26 @@ a {
   background: #dceaf5;
 }
 
+.privacy-toggle {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.privacy-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.privacy-amount {
+  font: inherit;
+  font-weight: inherit;
+}
+
 .page {
   width: min(1220px, calc(100% - 2rem));
   margin: 2rem auto;

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { PrivacyAmount } from '../components/PrivacyAmount'
 import {
   connectedDigitalAssetBalances as fallbackConnectedDigitalAssetBalances,
   primaryBankAccount,
@@ -29,6 +30,10 @@ const documentOptions = [
   'Payment receipts',
   'Digital asset reports',
 ]
+
+function isFinancialAmount(value: string) {
+  return value.includes('€')
+}
 
 export function AccountsPage() {
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([
@@ -128,7 +133,12 @@ export function AccountsPage() {
               <div className="assets-summary">
                 <div>
                   <p>Book balance</p>
-                  <strong>{bankAccount.bookBalance}</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value={bankAccount.bookBalance}
+                      label="Book balance"
+                    />
+                  </strong>
                   <span>
                     {bankAccount.type} · Owner: {bankAccount.owner}
                   </span>
@@ -136,9 +146,18 @@ export function AccountsPage() {
 
                 <div className="custody-card">
                   <p>Available balance</p>
-                  <strong>{bankAccount.availableBalance}</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value={bankAccount.availableBalance}
+                      label="Available balance"
+                    />
+                  </strong>
                   <span>
-                    Reserved card payments: {bankAccount.reservedCardPayments}
+                    Reserved card payments:{' '}
+                    <PrivacyAmount
+                      value={bankAccount.reservedCardPayments}
+                      label="Reserved card payments"
+                    />
                   </span>
                 </div>
               </div>
@@ -194,7 +213,12 @@ export function AccountsPage() {
                       </p>
                       <span>{transaction.status}</span>
                     </div>
-                    <strong>{transaction.amount}</strong>
+                    <strong>
+                      <PrivacyAmount
+                        value={transaction.amount}
+                        label={`${transaction.title} amount`}
+                      />
+                    </strong>
                   </article>
                 ))}
               </div>
@@ -222,7 +246,16 @@ export function AccountsPage() {
                       <p>{asset.balance}</p>
                       <span>{asset.detail}</span>
                     </div>
-                    <strong>{asset.value}</strong>
+                    <strong>
+                      {isFinancialAmount(asset.value) ? (
+                        <PrivacyAmount
+                          value={asset.value}
+                          label={`${asset.name} value`}
+                        />
+                      ) : (
+                        asset.value
+                      )}
+                    </strong>
                   </article>
                 ))}
               </div>
