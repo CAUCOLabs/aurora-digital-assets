@@ -11,6 +11,10 @@ type DigitalAssetRowProps = {
   asset: DigitalAsset
 }
 
+function isSensitiveAmount(value: string) {
+  return /\d/.test(value)
+}
+
 export function DigitalAssetRow({ asset }: DigitalAssetRowProps) {
   return (
     <article className="asset-row">
@@ -18,14 +22,22 @@ export function DigitalAssetRow({ asset }: DigitalAssetRowProps) {
       <div>
         <h3>{asset.asset}</h3>
         <p>
-          <PrivacyAmount
-            value={asset.balance}
-            label={`${asset.asset} balance`}
-          />
+          {isSensitiveAmount(asset.balance) ? (
+            <PrivacyAmount
+              value={asset.balance}
+              label={`${asset.asset} balance`}
+            />
+          ) : (
+            asset.balance
+          )}
         </p>
       </div>
       <strong>
-        <PrivacyAmount value={asset.value} label={`${asset.asset} value`} />
+        {isSensitiveAmount(asset.value) ? (
+          <PrivacyAmount value={asset.value} label={`${asset.asset} value`} />
+        ) : (
+          asset.value
+        )}
       </strong>
     </article>
   )

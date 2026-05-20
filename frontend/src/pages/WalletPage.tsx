@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
@@ -5,26 +6,143 @@ import { DigitalAssetRow } from '../components/DigitalAssetRow'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 import { PrivacyAmount } from '../components/PrivacyAmount'
 import { digitalAssets } from '../data/dashboardData'
+import {
+  getCustodyStatus,
+  listDigitalAssetActivity,
+  listWalletBalances,
+  type CustodyStatus,
+  type DigitalAssetActivity,
+  type WalletBalance,
+} from '../services/digitalAssetsApi'
 
-const walletActivity = [
+const fallbackWalletBalances: WalletBalance[] = digitalAssets.map((asset) => ({
+  id: `${asset.symbol.toLowerCase()}-fallback`,
+  symbol: asset.symbol,
+  name: asset.asset,
+  balance: asset.balance,
+  estimatedValue: asset.value,
+  custodyMode: 'Internal custodial wallet concept',
+  status: 'Active',
+}))
+
+const fallbackActivity: DigitalAssetActivity[] = [
   {
+    id: 'fallback-btc-received',
     title: 'BTC purchase received',
     detail: '0.00072 BTC added to internal wallet',
     status: 'Completed',
+    amount: '0.00072 BTC',
+    module: 'Buy / Sell',
   },
   {
+    id: 'fallback-eth-received',
     title: 'ETH purchase received',
     detail: '0.0121 ETH added to internal wallet',
     status: 'Completed',
+    amount: '0.0121 ETH',
+    module: 'Buy / Sell',
   },
   {
+    id: 'fallback-btc-withdrawal',
     title: 'External BTC withdrawal request',
     detail: '0.001 BTC pending review',
     status: 'Pending review',
+    amount: '0.001 BTC',
+    module: 'Withdrawals',
   },
 ]
 
+const fallbackCustodyStatus: CustodyStatus = {
+  custodyMode: 'Internal custodial wallet concept',
+  privateKeysExposed: false,
+  assetsSeparateFromDeposits: true,
+  auditTrailEnabled: true,
+  externalWithdrawalsRequireReview: true,
+  userMessage:
+    'Digital assets are visible inside online banking, but the user does not manage private keys directly in this prototype.',
+  controls: [
+    'Internal custodial wallet concept',
+    'User does not manage private keys',
+    'Audit trail enabled',
+    'Digital assets are separate from deposits',
+  ],
+}
+
+function isSensitiveAmount(value: string) {
+  return /\d/.test(value)
+}
+
+function formatTotalEstimatedValue(walletBalances: WalletBalance[]) {
+  const total = walletBalances.reduce((sum, asset) => {
+    if (!asset.estimatedValue.includes('€')) return sum
+
+    const normalizedValue = asset.estimatedValue
+      .replace('€', '')
+      .replaceAll(' ', '')
+      .replace(',', '.')
+
+    const parsedValue = Number(normalizedValue)
+    return Number.isFinite(parsedValue) ? sum + parsedValue : sum
+  }, 0)
+
+  return new Intl.NumberFormat('fi-FI', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(total)
+}
+
+function mapWalletBalanceToRow(asset: WalletBalance) {
+  return {
+    asset: asset.name,
+    symbol: asset.symbol,
+    balance: asset.balance,
+    value: asset.estimatedValue,
+  }
+}
+
 export function WalletPage() {
+  const [walletBalances, setWalletBalances] = useState<WalletBalance[]>([])
+  const [activity, setActivity] = useState<DigitalAssetActivity[]>([])
+  const [custodyStatus, setCustodyStatus] = useState<CustodyStatus | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [backendError, setBackendError] = useState<string | null>(null)
+
+  const visibleWalletBalances =
+    walletBalances.length > 0 ? walletBalances : fallbackWalletBalances
+  const visibleActivity = activity.length > 0 ? activity : fallbackActivity
+  const visibleCustodyStatus = custodyStatus ?? fallbackCustodyStatus
+  const totalEstimatedValue = formatTotalEstimatedValue(visibleWalletBalances)
+
+  useEffect(() => {
+    async function fetchWalletData() {
+      setIsLoading(true)
+
+      try {
+        const [balances, activityItems, custody] = await Promise.all([
+          listWalletBalances(),
+          listDigitalAssetActivity(),
+          getCustodyStatus(),
+        ])
+
+        setWalletBalances(balances)
+        setActivity(activityItems)
+        setCustodyStatus(custody)
+        setBackendError(null)
+      } catch {
+        setWalletBalances(fallbackWalletBalances)
+        setActivity(fallbackActivity)
+        setCustodyStatus(fallbackCustodyStatus)
+        setBackendError(
+          'Backend wallet data unavailable. Showing local prototype fallback.',
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    void fetchWalletData()
+  }, [])
+
   return (
     <div className="bank-shell">
       <TopBar userName="Claudio Demo" />
@@ -60,12 +178,23 @@ export function WalletPage() {
                 <span className="module-tag">Custodial concept</span>
               </div>
 
+              {isLoading && <p className="panel-note">Loading wallet data...</p>}
+              {backendError ? (
+                <p className="panel-note">{backendError}</p>
+              ) : (
+                !isLoading && (
+                  <p className="panel-note">
+                    Wallet data loaded from local FastAPI prototype.
+                  </p>
+                )
+              )}
+
               <div className="assets-summary">
                 <div>
                   <p>Total wallet value</p>
                   <strong>
                     <PrivacyAmount
-                      value="1 245,80 €"
+                      value={totalEstimatedValue}
                       label="Total wallet value"
                     />
                   </strong>
@@ -77,11 +206,8 @@ export function WalletPage() {
 
                 <div className="custody-card">
                   <p>Custody model</p>
-                  <strong>Internal custodial wallet concept</strong>
-                  <span>
-                    The user does not manage private keys in this simulated
-                    banking model.
-                  </span>
+                  <strong>{visibleCustodyStatus.custodyMode}</strong>
+                  <span>{visibleCustodyStatus.userMessage}</span>
                 </div>
               </div>
             </Panel>
@@ -98,8 +224,11 @@ export function WalletPage() {
               </div>
 
               <div className="asset-list">
-                {digitalAssets.map((asset) => (
-                  <DigitalAssetRow key={asset.symbol} asset={asset} />
+                {visibleWalletBalances.map((asset) => (
+                  <DigitalAssetRow
+                    key={asset.id}
+                    asset={mapWalletBalanceToRow(asset)}
+                  />
                 ))}
               </div>
             </Panel>
@@ -110,18 +239,39 @@ export function WalletPage() {
                   <p className="eyebrow">Activity</p>
                   <h2>Wallet activity</h2>
                 </div>
-                <span className="module-tag">Simulated events</span>
+                <span className="module-tag">
+                  {backendError ? 'Fallback events' : 'Backend events'}
+                </span>
               </div>
 
               <div className="account-list">
-                {walletActivity.map((event) => (
-                  <article className="account-row" key={event.title}>
+                {visibleActivity.map((event) => (
+                  <article className="account-row" key={event.id}>
                     <div>
                       <h3>{event.title}</h3>
-                      <p>{event.detail}</p>
+                      <p>{event.module}</p>
+                      {isSensitiveAmount(event.detail) ? (
+                        <span>
+                          <PrivacyAmount
+                            value={event.detail}
+                            label={`${event.title} detail`}
+                          />
+                        </span>
+                      ) : (
+                        <span>{event.detail}</span>
+                      )}
                       <span>{event.status}</span>
                     </div>
-                    <strong>{event.status}</strong>
+                    <strong>
+                      {isSensitiveAmount(event.amount) ? (
+                        <PrivacyAmount
+                          value={event.amount}
+                          label={`${event.title} amount`}
+                        />
+                      ) : (
+                        event.amount
+                      )}
+                    </strong>
                   </article>
                 ))}
               </div>
@@ -150,33 +300,25 @@ export function WalletPage() {
               <p className="eyebrow">Custody</p>
               <h2>Custody status</h2>
               <div className="check-list">
-                <div>
-                  <span className="status-dot"></span>
-                  Internal custodial wallet concept
-                </div>
-                <div>
-                  <span className="status-dot"></span>
-                  User does not manage private keys
-                </div>
-                <div>
-                  <span className="status-dot"></span>
-                  Audit trail enabled
-                </div>
-                <div>
-                  <span className="warning-dot"></span>
-                  Digital assets are separate from deposits
-                </div>
+                {visibleCustodyStatus.controls.map((control) => (
+                  <div key={control}>
+                    <span
+                      className={
+                        control.toLowerCase().includes('separate')
+                          ? 'warning-dot'
+                          : 'status-dot'
+                      }
+                    ></span>
+                    {control}
+                  </div>
+                ))}
               </div>
             </Panel>
 
             <Panel className="risk-panel">
               <p className="eyebrow">Important</p>
               <h2>No private key access</h2>
-              <p>
-                In this custodial concept, the banking interface shows wallet
-                balances and activity, but does not expose seed phrases or
-                private keys to the user.
-              </p>
+              <p>{visibleCustodyStatus.userMessage}</p>
             </Panel>
           </aside>
         </section>
