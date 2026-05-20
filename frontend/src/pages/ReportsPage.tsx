@@ -8,8 +8,30 @@ import {
   type AuditEvent,
   type ReviewCase,
 } from '../services/complianceApi'
+import {
+  listReports,
+  getTaxSummary,
+  createEvidencePackage,
+  type ReportSummary,
+  type TaxSummary,
+} from '../services/reportsApi'
 
-const bankingDocuments = [
+type DisplayRow = {
+  id: string
+  title: string
+  detail: string
+  status: string
+  message?: string | null
+}
+
+type BackendFailures = {
+  reports: boolean
+  taxSummary: boolean
+  auditEvents: boolean
+  reviewCases: boolean
+}
+
+const fallbackBankingDocuments = [
   {
     title: 'Current account statement',
     detail: 'April 2026',
@@ -22,73 +44,36 @@ const bankingDocuments = [
     status: 'Available',
     action: 'Open',
   },
-  {
-    title: 'Card statement',
-    detail: 'April 2026',
-    status: 'Available',
-    action: 'View',
-  },
-  {
-    title: 'Bank mail notice',
-    detail: 'New documents available',
-    status: 'Available',
-    action: 'Read',
-  },
 ]
 
-const digitalAssetReports = [
+// Fallback data is only for offline demo mode when the backend is unavailable.
+const fallbackReports: DisplayRow[] = [
   {
+    id: 'fallback-annual-summary',
     title: 'Digital assets annual summary',
     detail: '2026',
     status: 'Ready',
   },
   {
+    id: 'fallback-wallet-activity',
     title: 'Wallet activity report',
     detail: 'BTC / ETH',
     status: 'Ready',
   },
-  {
-    title: 'Digital asset payments report',
-    detail: 'Invoice payment records',
-    status: 'Ready',
-  },
-  {
-    title: 'External withdrawal review report',
-    detail: 'Pending review events',
-    status: 'Ready',
-  },
 ]
 
-const auditEvents = [
+const fallbackAuditEvents: DisplayRow[] = [
   {
-    title: 'Payment form opened',
-    detail: 'Payments',
-    status: 'Recorded',
-  },
-  {
+    id: 'fallback-estimate-generated',
     title: 'Digital asset payment estimate generated',
     detail: 'Payments',
     status: 'Recorded',
   },
   {
+    id: 'fallback-purchase-completed',
     title: 'BTC purchase completed',
     detail: 'Buy / Sell',
     status: 'Completed',
-  },
-  {
-    title: 'Custody status shown to user',
-    detail: 'Custody',
-    status: 'Visible',
-  },
-  {
-    title: 'External withdrawal submitted for review',
-    detail: 'Withdrawals',
-    status: 'Pending review',
-  },
-  {
-    title: 'Report generated',
-    detail: 'Reports',
-    status: 'Ready',
   },
 ]
 
@@ -108,15 +93,79 @@ const evidenceCoverage = [
   'Reports',
 ]
 
+const fallbackTaxSummary: TaxSummary = {
+  year: 2026,
+  total_purchases_eur: 75,
+  total_sales_eur: 0,
+  digital_asset_payments_eur: 120.45,
+  external_transfers_count: 1,
+  pending_review_cases: 1,
+  estimated_realized_gain_loss_eur: 0,
+  disclaimer: 'Prototype values only. Not official tax advice.',
+}
+
+const fallbackReviewCases: DisplayRow[] = [
+  {
+    id: 'fallback-review-evidence-package',
+    title: 'Review evidence package',
+    detail:
+      'Review cases created by withdrawal and digital asset payment flows can be included in evidence packages.',
+    status: 'Concept',
+  },
+]
+
+const initialBackendFailures: BackendFailures = {
+  reports: false,
+  taxSummary: false,
+  auditEvents: false,
+  reviewCases: false,
+}
+
+function formatEur(amount: number) {
+  return new Intl.NumberFormat('fi-FI', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(amount)
+}
+
 export function ReportsPage() {
   const [backendAuditEvents, setBackendAuditEvents] = useState<AuditEvent[]>([])
   const [backendReviewCases, setBackendReviewCases] = useState<ReviewCase[]>([])
+  const [backendReports, setBackendReports] = useState<ReportSummary[]>([])
+  const [backendTaxSummary, setBackendTaxSummary] = useState<TaxSummary | null>(
+    null,
+  )
   const [isLoading, setIsLoading] = useState(true)
-  const [backendError, setBackendError] = useState<string | null>(null)
+  const [backendFailures, setBackendFailures] = useState<BackendFailures>(
+    initialBackendFailures,
+  )
 
-  const visibleAuditEvents =
+  const [evidencePackageMessage, setEvidencePackageMessage] = useState<
+    string | null
+  >(null)
+  const [isGeneratingPackage, setIsGeneratingPackage] = useState(false)
+
+  const reportRows: DisplayRow[] =
+    backendReports.length > 0
+      ? backendReports.map((report) => ({
+          id: report.report_id,
+          title: report.title,
+          detail: report.description,
+          status: report.status,
+          message: report.generated_from,
+        }))
+      : backendFailures.reports
+        ? fallbackReports
+        : []
+
+  const taxSummary = backendTaxSummary ?? (
+    backendFailures.taxSummary ? fallbackTaxSummary : null
+  )
+
+  const visibleAuditEvents: DisplayRow[] =
     backendAuditEvents.length > 0
       ? backendAuditEvents.map((event) => ({
+          id: event.event_id,
           title: event.action_type.replaceAll('_', ' '),
           detail: [
             event.module,
@@ -128,41 +177,107 @@ export function ReportsPage() {
           status: event.status,
           message: event.user_message,
         }))
-      : auditEvents.map((event) => ({
-          ...event,
-          message: null,
+      : backendFailures.auditEvents
+        ? fallbackAuditEvents
+        : []
+
+  const reviewCaseRows: DisplayRow[] =
+    backendReviewCases.length > 0
+      ? backendReviewCases.map((reviewCase) => ({
+          id: reviewCase.case_id,
+          title: reviewCase.title,
+          detail: `${reviewCase.case_type.replaceAll('_', ' ')} · ${
+            reviewCase.asset
+          } · ${reviewCase.amount}`,
+          status: `${reviewCase.status} · ${reviewCase.risk_level} risk`,
+          message: [
+            `Destination / recipient: ${reviewCase.destination_address}`,
+            reviewCase.reviewer_decision
+              ? `Reviewer decision: ${reviewCase.reviewer_decision}`
+              : null,
+          ]
+            .filter(Boolean)
+            .join(' · '),
         }))
-  const reportStatusNote =
-    backendError ??
-    (backendAuditEvents.length > 0 || backendReviewCases.length > 0
-      ? 'Backend audit data loaded from local FastAPI prototype.'
-      : null)
+      : backendFailures.reviewCases
+        ? fallbackReviewCases
+        : []
+
+  const hasBackendFailure = Object.values(backendFailures).some(Boolean)
+
+  const backendStatusNote = hasBackendFailure
+    ? 'Backend reporting data unavailable. Showing local prototype fallback.'
+    : null
 
   useEffect(() => {
     async function fetchReportingData() {
       setIsLoading(true)
 
-      try {
-        const [events, cases] = await Promise.all([
+      const [eventsResult, casesResult, reportsResult, taxSummaryResult] =
+        await Promise.allSettled([
           listAuditEvents(),
           listReviewCases(),
+          listReports(),
+          getTaxSummary(2026),
         ])
+
+      if (eventsResult.status === 'fulfilled') {
+        const events = eventsResult.value
         setBackendAuditEvents(events)
-        setBackendReviewCases(cases)
-        setBackendError(null)
-      } catch {
+      } else {
         setBackendAuditEvents([])
-        setBackendReviewCases([])
-        setBackendError(
-          'Backend reporting data unavailable. Showing local prototype reports.',
-        )
-      } finally {
-        setIsLoading(false)
       }
+
+      if (casesResult.status === 'fulfilled') {
+        const cases = casesResult.value
+        setBackendReviewCases(cases)
+      } else {
+        setBackendReviewCases([])
+      }
+
+      if (reportsResult.status === 'fulfilled') {
+        const reports = reportsResult.value
+        setBackendReports(reports)
+      } else {
+        setBackendReports([])
+      }
+
+      if (taxSummaryResult.status === 'fulfilled') {
+        const taxSummary = taxSummaryResult.value
+        setBackendTaxSummary(taxSummary)
+      } else {
+        setBackendTaxSummary(null)
+      }
+
+      setBackendFailures({
+        reports: reportsResult.status === 'rejected',
+        taxSummary: taxSummaryResult.status === 'rejected',
+        auditEvents: eventsResult.status === 'rejected',
+        reviewCases: casesResult.status === 'rejected',
+      })
+      setIsLoading(false)
     }
 
     void fetchReportingData()
   }, [])
+
+  async function handleGenerateAuditPackage() {
+    setIsGeneratingPackage(true)
+    setEvidencePackageMessage(null)
+
+    try {
+      const response = await createEvidencePackage({ year: 2026 })
+      setEvidencePackageMessage(
+        `${response.package_id} prepared. Included ${response.included_audit_events} audit events and ${response.included_review_cases} review cases.`,
+      )
+    } catch {
+      setEvidencePackageMessage(
+        'Backend evidence package unavailable. Export remains a local prototype concept.',
+      )
+    } finally {
+      setIsGeneratingPackage(false)
+    }
+  }
 
   return (
     <div className="bank-shell">
@@ -200,7 +315,7 @@ export function ReportsPage() {
               </div>
 
               <div className="account-list">
-                {bankingDocuments.map((document) => (
+                {fallbackBankingDocuments.map((document) => (
                   <article className="account-row" key={document.title}>
                     <div>
                       <h3>{document.title}</h3>
@@ -219,16 +334,21 @@ export function ReportsPage() {
                   <p className="eyebrow">Digital asset reports</p>
                   <h2>Digital asset reports</h2>
                 </div>
-                <span className="module-tag">Simulated reports</span>
+                <span className="module-tag">
+                  {backendReports.length > 0 ? 'Backend reports' : 'Fallback reports'}
+                </span>
               </div>
 
+              {isLoading && <p className="panel-note">Loading reports...</p>}
+              {backendStatusNote && <p className="panel-note">{backendStatusNote}</p>}
+
               <div className="account-list">
-                {digitalAssetReports.map((report) => (
-                  <article className="account-row" key={report.title}>
+                {reportRows.map((report) => (
+                  <article className="account-row" key={report.id}>
                     <div>
                       <h3>{report.title}</h3>
                       <p>{report.detail}</p>
-                      <span>{report.status}</span>
+                      {report.message && <span>{report.message}</span>}
                     </div>
                     <strong>{report.status}</strong>
                   </article>
@@ -240,41 +360,61 @@ export function ReportsPage() {
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Tax summary</p>
-                  <h2>2026 tax summary concept</h2>
+                  <h2>2026 tax summary</h2>
                 </div>
-                <span className="module-tag">Prototype values</span>
+                <span className="module-tag">
+                  {backendTaxSummary
+                    ? 'Backend values'
+                    : backendFailures.taxSummary
+                      ? 'Fallback values'
+                      : 'Loading values'}
+                </span>
               </div>
 
-              <div className="withdrawal-preview">
-                <div>
-                  <p>Tax year</p>
-                  <strong>2026</strong>
-                </div>
-                <div>
-                  <p>Total purchases</p>
-                  <strong>75,00 €</strong>
-                </div>
-                <div>
-                  <p>Total sales</p>
-                  <strong>0,00 €</strong>
-                </div>
-                <div>
-                  <p>Digital asset payments</p>
-                  <strong>120,45 €</strong>
-                </div>
-                <div>
-                  <p>External transfers</p>
-                  <strong>1 pending review</strong>
-                </div>
-                <div>
-                  <p>Estimated realized gain/loss</p>
-                  <strong>0,00 €</strong>
-                </div>
-              </div>
+              {taxSummary ? (
+                <>
+                  <div className="withdrawal-preview">
+                    <div>
+                      <p>Tax year</p>
+                      <strong>{taxSummary.year}</strong>
+                    </div>
+                    <div>
+                      <p>Total purchases</p>
+                      <strong>
+                        {formatEur(taxSummary.total_purchases_eur)}
+                      </strong>
+                    </div>
+                    <div>
+                      <p>Total sales</p>
+                      <strong>{formatEur(taxSummary.total_sales_eur)}</strong>
+                    </div>
+                    <div>
+                      <p>Digital asset payments</p>
+                      <strong>
+                        {formatEur(taxSummary.digital_asset_payments_eur)}
+                      </strong>
+                    </div>
+                    <div>
+                      <p>External transfers</p>
+                      <strong>
+                        {taxSummary.external_transfers_count} pending review
+                      </strong>
+                    </div>
+                    <div>
+                      <p>Estimated realized gain/loss</p>
+                      <strong>
+                        {formatEur(
+                          taxSummary.estimated_realized_gain_loss_eur,
+                        )}
+                      </strong>
+                    </div>
+                  </div>
 
-              <p className="panel-note">
-                Prototype values only. Not official tax advice.
-              </p>
+                  <p className="panel-note">{taxSummary.disclaimer}</p>
+                </>
+              ) : (
+                <p className="panel-note">Loading tax summary...</p>
+              )}
             </Panel>
 
             <Panel>
@@ -286,11 +426,10 @@ export function ReportsPage() {
                 <span className="module-tag">Deterministic log</span>
               </div>
               {isLoading && <p className="panel-note">Loading report evidence...</p>}
-              {reportStatusNote && <p className="panel-note">{reportStatusNote}</p>}
 
               <div className="account-list">
                 {visibleAuditEvents.map((event) => (
-                  <article className="account-row" key={event.title}>
+                  <article className="account-row" key={event.id}>
                     <div>
                       <h3>{event.title}</h3>
                       <p>{event.detail}</p>
@@ -319,45 +458,16 @@ export function ReportsPage() {
               </div>
 
               <div className="account-list">
-                {(backendReviewCases.length > 0 ? backendReviewCases : []).map(
-                  (reviewCase) => (
-                    <article className="account-row" key={reviewCase.case_id}>
-                      <div>
-                        <h3>{reviewCase.title}</h3>
-                        <p>
-                          {reviewCase.case_type.replaceAll('_', ' ')} ·{' '}
-                          {reviewCase.asset} · {reviewCase.amount}
-                        </p>
-                        <span>
-                          Destination / recipient:{' '}
-                          {reviewCase.destination_address}
-                        </span>
-                        {reviewCase.reviewer_decision && (
-                          <span>
-                            Reviewer decision:{' '}
-                            {reviewCase.reviewer_decision}
-                          </span>
-                        )}
-                      </div>
-                      <strong>
-                        {reviewCase.status} · {reviewCase.risk_level} risk
-                      </strong>
-                    </article>
-                  ),
-                )}
-                {backendReviewCases.length === 0 && (
-                  <article className="account-row">
+                {reviewCaseRows.map((reviewCase) => (
+                  <article className="account-row" key={reviewCase.id}>
                     <div>
-                      <h3>Review evidence package</h3>
-                      <p>
-                        Review cases created by withdrawal and digital asset
-                        payment flows can be included in evidence packages.
-                      </p>
-                      <span>Prototype evidence</span>
+                      <h3>{reviewCase.title}</h3>
+                      <p>{reviewCase.detail}</p>
+                      {reviewCase.message && <span>{reviewCase.message}</span>}
                     </div>
-                    <strong>Concept</strong>
+                    <strong>{reviewCase.status}</strong>
                   </article>
-                )}
+                ))}
               </div>
             </Panel>
 
@@ -383,13 +493,22 @@ export function ReportsPage() {
                 ))}
               </div>
 
+              {evidencePackageMessage && (
+                <p className="panel-note">{evidencePackageMessage}</p>
+              )}
+
               <div className="action-row">
                 <button type="button">Export PDF</button>
                 <button className="secondary-button" type="button">
                   Export CSV
                 </button>
-                <button className="secondary-button" type="button">
-                  Generate audit package
+                <button
+                  className="secondary-button"
+                  type="button"
+                  onClick={handleGenerateAuditPackage}
+                  disabled={isGeneratingPackage}
+                >
+                  {isGeneratingPackage ? 'Generating...' : 'Generate audit package'}
                 </button>
                 <button className="secondary-button" type="button">
                   Download receipts
@@ -413,8 +532,12 @@ export function ReportsPage() {
                   Payment receipts available
                 </div>
                 <div>
-                  <span className="status-dot"></span>
-                  Digital asset reports available
+                  <span
+                    className={
+                      backendReports.length > 0 ? 'status-dot' : 'warning-dot'
+                    }
+                  ></span>
+                  Digital asset reports {backendReports.length > 0 ? 'loaded' : 'available'}
                 </div>
                 <div>
                   <span className="status-dot"></span>
@@ -445,8 +568,12 @@ export function ReportsPage() {
                   Evidence package concept ready
                 </div>
                 <div>
-                  <span className="warning-dot"></span>
-                  Tax summary simulated
+                  <span
+                    className={
+                      backendTaxSummary ? 'status-dot' : 'warning-dot'
+                    }
+                  ></span>
+                  Tax summary {backendTaxSummary ? 'loaded' : 'simulated'}
                 </div>
               </div>
             </Panel>
