@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import { PrivacyAmount } from '../components/PrivacyAmount'
 import {
   evaluateWithdrawal,
   type RiskDecisionResponse,
@@ -19,6 +20,7 @@ type WithdrawalStatus =
   | 'auto_approved'
   | 'auto_rejected'
   | 'blocked'
+  | 'escalated'
 
 const assetLabels: Record<WithdrawalAsset, string> = {
   BTC: 'BTC — Bitcoin',
@@ -59,6 +61,21 @@ function parseAmount(value: string) {
   return Number.isFinite(parsedValue) && parsedValue > 0 ? parsedValue : 0
 }
 
+function isSensitiveAmount(value: string) {
+  return /\d/.test(value)
+}
+
+function isWithdrawalStatus(value: string): value is WithdrawalStatus {
+  return [
+    'draft',
+    'pending_review',
+    'auto_approved',
+    'auto_rejected',
+    'blocked',
+    'escalated',
+  ].includes(value)
+}
+
 export function WithdrawalsPage() {
   const [asset, setAsset] = useState<WithdrawalAsset>(initialWithdrawal.asset)
   const [network, setNetwork] = useState(initialWithdrawal.network)
@@ -79,7 +96,7 @@ export function WithdrawalsPage() {
   const [confirmIrreversible, setConfirmIrreversible] = useState(false)
   const [confirmLeavesProtection, setConfirmLeavesProtection] = useState(false)
   const [confirmNetworkRisk, setConfirmNetworkRisk] = useState(false)
-  const [status, setStatus] = useState<WithdrawalStatus>('draft')
+  const [localStatus, setLocalStatus] = useState<WithdrawalStatus>('draft')
   const [backendDecision, setBackendDecision] =
     useState<RiskDecisionResponse | null>(null)
   const [backendError, setBackendError] = useState<string | null>(null)
@@ -97,15 +114,15 @@ export function WithdrawalsPage() {
     confirmLeavesProtection &&
     confirmNetworkRisk
   const canSubmit =
-    amountValue > 0 && addressesMatch && allConfirmationsChecked && !isEurd
+    amountValue > 0 && addressesMatch && allConfirmationsChecked
 
   const reviewStatus =
     backendDecision
       ? backendDecision.decision
           .replaceAll('_', ' ')
           .replace(/^\w/, (letter) => letter.toUpperCase())
-      : status === 'pending_review'
-      ? 'Pending review'
+      : localStatus === 'pending_review'
+      ? 'Pending local prototype review'
       : !addressEntered
         ? 'Draft'
         : !addressesMatch
@@ -126,6 +143,35 @@ export function WithdrawalsPage() {
         : 'Low'
 
   const auditEvents = useMemo(() => {
+    if (backendDecision) {
+      return [
+        {
+          title: 'Evaluation submitted',
+          detail: `${amount || '0'} ${asset} external transfer request was sent to the local FastAPI prototype for evaluation. No transfer is executed.`,
+          status: 'Submitted',
+        },
+        {
+          title: 'Backend decision returned',
+          detail: backendDecision.user_message,
+          status: backendDecision.decision.replaceAll('_', ' '),
+        },
+        ...(backendDecision.case_id
+          ? [
+              {
+                title: 'Review case created',
+                detail: `Case ${backendDecision.case_id} was created for compliance review.`,
+                status: backendDecision.case_type ?? 'external withdrawal review',
+              },
+            ]
+          : []),
+        {
+          title: 'Audit event recorded',
+          detail: `Audit event type: ${backendDecision.audit_event_type}`,
+          status: backendDecision.risk_level,
+        },
+      ]
+    }
+
     const events = [
       {
         title: 'Withdrawal form opened',
@@ -148,7 +194,7 @@ export function WithdrawalsPage() {
       })
     }
 
-    if (addressesMatch && amountValue > 0 && !isEurd) {
+    if (addressesMatch && amountValue > 0) {
       events.push({
         title: 'Protection review prepared',
         detail:
@@ -157,21 +203,11 @@ export function WithdrawalsPage() {
       })
     }
 
-    if (status === 'pending_review') {
+    if (localStatus === 'pending_review') {
       events.push({
-        title: 'Submitted for review',
+        title: 'Pending local prototype review',
         detail: `${amount || '0'} ${asset} external transfer request is pending review. No blockchain transaction is executed in this prototype.`,
-        status: 'Pending review',
-      })
-    }
-
-    if (backendDecision) {
-      events.push({
-        title: 'Backend evaluation recorded',
-        detail: backendDecision.case_id
-          ? `${backendDecision.user_message} Case ${backendDecision.case_id} was created.`
-          : backendDecision.user_message,
-        status: backendDecision.decision.replaceAll('_', ' '),
+        status: 'Local fallback',
       })
     }
 
@@ -185,12 +221,12 @@ export function WithdrawalsPage() {
     isEurd,
     network,
     backendDecision,
-    status,
+    localStatus,
     walletType,
   ])
 
   function markDraft() {
-    setStatus('draft')
+    setLocalStatus('draft')
     setBackendDecision(null)
     setBackendError(null)
   }
@@ -217,22 +253,17 @@ export function WithdrawalsPage() {
           walletType === 'Hardware wallet' ? 'trusted_address' : 'external_wallet',
       })
       setBackendDecision(decision)
-      if (
-        decision.decision === 'auto_approved' ||
-        decision.decision === 'pending_review' ||
-        decision.decision === 'auto_rejected' ||
-        decision.decision === 'blocked'
-      ) {
-        setStatus(decision.decision)
+      if (isWithdrawalStatus(decision.decision)) {
+        setLocalStatus(decision.decision)
       } else {
-        setStatus('pending_review')
+        setLocalStatus('pending_review')
       }
     } catch {
       setBackendError(
-        'Backend evaluation unavailable. Showing local prototype status.',
+        'Backend withdrawal evaluation unavailable. Showing local prototype status.',
       )
       setBackendDecision(null)
-      setStatus('pending_review')
+      setLocalStatus('pending_review')
     } finally {
       setIsSubmitting(false)
     }
@@ -250,7 +281,7 @@ export function WithdrawalsPage() {
     setConfirmIrreversible(false)
     setConfirmLeavesProtection(false)
     setConfirmNetworkRisk(false)
-    setStatus('draft')
+    setLocalStatus('draft')
     setBackendDecision(null)
     setBackendError(null)
   }
@@ -272,9 +303,15 @@ export function WithdrawalsPage() {
 
           <div className="security-badge">
             <span
-              className={status === 'pending_review' ? 'warning-dot' : 'status-dot'}
+              className={
+                localStatus === 'pending_review' ? 'warning-dot' : 'status-dot'
+              }
             ></span>
-            {status === 'pending_review' ? 'Pending review' : 'Draft'}
+            {backendDecision
+              ? backendDecision.decision.replaceAll('_', ' ')
+              : localStatus === 'pending_review'
+                ? 'Pending local review'
+                : 'Draft'}
           </div>
         </section>
 
@@ -311,7 +348,16 @@ export function WithdrawalsPage() {
                 <div className="assets-summary single-summary">
                   <div>
                     <p>Available balance</p>
-                    <strong>{assetBalances[asset]}</strong>
+                    <strong>
+                      {isSensitiveAmount(assetBalances[asset]) ? (
+                        <PrivacyAmount
+                          value={assetBalances[asset]}
+                          label={`${asset} available balance`}
+                        />
+                      ) : (
+                        assetBalances[asset]
+                      )}
+                    </strong>
                     <span>Balance information is simulated.</span>
                   </div>
                 </div>
@@ -463,7 +509,7 @@ export function WithdrawalsPage() {
                 </div>
                 <div>
                   <span className={!isEurd ? 'status-dot' : 'warning-dot'}></span>
-                  Network compatibility
+                  Network compatibility evaluated by backend
                 </div>
                 <div>
                   <span className={addressEntered ? 'warning-dot' : 'status-dot'}></span>
@@ -582,7 +628,14 @@ export function WithdrawalsPage() {
                 <div>
                   <span>Amount</span>
                   <strong>
-                    {amountValue > 0 ? `${amount} ${asset}` : 'Not entered'}
+                    {amountValue > 0 ? (
+                      <PrivacyAmount
+                        value={`${amount} ${asset}`}
+                        label="Withdrawal amount"
+                      />
+                    ) : (
+                      'Not entered'
+                    )}
                   </strong>
                 </div>
                 <div>
@@ -612,6 +665,11 @@ export function WithdrawalsPage() {
             <Panel>
               <p className="eyebrow">Review status</p>
               <h2>Transfer protection</h2>
+              {backendDecision && (
+                <p className="panel-note">
+                  Withdrawal evaluation loaded from local FastAPI prototype.
+                </p>
+              )}
               {backendError && (
                 <p className="panel-note">{backendError}</p>
               )}
@@ -635,6 +693,28 @@ export function WithdrawalsPage() {
                       <strong>{backendDecision.case_id}</strong>
                     </div>
                   )}
+                  <div>
+                    <span>Case required</span>
+                    <strong>{backendDecision.case_required ? 'Yes' : 'No'}</strong>
+                  </div>
+                  {backendDecision.reasons.length > 0 && (
+                    <div>
+                      <span>Reasons</span>
+                      <strong>{backendDecision.reasons.join(', ')}</strong>
+                    </div>
+                  )}
+                </div>
+              )}
+              {!backendDecision && (
+                <div className="summary-list">
+                  <div>
+                    <span>Decision</span>
+                    <strong>{reviewStatus}</strong>
+                  </div>
+                  <div>
+                    <span>Risk level</span>
+                    <strong>{riskLevel}</strong>
+                  </div>
                 </div>
               )}
               <div className="check-list">
