@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.accounts import router as accounts_router
 from app.api.routes.audit_events import router as audit_events_router
+from app.api.routes.buy_sell import router as buy_sell_router
 from app.api.routes.custody import router as custody_router
 from app.api.routes.digital_assets import router as digital_assets_router
 from app.api.routes.health import router as health_router
@@ -43,6 +44,7 @@ def create_app() -> FastAPI:
     app.include_router(health_router, prefix=settings.api_prefix)
     app.include_router(withdrawals_router, prefix=settings.api_prefix)
     app.include_router(payments_router, prefix=settings.api_prefix)
+    app.include_router(buy_sell_router, prefix=settings.api_prefix)
     app.include_router(review_cases_router, prefix=settings.api_prefix)
     app.include_router(audit_events_router, prefix=settings.api_prefix)
     app.include_router(reports_router, prefix=settings.api_prefix)

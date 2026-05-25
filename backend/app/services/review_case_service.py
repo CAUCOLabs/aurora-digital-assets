@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from sqlite3 import Row
 
 from app.db.database import get_connection
+from app.schemas.buy_sell import BuySellEvaluateRequest, BuySellEvaluateResponse
 from app.schemas.payment import (
     DigitalAssetPaymentEvaluateRequest,
     DigitalAssetPaymentEvaluateResponse,
@@ -70,6 +71,32 @@ class ReviewCaseService:
             network="banking settlement",
             destination_address=request.recipient_name.strip(),
             wallet_type="verified_business_recipient",
+        )
+        self._insert_case(case)
+        return case
+
+    def create_buy_sell_case(
+        self,
+        request: BuySellEvaluateRequest,
+        decision: BuySellEvaluateResponse,
+    ) -> ReviewCase:
+        asset = request.asset.strip().upper()
+        gross_eur = decision.estimate.gross_eur if decision.estimate else 0.0
+        case = ReviewCase(
+            case_id=self._next_case_id(),
+            created_at=datetime.now(timezone.utc).isoformat(),
+            case_type=decision.case_type or "buy_sell_review",
+            title="Digital asset buy/sell review",
+            status="Pending review",
+            risk_level=decision.risk_level,
+            reasons=decision.reasons,
+            customer="Claudio Demo",
+            action_type=decision.audit_event_type,
+            asset=asset,
+            amount=gross_eur,
+            network="banking settlement",
+            destination_address="Aurora Digital Assets Wallet",
+            wallet_type="internal_custodial_wallet_concept",
         )
         self._insert_case(case)
         return case
