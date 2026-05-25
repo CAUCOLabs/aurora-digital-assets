@@ -48,7 +48,7 @@ function formatEur(value: number) {
   }).format(value)
 }
 
-function formatAssetAmount(value: number, asset: PaymentAsset) {
+function formatAssetAmount(value: number, asset: PaymentAsset | string) {
   if (asset === 'BTC') return `${value.toFixed(8)} BTC`
   if (asset === 'ETH') return `${value.toFixed(6)} ETH`
   if (asset === 'EURD') return `${value.toFixed(2)} EURD`
@@ -82,34 +82,45 @@ export function PaymentsPage() {
   const parsedAmount = Number(amount.replace(',', '.'))
   const amountIsValid = Number.isFinite(parsedAmount) && parsedAmount > 0
   const amountEur = amountIsValid ? parsedAmount : 0
+
   const currentRecipient =
     recipientMode === 'own'
       ? 'Own account not selected'
       : recipient.trim() || 'Selected business recipient'
-  const hasRecipient =
-    recipientMode !== 'own' && recipient.trim().length > 0
+
+  const hasRecipient = recipientMode !== 'own' && recipient.trim().length > 0
   const detailsValue =
     detailsMode === 'reference' ? referenceNumber.trim() : message.trim()
   const recipientEligible = recipientMode !== 'own' && recipient.trim().length > 0
+
+  const digitalAssetReferenceReady =
+    paymentMethod !== 'digital-asset' ||
+    (detailsMode === 'reference' && referenceNumber.trim().length > 0)
+
   const canSubmit =
     amountEur > 0 &&
     dueDate.trim().length > 0 &&
     payerAccount.trim().length > 0 &&
     hasRecipient &&
     detailsValue.length > 0 &&
+    digitalAssetReferenceReady &&
     (paymentMethod !== 'digital-asset' || recipientEligible)
 
   const visibleStatus: PaymentStatus =
     status === 'submitted' ? 'submitted' : canSubmit ? 'ready' : 'draft'
+
   const isInternalDigitalAssetSettlement =
     paymentMethod === 'digital-asset' && paymentAsset === 'EURD'
   const isExternalDigitalAssetPayment =
     paymentMethod === 'digital-asset' && paymentAsset !== 'EURD'
+
   const serviceFee = isExternalDigitalAssetPayment ? 1.2 : 0
   const settlementFee = isExternalDigitalAssetPayment ? 0.3 : 0
+
   const feeExplanation = isInternalDigitalAssetSettlement
     ? 'Internal EUR digital asset settlement concept. No additional processing fee in this prototype.'
     : 'Simulated bank service fee for external digital asset payment processing.'
+
   const settlementExplanation = isInternalDigitalAssetSettlement
     ? 'Internal settlement concept. The invoice reference is preserved.'
     : 'Simulated settlement fee. The invoice reference is preserved.'
@@ -125,23 +136,30 @@ export function PaymentsPage() {
       selectedRate,
     }
   }, [amountEur, paymentAsset, serviceFee, settlementFee])
+
   const displayedEstimate = backendEvaluation?.estimate
     ? {
+        invoiceAmountEur: backendEvaluation.estimate.invoice_amount_eur,
         totalCostEur: backendEvaluation.estimate.total_estimated_cost_eur,
         assetAmount: backendEvaluation.estimate.estimated_asset_amount,
+        conversionRateEur: backendEvaluation.estimate.conversion_rate_eur,
         serviceFee: backendEvaluation.estimate.service_fee_eur,
         settlementFee: backendEvaluation.estimate.settlement_fee_eur,
-        paymentAsset: backendEvaluation.estimate.payment_asset as PaymentAsset,
+        paymentAsset: backendEvaluation.estimate.payment_asset,
+        recipientSettlement: backendEvaluation.estimate.recipient_settlement,
       }
     : {
+        invoiceAmountEur: amountEur,
         totalCostEur: estimate.totalCostEur,
         assetAmount: estimate.assetAmount,
+        conversionRateEur: estimate.selectedRate,
         serviceFee,
         settlementFee,
         paymentAsset,
+        recipientSettlement: 'Recipient receives EUR',
       }
 
-  const auditEvents = [
+  const localAuditEvents = [
     {
       title: 'Payment form opened',
       detail: `User opened the simulated payment flow for ${currentRecipient}.`,
@@ -156,14 +174,18 @@ export function PaymentsPage() {
       ? [
           {
             title: 'Digital asset payment method selected',
-            detail: `${assetLabels[paymentAsset]} selected for invoice ${initialInvoice.invoiceNumber} with ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue || 'not yet provided'}.`,
+            detail: `${assetLabels[paymentAsset]} selected for invoice ${initialInvoice.invoiceNumber} with ${
+              detailsMode === 'reference' ? 'reference' : 'message'
+            } ${detailsValue || 'not yet provided'}.`,
             status: 'Estimated',
           },
         ]
       : [
           {
             title: 'EUR bank transfer selected',
-            detail: `Standard EUR transfer selected for invoice ${initialInvoice.invoiceNumber} with ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue || 'not yet provided'}.`,
+            detail: `Standard EUR transfer selected for invoice ${initialInvoice.invoiceNumber} with ${
+              detailsMode === 'reference' ? 'reference' : 'message'
+            } ${detailsValue || 'not yet provided'}.`,
             status: 'Estimated',
           },
         ]),
@@ -184,27 +206,47 @@ export function PaymentsPage() {
     ...(status === 'submitted'
       ? [
           {
-            title: 'Payment submitted',
+            title: 'Payment submitted to prototype evaluation',
             detail:
               paymentMethod === 'digital-asset'
-                ? `Invoice ${initialInvoice.invoiceNumber} submitted to ${currentRecipient} using ${assetLabels[paymentAsset]}. Settlement remains linked to ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue}.`
-                : `Invoice ${initialInvoice.invoiceNumber} submitted to ${currentRecipient} as a standard EUR bank transfer with ${detailsMode === 'reference' ? 'reference' : 'message'} ${detailsValue}.`,
+                ? `Invoice ${initialInvoice.invoiceNumber} was submitted to the local backend evaluation flow using ${assetLabels[paymentAsset]}. No real payment was executed.`
+                : `Invoice ${initialInvoice.invoiceNumber} was submitted as a local simulated EUR bank transfer. No real payment was executed.`,
             status: 'Submitted',
           },
         ]
       : []),
-    ...(backendEvaluation
-      ? [
-          {
-            title: 'Backend evaluation recorded',
-            detail: backendEvaluation.case_id
-              ? `${backendEvaluation.user_message} Case ${backendEvaluation.case_id} was created.`
-              : backendEvaluation.user_message,
-            status: backendEvaluation.decision.replaceAll('_', ' '),
-          },
-        ]
-      : []),
   ]
+
+  const backendAuditEvents = backendEvaluation
+    ? [
+        {
+          title: 'Payment evaluation submitted',
+          detail: `Digital asset payment evaluation was submitted to the local FastAPI prototype for ${currentRecipient}.`,
+          status: 'Submitted',
+        },
+        {
+          title: 'Backend decision returned',
+          detail: backendEvaluation.user_message,
+          status: backendEvaluation.decision.replaceAll('_', ' '),
+        },
+        ...(backendEvaluation.case_id
+          ? [
+              {
+                title: 'Review case created',
+                detail: `Case ${backendEvaluation.case_id} was created for internal review.`,
+                status: 'Case created',
+              },
+            ]
+          : []),
+        {
+          title: 'Audit event recorded',
+          detail: backendEvaluation.audit_event_type.replaceAll('_', ' '),
+          status: 'Recorded',
+        },
+      ]
+    : null
+
+  const visibleAuditEvents = backendAuditEvents ?? localAuditEvents
 
   function markDraft() {
     setStatus('draft')
@@ -222,6 +264,7 @@ export function PaymentsPage() {
 
   async function handleSubmit() {
     if (!canSubmit) return
+
     setIsSubmitting(true)
     setBackendError(null)
 
@@ -235,17 +278,17 @@ export function PaymentsPage() {
       const evaluation = await evaluateDigitalAssetPayment({
         recipient_name: recipient.trim(),
         invoice_number: initialInvoice.invoiceNumber,
-        reference_number:
-          detailsMode === 'reference' ? referenceNumber.trim() : '',
+        reference_number: referenceNumber.trim(),
         amount_eur: amountEur,
         payment_asset: paymentAsset,
         source_account_id: primaryBankAccount.id,
       })
+
       setBackendEvaluation(evaluation)
       setStatus('submitted')
     } catch {
       setBackendError(
-        'Backend evaluation unavailable. Showing local prototype estimate.',
+        'Backend digital asset payment evaluation unavailable. Showing local prototype estimate.',
       )
       setBackendEvaluation(null)
       setStatus('submitted')
@@ -473,7 +516,10 @@ export function PaymentsPage() {
                     <input
                       value={recipientIban}
                       onChange={(event) =>
-                        updateEditableField(event.target.value, setRecipientIban)
+                        updateEditableField(
+                          event.target.value,
+                          setRecipientIban,
+                        )
                       }
                     />
                   </label>
@@ -612,6 +658,14 @@ export function PaymentsPage() {
                   </label>
                 )}
               </div>
+
+              {paymentMethod === 'digital-asset' &&
+                detailsMode === 'message' && (
+                  <p className="field-warning">
+                    Digital asset invoice payments require a reference number so
+                    the invoice record can be preserved.
+                  </p>
+                )}
             </Panel>
 
             <Panel>
@@ -678,7 +732,7 @@ export function PaymentsPage() {
 
                     <label>
                       Recipient settlement
-                      <input value="Recipient receives EUR" readOnly />
+                      <input value={displayedEstimate.recipientSettlement} readOnly />
                     </label>
                   </div>
 
@@ -687,7 +741,7 @@ export function PaymentsPage() {
                       <p>Invoice amount</p>
                       <strong>
                         <PrivacyAmount
-                          value={formatEur(amountEur)}
+                          value={formatEur(displayedEstimate.invoiceAmountEur)}
                           label="Invoice amount"
                         />
                       </strong>
@@ -713,6 +767,34 @@ export function PaymentsPage() {
                         />
                       </strong>
                     </div>
+                  </div>
+
+                  <div className="summary-list">
+                    <div>
+                      <span>Conversion rate</span>
+                      <strong>
+                        <PrivacyAmount
+                          value={formatEur(displayedEstimate.conversionRateEur)}
+                          label="Conversion rate"
+                        />
+                      </strong>
+                    </div>
+                    <div>
+                      <span>Recipient settlement</span>
+                      <strong>{displayedEstimate.recipientSettlement}</strong>
+                    </div>
+                    {backendEvaluation && (
+                      <>
+                        <div>
+                          <span>Backend decision</span>
+                          <strong>{backendEvaluation.decision}</strong>
+                        </div>
+                        <div>
+                          <span>Risk level</span>
+                          <strong>{backendEvaluation.risk_level}</strong>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <div className="assets-summary trade-summary">
@@ -747,7 +829,8 @@ export function PaymentsPage() {
                     <p>Payment type</p>
                     <strong>Standard EUR bank transfer</strong>
                     <span>
-                      The invoice is paid using normal banking payment rails.
+                      The invoice is paid using normal banking payment rails in
+                      the product concept. No real payment is executed here.
                     </span>
                   </div>
 
@@ -780,12 +863,12 @@ export function PaymentsPage() {
                 <label>
                   <input
                     type="checkbox"
-                      checked={moveToApprovalQueue}
-                      onChange={(event) => {
-                        setMoveToApprovalQueue(event.target.checked)
-                        markDraft()
-                      }}
-                    />
+                    checked={moveToApprovalQueue}
+                    onChange={(event) => {
+                      setMoveToApprovalQueue(event.target.checked)
+                      markDraft()
+                    }}
+                  />
                   Move to approval queue
                 </label>
               </div>
@@ -854,10 +937,10 @@ export function PaymentsPage() {
                     {backendEvaluation
                       ? backendEvaluation.decision
                       : visibleStatus === 'submitted'
-                      ? 'Submitted'
-                      : visibleStatus === 'ready'
-                        ? 'Ready'
-                        : 'Draft'}
+                        ? 'Submitted'
+                        : visibleStatus === 'ready'
+                          ? 'Ready'
+                          : 'Draft'}
                   </strong>
                 </div>
               </div>
@@ -900,7 +983,15 @@ export function PaymentsPage() {
             <Panel>
               <p className="eyebrow">Payment protection</p>
               <h2>Controls active</h2>
+
               {backendError && <p className="panel-note">{backendError}</p>}
+              {backendEvaluation && (
+                <p className="panel-note">
+                  Digital asset payment evaluation loaded from local FastAPI
+                  prototype.
+                </p>
+              )}
+
               {backendEvaluation && (
                 <div className="summary-list">
                   <div>
@@ -915,12 +1006,20 @@ export function PaymentsPage() {
                     <span>Message</span>
                     <strong>{backendEvaluation.user_message}</strong>
                   </div>
+                  <div>
+                    <span>Case required</span>
+                    <strong>{backendEvaluation.case_required ? 'Yes' : 'No'}</strong>
+                  </div>
                   {backendEvaluation.case_id && (
                     <div>
                       <span>Review case</span>
                       <strong>{backendEvaluation.case_id}</strong>
                     </div>
                   )}
+                  <div>
+                    <span>Reasons</span>
+                    <strong>{backendEvaluation.reasons.join(', ')}</strong>
+                  </div>
                 </div>
               )}
 
@@ -953,7 +1052,7 @@ export function PaymentsPage() {
               <h2>Payment evidence timeline</h2>
 
               <div className="account-list compact-audit-list">
-                {auditEvents.map((event) => (
+                {visibleAuditEvents.map((event) => (
                   <article className="account-row" key={event.title}>
                     <div>
                       <h3>{event.title}</h3>
