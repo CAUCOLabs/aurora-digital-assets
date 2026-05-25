@@ -2,11 +2,24 @@ import { useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
+import { PrivacyAmount } from '../components/PrivacyAmount'
+import {
+  evaluateBuySell,
+  type BuySellAsset,
+  type BuySellEvaluateResponse,
+  type BuySellSide,
+} from '../services/buySellApi'
 
-type TradeSide = 'buy' | 'sell'
-type TradeStatus = 'draft' | 'completed'
+type TradeStatus = 'draft' | 'ready' | 'evaluated'
 
-const marketPrices = {
+const marketPrices: Record<
+  BuySellAsset,
+  {
+    name: string
+    priceEur: number
+    balance: number
+  }
+> = {
   BTC: {
     name: 'Bitcoin',
     priceEur: 69500,
@@ -34,16 +47,20 @@ function formatCrypto(value: number, asset: string) {
 }
 
 export function BuySellPage() {
-  const [side, setSide] = useState<TradeSide>('buy')
-  const [asset, setAsset] = useState<'BTC' | 'ETH'>('BTC')
+  const [side, setSide] = useState<BuySellSide>('buy')
+  const [asset, setAsset] = useState<BuySellAsset>('BTC')
   const [amount, setAmount] = useState('')
   const [status, setStatus] = useState<TradeStatus>('draft')
+  const [backendEvaluation, setBackendEvaluation] =
+    useState<BuySellEvaluateResponse | null>(null)
+  const [backendError, setBackendError] = useState<string | null>(null)
+  const [isEvaluating, setIsEvaluating] = useState(false)
 
   const selectedMarket = marketPrices[asset]
-  const numericAmount = Number(amount)
+  const numericAmount = Number(amount.replace(',', '.'))
   const isValidAmount = Number.isFinite(numericAmount) && numericAmount > 0
 
-  const estimate = useMemo(() => {
+  const localEstimate = useMemo(() => {
     if (!isValidAmount) {
       return {
         grossEur: 0,
@@ -51,6 +68,7 @@ export function BuySellPage() {
         spreadEur: 0,
         netEur: 0,
         cryptoAmount: 0,
+        marketPriceEur: selectedMarket.priceEur,
       }
     }
 
@@ -67,6 +85,7 @@ export function BuySellPage() {
         spreadEur,
         netEur,
         cryptoAmount,
+        marketPriceEur: selectedMarket.priceEur,
       }
     }
 
@@ -82,37 +101,107 @@ export function BuySellPage() {
       spreadEur,
       netEur,
       cryptoAmount,
+      marketPriceEur: selectedMarket.priceEur,
     }
-    }, [isValidAmount, numericAmount, selectedMarket.priceEur, side])
+  }, [isValidAmount, numericAmount, selectedMarket.priceEur, side])
 
-  const auditEvents = [
+  const displayedEstimate = backendEvaluation?.estimate
+    ? {
+        grossEur: backendEvaluation.estimate.gross_eur,
+        feeEur: backendEvaluation.estimate.fee_eur,
+        spreadEur: backendEvaluation.estimate.spread_eur,
+        netEur: backendEvaluation.estimate.net_eur,
+        cryptoAmount: backendEvaluation.estimate.estimated_asset_amount,
+        marketPriceEur: backendEvaluation.estimate.market_price_eur,
+      }
+    : localEstimate
+
+  const visibleStatus: TradeStatus =
+    status === 'evaluated' ? 'evaluated' : isValidAmount ? 'ready' : 'draft'
+
+  const backendAuditEvents = backendEvaluation
+    ? [
+        {
+          title: 'Buy/sell evaluation submitted',
+          detail: `${side === 'buy' ? 'Buy' : 'Sell'} ${asset} request was submitted to the local FastAPI prototype.`,
+          status: 'Submitted',
+        },
+        {
+          title: 'Backend decision returned',
+          detail: backendEvaluation.user_message,
+          status: backendEvaluation.decision.replaceAll('_', ' '),
+        },
+        ...(backendEvaluation.case_id
+          ? [
+              {
+                title: 'Review case created',
+                detail: `Case ${backendEvaluation.case_id} was created for internal review.`,
+                status: 'Case created',
+              },
+            ]
+          : []),
+        {
+          title: 'Audit event recorded',
+          detail: backendEvaluation.audit_event_type.replaceAll('_', ' '),
+          status: 'Recorded',
+        },
+      ]
+    : null
+
+  const localAuditEvents = [
     {
       title: 'Trade form opened',
       detail: 'User entered the simulated buy/sell flow.',
       status: 'Recorded',
     },
-    ...(status === 'completed'
-      ? [
-          {
-            title: `${side === 'buy' ? 'Purchase' : 'Sale'} completed`,
-            detail:
-              side === 'buy'
-                ? `${formatEur(estimate.grossEur)} converted into ${formatCrypto(
-                    estimate.cryptoAmount,
-                    asset,
-                  )}.`
-                : `${formatCrypto(estimate.cryptoAmount, asset)} converted into ${formatEur(
-                    estimate.netEur,
-                  )}.`,
-            status: 'Completed simulation',
-          },
-        ]
-      : []),
+    {
+      title: 'Local estimate prepared',
+      detail:
+        side === 'buy'
+          ? `${formatEur(displayedEstimate.grossEur)} estimated into ${formatCrypto(
+              displayedEstimate.cryptoAmount,
+              asset,
+            )}.`
+          : `${formatCrypto(displayedEstimate.cryptoAmount, asset)} estimated into ${formatEur(
+              displayedEstimate.netEur,
+            )}.`,
+      status: isValidAmount ? 'Ready' : 'Draft',
+    },
   ]
 
-  function handleSubmit() {
+  const visibleAuditEvents = backendAuditEvents ?? localAuditEvents
+
+  function resetEvaluation() {
+    setStatus('draft')
+    setBackendEvaluation(null)
+    setBackendError(null)
+  }
+
+  async function handleSubmit() {
     if (!isValidAmount) return
-    setStatus('completed')
+
+    setIsEvaluating(true)
+    setBackendError(null)
+
+    try {
+      const evaluation = await evaluateBuySell({
+        side,
+        asset,
+        amount: numericAmount,
+        source_account_id: 'aurora-current',
+      })
+
+      setBackendEvaluation(evaluation)
+      setStatus('evaluated')
+    } catch {
+      setBackendEvaluation(null)
+      setBackendError(
+        'Backend buy/sell evaluation unavailable. Showing local prototype estimate.',
+      )
+      setStatus('evaluated')
+    } finally {
+      setIsEvaluating(false)
+    }
   }
 
   function handleReset() {
@@ -120,6 +209,8 @@ export function BuySellPage() {
     setAsset('BTC')
     setAmount('')
     setStatus('draft')
+    setBackendEvaluation(null)
+    setBackendError(null)
   }
 
   return (
@@ -132,14 +223,22 @@ export function BuySellPage() {
             <p className="eyebrow">Buy / Sell</p>
             <h1>Digital assets transaction</h1>
             <p>
-              Simulate a responsible BTC or ETH buy/sell flow with transparent
+              Evaluate a responsible BTC or ETH buy/sell request with transparent
               price, fee, spread, and risk information.
             </p>
           </div>
 
           <div className="security-badge">
-            <span className={status === 'completed' ? 'status-dot' : 'warning-dot'}></span>
-            {status === 'completed' ? 'Completed simulation' : 'Draft'}
+            <span
+              className={
+                visibleStatus === 'evaluated' ? 'status-dot' : 'warning-dot'
+              }
+            ></span>
+            {visibleStatus === 'evaluated'
+              ? 'Evaluated'
+              : visibleStatus === 'ready'
+                ? 'Ready'
+                : 'Draft'}
           </div>
         </section>
 
@@ -153,8 +252,17 @@ export function BuySellPage() {
                   <p className="eyebrow">Transaction</p>
                   <h2>Order details</h2>
                 </div>
-                <span className="module-tag">Simulation</span>
+                <span className="module-tag">
+                  {backendEvaluation ? 'Backend evaluation' : 'Prototype estimate'}
+                </span>
               </div>
+
+              {backendError && <p className="panel-note">{backendError}</p>}
+              {backendEvaluation && (
+                <p className="panel-note">
+                  Buy/sell evaluation loaded from local FastAPI prototype.
+                </p>
+              )}
 
               <div className="trade-toggle" aria-label="Trade side">
                 <button
@@ -162,8 +270,8 @@ export function BuySellPage() {
                   className={side === 'buy' ? 'toggle-active' : 'secondary-button'}
                   onClick={() => {
                     setSide('buy')
-                    setStatus('draft')
                     setAmount('')
+                    resetEvaluation()
                   }}
                 >
                   Buy
@@ -173,8 +281,8 @@ export function BuySellPage() {
                   className={side === 'sell' ? 'toggle-active' : 'secondary-button'}
                   onClick={() => {
                     setSide('sell')
-                    setStatus('draft')
                     setAmount('')
+                    resetEvaluation()
                   }}
                 >
                   Sell
@@ -187,8 +295,8 @@ export function BuySellPage() {
                   <select
                     value={asset}
                     onChange={(event) => {
-                      setAsset(event.target.value as 'BTC' | 'ETH')
-                      setStatus('draft')
+                      setAsset(event.target.value as BuySellAsset)
+                      resetEvaluation()
                     }}
                   >
                     <option value="BTC">BTC — Bitcoin</option>
@@ -202,26 +310,52 @@ export function BuySellPage() {
                     value={amount}
                     onChange={(event) => {
                       setAmount(event.target.value)
-                      setStatus('draft')
+                      resetEvaluation()
                     }}
-                    placeholder={side === 'buy' ? '50.00' : asset === 'BTC' ? '0.001' : '0.05'}
+                    placeholder={
+                      side === 'buy'
+                        ? '50.00'
+                        : asset === 'BTC'
+                          ? '0.001'
+                          : '0.05'
+                    }
                     inputMode="decimal"
                   />
+                  {!isValidAmount && amount.length > 0 && (
+                    <span className="field-warning">
+                      Amount must be greater than zero.
+                    </span>
+                  )}
                 </label>
               </div>
 
               <div className="withdrawal-preview">
                 <div>
                   <p>Market price</p>
-                  <strong>{formatEur(selectedMarket.priceEur)}</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value={formatEur(displayedEstimate.marketPriceEur)}
+                      label={`${asset} market price`}
+                    />
+                  </strong>
                 </div>
                 <div>
                   <p>Estimated fee</p>
-                  <strong>{formatEur(estimate.feeEur)}</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value={formatEur(displayedEstimate.feeEur)}
+                      label="Estimated fee"
+                    />
+                  </strong>
                 </div>
                 <div>
                   <p>Estimated spread</p>
-                  <strong>{formatEur(estimate.spreadEur)}</strong>
+                  <strong>
+                    <PrivacyAmount
+                      value={formatEur(displayedEstimate.spreadEur)}
+                      label="Estimated spread"
+                    />
+                  </strong>
                 </div>
               </div>
 
@@ -233,22 +367,36 @@ export function BuySellPage() {
                       : 'Estimated EUR received'}
                   </p>
                   <strong>
-                    {side === 'buy'
-                      ? formatCrypto(estimate.cryptoAmount, asset)
-                      : formatEur(estimate.netEur)}
+                    <PrivacyAmount
+                      value={
+                        side === 'buy'
+                          ? formatCrypto(displayedEstimate.cryptoAmount, asset)
+                          : formatEur(displayedEstimate.netEur)
+                      }
+                      label={
+                        side === 'buy'
+                          ? 'Estimated crypto received'
+                          : 'Estimated EUR received'
+                      }
+                    />
                   </strong>
                   <span>
-                    Estimate only. Final settlement would depend on execution
-                    price and bank/custody rules.
+                    Estimate only. No real market execution, settlement, or
+                    custody movement occurs in this prototype.
                   </span>
                 </div>
 
                 <div className="custody-card">
                   <p>Available balance</p>
                   <strong>
-                    {side === 'buy'
-                      ? '2 450,10 €'
-                      : formatCrypto(selectedMarket.balance, asset)}
+                    <PrivacyAmount
+                      value={
+                        side === 'buy'
+                          ? '2 450,10 €'
+                          : formatCrypto(selectedMarket.balance, asset)
+                      }
+                      label="Available balance"
+                    />
                   </strong>
                   <span>
                     Simulated balance shown for prototype purposes only.
@@ -257,10 +405,20 @@ export function BuySellPage() {
               </div>
 
               <div className="action-row">
-                <button type="button" onClick={handleSubmit} disabled={!isValidAmount}>
-                  Confirm simulated {side}
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={!isValidAmount || isEvaluating}
+                >
+                  {isEvaluating
+                    ? 'Evaluating...'
+                    : `Evaluate simulated ${side}`}
                 </button>
-                <button className="secondary-button" type="button" onClick={handleReset}>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  onClick={handleReset}
+                >
                   Reset
                 </button>
               </div>
@@ -272,11 +430,13 @@ export function BuySellPage() {
                   <p className="eyebrow">Audit trail</p>
                   <h2>Transaction evidence timeline</h2>
                 </div>
-                <span className="module-tag">Deterministic log</span>
+                <span className="module-tag">
+                  {backendEvaluation ? 'Backend audit concept' : 'Local draft'}
+                </span>
               </div>
 
               <div className="account-list">
-                {auditEvents.map((event) => (
+                {visibleAuditEvents.map((event) => (
                   <article className="account-row" key={event.title}>
                     <div>
                       <h3>{event.title}</h3>
@@ -296,13 +456,61 @@ export function BuySellPage() {
               <h2>Digital assets are volatile</h2>
               <p>
                 BTC and ETH prices can move quickly. This prototype shows a
-                responsible bank-style confirmation flow, not investment advice.
+                responsible bank-style evaluation flow, not investment advice.
               </p>
             </Panel>
 
             <Panel>
+              <p className="eyebrow">Evaluation result</p>
+              <h2>
+                {backendEvaluation
+                  ? backendEvaluation.decision.replaceAll('_', ' ')
+                  : visibleStatus === 'ready'
+                    ? 'Ready for evaluation'
+                    : 'Draft'}
+              </h2>
+
+              {backendEvaluation ? (
+                <div className="summary-list">
+                  <div>
+                    <span>Decision</span>
+                    <strong>{backendEvaluation.decision}</strong>
+                  </div>
+                  <div>
+                    <span>Risk level</span>
+                    <strong>{backendEvaluation.risk_level}</strong>
+                  </div>
+                  <div>
+                    <span>Message</span>
+                    <strong>{backendEvaluation.user_message}</strong>
+                  </div>
+                  <div>
+                    <span>Case required</span>
+                    <strong>{backendEvaluation.case_required ? 'Yes' : 'No'}</strong>
+                  </div>
+                  {backendEvaluation.case_id && (
+                    <div>
+                      <span>Review case</span>
+                      <strong>{backendEvaluation.case_id}</strong>
+                    </div>
+                  )}
+                  <div>
+                    <span>Reasons</span>
+                    <strong>{backendEvaluation.reasons.join(', ')}</strong>
+                  </div>
+                </div>
+              ) : (
+                <p>
+                  Enter an amount and evaluate the request. The backend will
+                  return a simulated decision, risk level, estimate, and review
+                  requirement.
+                </p>
+              )}
+            </Panel>
+
+            <Panel>
               <p className="eyebrow">Transparency</p>
-              <h2>Before confirmation</h2>
+              <h2>Before evaluation</h2>
 
               <div className="check-list">
                 <div>
@@ -326,18 +534,20 @@ export function BuySellPage() {
 
             <Panel>
               <p className="eyebrow">Product boundary</p>
-              <h2>Simulation only</h2>
+              <h2>Evaluation only</h2>
               <p>
-                This flow does not execute trades, connect to an exchange, or
-                move real funds. All values are mock values.
+                This flow does not execute trades, connect to an exchange, move
+                real funds, or transfer crypto assets. It only evaluates a
+                simulated request using the local backend prototype.
               </p>
             </Panel>
           </aside>
         </section>
 
         <section className="disclaimer">
-          Independent concept prototype. This page simulates a buy/sell flow and
-          does not provide financial advice or execute real transactions.
+          Independent concept prototype. This page evaluates a simulated buy/sell
+          request and does not provide financial advice or execute real
+          transactions.
         </section>
       </main>
     </div>
