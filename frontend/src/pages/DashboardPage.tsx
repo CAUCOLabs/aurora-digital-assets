@@ -1,12 +1,134 @@
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { AccountRow } from '../components/AccountRow'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
 import { PrivacyAmount } from '../components/PrivacyAmount'
-import { accounts, digitalAssets, notifications } from '../data/dashboardData'
+import {
+  accounts as fallbackAccounts,
+  digitalAssets as fallbackDigitalAssets,
+  notifications,
+} from '../data/dashboardData'
+import { listAccounts, type BankAccount } from '../services/accountsApi'
+import {
+  getCustodyStatus,
+  listWalletBalances,
+  type CustodyStatus,
+  type WalletBalance,
+} from '../services/digitalAssetsApi'
+
+function formatEur(value: number) {
+  return new Intl.NumberFormat('fi-FI', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(value)
+}
+
+function parseEuroAmount(value: string) {
+  const normalized = value
+    .replace(/[^\d,.-]/g, '')
+    .replace(/\s/g, '')
+    .replace(',', '.')
+
+  const parsed = Number(normalized)
+  return Number.isFinite(parsed) ? parsed : 0
+}
+
+function isMoneyValue(value: string) {
+  return /\d/.test(value) && value.includes('€')
+}
+
+function toDashboardAccount(account: BankAccount) {
+  return {
+    name: account.name,
+    type: `${account.type} · ${account.status}`,
+    balance: account.availableBalance,
+    maskedIban: account.iban,
+  }
+}
+
+function toDashboardAsset(asset: WalletBalance) {
+  return {
+    asset: asset.name,
+    symbol: asset.symbol,
+    balance: asset.balance,
+    value: asset.estimatedValue,
+  }
+}
 
 export function DashboardPage() {
+  const [backendAccounts, setBackendAccounts] = useState<BankAccount[]>([])
+  const [walletBalances, setWalletBalances] = useState<WalletBalance[]>([])
+  const [custodyStatus, setCustodyStatus] = useState<CustodyStatus | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [backendError, setBackendError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchDashboardData() {
+      setIsLoading(true)
+
+      try {
+        const [accountsResponse, walletResponse, custodyResponse] =
+          await Promise.all([
+            listAccounts(),
+            listWalletBalances(),
+            getCustodyStatus(),
+          ])
+
+        setBackendAccounts(accountsResponse)
+        setWalletBalances(walletResponse)
+        setCustodyStatus(custodyResponse)
+        setBackendError(null)
+      } catch {
+        setBackendAccounts([])
+        setWalletBalances([])
+        setCustodyStatus(null)
+        setBackendError(
+          'Backend dashboard data unavailable. Showing local prototype fallback.',
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    void fetchDashboardData()
+  }, [])
+
+  const visibleAccounts =
+    backendAccounts.length > 0
+      ? backendAccounts.map(toDashboardAccount)
+      : fallbackAccounts
+
+  const visibleDigitalAssets =
+    walletBalances.length > 0
+      ? walletBalances.map(toDashboardAsset)
+      : fallbackDigitalAssets
+
+  const totalDigitalAssetsValue = useMemo(() => {
+    if (walletBalances.length === 0) return '1 245,80 €'
+
+    const total = walletBalances
+      .filter((asset) => isMoneyValue(asset.estimatedValue))
+      .reduce((sum, asset) => sum + parseEuroAmount(asset.estimatedValue), 0)
+
+    return formatEur(total)
+  }, [walletBalances])
+
+  const custodyMode =
+    custodyStatus?.custodyMode ?? 'Internal custodial wallet concept'
+
+  const custodySummary = custodyStatus
+    ? [
+        custodyStatus.auditTrailEnabled ? 'Audit trail enabled' : null,
+        custodyStatus.externalWithdrawalsRequireReview
+          ? 'External withdrawals require review'
+          : null,
+      ]
+        .filter(Boolean)
+        .join(' · ')
+    : 'Digital assets access active · Audit trail enabled'
+
   return (
     <div className="bank-shell">
       <TopBar userName="Claudio Demo" />
@@ -36,13 +158,23 @@ export function DashboardPage() {
                   <p className="eyebrow">Accounts</p>
                   <h2>Your accounts</h2>
                 </div>
-                <button className="secondary-button" type="button">
+                <Link className="button-link secondary-button" to="/payments">
                   New payment
-                </button>
+                </Link>
               </div>
 
+              {isLoading && (
+                <p className="panel-note">Loading dashboard data...</p>
+              )}
+              {backendError && <p className="panel-note">{backendError}</p>}
+              {!backendError && !isLoading && (
+                <p className="panel-note">
+                  Dashboard data loaded from local FastAPI prototype.
+                </p>
+              )}
+
               <div className="account-list">
-                {accounts.map((account) => (
+                {visibleAccounts.map((account) => (
                   <AccountRow key={account.name} account={account} />
                 ))}
               </div>
@@ -54,7 +186,9 @@ export function DashboardPage() {
                   <p className="eyebrow">Digital Assets</p>
                   <h2>Aurora Digital Assets Wallet</h2>
                 </div>
-                <span className="module-tag">Concept module</span>
+                <span className="module-tag">
+                  {walletBalances.length > 0 ? 'Backend module' : 'Concept module'}
+                </span>
               </div>
 
               <div className="assets-summary">
@@ -62,7 +196,7 @@ export function DashboardPage() {
                   <p>Total digital assets value</p>
                   <strong>
                     <PrivacyAmount
-                      value="1 245,80 €"
+                      value={totalDigitalAssetsValue}
                       label="Total digital assets value"
                     />
                   </strong>
@@ -74,13 +208,13 @@ export function DashboardPage() {
 
                 <div className="custody-card">
                   <p>Custody status</p>
-                  <strong>Internal custodial wallet concept</strong>
-                  <span>Digital assets access active · Audit trail enabled</span>
+                  <strong>{custodyMode}</strong>
+                  <span>{custodySummary}</span>
                 </div>
               </div>
 
               <div className="asset-list">
-                {digitalAssets.map((asset) => (
+                {visibleDigitalAssets.map((asset) => (
                   <DigitalAssetRow key={asset.symbol} asset={asset} />
                 ))}
               </div>
@@ -140,8 +274,29 @@ export function DashboardPage() {
                   Transaction monitoring enabled
                 </div>
                 <div>
+                  <span
+                    className={
+                      custodyStatus?.auditTrailEnabled
+                        ? 'status-dot'
+                        : 'warning-dot'
+                    }
+                  ></span>
+                  Audit trail{' '}
+                  {custodyStatus?.auditTrailEnabled ? 'enabled' : 'concept'}
+                </div>
+                <div>
+                  <span
+                    className={
+                      custodyStatus?.externalWithdrawalsRequireReview
+                        ? 'warning-dot'
+                        : 'status-dot'
+                    }
+                  ></span>
+                  External withdrawals require review
+                </div>
+                <div>
                   <span className="warning-dot"></span>
-                  Withdrawal pending review
+                  Digital assets are separate from deposits
                 </div>
               </div>
             </Panel>
