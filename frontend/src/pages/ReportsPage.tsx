@@ -71,10 +71,10 @@ const fallbackAuditEvents: DisplayRow[] = [
     status: 'Recorded',
   },
   {
-    id: 'fallback-purchase-completed',
-    title: 'BTC purchase completed',
+    id: 'fallback-buy-evaluated',
+    title: 'BTC buy evaluation recorded',
     detail: 'Buy / Sell',
-    status: 'Completed',
+    status: 'Recorded',
   },
 ]
 
@@ -129,6 +129,27 @@ function formatEur(amount: number) {
   }).format(amount)
 }
 
+function formatLabel(value: string) {
+  return value
+    .replaceAll('_', ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase())
+}
+
+function formatStatus(value: string) {
+  return value
+    .replaceAll('_', ' ')
+    .toLowerCase()
+    .replace(/^\w/, (letter) => letter.toUpperCase())
+}
+
+function formatReviewAmount(reviewCase: ReviewCase) {
+  if (reviewCase.case_type === 'external_withdrawal_review') {
+    return `${reviewCase.amount} ${reviewCase.asset}`
+  }
+
+  return formatEur(reviewCase.amount)
+}
+
 export function ReportsPage() {
   const [backendAuditEvents, setBackendAuditEvents] = useState<AuditEvent[]>([])
   const [backendReviewCases, setBackendReviewCases] = useState<ReviewCase[]>([])
@@ -151,9 +172,9 @@ export function ReportsPage() {
       ? backendReports.map((report) => ({
           id: report.report_id,
           title: report.title,
-          detail: report.description,
+          detail: `${report.description} Included records: ${report.item_count}.`,
           status: report.status,
-          message: report.generated_from,
+          message: `Source: ${report.generated_from}`,
         }))
       : backendFailures.reports
         ? fallbackReports
@@ -167,7 +188,7 @@ export function ReportsPage() {
     backendAuditEvents.length > 0
       ? backendAuditEvents.map((event) => ({
           id: event.event_id,
-          title: event.action_type.replaceAll('_', ' '),
+          title: formatLabel(event.action_type),
           detail: [
             event.module,
             event.risk_level ? `${event.risk_level} risk` : null,
@@ -175,33 +196,11 @@ export function ReportsPage() {
           ]
             .filter(Boolean)
             .join(' · '),
-          status: event.status,
+          status: formatStatus(event.status),
           message: event.user_message,
         }))
       : backendFailures.auditEvents
         ? fallbackAuditEvents
-        : []
-
-  const reviewCaseRows: DisplayRow[] =
-    backendReviewCases.length > 0
-      ? backendReviewCases.map((reviewCase) => ({
-          id: reviewCase.case_id,
-          title: reviewCase.title,
-          detail: `${reviewCase.case_type.replaceAll('_', ' ')} · ${
-            reviewCase.asset
-          } · ${reviewCase.amount}`,
-          status: `${reviewCase.status} · ${reviewCase.risk_level} risk`,
-          message: [
-            `Destination / recipient: ${reviewCase.destination_address}`,
-            reviewCase.reviewer_decision
-              ? `Reviewer decision: ${reviewCase.reviewer_decision}`
-              : null,
-          ]
-            .filter(Boolean)
-            .join(' · '),
-        }))
-      : backendFailures.reviewCases
-        ? fallbackReviewCases
         : []
 
   const hasBackendFailure = Object.values(backendFailures).some(Boolean)
@@ -336,7 +335,7 @@ export function ReportsPage() {
                   <h2>Digital asset reports</h2>
                 </div>
                 <span className="module-tag">
-                  {backendReports.length > 0 ? 'Backend reports' : 'Fallback reports'}
+                  {backendFailures.reports ? 'Local fallback' : 'Backend reports'}
                 </span>
               </div>
 
@@ -411,7 +410,13 @@ export function ReportsPage() {
                     <div>
                       <p>External transfers</p>
                       <strong>
-                        {taxSummary.external_transfers_count} pending review
+                        {taxSummary.external_transfers_count}
+                      </strong>
+                    </div>
+                    <div>
+                      <p>Pending review cases</p>
+                      <strong>
+                        {taxSummary.pending_review_cases}
                       </strong>
                     </div>
                     <div>
@@ -440,7 +445,11 @@ export function ReportsPage() {
                   <p className="eyebrow">Audit evidence timeline</p>
                   <h2>Cross-module audit evidence</h2>
                 </div>
-                <span className="module-tag">Deterministic log</span>
+                <span className="module-tag">
+                  {backendFailures.auditEvents
+                    ? 'Local fallback'
+                    : 'Backend audit events'}
+                </span>
               </div>
               {isLoading && <p className="panel-note">Loading report evidence...</p>}
 
@@ -468,24 +477,105 @@ export function ReportsPage() {
                   <h2>Internal review cases</h2>
                 </div>
                 <span className="module-tag">
-                  {backendReviewCases.length > 0
-                    ? 'Backend evidence'
-                    : 'Prototype evidence'}
+                  {backendFailures.reviewCases
+                    ? 'Local fallback'
+                    : 'Backend review cases'}
                 </span>
               </div>
 
-              <div className="account-list">
-                {reviewCaseRows.map((reviewCase) => (
-                  <article className="account-row" key={reviewCase.id}>
-                    <div>
-                      <h3>{reviewCase.title}</h3>
-                      <p>{reviewCase.detail}</p>
-                      {reviewCase.message && <span>{reviewCase.message}</span>}
-                    </div>
-                    <strong>{reviewCase.status}</strong>
-                  </article>
-                ))}
-              </div>
+              {backendReviewCases.length > 0 && (
+                <div className="account-list">
+                  {backendReviewCases.map((reviewCase) => (
+                    <article className="account-row" key={reviewCase.case_id}>
+                      <div>
+                        <h3>{reviewCase.title}</h3>
+                        <div className="summary-list">
+                          <div>
+                            <span>Case ID</span>
+                            <strong>{reviewCase.case_id}</strong>
+                          </div>
+                          <div>
+                            <span>Status</span>
+                            <strong>
+                              <span
+                                className={
+                                  formatStatus(reviewCase.status) ===
+                                  'Pending review'
+                                    ? 'warning-dot'
+                                    : 'status-dot'
+                                }
+                              ></span>
+                              {formatStatus(reviewCase.status)}
+                            </strong>
+                          </div>
+                          <div>
+                            <span>Risk level</span>
+                            <strong>{reviewCase.risk_level}</strong>
+                          </div>
+                          <div>
+                            <span>Case type</span>
+                            <strong>{formatLabel(reviewCase.case_type)}</strong>
+                          </div>
+                          <div>
+                            <span>Asset</span>
+                            <strong>{reviewCase.asset}</strong>
+                          </div>
+                          <div>
+                            <span>Amount</span>
+                            <strong>
+                              <PrivacyAmount
+                                value={formatReviewAmount(reviewCase)}
+                                label={`${reviewCase.case_id} amount`}
+                              />
+                            </strong>
+                          </div>
+                          <div>
+                            <span>Destination / recipient</span>
+                            <strong>{reviewCase.destination_address}</strong>
+                          </div>
+                          <div>
+                            <span>Reasons</span>
+                            <strong>
+                              {reviewCase.reasons.map(formatLabel).join(', ')}
+                            </strong>
+                          </div>
+                          {reviewCase.reviewer_decision && (
+                            <div>
+                              <span>Reviewer decision</span>
+                              <strong>
+                                {formatStatus(reviewCase.reviewer_decision)}
+                              </strong>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <strong>{formatStatus(reviewCase.status)}</strong>
+                    </article>
+                  ))}
+                </div>
+              )}
+
+              {backendFailures.reviewCases && (
+                <div className="account-list">
+                  {fallbackReviewCases.map((reviewCase) => (
+                    <article className="account-row" key={reviewCase.id}>
+                      <div>
+                        <h3>{reviewCase.title}</h3>
+                        <p>{reviewCase.detail}</p>
+                      </div>
+                      <strong>{reviewCase.status}</strong>
+                    </article>
+                  ))}
+                </div>
+              )}
+
+              {!isLoading &&
+                !backendFailures.reviewCases &&
+                backendReviewCases.length === 0 && (
+                  <p className="panel-note">
+                    No persisted review cases are available for this report.
+                  </p>
+                )}
             </Panel>
 
             <Panel>
@@ -513,6 +603,11 @@ export function ReportsPage() {
               {evidencePackageMessage && (
                 <p className="panel-note">{evidencePackageMessage}</p>
               )}
+
+              <p className="panel-note">
+                Evidence package concept only. No real PDF or CSV file is
+                generated by this action.
+              </p>
 
               <div className="action-row">
                 <button type="button">Export PDF</button>
@@ -614,8 +709,8 @@ export function ReportsPage() {
               <h2>Simulated tax information</h2>
               <p>
                 This page provides simulated reporting concepts only. It does
-                not replace official tax filing, legal advice, or professional
-                tax guidance.
+                not provide official tax advice or replace professional tax
+                guidance.
               </p>
             </Panel>
 
@@ -623,8 +718,9 @@ export function ReportsPage() {
               <p className="eyebrow">Product boundary</p>
               <h2>Mock records only</h2>
               <p>
-                Reports are generated from mock data. No real bank records,
-                crypto transactions, private keys, or customer data are used.
+                Reports are generated from simulated values only. No real bank
+                records, real crypto custody data, private keys, or customer
+                data are used.
               </p>
             </Panel>
           </aside>
