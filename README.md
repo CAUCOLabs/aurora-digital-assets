@@ -554,6 +554,12 @@ This concept connects with previous projects by the author:
 
 ---
 
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+---
+
 ## Disclaimer
 
 Aurora Digital Assets is an independent concept prototype.
