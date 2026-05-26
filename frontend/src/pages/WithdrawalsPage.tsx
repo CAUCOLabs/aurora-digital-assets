@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
@@ -691,6 +692,12 @@ export function WithdrawalsPage() {
                     <div>
                       <span>Review case</span>
                       <strong>{backendDecision.case_id}</strong>
+                      <Link
+                        className="button-link secondary-button"
+                        to="/compliance-review"
+                      >
+                        View in Compliance Review
+                      </Link>
                     </div>
                   )}
                   <div>
