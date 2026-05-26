@@ -27,9 +27,10 @@ type LocalReviewCase = {
   amount: number
   network: string
   reasons: string[]
+  reviewer_decision?: string | null
 }
 
-const reviewQueue = [
+const reviewQueue: LocalReviewCase[] = [
   {
     case_id: 'CASE-DA-2026-001',
     case_type: 'external_withdrawal_review',
@@ -95,7 +96,7 @@ const reviewQueue = [
     network: 'Bitcoin',
     reasons: ['Wallet risk check enabled'],
   },
-] satisfies LocalReviewCase[]
+]
 
 const evidenceTimeline = [
   {
@@ -141,6 +142,21 @@ const monitoringSignals = [
 const defaultDecisionNotes =
   'Simulated reviewer decision from Compliance Review dashboard.'
 
+function formatLabel(value: string) {
+  const normalizedValue = value.replaceAll('_', ' ').replace(/\s+/g, ' ').trim()
+  return normalizedValue
+    .toLowerCase()
+    .replace(/^\w/, (letter) => letter.toUpperCase())
+}
+
+function formatStatus(value: string) {
+  return formatLabel(value)
+}
+
+function formatDecision(value: string) {
+  return formatLabel(value)
+}
+
 export function ComplianceReviewPage() {
   const [selectedDecision, setSelectedDecision] =
     useState<ReviewerDecision | null>(null)
@@ -153,7 +169,7 @@ export function ComplianceReviewPage() {
   const [reviewerMessage, setReviewerMessage] = useState<string | null>(null)
   const [decisionNotes, setDecisionNotes] = useState(defaultDecisionNotes)
 
-  const activeReviewCases = reviewCases.length > 0 ? reviewCases : reviewQueue
+  const activeReviewCases = backendError ? reviewQueue : reviewCases
   const selectedCaseIdOrDefault =
     selectedCaseId ?? activeReviewCases[0]?.case_id ?? null
   const selectedCase =
@@ -161,29 +177,44 @@ export function ComplianceReviewPage() {
       (reviewCase) => reviewCase.case_id === selectedCaseIdOrDefault,
     ) ??
     activeReviewCases[0]
-  const selectedCaseAuditEvents =
-    selectedCase?.case_id && auditEvents.length > 0
-      ? auditEvents.filter((event) => event.case_id === selectedCase.case_id)
-      : []
-  const visibleAuditEvents =
-    selectedCaseAuditEvents.length > 0 ? selectedCaseAuditEvents : auditEvents
+  const sortedAuditEvents = [...auditEvents].sort((firstEvent, secondEvent) =>
+    secondEvent.timestamp.localeCompare(firstEvent.timestamp),
+  )
+  const selectedCaseAuditEvents = selectedCase?.case_id
+    ? sortedAuditEvents.filter((event) => event.case_id === selectedCase.case_id)
+    : []
+  const visibleAuditEvents = (
+    selectedCaseAuditEvents.length > 0
+      ? selectedCaseAuditEvents
+      : sortedAuditEvents
+  ).slice(0, 6)
   const activeEvidenceTimeline =
-    visibleAuditEvents.length > 0
-      ? visibleAuditEvents.map((event) => ({
-          title: event.action_type.replaceAll('_', ' '),
-          detail:
-            event.user_message ??
-            `${event.module} event ${event.event_id} recorded.`,
-          status: event.status,
+    backendError
+      ? evidenceTimeline.map((event) => ({
+          ...event,
+          id: event.title,
         }))
-      : evidenceTimeline
+      : visibleAuditEvents.map((event) => ({
+          id: event.event_id,
+          title: formatLabel(event.action_type),
+          detail:
+            (event.user_message ??
+              `${formatLabel(event.module)} event ${event.event_id} recorded.`) +
+            (event.decision
+              ? ` Decision: ${formatDecision(event.decision)}.`
+              : ''),
+          status: formatStatus(event.status),
+        }))
   const activeMonitoringSignals = useMemo(() => {
-    if (!selectedCase) return monitoringSignals
-    const reasonSignals = selectedCase.reasons.map((reason) =>
-      reason.replaceAll('_', ' '),
-    )
+    if (!selectedCase) return backendError ? monitoringSignals : []
+    const reasonSignals = selectedCase.reasons.map(formatLabel)
     return reasonSignals.length > 0 ? reasonSignals : monitoringSignals
-  }, [selectedCase])
+  }, [backendError, selectedCase])
+  const isSelectedCaseFinal = selectedCase
+    ? ['Approved', 'Rejected', 'Escalated'].includes(
+        formatStatus(selectedCase.status),
+      )
+    : false
 
   useEffect(() => {
     void fetchBackendReviewData()
@@ -216,11 +247,13 @@ export function ComplianceReviewPage() {
     nextDecision: ReviewerDecision,
     backendDecision: string,
   ) {
+    if (isSelectedCaseFinal) return
+
     setSelectedDecision(nextDecision)
 
     if (backendError || !selectedCase || reviewCases.length === 0) {
       setReviewerMessage(
-        `Reviewer decision recorded locally: ${backendDecision}`,
+        `Reviewer decision recorded locally: ${formatDecision(backendDecision)}`,
       )
       return
     }
@@ -234,7 +267,9 @@ export function ComplianceReviewPage() {
         notes: decisionNotes.trim() || defaultDecisionNotes,
       })
       setSelectedCaseId(updatedCase.case_id)
-      setReviewerMessage(`Reviewer decision recorded: ${backendDecision}`)
+      setReviewerMessage(
+        `Reviewer decision recorded: ${formatDecision(backendDecision)}`,
+      )
       await fetchBackendReviewData()
     } catch {
       setBackendError(
@@ -246,6 +281,12 @@ export function ComplianceReviewPage() {
     } finally {
       setIsRecordingDecision(false)
     }
+  }
+
+  function handleSelectCase(caseId: string) {
+    setSelectedCaseId(caseId)
+    setSelectedDecision(null)
+    setReviewerMessage(null)
   }
 
   return (
@@ -289,21 +330,22 @@ export function ComplianceReviewPage() {
                   <article
                     className="account-row"
                     key={reviewCase.case_id}
-                    onClick={() => setSelectedCaseId(reviewCase.case_id)}
+                    onClick={() => handleSelectCase(reviewCase.case_id)}
                   >
                     <div>
                       <h3>{reviewCase.title}</h3>
-                      <p>
-                        {'detail' in reviewCase
-                          ? reviewCase.detail
-                          : reviewCase.case_type.replaceAll('_', ' ')}
-                      </p>
-                      <span>{reviewCase.status}</span>
+                      <p>{formatLabel(reviewCase.case_type)}</p>
+                      <span>{formatStatus(reviewCase.status)}</span>
                     </div>
-                    <strong>{reviewCase.risk_level} risk</strong>
+                    <strong>{formatLabel(reviewCase.risk_level)} risk</strong>
                   </article>
                 ))}
               </div>
+              {!isLoading && !backendError && reviewCases.length === 0 && (
+                <p className="panel-note">
+                  No review cases are currently recorded.
+                </p>
+              )}
             </Panel>
 
             <Panel>
@@ -317,7 +359,7 @@ export function ComplianceReviewPage() {
 
               <div className="account-list">
                 {activeEvidenceTimeline.map((event) => (
-                  <article className="account-row" key={event.title}>
+                  <article className="account-row" key={event.id}>
                     <div>
                       <h3>{event.title}</h3>
                       <p>{event.detail}</p>
@@ -327,6 +369,11 @@ export function ComplianceReviewPage() {
                   </article>
                 ))}
               </div>
+              {!isLoading && !backendError && visibleAuditEvents.length === 0 && (
+                <p className="panel-note">
+                  No audit evidence is currently recorded.
+                </p>
+              )}
             </Panel>
 
             <Panel>
@@ -345,6 +392,11 @@ export function ComplianceReviewPage() {
                   </div>
                 ))}
               </div>
+              {!isLoading && activeMonitoringSignals.length === 0 && (
+                <p className="panel-note">
+                  No monitoring signals are currently recorded.
+                </p>
+              )}
             </Panel>
           </div>
 
@@ -361,8 +413,9 @@ export function ComplianceReviewPage() {
                 <div>
                   <span>Type</span>
                   <strong>
-                    {selectedCase?.case_type.replaceAll('_', ' ') ??
-                      'Not available'}
+                    {selectedCase
+                      ? formatLabel(selectedCase.case_type)
+                      : 'Not available'}
                   </strong>
                 </div>
                 <div>
@@ -387,11 +440,27 @@ export function ComplianceReviewPage() {
                 </div>
                 <div>
                   <span>Status</span>
-                  <strong>{selectedCase?.status ?? 'Not available'}</strong>
+                  <strong>
+                    {selectedCase
+                      ? formatStatus(selectedCase.status)
+                      : 'Not available'}
+                  </strong>
                 </div>
                 <div>
                   <span>Risk score</span>
-                  <strong>{selectedCase?.risk_level ?? 'Not available'}</strong>
+                  <strong>
+                    {selectedCase
+                      ? formatLabel(selectedCase.risk_level)
+                      : 'Not available'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Reviewer decision</span>
+                  <strong>
+                    {selectedCase?.reviewer_decision
+                      ? formatDecision(selectedCase.reviewer_decision)
+                      : 'Not recorded'}
+                  </strong>
                 </div>
               </div>
             </Panel>
@@ -410,48 +479,58 @@ export function ComplianceReviewPage() {
                 </label>
               </div>
 
-              <div className="action-row vertical-actions">
-                <button
-                  type="button"
-                  disabled={isRecordingDecision || !selectedCase}
-                  onClick={() => handleReviewerDecision('Approve', 'approve')}
-                >
-                  Approve
-                </button>
-                <button
-                  className="secondary-button"
-                  type="button"
-                  disabled={isRecordingDecision || !selectedCase}
-                  onClick={() => handleReviewerDecision('Reject', 'reject')}
-                >
-                  Reject
-                </button>
-                <button
-                  className="secondary-button"
-                  type="button"
-                  disabled={isRecordingDecision || !selectedCase}
-                  onClick={() =>
-                    handleReviewerDecision(
-                      'Request information',
-                      'request_information',
-                    )
-                  }
-                >
-                  Request information
-                </button>
-                <button
-                  className="secondary-button"
-                  type="button"
-                  disabled={isRecordingDecision || !selectedCase}
-                  onClick={() => handleReviewerDecision('Escalate', 'escalate')}
-                >
-                  Escalate
-                </button>
-              </div>
+              {isSelectedCaseFinal ? (
+                <p className="panel-note">
+                  This case already has a recorded reviewer outcome.
+                </p>
+              ) : (
+                <div className="action-row vertical-actions">
+                  <button
+                    type="button"
+                    disabled={isRecordingDecision || !selectedCase}
+                    onClick={() => handleReviewerDecision('Approve', 'approve')}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="secondary-button"
+                    type="button"
+                    disabled={isRecordingDecision || !selectedCase}
+                    onClick={() => handleReviewerDecision('Reject', 'reject')}
+                  >
+                    Reject
+                  </button>
+                  <button
+                    className="secondary-button"
+                    type="button"
+                    disabled={isRecordingDecision || !selectedCase}
+                    onClick={() =>
+                      handleReviewerDecision(
+                        'Request information',
+                        'request_information',
+                      )
+                    }
+                  >
+                    Request information
+                  </button>
+                  <button
+                    className="secondary-button"
+                    type="button"
+                    disabled={isRecordingDecision || !selectedCase}
+                    onClick={() => handleReviewerDecision('Escalate', 'escalate')}
+                  >
+                    Escalate
+                  </button>
+                </div>
+              )}
 
               <p className="panel-note">
                 Reviewer decision:{' '}
-                {selectedDecision ?? 'No decision selected'}
+                {selectedDecision
+                  ? formatDecision(selectedDecision)
+                  : selectedCase?.reviewer_decision
+                    ? formatDecision(selectedCase.reviewer_decision)
+                    : 'No decision selected'}
               </p>
               {reviewerMessage && (
                 <p className="panel-note">{reviewerMessage}</p>
