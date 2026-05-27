@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.accounts import router as accounts_router
 from app.api.routes.audit_events import router as audit_events_router
+from app.api.routes.auth import router as auth_router
 from app.api.routes.bank_access import router as bank_access_router
 from app.api.routes.buy_sell import router as buy_sell_router
 from app.api.routes.custody import router as custody_router
@@ -55,6 +56,7 @@ def create_app() -> FastAPI:
     app.include_router(digital_assets_router, prefix=settings.api_prefix)
     app.include_router(custody_router, prefix=settings.api_prefix)
     app.include_router(bank_access_router, prefix=settings.api_prefix)
+    app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app
 

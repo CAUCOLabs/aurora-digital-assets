@@ -32,6 +32,64 @@ def initialize_database() -> None:
         )
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS bank_customers (
+                customer_id TEXT PRIMARY KEY,
+                bank_user_id TEXT UNIQUE NOT NULL,
+                name TEXT NOT NULL,
+                pin TEXT NOT NULL,
+                account_id TEXT NOT NULL,
+                relationship_status TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS auth_challenges (
+                challenge_id TEXT PRIMARY KEY,
+                customer_id TEXT NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS bank_sessions (
+                session_id TEXT PRIMARY KEY,
+                customer_id TEXT NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL
+            )
+            """
+        )
+        connection.execute(
+            """
+            INSERT OR IGNORE INTO bank_customers (
+                customer_id,
+                bank_user_id,
+                name,
+                pin,
+                account_id,
+                relationship_status,
+                created_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                "CUST-DA-2026-001",
+                "12345678",
+                "Claudio Demo",
+                "1234",
+                "aurora-current",
+                "Active",
+                "2026-01-01T00:00:00+00:00",
+            ),
+        )
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS review_cases (
                 case_id TEXT PRIMARY KEY,
                 created_at TEXT NOT NULL,
