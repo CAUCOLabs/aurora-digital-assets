@@ -1,5 +1,6 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { usePrivacyMode } from '../context/PrivacyModeContext'
+import { logoutFromBank } from '../services/authApi'
 
 type TopBarProps = {
   userName: string
@@ -21,7 +22,7 @@ type NavigationItem = NavigationLink & {
 }
 
 const navigationItems: NavigationItem[] = [
-  { label: 'Home', to: '/' },
+  { label: 'Home', to: '/dashboard' },
   {
     label: 'Payments',
     to: '/payments',
@@ -248,7 +249,21 @@ const navigationItems: NavigationItem[] = [
 
 export function TopBar({ userName }: TopBarProps) {
   const location = useLocation()
+  const navigate = useNavigate()
   const { amountsVisible, toggleAmountsVisible } = usePrivacyMode()
+
+  async function handleLogout() {
+    const sessionId = localStorage.getItem('aurora_bank_session_id')
+
+    try {
+      if (sessionId) {
+        await logoutFromBank(sessionId)
+      }
+    } finally {
+      localStorage.removeItem('aurora_bank_session_id')
+      navigate('/bank-login')
+    }
+  }
 
   return (
     <header className="top-bar">
@@ -312,7 +327,13 @@ export function TopBar({ userName }: TopBarProps) {
           {amountsVisible ? 'Hide balances' : 'Show balances'}
         </button>
         <span>{userName}</span>
-        <button type="button">Log out</button>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={() => void handleLogout()}
+        >
+          Log out
+        </button>
       </div>
     </header>
   )

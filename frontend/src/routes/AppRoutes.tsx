@@ -14,14 +14,39 @@ import { CardsPage } from '../pages/CardsPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
 import { BankAccessPage } from '../pages/BankAccessPage'
+import { BankLoginPage } from '../pages/BankLoginPage'
+import { ProtectedRoute } from '../components/ProtectedRoute'
+import { BankHomePage } from '../pages/BankHomePage'
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<DashboardPage />} />
-      <Route path="/payments" element={<PaymentsPage />} />
+      <Route path="/" element={<BankHomePage />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments"
+        element={
+          <ProtectedRoute>
+            <PaymentsPage />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/accounts" element={<AccountsPage />} />
+      <Route
+        path="/accounts"
+        element={
+          <ProtectedRoute>
+            <AccountsPage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="/cards" element={<CardsPage />} />
 
@@ -58,16 +83,80 @@ export function AppRoutes() {
         }
       />
 
-      <Route path="/digital-assets" element={<DigitalAssetsPage />} />
-      <Route path="/buy-sell" element={<BuySellPage />} />
-      <Route path="/wallet" element={<WalletPage />} />
-      <Route path="/withdrawals" element={<WithdrawalsPage />} />
-      <Route path="/reports" element={<ReportsPage />} />
-      <Route path="/custody" element={<CustodyPage />} />
+      <Route
+        path="/digital-assets"
+        element={
+          <ProtectedRoute>
+            <DigitalAssetsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/buy-sell"
+        element={
+          <ProtectedRoute>
+            <BuySellPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/wallet"
+        element={
+          <ProtectedRoute>
+            <WalletPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/withdrawals"
+        element={
+          <ProtectedRoute>
+            <WithdrawalsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports"
+        element={
+          <ProtectedRoute>
+            <ReportsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/custody"
+        element={
+          <ProtectedRoute>
+            <CustodyPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/operating-model" element={<OperatingModelPage />} />
-      <Route path="/compliance-review" element={<ComplianceReviewPage />} />
-      <Route path="/admin-demo" element={<DemoAdminPage />} />
-      <Route path="/bank-access" element={<BankAccessPage />} />
+      <Route
+        path="/compliance-review"
+        element={
+          <ProtectedRoute>
+            <ComplianceReviewPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin-demo"
+        element={
+          <ProtectedRoute>
+            <DemoAdminPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-access"
+        element={
+          <ProtectedRoute>
+            <BankAccessPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/bank-login" element={<BankLoginPage />} />
 
       <Route
         path="/online-services"
