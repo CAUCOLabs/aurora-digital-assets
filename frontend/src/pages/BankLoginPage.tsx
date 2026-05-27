@@ -1,5 +1,5 @@
 import { type FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Panel } from '../components/Panel'
 import {
   approveMobileLogin,
@@ -104,13 +104,13 @@ export function BankLoginPage() {
   return (
     <div className="bank-shell">
       <header className="top-bar">
-        <div className="brand">
+        <Link className="brand" to="/" aria-label="Go to Aurora Bank home">
           <div className="brand-mark">A</div>
           <div>
             <p className="brand-name">Aurora Bank</p>
             <p className="brand-subtitle">Secure eBanking prototype</p>
           </div>
-        </div>
+        </Link>
 
         <div></div>
 

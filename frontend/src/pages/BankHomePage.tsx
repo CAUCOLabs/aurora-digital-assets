@@ -48,13 +48,13 @@ export function BankHomePage() {
   return (
     <div className="bank-shell">
       <header className="top-bar">
-        <div className="brand">
+        <Link className="brand" to="/" aria-label="Go to Aurora Bank home">
           <div className="brand-mark">A</div>
           <div>
             <p className="brand-name">Aurora Bank</p>
             <p className="brand-subtitle">Public banking website concept</p>
           </div>
-        </div>
+        </Link>
 
         <nav className="main-nav" aria-label="Public navigation">
           {publicNavigation.map((item) => (

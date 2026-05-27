@@ -267,13 +267,17 @@ export function TopBar({ userName }: TopBarProps) {
 
   return (
     <header className="top-bar">
-      <div className="brand">
+      <NavLink
+        className="brand"
+        to="/dashboard"
+        aria-label="Go to online banking dashboard"
+      >
         <div className="brand-mark">A</div>
         <div>
           <p className="brand-name">Aurora Bank</p>
           <p className="brand-subtitle">Online Banking Demo</p>
         </div>
-      </div>
+      </NavLink>
 
       <nav className="main-nav" aria-label="Main navigation">
         {navigationItems.map((item) => {
