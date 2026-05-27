@@ -13,6 +13,7 @@ import { AccountsPage } from '../pages/AccountsPage'
 import { CardsPage } from '../pages/CardsPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
+import { BankAccessPage } from '../pages/BankAccessPage'
 
 export function AppRoutes() {
   return (
@@ -66,6 +67,7 @@ export function AppRoutes() {
       <Route path="/operating-model" element={<OperatingModelPage />} />
       <Route path="/compliance-review" element={<ComplianceReviewPage />} />
       <Route path="/admin-demo" element={<DemoAdminPage />} />
+      <Route path="/bank-access" element={<BankAccessPage />} />
 
       <Route
         path="/online-services"
