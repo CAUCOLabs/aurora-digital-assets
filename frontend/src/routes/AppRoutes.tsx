@@ -14,6 +14,8 @@ import { CardsPage } from '../pages/CardsPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
 import { BankAccessPage } from '../pages/BankAccessPage'
+import { BankStaffOnboardingPage } from '../pages/BankStaffOnboardingPage'
+import { StaffCustomerAccessPage } from '../pages/StaffCustomerAccessPage'
 import { BankLoginPage } from '../pages/BankLoginPage'
 import { ProtectedRoute } from '../components/ProtectedRoute'
 import { BankHomePage } from '../pages/BankHomePage'
@@ -153,6 +155,22 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <BankAccessPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/onboarding"
+        element={
+          <ProtectedRoute>
+            <BankStaffOnboardingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/customer-access"
+        element={
+          <ProtectedRoute>
+            <StaffCustomerAccessPage />
           </ProtectedRoute>
         }
       />

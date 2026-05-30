@@ -7,6 +7,7 @@ from app.api.routes.accounts import router as accounts_router
 from app.api.routes.audit_events import router as audit_events_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.bank_access import router as bank_access_router
+from app.api.routes.bank_staff import router as bank_staff_router
 from app.api.routes.buy_sell import router as buy_sell_router
 from app.api.routes.custody import router as custody_router
 from app.api.routes.demo_admin import router as demo_admin_router
@@ -15,6 +16,9 @@ from app.api.routes.health import router as health_router
 from app.api.routes.payments import router as payments_router
 from app.api.routes.reports import router as reports_router
 from app.api.routes.review_cases import router as review_cases_router
+from app.api.routes.staff_customer_access import (
+    router as staff_customer_access_router,
+)
 from app.api.routes.withdrawals import router as withdrawals_router
 from app.core.config import settings
 from app.db.database import initialize_database
@@ -56,6 +60,8 @@ def create_app() -> FastAPI:
     app.include_router(digital_assets_router, prefix=settings.api_prefix)
     app.include_router(custody_router, prefix=settings.api_prefix)
     app.include_router(bank_access_router, prefix=settings.api_prefix)
+    app.include_router(bank_staff_router, prefix=settings.api_prefix)
+    app.include_router(staff_customer_access_router, prefix=settings.api_prefix)
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app
