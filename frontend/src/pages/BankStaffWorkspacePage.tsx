@@ -25,6 +25,13 @@ const workspaceModules = [
     to: '/compliance-review',
   },
   {
+    title: 'Financial crime monitoring',
+    description:
+      'Review insider risk, shell company indicators, structured deposits, crypto off-ramp risk, foreign transfer risk, and network-linked suspicious activity.',
+    status: 'Monitoring alerts',
+    to: '/bank-staff/financial-crime-monitoring',
+  },
+  {
     title: 'Reports and audit trail',
     description:
       'Open customer-facing reports, tax report concepts, and prototype audit evidence.',

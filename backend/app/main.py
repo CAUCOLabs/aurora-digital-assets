@@ -12,6 +12,7 @@ from app.api.routes.buy_sell import router as buy_sell_router
 from app.api.routes.custody import router as custody_router
 from app.api.routes.demo_admin import router as demo_admin_router
 from app.api.routes.digital_assets import router as digital_assets_router
+from app.api.routes.financial_crime import router as financial_crime_router
 from app.api.routes.health import router as health_router
 from app.api.routes.payments import router as payments_router
 from app.api.routes.reports import router as reports_router
@@ -62,6 +63,7 @@ def create_app() -> FastAPI:
     app.include_router(bank_access_router, prefix=settings.api_prefix)
     app.include_router(bank_staff_router, prefix=settings.api_prefix)
     app.include_router(staff_customer_access_router, prefix=settings.api_prefix)
+    app.include_router(financial_crime_router, prefix=settings.api_prefix)
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app

@@ -16,6 +16,7 @@ import { DemoAdminPage } from '../pages/DemoAdminPage'
 import { BankAccessPage } from '../pages/BankAccessPage'
 import { BankStaffWorkspacePage } from '../pages/BankStaffWorkspacePage'
 import { BankStaffOnboardingPage } from '../pages/BankStaffOnboardingPage'
+import { FinancialCrimeMonitoringPage } from '../pages/FinancialCrimeMonitoringPage'
 import { StaffCustomerAccessPage } from '../pages/StaffCustomerAccessPage'
 import { BankLoginPage } from '../pages/BankLoginPage'
 import { ProtectedRoute } from '../components/ProtectedRoute'
@@ -180,6 +181,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <StaffCustomerAccessPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/financial-crime-monitoring"
+        element={
+          <ProtectedRoute>
+            <FinancialCrimeMonitoringPage />
           </ProtectedRoute>
         }
       />
