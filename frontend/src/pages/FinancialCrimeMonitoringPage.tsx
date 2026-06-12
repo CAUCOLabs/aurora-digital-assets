@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
 import {
@@ -194,7 +195,12 @@ export function FinancialCrimeMonitoringPage() {
                   <p className="eyebrow">Alert queue</p>
                   <h2>Demo monitoring alerts</h2>
                 </div>
-                <span className="module-tag">Evidence-first review</span>
+                <Link
+                  className="button-link secondary-button compact-link"
+                  to="/bank-staff/compliance-intelligence"
+                >
+                  Compliance intelligence
+                </Link>
               </div>
 
               <div className="financial-crime-alert-list">

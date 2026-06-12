@@ -32,6 +32,13 @@ const workspaceModules = [
     to: '/bank-staff/financial-crime-monitoring',
   },
   {
+    title: 'Compliance intelligence',
+    description:
+      'Explain financial crime alerts, review triggered controls, identify missing evidence, and prepare reviewer guidance before escalation.',
+    status: 'Reasoning layer',
+    to: '/bank-staff/compliance-intelligence',
+  },
+  {
     title: 'Reports and audit trail',
     description:
       'Open customer-facing reports, tax report concepts, and prototype audit evidence.',
