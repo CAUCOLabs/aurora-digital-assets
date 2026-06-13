@@ -39,6 +39,13 @@ const workspaceModules = [
     to: '/bank-staff/compliance-intelligence',
   },
   {
+    title: 'Evidence packages',
+    description:
+      'Prepare structured evidence packages for compliance review, audit, investigation, and regulator-facing documentation.',
+    status: 'Package readiness',
+    to: '/bank-staff/evidence-packages',
+  },
+  {
     title: 'Reports and audit trail',
     description:
       'Open customer-facing reports, tax report concepts, and prototype audit evidence.',

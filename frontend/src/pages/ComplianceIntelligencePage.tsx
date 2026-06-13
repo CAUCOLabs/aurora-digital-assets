@@ -228,9 +228,9 @@ export function ComplianceIntelligencePage() {
                 </div>
                 <Link
                   className="button-link secondary-button compact-link"
-                  to="/bank-staff/financial-crime-monitoring"
+                  to="/bank-staff/evidence-packages"
                 >
-                  Monitoring alerts
+                  Prepare evidence package
                 </Link>
               </div>
 

@@ -15,6 +15,7 @@ from app.api.routes.compliance_intelligence import (
 from app.api.routes.custody import router as custody_router
 from app.api.routes.demo_admin import router as demo_admin_router
 from app.api.routes.digital_assets import router as digital_assets_router
+from app.api.routes.evidence_packages import router as evidence_packages_router
 from app.api.routes.financial_crime import router as financial_crime_router
 from app.api.routes.health import router as health_router
 from app.api.routes.payments import router as payments_router
@@ -68,6 +69,7 @@ def create_app() -> FastAPI:
     app.include_router(staff_customer_access_router, prefix=settings.api_prefix)
     app.include_router(financial_crime_router, prefix=settings.api_prefix)
     app.include_router(compliance_intelligence_router, prefix=settings.api_prefix)
+    app.include_router(evidence_packages_router, prefix=settings.api_prefix)
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app
