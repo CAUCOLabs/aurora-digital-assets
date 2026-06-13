@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
+import { useLanguage } from '../context/LanguageContext'
 import {
   explainAlert,
   getReviewerGuidance,
@@ -59,6 +60,7 @@ function EvidenceList({
 }
 
 export function ComplianceIntelligencePage() {
+  const { t } = useLanguage()
   const [explanations, setExplanations] = useState<RiskExplanation[]>([])
   const [guidance, setGuidance] = useState<ReviewerGuidance[]>([])
   const [selectedExplainAlertId, setSelectedExplainAlertId] = useState(
@@ -88,7 +90,7 @@ export function ComplianceIntelligencePage() {
   const summaryCards = useMemo(
     () => [
       {
-        label: 'Risk explanations',
+        label: t.complianceIntelligence.riskExplanations,
         value: explanations.length.toString(),
         detail: 'Mapped to demo monitoring alerts',
       },
@@ -98,7 +100,7 @@ export function ComplianceIntelligencePage() {
         detail: 'Escalation-focused reasoning',
       },
       {
-        label: 'Reviewer guidance items',
+        label: t.complianceIntelligence.reviewerGuidance,
         value: guidance.length.toString(),
         detail: 'Human review checklists',
       },
@@ -113,6 +115,8 @@ export function ComplianceIntelligencePage() {
       explanations.length,
       guidance.length,
       reviewReadyPreviews,
+      t.complianceIntelligence.riskExplanations,
+      t.complianceIntelligence.reviewerGuidance,
     ],
   )
 
@@ -192,17 +196,14 @@ export function ComplianceIntelligencePage() {
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">Protected bank staff area</p>
-            <h1>Compliance Intelligence</h1>
-            <p>
-              Internal reasoning layer for explaining financial crime alerts,
-              required evidence, reviewer guidance, and escalation decisions.
-            </p>
+            <p className="eyebrow">{t.bankStaffWorkspace.protectedArea}</p>
+            <h1>{t.complianceIntelligence.title}</h1>
+            <p>{t.complianceIntelligence.subtitle}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Reasoning layer
+            {t.bankStaffWorkspace.statuses.reasoningLayer}
           </div>
         </section>
 
@@ -223,14 +224,16 @@ export function ComplianceIntelligencePage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Risk explanations</p>
-                  <h2>Alert reasoning</h2>
+                  <p className="eyebrow">
+                    {t.complianceIntelligence.riskExplanations}
+                  </p>
+                  <h2>{t.complianceIntelligence.alertReasoning}</h2>
                 </div>
                 <Link
                   className="button-link secondary-button compact-link"
                   to="/bank-staff/evidence-packages"
                 >
-                  Prepare evidence package
+                  {t.complianceIntelligence.prepareEvidencePackage}
                 </Link>
               </div>
 
@@ -270,8 +273,8 @@ export function ComplianceIntelligencePage() {
                         <span>Evidence package</span>
                         <strong>
                           {explanation.evidence_package_ready
-                            ? 'Ready'
-                            : 'Not ready'}
+                            ? t.common.ready
+                            : t.common.notReady}
                         </strong>
                       </div>
                     </div>
@@ -283,7 +286,7 @@ export function ComplianceIntelligencePage() {
 
                     <div className="financial-crime-evidence compliance-evidence-grid">
                       <EvidenceList
-                        title="Triggered controls"
+                        title={t.evidencePackages.triggeredControls}
                         items={explanation.triggered_controls}
                       />
                       <EvidenceList
@@ -291,7 +294,7 @@ export function ComplianceIntelligencePage() {
                         items={explanation.supporting_evidence}
                       />
                       <EvidenceList
-                        title="Missing evidence"
+                        title={t.evidencePackages.missingEvidence}
                         items={explanation.missing_evidence}
                       />
                       <EvidenceList
@@ -307,7 +310,7 @@ export function ComplianceIntelligencePage() {
 
           <aside className="right-column">
             <Panel>
-              <p className="eyebrow">Reviewer guidance</p>
+              <p className="eyebrow">{t.complianceIntelligence.reviewerGuidance}</p>
               <h2>Review checklists</h2>
               <div className="financial-crime-side-list">
                 {guidance.map((item) => (
@@ -332,7 +335,7 @@ export function ComplianceIntelligencePage() {
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Explain alert demo</p>
-                  <h2>Explain alert</h2>
+                  <h2>{t.complianceIntelligence.explainAlert}</h2>
                 </div>
               </div>
 
@@ -361,7 +364,7 @@ export function ComplianceIntelligencePage() {
                       setIncludeEvidenceRequirements(event.target.checked)
                     }
                   />
-                  Include evidence requirements
+                  {t.complianceIntelligence.evidenceRequirements}
                 </label>
               </div>
 
@@ -370,7 +373,7 @@ export function ComplianceIntelligencePage() {
                   onClick={() => void handleExplainAlert()}
                   disabled={isExplaining}
                 >
-                  Explain alert
+                  {t.complianceIntelligence.explainAlert}
                 </button>
               </div>
 
@@ -381,7 +384,7 @@ export function ComplianceIntelligencePage() {
                     <strong>{explainResult.explanation.risk_summary}</strong>
                   </div>
                   <div>
-                    <span>Decision path</span>
+                    <span>{t.complianceIntelligence.decisionPath}</span>
                     <ol className="compact-list">
                       {explainResult.decision_path.map((step) => (
                         <li key={step.step_number}>
@@ -391,7 +394,7 @@ export function ComplianceIntelligencePage() {
                     </ol>
                   </div>
                   <div>
-                    <span>Evidence requirements</span>
+                    <span>{t.complianceIntelligence.evidenceRequirements}</span>
                     <ul className="compact-list">
                       {explainResult.evidence_requirements.map((requirement) => (
                         <li key={requirement.requirement_id}>
@@ -401,7 +404,7 @@ export function ComplianceIntelligencePage() {
                     </ul>
                   </div>
                   <div>
-                    <span>Reviewer next steps</span>
+                    <span>{t.complianceIntelligence.reviewerNextSteps}</span>
                     <ul className="compact-list">
                       {explainResult.reviewer_next_steps.map((step) => (
                         <li key={step}>{step}</li>
@@ -415,7 +418,9 @@ export function ComplianceIntelligencePage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Prepare review case demo</p>
+                  <p className="eyebrow">
+                    {t.complianceIntelligence.prepareReviewCase}
+                  </p>
                   <h2>Case preview</h2>
                 </div>
               </div>
@@ -436,7 +441,7 @@ export function ComplianceIntelligencePage() {
                 </label>
 
                 <label>
-                  <span>Reviewer ID</span>
+                  <span>{t.evidencePackages.reviewerId}</span>
                   <input
                     value={reviewerId}
                     onChange={(event) => setReviewerId(event.target.value)}
@@ -465,7 +470,7 @@ export function ComplianceIntelligencePage() {
                   onClick={() => void handlePrepareReviewCase()}
                   disabled={isPreparingCase}
                 >
-                  Prepare case preview
+                  {t.complianceIntelligence.prepareReviewCase}
                 </button>
               </div>
 
@@ -484,7 +489,7 @@ export function ComplianceIntelligencePage() {
                     <strong>{casePreview.case_summary}</strong>
                   </div>
                   <div>
-                    <span>Included evidence</span>
+                    <span>{t.evidencePackages.includedEvidence}</span>
                     <ul className="compact-list">
                       {casePreview.included_evidence.map((item) => (
                         <li key={item}>{item}</li>
@@ -504,8 +509,10 @@ export function ComplianceIntelligencePage() {
                     <strong>{casePreview.recommended_assignment}</strong>
                   </div>
                   <div>
-                    <span>Ready for review</span>
-                    <strong>{casePreview.ready_for_review ? 'Yes' : 'No'}</strong>
+                    <span>{t.common.ready}</span>
+                    <strong>
+                      {casePreview.ready_for_review ? t.common.yes : t.common.no}
+                    </strong>
                   </div>
                 </div>
               )}

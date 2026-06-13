@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
+import { useLanguage } from '../context/LanguageContext'
 import {
   generateEvidencePackage,
   getEvidencePackageReadiness,
@@ -15,6 +16,9 @@ import {
   type EvidenceReadinessCheck,
   type GenerateEvidencePackageResponse,
 } from '../services/evidencePackagesApi'
+import { type Language, type translations } from '../i18n/translations'
+
+type Translation = (typeof translations)[Language]
 
 const sourceIdOptions = [
   'FCA-2026-001',
@@ -52,10 +56,14 @@ function EvidenceItemList({
   title,
   items,
   emptyText,
+  t,
+  formatStatus,
 }: {
   title: string
   items: EvidenceItem[]
   emptyText: string
+  t: Translation
+  formatStatus: (value: string) => string
 }) {
   return (
     <div>
@@ -66,8 +74,8 @@ function EvidenceItemList({
             <li key={item.item_id}>
               <strong>{item.title}</strong>
               <span>
-                {item.category} · {formatLabel(item.status)} ·{' '}
-                {item.required ? 'Required' : 'Optional'}
+                {item.category} · {formatStatus(item.status)} ·{' '}
+                {item.required ? t.common.required : t.common.optional}
               </span>
               <p>{item.description}</p>
             </li>
@@ -99,7 +107,15 @@ function StringList({
   )
 }
 
-function PackageCard({ evidencePackage }: { evidencePackage: EvidencePackage }) {
+function PackageCard({
+  evidencePackage,
+  t,
+  formatStatus,
+}: {
+  evidencePackage: EvidencePackage
+  t: Translation
+  formatStatus: (value: string) => string
+}) {
   const sourceReference =
     evidencePackage.source_alert_id ??
     evidencePackage.source_case_id ??
@@ -116,63 +132,70 @@ function PackageCard({ evidencePackage }: { evidencePackage: EvidencePackage }) 
         </div>
         <div className="status-label-group">
           <span className={`risk-label risk-label-${evidencePackage.severity}`}>
-            {formatLabel(evidencePackage.severity)}
+            {formatStatus(evidencePackage.severity)}
           </span>
           <span className={`status-label status-${evidencePackage.status}`}>
-            {formatLabel(evidencePackage.status)}
+            {formatStatus(evidencePackage.status)}
           </span>
         </div>
       </div>
 
       <div className="summary-list financial-crime-alert-meta">
         <div>
-          <span>Risk type</span>
+          <span>{t.evidencePackages.riskType}</span>
           <strong>{evidencePackage.risk_type}</strong>
         </div>
         <div>
-          <span>Readiness score</span>
+          <span>{t.evidencePackages.readinessScore}</span>
           <strong>{evidencePackage.readiness_score}/100</strong>
         </div>
         <div>
-          <span>Created</span>
+          <span>{t.evidencePackages.created}</span>
           <strong>{formatDateTime(evidencePackage.created_at)}</strong>
         </div>
         <div>
-          <span>Recommended next action</span>
+          <span>{t.evidencePackages.recommendedNextAction}</span>
           <strong>{evidencePackage.recommended_next_action}</strong>
         </div>
       </div>
 
       <div className="compliance-reasoning-block">
-        <h4>Summary</h4>
+        <h4>{t.evidencePackages.summary}</h4>
         <p>{evidencePackage.summary}</p>
       </div>
 
       <div className="financial-crime-evidence compliance-evidence-grid evidence-package-evidence-grid">
         <EvidenceItemList
-          title="Included evidence"
+          title={t.evidencePackages.includedEvidence}
           items={evidencePackage.included_evidence}
-          emptyText="No included evidence has been attached."
+          emptyText={t.evidencePackages.noIncludedEvidence}
+          t={t}
+          formatStatus={formatStatus}
         />
         <EvidenceItemList
-          title="Missing evidence"
+          title={t.evidencePackages.missingEvidence}
           items={evidencePackage.missing_evidence}
-          emptyText="No missing evidence is recorded."
+          emptyText={t.evidencePackages.noMissingEvidence}
+          t={t}
+          formatStatus={formatStatus}
         />
         <StringList
-          title="Triggered controls"
+          title={t.evidencePackages.triggeredControls}
           items={evidencePackage.triggered_controls}
         />
-        <StringList title="Reviewer notes" items={evidencePackage.reviewer_notes} />
+        <StringList
+          title={t.evidencePackages.reviewerNotes}
+          items={evidencePackage.reviewer_notes}
+        />
       </div>
 
       <div className="compliance-reasoning-block">
-        <h4>Decision rationale</h4>
+        <h4>{t.evidencePackages.decisionRationale}</h4>
         <p>{evidencePackage.decision_rationale}</p>
       </div>
 
       <div className="evidence-timeline">
-        <h4>Timeline</h4>
+        <h4>{t.evidencePackages.timeline}</h4>
         {evidencePackage.timeline.map((event) => (
           <div key={event.event_id}>
             <span>{formatDateTime(event.timestamp)}</span>
@@ -187,13 +210,19 @@ function PackageCard({ evidencePackage }: { evidencePackage: EvidencePackage }) 
   )
 }
 
-function TemplateList({ templates }: { templates: EvidencePackageTemplate[] }) {
+function TemplateList({
+  templates,
+  formatStatus,
+}: {
+  templates: EvidencePackageTemplate[]
+  formatStatus: (value: string) => string
+}) {
   return (
     <div className="financial-crime-side-list">
       {templates.map((template) => (
         <div key={template.template_id}>
           <strong>{template.title}</strong>
-          <small>{formatLabel(template.use_case)}</small>
+          <small>{formatStatus(template.use_case)}</small>
           <p>{template.description}</p>
           <ul className="compact-list">
             {template.required_items.map((item) => (
@@ -206,39 +235,47 @@ function TemplateList({ templates }: { templates: EvidencePackageTemplate[] }) {
   )
 }
 
-function ReadinessSummary({ check }: { check: EvidenceReadinessCheck }) {
+function ReadinessSummary({
+  check,
+  t,
+}: {
+  check: EvidenceReadinessCheck
+  t: Translation
+}) {
   return (
     <div className="summary-list">
       <div>
-        <span>Ready</span>
-        <strong>{check.ready ? 'Yes' : 'No'}</strong>
+        <span>{t.common.ready}</span>
+        <strong>{check.ready ? t.common.yes : t.common.no}</strong>
       </div>
       <div>
-        <span>Readiness score</span>
+        <span>{t.evidencePackages.readinessScore}</span>
         <strong>{check.score}/100</strong>
       </div>
       <div>
-        <span>Blockers</span>
+        <span>{t.evidencePackages.blockers}</span>
         <ul className="compact-list">
-          {(check.blockers.length ? check.blockers : ['No blockers recorded.']).map(
-            (item) => (
-              <li key={item}>{item}</li>
-            ),
-          )}
+          {(check.blockers.length
+            ? check.blockers
+            : [t.evidencePackages.noBlockers]
+          ).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
         </ul>
       </div>
       <div>
-        <span>Warnings</span>
+        <span>{t.evidencePackages.warnings}</span>
         <ul className="compact-list">
-          {(check.warnings.length ? check.warnings : ['No warnings recorded.']).map(
-            (item) => (
-              <li key={item}>{item}</li>
-            ),
-          )}
+          {(check.warnings.length
+            ? check.warnings
+            : [t.evidencePackages.noWarnings]
+          ).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
         </ul>
       </div>
       <div>
-        <span>Recommended actions</span>
+        <span>{t.evidencePackages.recommendedActions}</span>
         <ul className="compact-list">
           {check.recommended_actions.map((item) => (
             <li key={item}>{item}</li>
@@ -250,6 +287,7 @@ function ReadinessSummary({ check }: { check: EvidenceReadinessCheck }) {
 }
 
 export function EvidencePackagesPage() {
+  const { t } = useLanguage()
   const [packages, setPackages] = useState<EvidencePackage[]>([])
   const [templates, setTemplates] = useState<EvidencePackageTemplate[]>([])
   const [sourceType, setSourceType] =
@@ -281,28 +319,60 @@ export function EvidencePackagesPage() {
   const summaryCards = useMemo(
     () => [
       {
-        label: 'Total packages',
+        label: t.evidencePackages.totalPackages,
         value: packages.length.toString(),
         detail: 'Deterministic evidence inventory',
       },
       {
-        label: 'Ready packages',
+        label: t.evidencePackages.readyPackages,
         value: readyPackages.toString(),
         detail: 'No readiness blockers',
       },
       {
-        label: 'Incomplete packages',
+        label: t.evidencePackages.incompletePackages,
         value: incompletePackages.toString(),
         detail: 'Evidence still required',
       },
       {
-        label: 'Average readiness',
+        label: t.evidencePackages.averageReadiness,
         value: `${averageReadiness}/100`,
         detail: 'Across demo packages',
       },
     ],
-    [averageReadiness, incompletePackages, packages.length, readyPackages],
+    [
+      averageReadiness,
+      incompletePackages,
+      packages.length,
+      readyPackages,
+      t.evidencePackages.averageReadiness,
+      t.evidencePackages.incompletePackages,
+      t.evidencePackages.readyPackages,
+      t.evidencePackages.totalPackages,
+    ],
   )
+
+  function formatStatus(value: string) {
+    const labels: Record<string, string> = {
+      ready: t.common.ready,
+      draft: formatLabel(value),
+      incomplete: formatLabel(value),
+      escalated: t.common.escalated,
+      low: t.common.low,
+      medium: t.common.medium,
+      high: t.common.high,
+      critical: t.common.critical,
+      included: t.common.included,
+      missing: t.common.missing,
+      reviewer_required: t.common.reviewerRequired,
+      optional: t.common.optional,
+      internal_review: t.common.review,
+      audit: 'Audit',
+      regulator: 'Regulator',
+      investigation: 'Investigation',
+    }
+
+    return labels[value] ?? formatLabel(value)
+  }
 
   useEffect(() => {
     let isActive = true
@@ -370,17 +440,14 @@ export function EvidencePackagesPage() {
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">Protected bank staff area</p>
-            <h1>Evidence Packages</h1>
-            <p>
-              Internal evidence preparation layer for compliance review, audit,
-              investigation, and regulator-facing documentation.
-            </p>
+            <p className="eyebrow">{t.bankStaffWorkspace.protectedArea}</p>
+            <h1>{t.evidencePackages.title}</h1>
+            <p>{t.evidencePackages.subtitle}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Package readiness
+            {t.evidencePackages.packageReadiness}
           </div>
         </section>
 
@@ -401,14 +468,16 @@ export function EvidencePackagesPage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Evidence package list</p>
-                  <h2>Package queue</h2>
+                  <p className="eyebrow">
+                    {t.evidencePackages.evidencePackageList}
+                  </p>
+                  <h2>{t.evidencePackages.packageQueue}</h2>
                 </div>
                 <Link
                   className="button-link secondary-button compact-link"
                   to="/bank-staff/compliance-intelligence"
                 >
-                  Compliance intelligence
+                  {t.complianceIntelligence.title}
                 </Link>
               </div>
 
@@ -416,6 +485,8 @@ export function EvidencePackagesPage() {
                 {packages.map((evidencePackage) => (
                   <PackageCard
                     evidencePackage={evidencePackage}
+                    t={t}
+                    formatStatus={formatStatus}
                     key={evidencePackage.package_id}
                   />
                 ))}
@@ -425,18 +496,18 @@ export function EvidencePackagesPage() {
 
           <aside className="right-column">
             <Panel>
-              <p className="eyebrow">Package templates</p>
-              <h2>Evidence structures</h2>
-              <TemplateList templates={templates} />
+              <p className="eyebrow">{t.evidencePackages.packageTemplates}</p>
+              <h2>{t.evidencePackages.evidenceStructures}</h2>
+              <TemplateList templates={templates} formatStatus={formatStatus} />
             </Panel>
 
             <Panel className="risk-panel">
-              <p className="eyebrow">Generate evidence package demo</p>
-              <h2>Package generator</h2>
+              <p className="eyebrow">{t.evidencePackages.generateDemo}</p>
+              <h2>{t.evidencePackages.packageGenerator}</h2>
 
               <div className="form-grid">
                 <label>
-                  <span>Source type</span>
+                  <span>{t.evidencePackages.sourceType}</span>
                   <select
                     value={sourceType}
                     onChange={(event) =>
@@ -446,12 +517,12 @@ export function EvidencePackagesPage() {
                     }
                   >
                     <option value="alert">Alert</option>
-                    <option value="review_case">Review case</option>
+                    <option value="review_case">{t.common.review}</option>
                   </select>
                 </label>
 
                 <label>
-                  <span>Source ID</span>
+                  <span>{t.evidencePackages.sourceId}</span>
                   <select
                     value={sourceId}
                     onChange={(event) => setSourceId(event.target.value)}
@@ -465,7 +536,7 @@ export function EvidencePackagesPage() {
                 </label>
 
                 <label>
-                  <span>Package type</span>
+                  <span>{t.evidencePackages.packageType}</span>
                   <select
                     value={packageType}
                     onChange={(event) =>
@@ -474,14 +545,14 @@ export function EvidencePackagesPage() {
                   >
                     {packageTypeOptions.map((option) => (
                       <option key={option} value={option}>
-                        {formatLabel(option)}
+                        {formatStatus(option)}
                       </option>
                     ))}
                   </select>
                 </label>
 
                 <label>
-                  <span>Reviewer ID</span>
+                  <span>{t.evidencePackages.reviewerId}</span>
                   <input
                     value={reviewerId}
                     onChange={(event) => setReviewerId(event.target.value)}
@@ -494,32 +565,32 @@ export function EvidencePackagesPage() {
                   onClick={() => void handleGeneratePackage()}
                   disabled={isGenerating}
                 >
-                  Generate package
+                  {t.evidencePackages.generatePackage}
                 </button>
               </div>
 
               {generateResult && (
                 <div className="summary-list">
                   <div>
-                    <span>Package title</span>
+                    <span>{t.evidencePackages.packageTitle}</span>
                     <strong>{generateResult.package.title}</strong>
                   </div>
                   <div>
-                    <span>Readiness score</span>
+                    <span>{t.evidencePackages.readinessScore}</span>
                     <strong>{generateResult.readiness_check.score}/100</strong>
                   </div>
                   <div>
-                    <span>Export available</span>
+                    <span>{t.evidencePackages.exportAvailable}</span>
                     <strong>
-                      {generateResult.export_available ? 'Yes' : 'No'}
+                      {generateResult.export_available ? t.common.yes : t.common.no}
                     </strong>
                   </div>
                   <div>
-                    <span>User message</span>
+                    <span>{t.evidencePackages.userMessage}</span>
                     <strong>{generateResult.user_message}</strong>
                   </div>
                   <div>
-                    <span>Recommended actions</span>
+                    <span>{t.evidencePackages.recommendedActions}</span>
                     <ul className="compact-list">
                       {generateResult.readiness_check.recommended_actions.map(
                         (action) => (
@@ -533,15 +604,17 @@ export function EvidencePackagesPage() {
             </Panel>
 
             <Panel>
-              <p className="eyebrow">Readiness explanation</p>
-              <h2>Prototype boundary</h2>
+              <p className="eyebrow">{t.evidencePackages.readinessExplanation}</p>
+              <h2>{t.prototypeBoundary.prototypeBoundary}</h2>
               <p>
                 This prototype does not create real legal reports, regulator
                 filings, or customer records. It models readiness, audit
                 evidence, reviewer rationale, missing evidence, and recommended
                 next actions using fictional deterministic demo data.
               </p>
-              {selectedReadiness && <ReadinessSummary check={selectedReadiness} />}
+              {selectedReadiness && (
+                <ReadinessSummary check={selectedReadiness} t={t} />
+              )}
             </Panel>
           </aside>
         </section>

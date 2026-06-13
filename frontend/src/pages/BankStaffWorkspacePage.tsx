@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
+import { useLanguage } from '../context/LanguageContext'
 
 const workspaceModules = [
   {
@@ -69,6 +70,28 @@ const workspaceControls = [
 ]
 
 export function BankStaffWorkspacePage() {
+  const { t } = useLanguage()
+  const translatedModules = [
+    t.bankStaffWorkspace.modules.onboarding,
+    t.bankStaffWorkspace.modules.customerAccess,
+    t.bankStaffWorkspace.modules.complianceReview,
+    t.bankStaffWorkspace.modules.financialCrime,
+    t.bankStaffWorkspace.modules.complianceIntelligence,
+    t.bankStaffWorkspace.modules.evidencePackages,
+    t.bankStaffWorkspace.modules.reportsAuditTrail,
+    t.bankStaffWorkspace.modules.demoAdministration,
+  ]
+  const translatedStatuses = [
+    t.bankStaffWorkspace.statuses.bankStaffControl,
+    t.bankStaffWorkspace.statuses.customerAuthorization,
+    t.bankStaffWorkspace.statuses.complianceReview,
+    t.bankStaffWorkspace.statuses.monitoringAlerts,
+    t.bankStaffWorkspace.statuses.reasoningLayer,
+    t.bankStaffWorkspace.statuses.packageReadiness,
+    t.bankStaffWorkspace.statuses.auditEvidence,
+    t.bankStaffWorkspace.statuses.prototypeOnly,
+  ]
+
   return (
     <div className="bank-shell">
       <TopBar userName="Claudio Demo" />
@@ -76,17 +99,14 @@ export function BankStaffWorkspacePage() {
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">Protected bank staff area</p>
-            <h1>Bank Staff Workspace</h1>
-            <p>
-              Internal concept workspace for onboarding, customer-authorized
-              access, compliance review, reports, and demo administration.
-            </p>
+            <p className="eyebrow">{t.bankStaffWorkspace.protectedArea}</p>
+            <h1>{t.bankStaffWorkspace.title}</h1>
+            <p>{t.bankStaffWorkspace.subtitle}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Authenticated session
+            {t.bankStaffWorkspace.authenticatedSession}
           </div>
         </section>
 
@@ -95,25 +115,27 @@ export function BankStaffWorkspacePage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Workspace modules</p>
-                  <h2>Staff tools</h2>
+                  <p className="eyebrow">{t.bankStaffWorkspace.workspaceModules}</p>
+                  <h2>{t.bankStaffWorkspace.staffTools}</h2>
                 </div>
-                <span className="module-tag">Concept prototype</span>
+                <span className="module-tag">
+                  {t.bankStaffWorkspace.conceptPrototype}
+                </span>
               </div>
 
               <div className="account-list">
-                {workspaceModules.map((module) => (
+                {workspaceModules.map((module, index) => (
                   <Link
                     className="account-row"
                     key={module.to}
                     to={module.to}
                   >
                     <div>
-                      <h3>{module.title}</h3>
+                      <h3>{translatedModules[index]}</h3>
                       <p>{module.description}</p>
                       <span>{module.to}</span>
                     </div>
-                    <strong>{module.status}</strong>
+                    <strong>{translatedStatuses[index]}</strong>
                   </Link>
                 ))}
               </div>
@@ -122,8 +144,8 @@ export function BankStaffWorkspacePage() {
 
           <aside className="right-column">
             <Panel className="risk-panel">
-              <p className="eyebrow">Staff boundary</p>
-              <h2>Prototype controls</h2>
+              <p className="eyebrow">{t.bankStaffWorkspace.staffBoundary}</p>
+              <h2>{t.bankStaffWorkspace.prototypeControls}</h2>
               <p>
                 This workspace demonstrates banking-first control points for a
                 regulated digital assets concept. It is not connected to real
@@ -133,8 +155,8 @@ export function BankStaffWorkspacePage() {
             </Panel>
 
             <Panel>
-              <p className="eyebrow">Operating guardrails</p>
-              <h2>Access model</h2>
+              <p className="eyebrow">{t.bankStaffWorkspace.operatingGuardrails}</p>
+              <h2>{t.bankStaffWorkspace.accessModel}</h2>
               <div className="check-list">
                 {workspaceControls.map((control) => (
                   <div key={control}>
@@ -147,7 +169,7 @@ export function BankStaffWorkspacePage() {
 
             <Panel>
               <p className="eyebrow">Quick links</p>
-              <h2>Common actions</h2>
+              <h2>{t.bankStaffWorkspace.commonActions}</h2>
               <div className="action-row vertical-actions">
                 <Link className="button-link" to="/bank-staff/onboarding">
                   Open onboarding model

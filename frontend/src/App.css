@@ -248,6 +248,28 @@ a {
   background: rgba(255, 255, 255, 0.2);
 }
 
+.language-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #d9e7f6;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.language-toggle select {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  font: inherit;
+  padding: 0.42rem 0.6rem;
+}
+
+.language-toggle select option {
+  color: #122033;
+}
+
 .privacy-amount {
   font: inherit;
   font-weight: inherit;

@@ -1,6 +1,8 @@
 import { type FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { LanguageToggle } from '../components/LanguageToggle'
 import { Panel } from '../components/Panel'
+import { useLanguage } from '../context/LanguageContext'
 import {
   approveMobileLogin,
   loginToBank,
@@ -9,16 +11,9 @@ import {
 
 type LoginStep = 'credentials' | 'approval'
 
-const onboardingItems = [
-  'Customer onboarded by bank',
-  'Documents reviewed by bank',
-  'Source of funds reviewed by bank',
-  'Credentials issued by bank',
-  'Strong authentication required',
-]
-
 export function BankLoginPage() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [step, setStep] = useState<LoginStep>('credentials')
   const [challengeId, setChallengeId] = useState<string | null>(null)
   const [customer, setCustomer] = useState<AuthCustomerInfo | null>(null)
@@ -108,32 +103,29 @@ export function BankLoginPage() {
           <div className="brand-mark">A</div>
           <div>
             <p className="brand-name">Aurora Bank</p>
-            <p className="brand-subtitle">Secure eBanking prototype</p>
+            <p className="brand-subtitle">{t.bankLogin.securePrototype}</p>
           </div>
         </Link>
 
         <div></div>
 
         <div className="user-area">
-          <span>Simulated banking access</span>
+          <LanguageToggle />
+          <span>{t.bankLogin.simulatedAccess}</span>
         </div>
       </header>
 
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">Bank-managed access</p>
-            <h1>Log on to Aurora eBanking</h1>
-            <p>
-              Access to Aurora Digital Assets is modelled as available only
-              after the bank has established an authenticated customer session
-              and confirmed eligibility.
-            </p>
+            <p className="eyebrow">{t.bankLogin.bankManagedAccess}</p>
+            <h1>{t.bankLogin.title}</h1>
+            <p>{t.bankLogin.subtitle}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Simulated sign-in
+            {t.bankLogin.simulatedSignIn}
           </div>
         </section>
 
@@ -144,21 +136,17 @@ export function BankLoginPage() {
                 <>
                   <div className="panel-header">
                     <div>
-                      <p className="eyebrow">Step 1 of 2</p>
-                      <h2>Credentials</h2>
+                      <p className="eyebrow">{t.bankLogin.stepOne}</p>
+                      <h2>{t.bankLogin.credentials}</h2>
                     </div>
-                    <span className="module-tag">Bank-issued access</span>
+                    <span className="module-tag">{t.bankLogin.bankIssuedAccess}</span>
                   </div>
 
-                  <p>
-                    Use the bank-issued customer identifier and secret
-                    credential provided through the bank&apos;s formal onboarding
-                    process.
-                  </p>
+                  <p>{t.bankLogin.credentialsHelp}</p>
 
                   <form className="form-grid" onSubmit={handleCredentialsSubmit}>
                     <label>
-                      Customer ID
+                      {t.bankLogin.customerId}
                       <input
                         type="text"
                         name="bankUserId"
@@ -168,7 +156,7 @@ export function BankLoginPage() {
                     </label>
 
                     <label>
-                      Secret credential
+                      {t.bankLogin.secretCredential}
                       <input
                         type="password"
                         name="pin"
@@ -187,7 +175,7 @@ export function BankLoginPage() {
 
                     <div className="action-row">
                       <button type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? 'Checking...' : 'Continue'}
+                        {isSubmitting ? t.bankLogin.checking : t.common.continue}
                       </button>
                     </div>
                   </form>
@@ -198,39 +186,38 @@ export function BankLoginPage() {
                 <>
                   <div className="panel-header">
                     <div>
-                      <p className="eyebrow">Step 2 of 2</p>
-                      <h2>Confirm with mobile key</h2>
+                      <p className="eyebrow">{t.bankLogin.stepTwo}</p>
+                      <h2>{t.bankLogin.confirmMobileKey}</h2>
                     </div>
-                    <span className="module-tag">Strong authentication</span>
+                    <span className="module-tag">
+                      {t.bankLogin.strongAuthentication}
+                    </span>
                   </div>
 
-                  <p>
-                    A simulated approval request has been sent to the
-                    customer&apos;s banking authentication application.
-                  </p>
+                  <p>{t.bankLogin.mobileApprovalSent}</p>
 
                   <div className="summary-list">
                     <div>
-                      <span>Action</span>
-                      <strong>Login request</strong>
+                      <span>{t.bankLogin.action}</span>
+                      <strong>{t.bankLogin.loginRequest}</strong>
                     </div>
                     <div>
-                      <span>Service</span>
+                      <span>{t.bankLogin.service}</span>
                       <strong>Aurora eBanking</strong>
                     </div>
                     {customer && (
                       <div>
-                        <span>Customer</span>
+                        <span>{t.bankLogin.customer}</span>
                         <strong>{customer.customer_name}</strong>
                       </div>
                     )}
                     <div>
-                      <span>Approval method</span>
-                      <strong>Device approval required</strong>
+                      <span>{t.bankLogin.approvalMethod}</span>
+                      <strong>{t.bankLogin.deviceApprovalRequired}</strong>
                     </div>
                     <div>
-                      <span>Time limit</span>
-                      <strong>Session expires in 02:00</strong>
+                      <span>{t.bankLogin.timeLimit}</span>
+                      <strong>{t.bankLogin.sessionExpires}</strong>
                     </div>
                   </div>
 
@@ -243,8 +230,8 @@ export function BankLoginPage() {
                       onClick={() => void handleMobileApproval(true)}
                     >
                       {isSubmitting
-                        ? 'Processing approval...'
-                        : 'Approve simulated login'}
+                        ? t.bankLogin.processingApproval
+                        : t.bankLogin.approveLogin}
                     </button>
                     <button
                       type="button"
@@ -252,7 +239,7 @@ export function BankLoginPage() {
                       disabled={isSubmitting}
                       onClick={() => void handleMobileApproval(false)}
                     >
-                      Cancel
+                      {t.common.cancel}
                     </button>
                   </div>
                 </>
@@ -260,23 +247,19 @@ export function BankLoginPage() {
             </Panel>
 
             <Panel className="risk-panel">
-              <p className="eyebrow">Security note</p>
-              <h2>Protect your identifiers</h2>
-              <p>
-                The bank never asks for your identifiers by email or text
-                message. Always access eBanking through the official banking
-                channel.
-              </p>
+              <p className="eyebrow">{t.bankLogin.securityNote}</p>
+              <h2>{t.bankLogin.protectIdentifiers}</h2>
+              <p>{t.bankLogin.protectIdentifiersCopy}</p>
             </Panel>
           </div>
 
           <aside className="right-column">
             <Panel>
-              <p className="eyebrow">Onboarding boundary</p>
-              <h2>Bank-managed onboarding</h2>
+              <p className="eyebrow">{t.bankLogin.onboardingBoundary}</p>
+              <h2>{t.bankLogin.bankManagedOnboarding}</h2>
 
               <div className="check-list">
-                {onboardingItems.map((item) => (
+                {t.bankLogin.onboardingItems.map((item) => (
                   <div key={item}>
                     <span className="status-dot"></span>
                     {item}
@@ -286,8 +269,8 @@ export function BankLoginPage() {
             </Panel>
 
             <Panel className="risk-panel">
-              <p className="eyebrow">Product boundary</p>
-              <h2>Prototype only</h2>
+              <p className="eyebrow">{t.bankLogin.productBoundary}</p>
+              <h2>{t.bankLogin.prototypeOnly}</h2>
               <p>
                 This prototype does not implement real authentication. It uses
                 only simulated authentication records, does not verify real

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
+import { useLanguage } from '../context/LanguageContext'
 import {
   evaluateDemoActivity,
   getDemoAlerts,
@@ -42,6 +43,7 @@ function formatCurrency(value: number) {
 }
 
 export function FinancialCrimeMonitoringPage() {
+  const { t } = useLanguage()
   const [alerts, setAlerts] = useState<FinancialCrimeAlert[]>([])
   const [controls, setControls] = useState<MonitoringControl[]>([])
   const [scenarios, setScenarios] = useState<RiskScenario[]>([])
@@ -69,27 +71,36 @@ export function FinancialCrimeMonitoringPage() {
   const summaryCards = useMemo(
     () => [
       {
-        label: 'Active alerts',
+        label: t.financialCrimeMonitoring.activeAlerts,
         value: alerts.length.toString(),
         detail: 'Deterministic monitoring queue',
       },
       {
-        label: 'Critical alerts',
+        label: t.financialCrimeMonitoring.criticalAlerts,
         value: criticalAlerts.toString(),
         detail: 'Require escalation review',
       },
       {
-        label: 'Monitoring controls',
+        label: t.financialCrimeMonitoring.monitoringControls,
         value: controls.length.toString(),
         detail: 'Bank control categories',
       },
       {
-        label: 'Review-ready cases',
+        label: t.financialCrimeMonitoring.reviewReadyCases,
         value: reviewReadyCases.toString(),
         detail: 'Linked to evidence records',
       },
     ],
-    [alerts.length, controls.length, criticalAlerts, reviewReadyCases],
+    [
+      alerts.length,
+      controls.length,
+      criticalAlerts,
+      reviewReadyCases,
+      t.financialCrimeMonitoring.activeAlerts,
+      t.financialCrimeMonitoring.criticalAlerts,
+      t.financialCrimeMonitoring.monitoringControls,
+      t.financialCrimeMonitoring.reviewReadyCases,
+    ],
   )
 
   useEffect(() => {
@@ -160,18 +171,14 @@ export function FinancialCrimeMonitoringPage() {
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">Protected bank staff area</p>
-            <h1>Financial Crime Monitoring</h1>
-            <p>
-              Internal monitoring view for insider risk, suspicious transaction
-              patterns, shell company indicators, crypto off-ramp risk, and
-              evidence-driven escalation.
-            </p>
+            <p className="eyebrow">{t.bankStaffWorkspace.protectedArea}</p>
+            <h1>{t.financialCrimeMonitoring.title}</h1>
+            <p>{t.financialCrimeMonitoring.subtitle}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Monitoring alerts
+            {t.bankStaffWorkspace.statuses.monitoringAlerts}
           </div>
         </section>
 
@@ -192,14 +199,14 @@ export function FinancialCrimeMonitoringPage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Alert queue</p>
-                  <h2>Demo monitoring alerts</h2>
+                  <p className="eyebrow">{t.financialCrimeMonitoring.alertQueue}</p>
+                  <h2>{t.financialCrimeMonitoring.demoAlerts}</h2>
                 </div>
                 <Link
                   className="button-link secondary-button compact-link"
                   to="/bank-staff/compliance-intelligence"
                 >
-                  Compliance intelligence
+                  {t.financialCrimeMonitoring.complianceIntelligence}
                 </Link>
               </div>
 
@@ -271,7 +278,7 @@ export function FinancialCrimeMonitoringPage() {
           <aside className="right-column">
             <Panel>
               <p className="eyebrow">Controls</p>
-              <h2>Monitoring controls</h2>
+              <h2>{t.financialCrimeMonitoring.monitoringControls}</h2>
               <div className="check-list financial-crime-side-list">
                 {controls.map((control) => (
                   <div key={control.control_id}>
@@ -302,7 +309,7 @@ export function FinancialCrimeMonitoringPage() {
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Evaluation demo</p>
-                  <h2>Assess activity</h2>
+                  <h2>{t.financialCrimeMonitoring.evaluateActivity}</h2>
                 </div>
               </div>
 
@@ -360,7 +367,7 @@ export function FinancialCrimeMonitoringPage() {
                   onClick={() => void handleEvaluateActivity()}
                   disabled={isEvaluating || !selectedScenario}
                 >
-                  Evaluate
+                  {t.financialCrimeMonitoring.evaluateActivity}
                 </button>
               </div>
 

@@ -1,4 +1,6 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { LanguageToggle } from './LanguageToggle'
+import { useLanguage } from '../context/LanguageContext'
 import { usePrivacyMode } from '../context/PrivacyModeContext'
 import { logoutFromBank } from '../services/authApi'
 
@@ -251,6 +253,20 @@ export function TopBar({ userName }: TopBarProps) {
   const location = useLocation()
   const navigate = useNavigate()
   const { amountsVisible, toggleAmountsVisible } = usePrivacyMode()
+  const { t } = useLanguage()
+
+  const navigationLabels: Record<string, string> = {
+    Home: t.navigation.home,
+    Payments: t.navigation.payments,
+    Accounts: t.navigation.accounts,
+    'Cards and Currency': t.navigation.cardsAndCurrency,
+    Loans: t.navigation.loans,
+    Investments: t.navigation.investments,
+    Insurance: t.navigation.insurance,
+    'Digital Assets': t.navigation.digitalAssets,
+    Documents: t.navigation.documents,
+    'Online Services': t.navigation.onlineServices,
+  }
 
   async function handleLogout() {
     const sessionId = localStorage.getItem('aurora_bank_session_id')
@@ -275,11 +291,11 @@ export function TopBar({ userName }: TopBarProps) {
         <div className="brand-mark">A</div>
         <div>
           <p className="brand-name">Aurora Bank</p>
-          <p className="brand-subtitle">Online Banking Demo</p>
+          <p className="brand-subtitle">{t.navigation.onlineBankingDemo}</p>
         </div>
       </NavLink>
 
-      <nav className="main-nav" aria-label="Main navigation">
+      <nav className="main-nav" aria-label={t.navigation.mainNavigation}>
         {navigationItems.map((item) => {
           const hasMegaMenu = Boolean(item.menu)
 
@@ -297,7 +313,7 @@ export function TopBar({ userName }: TopBarProps) {
                     : 'main-nav-link'
                 }
               >
-                {item.label}
+                {navigationLabels[item.label] ?? item.label}
               </NavLink>
 
               {item.menu ? (
@@ -328,15 +344,18 @@ export function TopBar({ userName }: TopBarProps) {
           aria-pressed={amountsVisible}
           onClick={toggleAmountsVisible}
         >
-          {amountsVisible ? 'Hide balances' : 'Show balances'}
+          {amountsVisible
+            ? t.navigation.hideBalances
+            : t.navigation.showBalances}
         </button>
+        <LanguageToggle />
         <span>{userName}</span>
         <button
           type="button"
           className="secondary-button"
           onClick={() => void handleLogout()}
         >
-          Log out
+          {t.navigation.logOut}
         </button>
       </div>
     </header>

@@ -1,50 +1,25 @@
 import { Link } from 'react-router-dom'
+import { LanguageToggle } from '../components/LanguageToggle'
 import { Panel } from '../components/Panel'
+import { useLanguage } from '../context/LanguageContext'
 
-const publicNavigation = [
-  { label: 'For you', href: '#for-you' },
-  { label: 'For businesses', href: '#services' },
-  { label: 'Private Banking', href: '#services' },
-  { label: 'Daily banking', href: '#services' },
-  { label: 'Customer service', href: '#contact' },
-  { label: 'Digital Assets', href: '#digital-assets' },
-  { label: 'Documents', href: '#contact' },
-]
-
-const serviceCards = [
-  {
-    title: 'Accounts and payments',
-    description:
-      'Everyday account and payment service concepts for customers with an Aurora Bank relationship.',
-  },
-  {
-    title: 'Housing loan concept',
-    description:
-      'Structured guidance for major life decisions within a formal banking relationship.',
-  },
-  {
-    title: 'Savings and investments',
-    description:
-      'Clear information and responsible planning concepts for long-term finances.',
-  },
-  {
-    title: 'Digital Assets module',
-    description:
-      'Eligible customers may access simulated digital asset services through authenticated eBanking.',
-  },
-  {
-    title: 'Customer service',
-    description:
-      'Support pathways for banking questions, documents, and service information.',
-  },
-  {
-    title: 'Security and strong authentication',
-    description:
-      'Bank-issued credentials and strong authentication protect access to personal services.',
-  },
+const publicNavigationHrefs = [
+  '#for-you',
+  '#services',
+  '#services',
+  '#services',
+  '#contact',
+  '#digital-assets',
+  '#contact',
 ]
 
 export function BankHomePage() {
+  const { t } = useLanguage()
+  const publicNavigation = t.bankHome.publicNavigation.map((label, index) => ({
+    label,
+    href: publicNavigationHrefs[index],
+  }))
+
   return (
     <div className="bank-shell">
       <header className="top-bar">
@@ -52,7 +27,7 @@ export function BankHomePage() {
           <div className="brand-mark">A</div>
           <div>
             <p className="brand-name">Aurora Bank</p>
-            <p className="brand-subtitle">Public banking website concept</p>
+            <p className="brand-subtitle">{t.bankHome.publicConcept}</p>
           </div>
         </Link>
 
@@ -67,8 +42,9 @@ export function BankHomePage() {
         </nav>
 
         <div className="user-area">
+          <LanguageToggle />
           <Link className="button-link secondary-button" to="/bank-login">
-            Log in
+            {t.bankHome.logIn}
           </Link>
         </div>
       </header>
@@ -77,25 +53,22 @@ export function BankHomePage() {
         <section className="welcome-card" id="for-you">
           <div>
             <p className="eyebrow">Aurora Bank</p>
-            <h1>Banking services for everyday life</h1>
-            <p>
-              Access accounts, payments, documents, and eligible digital asset
-              services through a formal banking relationship.
-            </p>
+            <h1>{t.bankHome.heroTitle}</h1>
+            <p>{t.bankHome.heroSubtitle}</p>
 
             <div className="action-row">
               <Link className="button-link" to="/bank-login">
-                Log in to eBanking
+                {t.bankHome.logInEbanking}
               </Link>
               <Link className="button-link secondary-button" to="/bank-access">
-                Learn about Aurora Digital Assets
+                {t.bankHome.learnDigitalAssets}
               </Link>
             </div>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Formal banking access
+            {t.bankHome.formalAccess}
           </div>
         </section>
 
@@ -104,20 +77,20 @@ export function BankHomePage() {
             <Panel id="services">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Services and life situations</p>
-                  <h2>How can Aurora Bank help?</h2>
+                  <p className="eyebrow">{t.bankHome.servicesEyebrow}</p>
+                  <h2>{t.bankHome.servicesTitle}</h2>
                 </div>
-                <span className="module-tag">Public information</span>
+                <span className="module-tag">{t.bankHome.publicInformation}</span>
               </div>
 
               <div className="account-list">
-                {serviceCards.map((service) => (
+                {t.bankHome.services.map((service) => (
                   <article className="account-row" key={service.title}>
                     <div>
                       <h3>{service.title}</h3>
                       <p>{service.description}</p>
                     </div>
-                    <strong>Explore</strong>
+                    <strong>{t.bankHome.explore}</strong>
                   </article>
                 ))}
               </div>
@@ -127,9 +100,9 @@ export function BankHomePage() {
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Aurora Digital Assets</p>
-                  <h2>Integrated within online banking</h2>
+                  <h2>{t.bankHome.integratedTitle}</h2>
                 </div>
-                <span className="module-tag">Eligibility applies</span>
+                <span className="module-tag">{t.bankHome.eligibilityApplies}</span>
               </div>
 
               <p>
@@ -143,21 +116,21 @@ export function BankHomePage() {
 
           <aside className="right-column">
             <Panel className="risk-panel">
-              <p className="eyebrow">Security information</p>
-              <h2>Use official banking channels</h2>
+              <p className="eyebrow">{t.bankHome.securityInformation}</p>
+              <h2>{t.bankHome.officialChannels}</h2>
               <p>
                 Always access eBanking through the official banking channel.
                 Aurora Bank never asks for bank identifiers by email or text
                 message.
               </p>
               <Link className="button-link" to="/bank-login">
-                Log in securely
+                {t.bankHome.logInSecurely}
               </Link>
             </Panel>
 
             <Panel id="contact">
-              <p className="eyebrow">Become a customer</p>
-              <h2>Contact and onboarding</h2>
+              <p className="eyebrow">{t.bankHome.becomeCustomer}</p>
+              <h2>{t.bankHome.contactOnboarding}</h2>
               <p>
                 New customer onboarding, document review, and credential
                 issuance would be handled through the bank&apos;s formal
@@ -165,10 +138,10 @@ export function BankHomePage() {
               </p>
               <div className="action-row vertical-actions">
                 <button type="button" className="secondary-button">
-                  Contact Aurora Bank
+                  {t.bankHome.contactBank}
                 </button>
                 <button type="button" className="secondary-button">
-                  Read service information
+                  {t.bankHome.readServiceInfo}
                 </button>
               </div>
             </Panel>

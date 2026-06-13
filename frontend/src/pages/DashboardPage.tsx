@@ -5,6 +5,7 @@ import { Panel } from '../components/Panel'
 import { AccountRow } from '../components/AccountRow'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
 import { PrivacyAmount } from '../components/PrivacyAmount'
+import { useLanguage } from '../context/LanguageContext'
 import {
   accounts as fallbackAccounts,
   digitalAssets as fallbackDigitalAssets,
@@ -58,6 +59,7 @@ function toDashboardAsset(asset: WalletBalance) {
 }
 
 export function DashboardPage() {
+  const { t } = useLanguage()
   const [backendAccounts, setBackendAccounts] = useState<BankAccount[]>([])
   const [walletBalances, setWalletBalances] = useState<WalletBalance[]>([])
   const [custodyStatus, setCustodyStatus] = useState<CustodyStatus | null>(null)
@@ -136,17 +138,14 @@ export function DashboardPage() {
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">Welcome back</p>
-            <h1>Financial overview</h1>
-            <p>
-              Review your accounts, payments, and digital assets from one
-              banking environment.
-            </p>
+            <p className="eyebrow">{t.dashboard.welcomeBack}</p>
+            <h1>{t.dashboard.financialOverview}</h1>
+            <p>{t.dashboard.subtitle}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Strong authentication active
+            {t.dashboard.strongAuthActive}
           </div>
         </section>
 
@@ -155,21 +154,21 @@ export function DashboardPage() {
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Accounts</p>
-                  <h2>Your accounts</h2>
+                  <p className="eyebrow">{t.dashboard.accounts}</p>
+                  <h2>{t.dashboard.yourAccounts}</h2>
                 </div>
                 <Link className="button-link secondary-button" to="/payments">
-                  New payment
+                  {t.dashboard.newPayment}
                 </Link>
               </div>
 
               {isLoading && (
-                <p className="panel-note">Loading dashboard data...</p>
+                <p className="panel-note">{t.dashboard.loadingDashboard}</p>
               )}
               {backendError && <p className="panel-note">{backendError}</p>}
               {!backendError && !isLoading && (
                 <p className="panel-note">
-                  Dashboard data loaded from local FastAPI prototype.
+                  {t.dashboard.dashboardLoaded}
                 </p>
               )}
 
@@ -183,31 +182,30 @@ export function DashboardPage() {
             <Panel id="digital-assets">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Digital Assets</p>
-                  <h2>Aurora Digital Assets Wallet</h2>
+                  <p className="eyebrow">{t.dashboard.digitalAssets}</p>
+                  <h2>{t.dashboard.wallet}</h2>
                 </div>
                 <span className="module-tag">
-                  {walletBalances.length > 0 ? 'Backend module' : 'Concept module'}
+                  {walletBalances.length > 0
+                    ? t.dashboard.backendModule
+                    : t.dashboard.conceptModule}
                 </span>
               </div>
 
               <div className="assets-summary">
                 <div>
-                  <p>Total digital assets value</p>
+                  <p>{t.dashboard.totalDigitalAssetsValue}</p>
                   <strong>
                     <PrivacyAmount
                       value={totalDigitalAssetsValue}
-                      label="Total digital assets value"
+                      label={t.dashboard.totalDigitalAssetsValue}
                     />
                   </strong>
-                  <span>
-                    Digital assets are volatile and are separate from bank
-                    deposits.
-                  </span>
+                  <span>{t.dashboard.volatilityNotice}</span>
                 </div>
 
                 <div className="custody-card">
-                  <p>Custody status</p>
+                  <p>{t.dashboard.custodyStatus}</p>
                   <strong>{custodyMode}</strong>
                   <span>{custodySummary}</span>
                 </div>
@@ -221,16 +219,16 @@ export function DashboardPage() {
 
               <div className="action-row">
                 <Link className="button-link" to="/buy-sell">
-                  Buy
+                  {t.dashboard.buy}
                 </Link>
                 <Link className="button-link" to="/buy-sell">
-                  Sell
+                  {t.dashboard.sell}
                 </Link>
                 <Link className="button-link" to="/withdrawals">
-                  Withdraw
+                  {t.dashboard.withdraw}
                 </Link>
                 <Link className="button-link secondary-button" to="/reports">
-                  Reports
+                  {t.common.reports}
                 </Link>
               </div>
             </Panel>
@@ -238,8 +236,8 @@ export function DashboardPage() {
 
           <aside className="right-column">
             <Panel>
-              <p className="eyebrow">Notifications</p>
-              <h2>Important messages</h2>
+              <p className="eyebrow">{t.dashboard.notifications}</p>
+              <h2>{t.dashboard.importantMessages}</h2>
 
               <ul className="notification-list">
                 {notifications.map((item) => (
@@ -249,20 +247,17 @@ export function DashboardPage() {
             </Panel>
 
             <Panel className="risk-panel">
-              <p className="eyebrow">User protection</p>
-              <h2>Digital assets risk notice</h2>
-              <p>
-                Crypto assets can lose value quickly. External wallet transfers
-                are irreversible and may require additional security review.
-              </p>
+              <p className="eyebrow">{t.dashboard.userProtection}</p>
+              <h2>{t.dashboard.riskNotice}</h2>
+              <p>{t.dashboard.riskNoticeCopy}</p>
               <Link className="button-link secondary-button" to="/digital-assets">
-                Read risk information
+                {t.dashboard.readRiskInformation}
               </Link>
             </Panel>
 
             <Panel>
-              <p className="eyebrow">Protection status</p>
-              <h2>Digital assets protection</h2>
+              <p className="eyebrow">{t.dashboard.protectionStatus}</p>
+              <h2>{t.dashboard.protection}</h2>
 
               <div className="check-list">
                 <div>
