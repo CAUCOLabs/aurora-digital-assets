@@ -215,8 +215,29 @@ export const translations = {
         financialCrime: 'Financial crime monitoring',
         complianceIntelligence: 'Compliance intelligence',
         evidencePackages: 'Evidence packages',
+        operationalResilience: 'Operational resilience',
         reportsAuditTrail: 'Reports and audit trail',
         demoAdministration: 'Demo administration',
+      },
+      moduleDescriptions: {
+        onboarding:
+          'Review the bank-managed customer onboarding model before digital asset services become available.',
+        customerAccess:
+          'Look up a demo customer and request temporary customer-authorized staff access.',
+        complianceReview:
+          'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
+        financialCrime:
+          'Review insider risk, shell company indicators, structured deposits, crypto off-ramp risk, foreign transfer risk, and network-linked suspicious activity.',
+        complianceIntelligence:
+          'Explain financial crime alerts, review triggered controls, identify missing evidence, and prepare reviewer guidance before escalation.',
+        evidencePackages:
+          'Prepare structured evidence packages for compliance review, audit, investigation, and regulator-facing documentation.',
+        operationalResilience:
+          'Monitor service degradation, dependency failures, fallback modes, customer impact, and continuity controls.',
+        reportsAuditTrail:
+          'Open customer-facing reports, tax report concepts, and prototype audit evidence.',
+        demoAdministration:
+          'Inspect and reset local prototype data used by the Aurora Digital Assets demo environment.',
       },
       statuses: {
         bankStaffControl: 'Bank staff control',
@@ -225,6 +246,7 @@ export const translations = {
         monitoringAlerts: 'Monitoring alerts',
         reasoningLayer: 'Reasoning layer',
         packageReadiness: 'Package readiness',
+        resilienceCommand: 'Resilience command',
         auditEvidence: 'Audit evidence',
         prototypeOnly: 'Prototype only',
       },
@@ -298,6 +320,47 @@ export const translations = {
       noWarnings: 'No warnings recorded.',
       noIncludedEvidence: 'No included evidence has been attached.',
       noMissingEvidence: 'No missing evidence is recorded.',
+    },
+    operationalResilience: {
+      title: 'Operational Resilience',
+      subtitle:
+        'Internal command view for service degradation, dependency failures, fallback modes, customer impact, and continuity controls.',
+      servicesMonitored: 'Services monitored',
+      activeIncidents: 'Active incidents',
+      fallbackModes: 'Fallback modes',
+      highImpactServices: 'High impact services',
+      serviceHealth: 'Service health',
+      incidentQueue: 'Incident queue',
+      dependencies: 'Dependencies',
+      criticalDependencies: 'Critical dependencies',
+      controls: 'Controls',
+      resilienceControls: 'Resilience controls',
+      scenarioDemo: 'Scenario demo',
+      evaluateScenario: 'Evaluate scenario',
+      scenario: 'Scenario',
+      affectedService: 'Affected service',
+      dependencyStatus: 'Dependency status',
+      customerImpact: 'Customer impact',
+      evaluateResilienceScenario: 'Evaluate resilience scenario',
+      resilienceScore: 'Resilience score',
+      severity: 'Severity',
+      decision: 'Decision',
+      controlsActivated: 'Controls activated',
+      availableOperations: 'Available operations',
+      pausedOperations: 'Paused operations',
+      recommendedAction: 'Recommended action',
+      explanation: 'Explanation',
+      availability: 'Availability',
+      fallbackAvailable: 'Fallback available',
+      currentMode: 'Current mode',
+      summary: 'Summary',
+      failureType: 'Failure type',
+      fallbackMode: 'Fallback mode',
+      auditEvidence: 'Audit evidence',
+      timeline: 'Timeline',
+      allowedOperations: 'Allowed operations',
+      activated: 'Activated',
+      ready: 'Ready',
     },
     prototypeBoundary: {
       independentConceptPrototype: 'Independent concept prototype',
@@ -520,8 +583,29 @@ export const translations = {
         financialCrime: 'Monitoreo de delitos financieros',
         complianceIntelligence: 'Inteligencia de cumplimiento',
         evidencePackages: 'Paquetes de evidencia',
+        operationalResilience: 'Resiliencia operacional',
         reportsAuditTrail: 'Reportes y trazabilidad de auditoría',
         demoAdministration: 'Administración demo',
+      },
+      moduleDescriptions: {
+        onboarding:
+          'Revisar el modelo de incorporación gestionado por el banco antes de habilitar servicios de activos digitales.',
+        customerAccess:
+          'Buscar un cliente demo y solicitar acceso temporal autorizado por el cliente.',
+        complianceReview:
+          'Revisar resultados simulados de monitoreo transaccional, controles de riesgo de billetera y evidencia de escalamiento.',
+        financialCrime:
+          'Revisar riesgo interno, indicadores de empresas de fachada, depósitos estructurados, riesgo de salida hacia criptoactivos, riesgo de transferencias extranjeras y actividad sospechosa vinculada a redes.',
+        complianceIntelligence:
+          'Explicar alertas de delitos financieros, revisar controles activados, identificar evidencia faltante y preparar orientación para revisores antes del escalamiento.',
+        evidencePackages:
+          'Preparar paquetes estructurados de evidencia para revisión de cumplimiento, auditoría, investigación y documentación orientada a reguladores.',
+        operationalResilience:
+          'Monitorear degradación de servicios, fallas de dependencias, modos de respaldo, impacto en clientes y controles de continuidad.',
+        reportsAuditTrail:
+          'Abrir reportes para clientes, conceptos de reporte fiscal y evidencia de auditoría del prototipo.',
+        demoAdministration:
+          'Inspeccionar y restablecer datos locales del prototipo usados por el entorno demo de Aurora Digital Assets.',
       },
       statuses: {
         bankStaffControl: 'Control interno del banco',
@@ -530,6 +614,7 @@ export const translations = {
         monitoringAlerts: 'Alertas de monitoreo',
         reasoningLayer: 'Capa de razonamiento',
         packageReadiness: 'Preparación de paquetes',
+        resilienceCommand: 'Comando de resiliencia',
         auditEvidence: 'Evidencia de auditoría',
         prototypeOnly: 'Solo prototipo',
       },
@@ -603,6 +688,47 @@ export const translations = {
       noWarnings: 'No hay advertencias registradas.',
       noIncludedEvidence: 'No se ha adjuntado evidencia incluida.',
       noMissingEvidence: 'No hay evidencia faltante registrada.',
+    },
+    operationalResilience: {
+      title: 'Resiliencia Operacional',
+      subtitle:
+        'Vista interna de comando para degradación de servicios, fallas de dependencias, modos de respaldo, impacto en clientes y controles de continuidad.',
+      servicesMonitored: 'Servicios monitoreados',
+      activeIncidents: 'Incidentes activos',
+      fallbackModes: 'Modos de respaldo',
+      highImpactServices: 'Servicios de alto impacto',
+      serviceHealth: 'Salud del servicio',
+      incidentQueue: 'Cola de incidentes',
+      dependencies: 'Dependencias',
+      criticalDependencies: 'Dependencias críticas',
+      controls: 'Controles',
+      resilienceControls: 'Controles de resiliencia',
+      scenarioDemo: 'Demo de escenario',
+      evaluateScenario: 'Evaluar escenario',
+      scenario: 'Escenario',
+      affectedService: 'Servicio afectado',
+      dependencyStatus: 'Estado de dependencia',
+      customerImpact: 'Impacto en clientes',
+      evaluateResilienceScenario: 'Evaluar escenario de resiliencia',
+      resilienceScore: 'Puntaje de resiliencia',
+      severity: 'Severidad',
+      decision: 'Decisión',
+      controlsActivated: 'Controles activados',
+      availableOperations: 'Operaciones disponibles',
+      pausedOperations: 'Operaciones pausadas',
+      recommendedAction: 'Acción recomendada',
+      explanation: 'Explicación',
+      availability: 'Disponibilidad',
+      fallbackAvailable: 'Respaldo disponible',
+      currentMode: 'Modo actual',
+      summary: 'Resumen',
+      failureType: 'Tipo de falla',
+      fallbackMode: 'Modo de respaldo',
+      auditEvidence: 'Evidencia de auditoría',
+      timeline: 'Línea de tiempo',
+      allowedOperations: 'Operaciones permitidas',
+      activated: 'Activado',
+      ready: 'Listo',
     },
     prototypeBoundary: {
       independentConceptPrototype: 'Prototipo conceptual independiente',

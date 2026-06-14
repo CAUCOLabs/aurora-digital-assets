@@ -47,6 +47,13 @@ const workspaceModules = [
     to: '/bank-staff/evidence-packages',
   },
   {
+    title: 'Operational resilience',
+    description:
+      'Monitor service degradation, dependency failures, fallback modes, customer impact, and continuity controls.',
+    status: 'Resilience command',
+    to: '/bank-staff/operational-resilience',
+  },
+  {
     title: 'Reports and audit trail',
     description:
       'Open customer-facing reports, tax report concepts, and prototype audit evidence.',
@@ -78,6 +85,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.financialCrime,
     t.bankStaffWorkspace.modules.complianceIntelligence,
     t.bankStaffWorkspace.modules.evidencePackages,
+    t.bankStaffWorkspace.modules.operationalResilience,
     t.bankStaffWorkspace.modules.reportsAuditTrail,
     t.bankStaffWorkspace.modules.demoAdministration,
   ]
@@ -88,8 +96,20 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.monitoringAlerts,
     t.bankStaffWorkspace.statuses.reasoningLayer,
     t.bankStaffWorkspace.statuses.packageReadiness,
+    t.bankStaffWorkspace.statuses.resilienceCommand,
     t.bankStaffWorkspace.statuses.auditEvidence,
     t.bankStaffWorkspace.statuses.prototypeOnly,
+  ]
+  const translatedDescriptions = [
+    t.bankStaffWorkspace.moduleDescriptions.onboarding,
+    t.bankStaffWorkspace.moduleDescriptions.customerAccess,
+    t.bankStaffWorkspace.moduleDescriptions.complianceReview,
+    t.bankStaffWorkspace.moduleDescriptions.financialCrime,
+    t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,
+    t.bankStaffWorkspace.moduleDescriptions.evidencePackages,
+    t.bankStaffWorkspace.moduleDescriptions.operationalResilience,
+    t.bankStaffWorkspace.moduleDescriptions.reportsAuditTrail,
+    t.bankStaffWorkspace.moduleDescriptions.demoAdministration,
   ]
 
   return (
@@ -132,7 +152,7 @@ export function BankStaffWorkspacePage() {
                   >
                     <div>
                       <h3>{translatedModules[index]}</h3>
-                      <p>{module.description}</p>
+                      <p>{translatedDescriptions[index] ?? module.description}</p>
                       <span>{module.to}</span>
                     </div>
                     <strong>{translatedStatuses[index]}</strong>

@@ -19,6 +19,7 @@ import { BankStaffOnboardingPage } from '../pages/BankStaffOnboardingPage'
 import { ComplianceIntelligencePage } from '../pages/ComplianceIntelligencePage'
 import { EvidencePackagesPage } from '../pages/EvidencePackagesPage'
 import { FinancialCrimeMonitoringPage } from '../pages/FinancialCrimeMonitoringPage'
+import { OperationalResiliencePage } from '../pages/OperationalResiliencePage'
 import { StaffCustomerAccessPage } from '../pages/StaffCustomerAccessPage'
 import { BankLoginPage } from '../pages/BankLoginPage'
 import { ProtectedRoute } from '../components/ProtectedRoute'
@@ -207,6 +208,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <EvidencePackagesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/operational-resilience"
+        element={
+          <ProtectedRoute>
+            <OperationalResiliencePage />
           </ProtectedRoute>
         }
       />
