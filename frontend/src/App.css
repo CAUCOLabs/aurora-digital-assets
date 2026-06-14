@@ -774,12 +774,12 @@ button:disabled {
 
 .risk-label-low,
 .risk-label-none,
+.status-normal,
 .status-closed,
 .status-ready,
 .status-healthy,
 .status-resolved,
-.status-available,
-.status-normal {
+.status-available {
   background: #e7f6ed;
   color: #17623c;
 }
@@ -798,8 +798,11 @@ button:disabled {
 }
 
 .risk-label-high,
+.risk-label-urgent,
 .status-new,
 .status-incomplete,
+.status-blocked,
+.status-in_progress,
 .status-open,
 .status-paused,
 .status-fallback,
@@ -972,6 +975,14 @@ button:disabled {
   color: #5d6f82;
   font-size: 0.9rem;
   margin: 0.2rem 0 0;
+}
+
+.risk-operations-command {
+  margin-top: 1.25rem;
+}
+
+.compact-panel-header {
+  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 980px) {

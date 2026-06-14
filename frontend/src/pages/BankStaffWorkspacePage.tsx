@@ -19,6 +19,13 @@ const workspaceModules = [
     to: '/bank-staff/customer-access',
   },
   {
+    title: 'Risk operations console',
+    description:
+      'Unified command view for alerts, incidents, evidence readiness, escalations, paused operations, and staff priorities.',
+    status: 'Orchestration layer',
+    to: '/bank-staff/risk-operations',
+  },
+  {
     title: 'Compliance review',
     description:
       'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
@@ -81,6 +88,7 @@ export function BankStaffWorkspacePage() {
   const translatedModules = [
     t.bankStaffWorkspace.modules.onboarding,
     t.bankStaffWorkspace.modules.customerAccess,
+    t.bankStaffWorkspace.modules.riskOperations,
     t.bankStaffWorkspace.modules.complianceReview,
     t.bankStaffWorkspace.modules.financialCrime,
     t.bankStaffWorkspace.modules.complianceIntelligence,
@@ -92,6 +100,7 @@ export function BankStaffWorkspacePage() {
   const translatedStatuses = [
     t.bankStaffWorkspace.statuses.bankStaffControl,
     t.bankStaffWorkspace.statuses.customerAuthorization,
+    t.bankStaffWorkspace.statuses.orchestrationLayer,
     t.bankStaffWorkspace.statuses.complianceReview,
     t.bankStaffWorkspace.statuses.monitoringAlerts,
     t.bankStaffWorkspace.statuses.reasoningLayer,
@@ -103,6 +112,7 @@ export function BankStaffWorkspacePage() {
   const translatedDescriptions = [
     t.bankStaffWorkspace.moduleDescriptions.onboarding,
     t.bankStaffWorkspace.moduleDescriptions.customerAccess,
+    t.bankStaffWorkspace.moduleDescriptions.riskOperations,
     t.bankStaffWorkspace.moduleDescriptions.complianceReview,
     t.bankStaffWorkspace.moduleDescriptions.financialCrime,
     t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,

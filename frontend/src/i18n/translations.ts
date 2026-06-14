@@ -211,6 +211,7 @@ export const translations = {
       modules: {
         onboarding: 'Customer onboarding',
         customerAccess: 'Customer access authorization',
+        riskOperations: 'Risk operations console',
         complianceReview: 'Compliance review',
         financialCrime: 'Financial crime monitoring',
         complianceIntelligence: 'Compliance intelligence',
@@ -224,6 +225,8 @@ export const translations = {
           'Review the bank-managed customer onboarding model before digital asset services become available.',
         customerAccess:
           'Look up a demo customer and request temporary customer-authorized staff access.',
+        riskOperations:
+          'Unified command view for alerts, incidents, evidence readiness, escalations, paused operations, and staff priorities.',
         complianceReview:
           'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
         financialCrime:
@@ -242,6 +245,7 @@ export const translations = {
       statuses: {
         bankStaffControl: 'Bank staff control',
         customerAuthorization: 'Customer authorization',
+        orchestrationLayer: 'Orchestration layer',
         complianceReview: 'Compliance review',
         monitoringAlerts: 'Monitoring alerts',
         reasoningLayer: 'Reasoning layer',
@@ -361,6 +365,34 @@ export const translations = {
       allowedOperations: 'Allowed operations',
       activated: 'Activated',
       ready: 'Ready',
+    },
+    riskOperations: {
+      title: 'Risk Operations Console',
+      subtitle:
+        'Unified internal view for financial crime alerts, compliance reasoning, evidence readiness, operational incidents, and staff action priorities.',
+      operatingMode: 'Operating mode',
+      highestPriority: 'Highest priority',
+      commandSummary: 'Command summary',
+      noOverview: 'No overview loaded',
+      staffPriorities: 'Staff priorities',
+      actionQueue: 'Action queue',
+      crossModuleEvents: 'Cross-module events',
+      unifiedTimeline: 'Unified timeline',
+      escalations: 'Escalations',
+      escalationSummary: 'Escalation summary',
+      recommendedFocus: 'Recommended focus',
+      operationalBoundary: 'Operational boundary',
+      operationalBoundaryCopy:
+        'This console does not process real bank data. It orchestrates fictional prototype outputs from monitoring, compliance intelligence, evidence readiness, and resilience modules.',
+      sourceModule: 'Source module',
+      sourceId: 'Source ID',
+      requiredAction: 'Required action',
+      relatedLinks: 'Related links',
+      relatedEntity: 'Related entity',
+      openItems: 'Open items',
+      blockedItems: 'Blocked items',
+      readyItems: 'Ready items',
+      noMissingEvidence: 'No missing evidence recorded.',
     },
     prototypeBoundary: {
       independentConceptPrototype: 'Independent concept prototype',
@@ -579,6 +611,7 @@ export const translations = {
       modules: {
         onboarding: 'Incorporación de clientes',
         customerAccess: 'Autorización de acceso a clientes',
+        riskOperations: 'Consola de operaciones de riesgo',
         complianceReview: 'Revisión de cumplimiento',
         financialCrime: 'Monitoreo de delitos financieros',
         complianceIntelligence: 'Inteligencia de cumplimiento',
@@ -592,6 +625,8 @@ export const translations = {
           'Revisar el modelo de incorporación gestionado por el banco antes de habilitar servicios de activos digitales.',
         customerAccess:
           'Buscar un cliente demo y solicitar acceso temporal autorizado por el cliente.',
+        riskOperations:
+          'Vista de comando unificada para alertas, incidentes, preparación de evidencia, escalaciones, operaciones pausadas y prioridades del equipo.',
         complianceReview:
           'Revisar resultados simulados de monitoreo transaccional, controles de riesgo de billetera y evidencia de escalamiento.',
         financialCrime:
@@ -610,6 +645,7 @@ export const translations = {
       statuses: {
         bankStaffControl: 'Control interno del banco',
         customerAuthorization: 'Autorización del cliente',
+        orchestrationLayer: 'Capa de orquestación',
         complianceReview: 'Revisión de cumplimiento',
         monitoringAlerts: 'Alertas de monitoreo',
         reasoningLayer: 'Capa de razonamiento',
@@ -729,6 +765,34 @@ export const translations = {
       allowedOperations: 'Operaciones permitidas',
       activated: 'Activado',
       ready: 'Listo',
+    },
+    riskOperations: {
+      title: 'Consola de Operaciones de Riesgo',
+      subtitle:
+        'Vista interna unificada para alertas de delitos financieros, razonamiento de cumplimiento, preparación de evidencia, incidentes operacionales y prioridades de acción del equipo.',
+      operatingMode: 'Modo operativo',
+      highestPriority: 'Prioridad máxima',
+      commandSummary: 'Resumen de comando',
+      noOverview: 'Resumen no cargado',
+      staffPriorities: 'Prioridades del equipo',
+      actionQueue: 'Cola de acciones',
+      crossModuleEvents: 'Eventos entre módulos',
+      unifiedTimeline: 'Línea de tiempo unificada',
+      escalations: 'Escalaciones',
+      escalationSummary: 'Resumen de escalaciones',
+      recommendedFocus: 'Foco recomendado',
+      operationalBoundary: 'Límite operacional',
+      operationalBoundaryCopy:
+        'Esta consola no procesa datos bancarios reales. Orquesta salidas ficticias del prototipo desde monitoreo, inteligencia de cumplimiento, preparación de evidencia y módulos de resiliencia.',
+      sourceModule: 'Módulo fuente',
+      sourceId: 'ID de fuente',
+      requiredAction: 'Acción requerida',
+      relatedLinks: 'Enlaces relacionados',
+      relatedEntity: 'Entidad relacionada',
+      openItems: 'Ítems abiertos',
+      blockedItems: 'Ítems bloqueados',
+      readyItems: 'Ítems listos',
+      noMissingEvidence: 'No hay evidencia faltante registrada.',
     },
     prototypeBoundary: {
       independentConceptPrototype: 'Prototipo conceptual independiente',

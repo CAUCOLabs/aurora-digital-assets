@@ -24,6 +24,7 @@ from app.api.routes.operational_resilience import (
 from app.api.routes.payments import router as payments_router
 from app.api.routes.reports import router as reports_router
 from app.api.routes.review_cases import router as review_cases_router
+from app.api.routes.risk_operations import router as risk_operations_router
 from app.api.routes.staff_customer_access import (
     router as staff_customer_access_router,
 )
@@ -74,6 +75,7 @@ def create_app() -> FastAPI:
     app.include_router(compliance_intelligence_router, prefix=settings.api_prefix)
     app.include_router(evidence_packages_router, prefix=settings.api_prefix)
     app.include_router(operational_resilience_router, prefix=settings.api_prefix)
+    app.include_router(risk_operations_router, prefix=settings.api_prefix)
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app
