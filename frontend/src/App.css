@@ -830,6 +830,12 @@ button:disabled {
   color: #8a5800;
 }
 
+.decision-label-step_up_required,
+.decision-label-audit_only {
+  background: #fff4d9;
+  color: #8a5800;
+}
+
 .decision-label-escalate,
 .decision-label-block {
   background: #f9dddd;

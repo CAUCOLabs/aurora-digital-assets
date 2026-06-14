@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.accounts import router as accounts_router
+from app.api.routes.api_security import router as api_security_router
 from app.api.routes.audit_events import router as audit_events_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.bank_access import router as bank_access_router
@@ -76,6 +77,7 @@ def create_app() -> FastAPI:
     app.include_router(evidence_packages_router, prefix=settings.api_prefix)
     app.include_router(operational_resilience_router, prefix=settings.api_prefix)
     app.include_router(risk_operations_router, prefix=settings.api_prefix)
+    app.include_router(api_security_router, prefix=settings.api_prefix)
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app

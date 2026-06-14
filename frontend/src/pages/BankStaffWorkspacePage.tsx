@@ -26,6 +26,13 @@ const workspaceModules = [
     to: '/bank-staff/risk-operations',
   },
   {
+    title: 'API security control center',
+    description:
+      'Monitor sensitive backend actions, resolver authorization, business rate limits, schema exposure, step-up authentication, and audit logging.',
+    status: 'Backend security layer',
+    to: '/bank-staff/api-security',
+  },
+  {
     title: 'Compliance review',
     description:
       'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
@@ -89,6 +96,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.onboarding,
     t.bankStaffWorkspace.modules.customerAccess,
     t.bankStaffWorkspace.modules.riskOperations,
+    t.bankStaffWorkspace.modules.apiSecurity,
     t.bankStaffWorkspace.modules.complianceReview,
     t.bankStaffWorkspace.modules.financialCrime,
     t.bankStaffWorkspace.modules.complianceIntelligence,
@@ -101,6 +109,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.bankStaffControl,
     t.bankStaffWorkspace.statuses.customerAuthorization,
     t.bankStaffWorkspace.statuses.orchestrationLayer,
+    t.bankStaffWorkspace.statuses.backendSecurityLayer,
     t.bankStaffWorkspace.statuses.complianceReview,
     t.bankStaffWorkspace.statuses.monitoringAlerts,
     t.bankStaffWorkspace.statuses.reasoningLayer,
@@ -113,6 +122,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.moduleDescriptions.onboarding,
     t.bankStaffWorkspace.moduleDescriptions.customerAccess,
     t.bankStaffWorkspace.moduleDescriptions.riskOperations,
+    t.bankStaffWorkspace.moduleDescriptions.apiSecurity,
     t.bankStaffWorkspace.moduleDescriptions.complianceReview,
     t.bankStaffWorkspace.moduleDescriptions.financialCrime,
     t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,

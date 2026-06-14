@@ -370,6 +370,12 @@ export function RiskOperationsPage() {
                 >
                   {t.operationalResilience.title}
                 </Link>
+                <Link
+                  className="button-link secondary-button compact-link"
+                  to="/bank-staff/api-security"
+                >
+                  {t.apiSecurity.title}
+                </Link>
               </div>
 
               <div className="financial-crime-alert-list">

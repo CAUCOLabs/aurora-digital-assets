@@ -10,6 +10,7 @@ import { CustodyPage } from '../pages/CustodyPage'
 import { OperatingModelPage } from '../pages/OperatingModelPage'
 import { PaymentsPage } from '../pages/PaymentsPage'
 import { AccountsPage } from '../pages/AccountsPage'
+import { ApiSecurityPage } from '../pages/ApiSecurityPage'
 import { CardsPage } from '../pages/CardsPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
@@ -225,6 +226,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <OperationalResiliencePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/api-security"
+        element={
+          <ProtectedRoute>
+            <ApiSecurityPage />
           </ProtectedRoute>
         }
       />
