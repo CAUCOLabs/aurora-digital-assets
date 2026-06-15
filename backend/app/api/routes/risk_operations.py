@@ -1,9 +1,11 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from app.schemas.risk_operations import (
     EscalationSummary,
     RiskActionItem,
     RiskOperationsOverview,
+    RiskOperationsReviewCaseRequest,
+    RiskOperationsReviewCaseResponse,
     UnifiedTimelineEvent,
 )
 from app.services.risk_operations_service import risk_operations_service
@@ -30,3 +32,20 @@ def get_risk_operations_unified_timeline() -> list[UnifiedTimelineEvent]:
 @router.get("/escalation-summary", response_model=list[EscalationSummary])
 def get_risk_operations_escalation_summary() -> list[EscalationSummary]:
     return risk_operations_service.list_escalation_summary()
+
+
+@router.post(
+    "/create-review-case",
+    response_model=RiskOperationsReviewCaseResponse,
+)
+def create_risk_operations_review_case(
+    request: RiskOperationsReviewCaseRequest,
+) -> RiskOperationsReviewCaseResponse:
+    response = risk_operations_service.create_review_case(
+        action_id=request.action_id,
+        reviewer_id=request.reviewer_id,
+        priority=request.priority,
+    )
+    if response is None:
+        raise HTTPException(status_code=404, detail="Risk action not found")
+    return response

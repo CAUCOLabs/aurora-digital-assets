@@ -97,3 +97,22 @@ class RiskOperationsOverview(BaseModel):
     operating_mode: OperatingMode
     summary: str
     recommended_focus: list[str]
+
+
+class RiskOperationsReviewCaseRequest(BaseModel):
+    action_id: str
+    reviewer_id: str
+    priority: RiskPriority
+
+
+class RiskOperationsReviewCaseResponse(BaseModel):
+    status: str
+    review_case_id: str
+    source_action_id: str
+    case_title: str
+    case_summary: str
+    recommended_next_action: str
+    audit_event_created: bool
+    user_message: str
+    required_action: str
+    missing_evidence: list[str]

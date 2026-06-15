@@ -1,4 +1,4 @@
-import { getJson } from './apiClient'
+import { getJson, postJson } from './apiClient'
 
 export type MetricStatus = 'normal' | 'attention' | 'warning' | 'critical'
 export type RiskSourceModule =
@@ -91,6 +91,25 @@ export type RiskOperationsOverview = {
   recommended_focus: string[]
 }
 
+export type RiskOperationsReviewCaseRequest = {
+  action_id: string
+  reviewer_id: string
+  priority: RiskPriority
+}
+
+export type RiskOperationsReviewCaseResponse = {
+  status: string
+  review_case_id: string
+  source_action_id: string
+  case_title: string
+  case_summary: string
+  recommended_next_action: string
+  audit_event_created: boolean
+  user_message: string
+  required_action: string
+  missing_evidence: string[]
+}
+
 export function getRiskOperationsOverview(): Promise<RiskOperationsOverview> {
   return getJson<RiskOperationsOverview>('/risk-operations/overview')
 }
@@ -109,4 +128,13 @@ export function getRiskOperationsEscalationSummary(): Promise<
   EscalationSummary[]
 > {
   return getJson<EscalationSummary[]>('/risk-operations/escalation-summary')
+}
+
+export function createRiskOperationsReviewCase(
+  payload: RiskOperationsReviewCaseRequest,
+): Promise<RiskOperationsReviewCaseResponse> {
+  return postJson<
+    RiskOperationsReviewCaseResponse,
+    RiskOperationsReviewCaseRequest
+  >('/risk-operations/create-review-case', payload)
 }

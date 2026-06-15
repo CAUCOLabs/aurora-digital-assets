@@ -4,6 +4,7 @@ import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
 import { useLanguage } from '../context/LanguageContext'
 import {
+  createRiskOperationsReviewCase,
   getRiskOperationsActionQueue,
   getRiskOperationsEscalationSummary,
   getRiskOperationsOverview,
@@ -11,6 +12,7 @@ import {
   type EscalationSummary,
   type RiskActionItem,
   type RiskOperationsOverview,
+  type RiskOperationsReviewCaseResponse,
   type UnifiedTimelineEvent,
 } from '../services/riskOperationsApi'
 
@@ -88,6 +90,9 @@ function CommandBanner({
 function ActionCard({
   action,
   labels,
+  isPreparing,
+  reviewCase,
+  onPrepareReviewCase,
 }: {
   action: RiskActionItem
   labels: {
@@ -99,7 +104,17 @@ function ActionCard({
     missingEvidence: string
     relatedLinks: string
     noMissingEvidence: string
+    prepareReviewCase: string
+    reviewCasePrepared: string
+    reviewCaseId: string
+    auditEventCreated: string
+    recommendedNextAction: string
+    yes: string
+    no: string
   }
+  isPreparing: boolean
+  reviewCase: RiskOperationsReviewCaseResponse | null
+  onPrepareReviewCase: (action: RiskActionItem) => void
 }) {
   return (
     <article className="financial-crime-alert evidence-package-card">
@@ -162,9 +177,43 @@ function ActionCard({
                 {link.label}
               </Link>
             ))}
+            <button
+              className="button-link secondary-button compact-link"
+              type="button"
+              onClick={() => onPrepareReviewCase(action)}
+              disabled={isPreparing}
+            >
+              {labels.prepareReviewCase}
+            </button>
           </div>
         </div>
       </div>
+
+      {reviewCase && (
+        <div className="compliance-reasoning-block">
+          <h4>{labels.reviewCasePrepared}</h4>
+          <div className="summary-list financial-crime-alert-meta">
+            <div>
+              <span>{labels.reviewCaseId}</span>
+              <strong>{reviewCase.review_case_id}</strong>
+            </div>
+            <div>
+              <span>{labels.auditEventCreated}</span>
+              <strong>
+                {reviewCase.audit_event_created ? labels.yes : labels.no}
+              </strong>
+            </div>
+          </div>
+          <p>
+            <strong>{reviewCase.case_title}</strong>
+          </p>
+          <p>{reviewCase.case_summary}</p>
+          <p>
+            <strong>{labels.recommendedNextAction}: </strong>
+            {reviewCase.recommended_next_action}
+          </p>
+        </div>
+      )}
     </article>
   )
 }
@@ -259,6 +308,9 @@ export function RiskOperationsPage() {
   const [escalations, setEscalations] = useState<EscalationSummary[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [reviewCaseResult, setReviewCaseResult] =
+    useState<RiskOperationsReviewCaseResponse | null>(null)
+  const [preparingActionId, setPreparingActionId] = useState<string | null>(null)
 
   const metricCards = useMemo(
     () =>
@@ -315,6 +367,28 @@ export function RiskOperationsPage() {
       isActive = false
     }
   }, [])
+
+  function handlePrepareReviewCase(action: RiskActionItem) {
+    setPreparingActionId(action.action_id)
+    setErrorMessage(null)
+
+    createRiskOperationsReviewCase({
+      action_id: action.action_id,
+      reviewer_id: 'reviewer-demo',
+      priority: action.priority,
+    })
+      .then((response) => {
+        setReviewCaseResult(response)
+      })
+      .catch(() => {
+        setErrorMessage(
+          'The review case could not be prepared in the local prototype.',
+        )
+      })
+      .finally(() => {
+        setPreparingActionId(null)
+      })
+  }
 
   return (
     <div className="bank-shell">
@@ -391,7 +465,22 @@ export function RiskOperationsPage() {
                       missingEvidence: t.evidencePackages.missingEvidence,
                       relatedLinks: t.riskOperations.relatedLinks,
                       noMissingEvidence: t.riskOperations.noMissingEvidence,
+                      prepareReviewCase: t.riskOperations.prepareReviewCase,
+                      reviewCasePrepared: t.riskOperations.reviewCasePrepared,
+                      reviewCaseId: t.riskOperations.reviewCaseId,
+                      auditEventCreated: t.riskOperations.auditEventCreated,
+                      recommendedNextAction:
+                        t.riskOperations.recommendedNextAction,
+                      yes: t.common.yes,
+                      no: t.common.no,
                     }}
+                    isPreparing={preparingActionId === action.action_id}
+                    reviewCase={
+                      reviewCaseResult?.source_action_id === action.action_id
+                        ? reviewCaseResult
+                        : null
+                    }
+                    onPrepareReviewCase={handlePrepareReviewCase}
                     key={action.action_id}
                   />
                 ))}

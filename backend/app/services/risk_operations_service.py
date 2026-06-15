@@ -4,8 +4,21 @@ from app.schemas.risk_operations import (
     RiskOperationsLink,
     RiskOperationsMetric,
     RiskOperationsOverview,
+    RiskOperationsReviewCaseResponse,
     UnifiedTimelineEvent,
 )
+from app.services.audit_service import audit_service
+from app.services.review_case_service import review_case_service
+
+
+REVIEW_CASE_TITLES = {
+    "RO-ACTION-001": "Insider risk escalation review",
+    "RO-ACTION-002": "Shell company evidence review",
+    "RO-ACTION-003": "Crypto off-ramp operational review",
+    "RO-ACTION-004": "Payments degradation operational review",
+    "RO-ACTION-005": "Foreign transfer evidence review",
+    "RO-ACTION-006": "Structured deposits compliance review",
+}
 
 
 class RiskOperationsService:
@@ -393,6 +406,75 @@ class RiskOperationsService:
                 recommended_action="Route ready item to reviewer workflow.",
             ),
         ]
+
+    def create_review_case(
+        self,
+        *,
+        action_id: str,
+        reviewer_id: str,
+        priority: str,
+    ) -> RiskOperationsReviewCaseResponse | None:
+        action = self._find_action(action_id)
+        if action is None:
+            return None
+
+        case_title = REVIEW_CASE_TITLES[action.action_id]
+        recommended_next_action = (
+            "Complete missing evidence before reviewer decision."
+            if action.missing_evidence
+            else "Route ready item to reviewer workflow."
+        )
+        case_summary = (
+            f"{action.summary} Required action: {action.required_action}"
+        )
+        review_case = review_case_service.create_risk_operations_case(
+            title=case_title,
+            summary=action.summary,
+            required_action=action.required_action,
+            missing_evidence=action.missing_evidence,
+            source_action_id=action.action_id,
+            source_id=action.source_id,
+            reviewer_id=reviewer_id,
+            priority=priority,
+            risk_type=action.risk_type,
+        )
+        audit_event = audit_service.record_event(
+            module="risk_operations",
+            action_type="create_review_case",
+            status="created",
+            risk_level=priority,
+            decision="review_case_prepared",
+            reasons=[
+                f"Source action: {action.action_id}",
+                f"Reviewer: {reviewer_id}",
+                action.required_action,
+            ],
+            case_id=review_case.case_id,
+            user_message="Review case prepared from risk operations action.",
+        )
+
+        return RiskOperationsReviewCaseResponse(
+            status="created",
+            review_case_id=review_case.case_id,
+            source_action_id=action.action_id,
+            case_title=case_title,
+            case_summary=case_summary,
+            recommended_next_action=recommended_next_action,
+            audit_event_created=audit_event is not None,
+            user_message="Review case prepared from risk operations action.",
+            required_action=action.required_action,
+            missing_evidence=action.missing_evidence,
+        )
+
+    def _find_action(self, action_id: str) -> RiskActionItem | None:
+        return next(
+            (
+                action
+                for action in self.list_action_queue()
+                if action.action_id == action_id
+            ),
+            None,
+        )
 
     def _metric(
         self,

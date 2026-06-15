@@ -457,6 +457,11 @@ export const translations = {
       blockedItems: 'Blocked items',
       readyItems: 'Ready items',
       noMissingEvidence: 'No missing evidence recorded.',
+      prepareReviewCase: 'Prepare review case',
+      reviewCasePrepared: 'Review case prepared',
+      reviewCaseId: 'Review case ID',
+      auditEventCreated: 'Audit event created',
+      recommendedNextAction: 'Recommended next action',
     },
     prototypeBoundary: {
       independentConceptPrototype: 'Independent concept prototype',
@@ -921,6 +926,11 @@ export const translations = {
       blockedItems: 'Ítems bloqueados',
       readyItems: 'Ítems listos',
       noMissingEvidence: 'No hay evidencia faltante registrada.',
+      prepareReviewCase: 'Preparar caso de revisión',
+      reviewCasePrepared: 'Caso de revisión preparado',
+      reviewCaseId: 'ID de caso de revisión',
+      auditEventCreated: 'Evento de auditoría creado',
+      recommendedNextAction: 'Siguiente acción recomendada',
     },
     prototypeBoundary: {
       independentConceptPrototype: 'Prototipo conceptual independiente',
