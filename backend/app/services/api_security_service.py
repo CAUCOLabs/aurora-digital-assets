@@ -6,6 +6,16 @@ from app.schemas.api_security import (
     ApiSensitiveOperation,
     EvaluateApiSecurityScenarioResponse,
 )
+from app.services.audit_service import audit_service
+
+
+def _audit_token(value: str) -> str:
+    return (
+        value.strip()
+        .upper()
+        .replace("-", "_")
+        .replace(" ", "_")
+    )
 
 
 class ApiSecurityService:
@@ -746,12 +756,45 @@ class ApiSecurityService:
                 "Allow the operation while recording the authorization and audit decision."
             )
 
+        if scenario_id == "graphql_batching_pin_verification":
+            audit_event_id = "AUD-API-GRAPHQL-PIN"
+            correlation_id = "CORR-API-GRAPHQL-PIN"
+        else:
+            audit_event_id = f"AUD-API-{_audit_token(scenario_id)}"
+            correlation_id = f"CORR-API-{_audit_token(scenario_id)}"
+
+        audit_event = audit_service.create_audit_event_from_sensitive_action(
+            event_id=audit_event_id,
+            actor_id="api-security-engine",
+            actor_type="service",
+            source_module="api_security",
+            action="evaluate_scenario",
+            object_type="api_scenario",
+            object_id=scenario_id,
+            decision=decision,
+            severity=severity,
+            risk_score=score,
+            summary="API security scenario evaluation and backend decision.",
+            correlation_id=correlation_id,
+            metadata={
+                "operation_name": operation_name,
+                "attempts": attempts,
+                "object_authorized": object_authorized,
+                "batching_detected": batching_detected,
+                "sensitive_fields_requested": sensitive_fields_requested,
+                "triggered_controls": unique_controls,
+            },
+        )
+
         return EvaluateApiSecurityScenarioResponse(
             risk_score=score,
             severity=severity,
             decision=decision,
             triggered_controls=unique_controls,
             audit_event_required=True,
+            audit_event_created=audit_event is not None,
+            audit_event_id=audit_event.event_id,
+            correlation_id=audit_event.correlation_id or "",
             recommended_action=recommended_action,
             explanation=(
                 f"Scenario {scenario_id} evaluated for {operation_name}. "

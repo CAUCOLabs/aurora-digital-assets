@@ -60,6 +60,9 @@ class ExplainAlertResponse(BaseModel):
     decision_path: list[DecisionPathStep]
     evidence_requirements: list[EvidenceRequirement]
     reviewer_next_steps: list[str]
+    audit_event_created: bool
+    audit_event_id: str
+    correlation_id: str
 
 
 class PrepareReviewCaseRequest(BaseModel):
@@ -78,3 +81,6 @@ class PrepareReviewCaseResponse(BaseModel):
     required_evidence: list[str]
     recommended_assignment: str
     ready_for_review: bool
+    audit_event_created: bool
+    audit_event_id: str
+    correlation_id: str

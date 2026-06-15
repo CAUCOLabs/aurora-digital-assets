@@ -7,6 +7,16 @@ from app.schemas.operational_resilience import (
     ResilienceIncident,
     ServiceHealthStatus,
 )
+from app.services.audit_service import audit_service
+
+
+def _audit_token(value: str) -> str:
+    return (
+        value.strip()
+        .upper()
+        .replace("-", "_")
+        .replace(" ", "_")
+    )
 
 
 class OperationalResilienceService:
@@ -478,6 +488,36 @@ class OperationalResilienceService:
         decision = self._decision_for_score(score)
         severity = self._severity_for_score(score)
         recommended_action = self._recommended_action(decision)
+        if scenario_id == "payment_dependency_failure":
+            audit_event_id = "AUD-OPS-PAYMENTS-DEGRADED"
+            correlation_id = "CORR-OPS-PAYMENTS-DEGRADED"
+        else:
+            audit_event_id = f"AUD-OPS-{_audit_token(scenario_id)}"
+            correlation_id = f"CORR-OPS-{_audit_token(scenario_id)}"
+
+        audit_event = audit_service.create_audit_event_from_sensitive_action(
+            event_id=audit_event_id,
+            actor_id="resilience-engine",
+            actor_type="service",
+            source_module="operational_resilience",
+            action="evaluate_scenario",
+            object_type="resilience_scenario",
+            object_id=scenario_id,
+            decision=decision,
+            severity=severity,
+            risk_score=score,
+            summary=(
+                "Operational resilience scenario evaluation and control activation."
+            ),
+            correlation_id=correlation_id,
+            metadata={
+                "affected_service": affected_service,
+                "dependency_status": dependency_status,
+                "customer_impact": customer_impact,
+                "controls_activated": controls,
+                "paused_operations": paused_operations,
+            },
+        )
 
         return EvaluateResilienceScenarioResponse(
             resilience_score=score,
@@ -486,6 +526,9 @@ class OperationalResilienceService:
             controls_activated=controls,
             available_operations=available_operations,
             paused_operations=paused_operations,
+            audit_event_created=audit_event is not None,
+            audit_event_id=audit_event.event_id,
+            correlation_id=audit_event.correlation_id or "",
             recommended_action=recommended_action,
             explanation=(
                 f"Scenario {scenario_id} scored {score}/100 because service "

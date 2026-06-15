@@ -105,6 +105,8 @@ export type RiskOperationsReviewCaseResponse = {
   case_summary: string
   recommended_next_action: string
   audit_event_created: boolean
+  audit_event_id: string
+  correlation_id: string
   user_message: string
   required_action: string
   missing_evidence: string[]

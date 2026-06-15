@@ -127,5 +127,8 @@ class EvaluateResilienceScenarioResponse(BaseModel):
     controls_activated: list[str]
     available_operations: list[str]
     paused_operations: list[str]
+    audit_event_created: bool
+    audit_event_id: str
+    correlation_id: str
     recommended_action: str
     explanation: str

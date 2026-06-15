@@ -119,6 +119,9 @@ export type EvaluateApiSecurityScenarioResponse = {
   decision: ApiSecurityDecision
   triggered_controls: string[]
   audit_event_required: boolean
+  audit_event_created: boolean
+  audit_event_id: string
+  correlation_id: string
   recommended_action: string
   explanation: string
 }

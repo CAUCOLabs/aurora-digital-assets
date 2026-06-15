@@ -81,4 +81,7 @@ class GenerateEvidencePackageResponse(BaseModel):
     package: EvidencePackage
     readiness_check: EvidenceReadinessCheck
     export_available: bool
+    audit_event_created: bool
+    audit_event_id: str
+    correlation_id: str
     user_message: str

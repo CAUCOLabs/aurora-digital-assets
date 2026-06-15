@@ -63,6 +63,9 @@ export type ExplainAlertResponse = {
   decision_path: DecisionPathStep[]
   evidence_requirements: EvidenceRequirement[]
   reviewer_next_steps: string[]
+  audit_event_created: boolean
+  audit_event_id: string
+  correlation_id: string
 }
 
 export type PrepareReviewCaseRequest = {
@@ -81,6 +84,9 @@ export type PrepareReviewCaseResponse = {
   required_evidence: string[]
   recommended_assignment: string
   ready_for_review: boolean
+  audit_event_created: boolean
+  audit_event_id: string
+  correlation_id: string
 }
 
 export function getRiskExplanations(): Promise<RiskExplanation[]> {

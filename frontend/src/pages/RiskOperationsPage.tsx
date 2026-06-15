@@ -108,6 +108,8 @@ function ActionCard({
     reviewCasePrepared: string
     reviewCaseId: string
     auditEventCreated: string
+    auditEventId: string
+    correlationId: string
     recommendedNextAction: string
     yes: string
     no: string
@@ -202,6 +204,14 @@ function ActionCard({
               <strong>
                 {reviewCase.audit_event_created ? labels.yes : labels.no}
               </strong>
+            </div>
+            <div>
+              <span>{labels.auditEventId}</span>
+              <strong>{reviewCase.audit_event_id}</strong>
+            </div>
+            <div>
+              <span>{labels.correlationId}</span>
+              <strong>{reviewCase.correlation_id}</strong>
             </div>
           </div>
           <p>
@@ -468,7 +478,9 @@ export function RiskOperationsPage() {
                       prepareReviewCase: t.riskOperations.prepareReviewCase,
                       reviewCasePrepared: t.riskOperations.reviewCasePrepared,
                       reviewCaseId: t.riskOperations.reviewCaseId,
-                      auditEventCreated: t.riskOperations.auditEventCreated,
+                      auditEventCreated: t.common.auditEventCreated,
+                      auditEventId: t.common.auditEventId,
+                      correlationId: t.common.correlationId,
                       recommendedNextAction:
                         t.riskOperations.recommendedNextAction,
                       yes: t.common.yes,

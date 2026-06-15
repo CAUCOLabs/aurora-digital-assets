@@ -84,6 +84,9 @@ export type GenerateEvidencePackageResponse = {
   package: EvidencePackage
   readiness_check: EvidenceReadinessCheck
   export_available: boolean
+  audit_event_created: boolean
+  audit_event_id: string
+  correlation_id: string
   user_message: string
 }
 

@@ -6,6 +6,11 @@ from app.schemas.evidence_packages import (
     EvidenceTimelineEvent,
     GenerateEvidencePackageResponse,
 )
+from app.services.audit_service import audit_service
+
+
+def _audit_token(value: str) -> str:
+    return value.strip().upper().replace("-", "-").replace(" ", "-")
 
 
 class EvidencePackagesService:
@@ -361,10 +366,39 @@ class EvidencePackagesService:
             )
 
         readiness_check = self.get_readiness_check(package.package_id)
+        audit_event_id = f"AUD-EVIDENCE-{_audit_token(source_id)}"
+        correlation_id = f"CORR-EVIDENCE-{_audit_token(source_id)}"
+        audit_event = audit_service.create_audit_event_from_sensitive_action(
+            event_id=audit_event_id,
+            actor_id=reviewer_id or "evidence-service",
+            actor_type="staff" if reviewer_id else "service",
+            source_module="evidence_packages",
+            action="generate_package",
+            object_type=(
+                "financial_crime_alert"
+                if source_type == "alert"
+                else "review_case"
+            ),
+            object_id=source_id,
+            decision="evidence_package_prepared",
+            severity=package.severity,
+            risk_score=readiness_check.score,
+            summary="Evidence package generated or prepared from source alert/case.",
+            evidence_reference=package.package_id,
+            correlation_id=correlation_id,
+            metadata={
+                "package_type": package_type,
+                "package_id": package.package_id,
+                "export_available": readiness_check.ready,
+            },
+        )
         return GenerateEvidencePackageResponse(
             package=package,
             readiness_check=readiness_check,
             export_available=readiness_check.ready,
+            audit_event_created=audit_event is not None,
+            audit_event_id=audit_event.event_id,
+            correlation_id=audit_event.correlation_id or "",
             user_message=(
                 "Evidence package generated from deterministic prototype data. "
                 "No real legal report, customer data, or regulator filing was created."

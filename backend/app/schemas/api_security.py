@@ -129,5 +129,8 @@ class EvaluateApiSecurityScenarioResponse(BaseModel):
     decision: ApiSecurityDecision
     triggered_controls: list[str]
     audit_event_required: bool
+    audit_event_created: bool
+    audit_event_id: str
+    correlation_id: str
     recommended_action: str
     explanation: str

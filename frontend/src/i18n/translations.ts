@@ -33,6 +33,11 @@ export const translations = {
       language: 'Language',
       english: 'English',
       spanish: 'Spanish',
+      auditEventCreated: 'Audit event created',
+      auditEventId: 'Audit event ID',
+      correlationId: 'Correlation ID',
+      traceabilityRecord: 'Traceability record',
+      sensitiveActionRecorded: 'Sensitive action recorded',
     },
     navigation: {
       home: 'Home',
@@ -502,6 +507,11 @@ export const translations = {
       language: 'Idioma',
       english: 'Inglés',
       spanish: 'Español',
+      auditEventCreated: 'Evento de auditoría creado',
+      auditEventId: 'ID de evento de auditoría',
+      correlationId: 'ID de correlación',
+      traceabilityRecord: 'Registro de trazabilidad',
+      sensitiveActionRecorded: 'Acción sensible registrada',
     },
     navigation: {
       home: 'Inicio',

@@ -586,6 +586,22 @@ export function EvidencePackagesPage() {
                     </strong>
                   </div>
                   <div>
+                    <span>{t.common.auditEventCreated}</span>
+                    <strong>
+                      {generateResult.audit_event_created
+                        ? t.common.yes
+                        : t.common.no}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.common.auditEventId}</span>
+                    <strong>{generateResult.audit_event_id}</strong>
+                  </div>
+                  <div>
+                    <span>{t.common.correlationId}</span>
+                    <strong>{generateResult.correlation_id}</strong>
+                  </div>
+                  <div>
                     <span>{t.evidencePackages.userMessage}</span>
                     <strong>{generateResult.user_message}</strong>
                   </div>

@@ -133,6 +133,9 @@ export type EvaluateResilienceScenarioResponse = {
   controls_activated: string[]
   available_operations: string[]
   paused_operations: string[]
+  audit_event_created: boolean
+  audit_event_id: string
+  correlation_id: string
   recommended_action: string
   explanation: string
 }

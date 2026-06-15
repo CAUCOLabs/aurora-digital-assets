@@ -438,19 +438,24 @@ class RiskOperationsService:
             priority=priority,
             risk_type=action.risk_type,
         )
-        audit_event = audit_service.record_event(
-            module="risk_operations",
-            action_type="create_review_case",
-            status="created",
-            risk_level=priority,
+        audit_event = audit_service.create_audit_event_from_sensitive_action(
+            event_id=f"AUD-RISK-{action.action_id}",
+            actor_id=reviewer_id,
+            actor_type="staff",
+            source_module="risk_operations",
+            action="prepare_review_case",
+            object_type="risk_action",
+            object_id=action.action_id,
             decision="review_case_prepared",
-            reasons=[
-                f"Source action: {action.action_id}",
-                f"Reviewer: {reviewer_id}",
-                action.required_action,
-            ],
-            case_id=review_case.case_id,
-            user_message="Review case prepared from risk operations action.",
+            severity=priority,
+            summary="Risk Operations action prepared a review case.",
+            evidence_reference=action.source_id,
+            review_case_id=review_case.case_id,
+            correlation_id=f"CORR-RISK-{action.action_id}",
+            metadata={
+                "required_action": action.required_action,
+                "missing_evidence": action.missing_evidence,
+            },
         )
 
         return RiskOperationsReviewCaseResponse(
@@ -461,6 +466,8 @@ class RiskOperationsService:
             case_summary=case_summary,
             recommended_next_action=recommended_next_action,
             audit_event_created=audit_event is not None,
+            audit_event_id=audit_event.event_id,
+            correlation_id=audit_event.correlation_id or "",
             user_message="Review case prepared from risk operations action.",
             required_action=action.required_action,
             missing_evidence=action.missing_evidence,

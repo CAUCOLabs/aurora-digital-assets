@@ -7,6 +7,7 @@ from app.schemas.compliance_intelligence import (
     ReviewerGuidance,
     RiskExplanation,
 )
+from app.services.audit_service import audit_service
 
 
 class ComplianceIntelligenceService:
@@ -317,6 +318,24 @@ class ComplianceIntelligenceService:
         include_evidence_requirements: bool,
     ) -> ExplainAlertResponse:
         explanation = self.get_risk_explanation(alert_id)
+        audit_event = audit_service.create_audit_event_from_sensitive_action(
+            event_id=f"AUD-CI-EXPLAIN-{explanation.alert_id}",
+            actor_id="compliance-intelligence-engine",
+            actor_type="service",
+            source_module="compliance_intelligence",
+            action="explain_alert",
+            object_type="financial_crime_alert",
+            object_id=explanation.alert_id,
+            decision=explanation.recommended_decision,
+            severity=explanation.severity,
+            summary="Compliance Intelligence explanation generated for alert.",
+            evidence_reference=explanation.alert_id,
+            correlation_id=f"CORR-CI-EXPLAIN-{explanation.alert_id}",
+            metadata={
+                "include_evidence_requirements": include_evidence_requirements,
+                "missing_evidence": explanation.missing_evidence,
+            },
+        )
         return ExplainAlertResponse(
             alert_id=alert_id,
             explanation=explanation,
@@ -327,6 +346,9 @@ class ComplianceIntelligenceService:
                 else []
             ),
             reviewer_next_steps=self.get_reviewer_next_steps(explanation),
+            audit_event_created=audit_event is not None,
+            audit_event_id=audit_event.event_id,
+            correlation_id=audit_event.correlation_id or "",
         )
 
     def prepare_review_case(
@@ -337,9 +359,28 @@ class ComplianceIntelligenceService:
     ) -> PrepareReviewCaseResponse:
         explanation = self.get_risk_explanation(alert_id)
         assignment = reviewer_id or self.get_recommended_assignment(explanation)
+        case_preview_id = f"CI-CASE-PREVIEW-{alert_id.removeprefix('FCA-')}"
+        audit_event = audit_service.create_audit_event_from_sensitive_action(
+            event_id=f"AUD-CI-PREPARE-{explanation.alert_id}",
+            actor_id=assignment,
+            actor_type="staff",
+            source_module="compliance_intelligence",
+            action="prepare_review_case",
+            object_type="financial_crime_alert",
+            object_id=explanation.alert_id,
+            decision="case_preview_prepared",
+            severity=priority,
+            summary="Compliance Intelligence prepared a review case preview.",
+            evidence_reference=case_preview_id,
+            correlation_id=f"CORR-CI-PREPARE-{explanation.alert_id}",
+            metadata={
+                "recommended_decision": explanation.recommended_decision,
+                "required_evidence": explanation.missing_evidence,
+            },
+        )
 
         return PrepareReviewCaseResponse(
-            case_preview_id=f"CI-CASE-PREVIEW-{alert_id.removeprefix('FCA-')}",
+            case_preview_id=case_preview_id,
             alert_id=alert_id,
             priority=priority,
             case_title=f"{explanation.alert_title} review",
@@ -354,6 +395,9 @@ class ComplianceIntelligenceService:
             ready_for_review=bool(
                 explanation.supporting_evidence and explanation.triggered_controls
             ),
+            audit_event_created=audit_event is not None,
+            audit_event_id=audit_event.event_id,
+            correlation_id=audit_event.correlation_id or "",
         )
 
     def get_risk_explanation(self, alert_id: str) -> RiskExplanation:

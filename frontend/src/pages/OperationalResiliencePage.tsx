@@ -668,6 +668,22 @@ export function OperationalResiliencePage() {
                     <StringList items={evaluationResult.paused_operations} />
                   </div>
                   <div>
+                    <span>{t.common.auditEventCreated}</span>
+                    <strong>
+                      {evaluationResult.audit_event_created
+                        ? t.common.yes
+                        : t.common.no}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.common.auditEventId}</span>
+                    <strong>{evaluationResult.audit_event_id}</strong>
+                  </div>
+                  <div>
+                    <span>{t.common.correlationId}</span>
+                    <strong>{evaluationResult.correlation_id}</strong>
+                  </div>
+                  <div>
                     <span>{t.operationalResilience.recommendedAction}</span>
                     <strong>{evaluationResult.recommended_action}</strong>
                   </div>
