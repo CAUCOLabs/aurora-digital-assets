@@ -11,7 +11,7 @@ export type EvidencePackageStatus =
   | 'ready'
   | 'incomplete'
   | 'escalated'
-export type EvidencePackageSourceType = 'alert' | 'review_case'
+export type EvidencePackageSourceType = 'alert' | 'review_case' | 'case' | 'audit_event'
 export type EvidencePackageType =
   | 'internal_review'
   | 'audit'
@@ -42,6 +42,13 @@ export type EvidencePackage = {
   title: string
   source_alert_id?: string | null
   source_case_id?: string | null
+  source_audit_event_id?: string | null
+  source_module?: string | null
+  backend_decision?: string | null
+  correlation_id?: string | null
+  traceability_summary?: string | null
+  audit_context?: Record<string, unknown> | null
+  linked_audit_events: string[]
   risk_type: string
   severity: EvidencePackageSeverity
   status: EvidencePackageStatus
@@ -87,6 +94,13 @@ export type GenerateEvidencePackageResponse = {
   audit_event_created: boolean
   audit_event_id: string
   correlation_id: string
+  source_type: EvidencePackageSourceType
+  source_id: string
+  source_audit_event_id?: string | null
+  traceability_summary?: string | null
+  evidence_items: EvidenceItem[]
+  linked_audit_events: string[]
+  recommended_next_steps: string[]
   user_message: string
 }
 
@@ -111,6 +125,17 @@ export function generateEvidencePackage(
     GenerateEvidencePackageResponse,
     GenerateEvidencePackageRequest
   >('/evidence-packages/generate', payload)
+}
+
+export function generateEvidencePackageFromAuditEvent(
+  auditEventId: string,
+): Promise<GenerateEvidencePackageResponse> {
+  return generateEvidencePackage({
+    source_type: 'audit_event',
+    source_id: auditEventId,
+    package_type: 'internal_review',
+    reviewer_id: 'reviewer-demo',
+  })
 }
 
 export function getEvidencePackageReadiness(

@@ -6,11 +6,20 @@ from app.schemas.evidence_packages import (
     EvidenceTimelineEvent,
     GenerateEvidencePackageResponse,
 )
+from app.schemas.audit_event import AuditEvent
 from app.services.audit_service import audit_service
 
 
 def _audit_token(value: str) -> str:
     return value.strip().upper().replace("-", "-").replace(" ", "-")
+
+
+AUDIT_EVENT_PACKAGE_TITLES = {
+    "AUD-API-GRAPHQL-PIN": "API security evidence package - GraphQL PIN verification abuse",
+    "AUD-OPS-PAYMENTS-DEGRADED": "Operational resilience evidence package - degraded payments dependency",
+    "AUD-RISK-RO-ACTION-002": "Risk operations evidence package - review case preparation",
+    "AUD-EVIDENCE-FCA-2026-002": "Evidence package audit trail - financial crime alert package generation",
+}
 
 
 class EvidencePackagesService:
@@ -321,6 +330,51 @@ class EvidencePackagesService:
         package_type: str,
         reviewer_id: str | None,
     ) -> GenerateEvidencePackageResponse:
+        if source_type == "audit_event":
+            package = self.get_package_from_audit_event(source_id)
+            if package is None:
+                package = self._build_generic_audit_event_package(source_id)
+
+            readiness_check = self._build_readiness_check(package)
+            audit_event_id = f"AUD-EVIDENCE-FROM-{_audit_token(source_id)}"
+            correlation_id = f"CORR-EVIDENCE-FROM-{_audit_token(source_id)}"
+            audit_event = audit_service.create_audit_event_from_sensitive_action(
+                event_id=audit_event_id,
+                actor_id=reviewer_id or "evidence-service",
+                actor_type="staff" if reviewer_id else "service",
+                source_module="evidence_packages",
+                action="generate_from_audit_event",
+                object_type="audit_event",
+                object_id=source_id,
+                decision="audit_event_evidence_package_prepared",
+                severity=package.severity,
+                risk_score=readiness_check.score,
+                summary=(
+                    "Evidence package prepared from structured audit event."
+                ),
+                evidence_reference=package.package_id,
+                correlation_id=correlation_id,
+                metadata={
+                    "package_type": package_type,
+                    "package_id": package.package_id,
+                    "source_correlation_id": package.correlation_id,
+                    "linked_audit_events": package.linked_audit_events,
+                },
+            )
+            return self._response(
+                package=package,
+                readiness_check=readiness_check,
+                audit_event_created=audit_event is not None,
+                audit_event_id=audit_event.event_id,
+                correlation_id=audit_event.correlation_id or "",
+                source_type=source_type,
+                source_id=source_id,
+                user_message=(
+                    "Evidence package generated from a structured audit event. "
+                    "No real legal report, customer data, or regulator filing was created."
+                ),
+            )
+
         mapped_package_ids = {
             "FCA-2026-001": "EP-2026-001",
             "FCA-2026-002": "EP-2026-002",
@@ -334,7 +388,7 @@ class EvidencePackagesService:
                 package_id="EP-DEMO-DRAFT",
                 title="Generic draft evidence package",
                 source_alert_id=source_id if source_type == "alert" else None,
-                source_case_id=source_id if source_type == "review_case" else None,
+                source_case_id=source_id if source_type in {"review_case", "case"} else None,
                 risk_type="General compliance review",
                 severity="medium",
                 status="draft",
@@ -365,7 +419,7 @@ class EvidencePackagesService:
                 created_at="2026-06-12T15:05:00+03:00",
             )
 
-        readiness_check = self.get_readiness_check(package.package_id)
+        readiness_check = self._build_readiness_check(package)
         audit_event_id = f"AUD-EVIDENCE-{_audit_token(source_id)}"
         correlation_id = f"CORR-EVIDENCE-{_audit_token(source_id)}"
         audit_event = audit_service.create_audit_event_from_sensitive_action(
@@ -392,18 +446,28 @@ class EvidencePackagesService:
                 "export_available": readiness_check.ready,
             },
         )
-        return GenerateEvidencePackageResponse(
+        return self._response(
             package=package,
             readiness_check=readiness_check,
-            export_available=readiness_check.ready,
             audit_event_created=audit_event is not None,
             audit_event_id=audit_event.event_id,
             correlation_id=audit_event.correlation_id or "",
+            source_type=source_type,
+            source_id=source_id,
             user_message=(
                 "Evidence package generated from deterministic prototype data. "
                 "No real legal report, customer data, or regulator filing was created."
             ),
         )
+
+    def get_package_from_audit_event(
+        self,
+        audit_event_id: str,
+    ) -> EvidencePackage | None:
+        audit_event = self._find_audit_event(audit_event_id)
+        if audit_event is None:
+            return None
+        return self._build_audit_event_package(audit_event)
 
     def get_readiness_check(self, package_id: str) -> EvidenceReadinessCheck:
         package = self.get_package(package_id)
@@ -420,6 +484,12 @@ class EvidencePackagesService:
                 ],
             )
 
+        return self._build_readiness_check(package)
+
+    def _build_readiness_check(
+        self,
+        package: EvidencePackage,
+    ) -> EvidenceReadinessCheck:
         blockers = [
             item.title
             for item in package.missing_evidence
@@ -447,6 +517,291 @@ class EvidencePackagesService:
                 "Retain audit trail references for reviewer traceability.",
             ],
         )
+
+    def _response(
+        self,
+        *,
+        package: EvidencePackage,
+        readiness_check: EvidenceReadinessCheck,
+        audit_event_created: bool,
+        audit_event_id: str,
+        correlation_id: str,
+        source_type: str,
+        source_id: str,
+        user_message: str,
+    ) -> GenerateEvidencePackageResponse:
+        return GenerateEvidencePackageResponse(
+            package=package,
+            readiness_check=readiness_check,
+            export_available=readiness_check.ready,
+            audit_event_created=audit_event_created,
+            audit_event_id=audit_event_id,
+            correlation_id=correlation_id,
+            source_type=source_type,
+            source_id=source_id,
+            source_audit_event_id=package.source_audit_event_id,
+            traceability_summary=package.traceability_summary,
+            evidence_items=package.included_evidence,
+            linked_audit_events=package.linked_audit_events,
+            recommended_next_steps=readiness_check.recommended_actions,
+            user_message=user_message,
+        )
+
+    def _find_audit_event(self, audit_event_id: str) -> AuditEvent | None:
+        normalized_audit_event_id = audit_event_id.strip().upper()
+        return next(
+            (
+                event
+                for event in audit_service.list_events()
+                if event.event_id == normalized_audit_event_id
+            ),
+            None,
+        )
+
+    def _build_generic_audit_event_package(
+        self,
+        audit_event_id: str,
+    ) -> EvidencePackage:
+        return EvidencePackage(
+            package_id=f"EP-FROM-{_audit_token(audit_event_id)}",
+            title="Audit event evidence package",
+            source_audit_event_id=audit_event_id,
+            source_module="audit_events",
+            backend_decision="unknown",
+            correlation_id=f"CORR-EVIDENCE-FROM-{_audit_token(audit_event_id)}",
+            traceability_summary=(
+                "The audit event identifier is recorded, but no deterministic "
+                "audit event was found in the prototype audit trail."
+            ),
+            audit_context={"audit_event_id": audit_event_id},
+            linked_audit_events=[audit_event_id],
+            risk_type="Audit event traceability",
+            severity="medium",
+            status="draft",
+            readiness_score=45,
+            summary="Draft package for an unmapped audit event source.",
+            included_evidence=[
+                self._item(
+                    "EPI-AUDIT-GENERIC-01",
+                    "Audit event ID",
+                    "Audit trail",
+                    "included",
+                    f"Source audit event {audit_event_id} is recorded.",
+                    "audit_events",
+                    True,
+                ),
+            ],
+            missing_evidence=[
+                self._item(
+                    "EPI-AUDIT-GENERIC-02",
+                    "Audit event context",
+                    "Traceability",
+                    "missing",
+                    "Structured audit event context is required before review.",
+                    "audit_events",
+                    True,
+                ),
+            ],
+            triggered_controls=["Audit evidence generation"],
+            reviewer_notes=["Confirm the audit event exists before export."],
+            decision_rationale=(
+                "The package remains draft because the source audit event was not found."
+            ),
+            timeline=self._audit_timeline("GENERIC", audit_event_id),
+            recommended_next_action="Confirm audit event context before review.",
+            created_at="2026-06-15T09:20:00+03:00",
+        )
+
+    def _build_audit_event_package(
+        self,
+        audit_event: AuditEvent,
+    ) -> EvidencePackage:
+        metadata = audit_event.metadata or {}
+        title = AUDIT_EVENT_PACKAGE_TITLES.get(
+            audit_event.event_id,
+            f"Audit event evidence package - {audit_event.event_id}",
+        )
+        included_evidence = self._audit_event_items(audit_event)
+        traceability_summary = (
+            f"Audit event {audit_event.event_id} from "
+            f"{audit_event.source_module or audit_event.module} recorded "
+            f"decision {audit_event.decision or 'not recorded'} with "
+            f"correlation ID {audit_event.correlation_id or 'not recorded'}."
+        )
+        missing_evidence = [
+            self._item(
+                f"EPI-{_audit_token(audit_event.event_id)}-MISSING-01",
+                "Reviewer rationale",
+                "Reviewer controls",
+                "reviewer_required",
+                "Reviewer must confirm the audit event evidence before package closure.",
+                "compliance_review",
+                True,
+            )
+        ]
+        readiness_score = self._audit_event_readiness_score(audit_event)
+
+        return EvidencePackage(
+            package_id=f"EP-FROM-{_audit_token(audit_event.event_id)}",
+            title=title,
+            source_audit_event_id=audit_event.event_id,
+            source_module=audit_event.source_module or audit_event.module,
+            backend_decision=audit_event.decision,
+            correlation_id=audit_event.correlation_id,
+            traceability_summary=traceability_summary,
+            audit_context={
+                "audit_event_id": audit_event.event_id,
+                "correlation_id": audit_event.correlation_id,
+                "source_module": audit_event.source_module or audit_event.module,
+                "action": audit_event.action or audit_event.action_type,
+                "decision": audit_event.decision,
+                "severity": audit_event.severity or audit_event.risk_level,
+                "object_type": audit_event.object_type,
+                "object_id": audit_event.object_id,
+                "summary": audit_event.summary,
+                "immutable_note": audit_event.immutable_note,
+                "metadata": metadata,
+            },
+            linked_audit_events=[audit_event.event_id],
+            risk_type=self._audit_event_risk_type(audit_event),
+            severity=self._normalize_severity(audit_event.severity or audit_event.risk_level),
+            status="draft",
+            readiness_score=readiness_score,
+            summary=audit_event.summary or traceability_summary,
+            included_evidence=included_evidence,
+            missing_evidence=missing_evidence,
+            triggered_controls=self._metadata_list(metadata, "triggered_controls")
+            or self._metadata_list(metadata, "controls_activated")
+            or ["Audit event correlation"],
+            reviewer_notes=[
+                f"Source audit event: {audit_event.event_id}",
+                f"Correlation ID: {audit_event.correlation_id or 'not recorded'}",
+                "Review package remains a deterministic prototype record.",
+            ],
+            decision_rationale=(
+                f"Backend decision '{audit_event.decision or 'not recorded'}' "
+                "was preserved from the structured audit event."
+            ),
+            timeline=self._audit_timeline(_audit_token(audit_event.event_id), audit_event.event_id),
+            recommended_next_action=self._audit_event_recommendation(audit_event),
+            created_at="2026-06-15T09:20:00+03:00",
+        )
+
+    def _audit_event_items(self, audit_event: AuditEvent) -> list[EvidenceItem]:
+        metadata = audit_event.metadata or {}
+        base_items = [
+            ("Audit event ID", audit_event.event_id, "Audit trail"),
+            ("Correlation ID", audit_event.correlation_id, "Traceability"),
+            ("Source module", audit_event.source_module or audit_event.module, "Source"),
+            ("Backend decision", audit_event.decision, "Decision"),
+            ("Object reference", f"{audit_event.object_type}: {audit_event.object_id}", "Object"),
+            ("Immutable note", audit_event.immutable_note, "Audit trail"),
+        ]
+        items = [
+            self._item(
+                f"EPI-{_audit_token(audit_event.event_id)}-{index:02d}",
+                title,
+                category,
+                "included",
+                str(value or "Not recorded"),
+                "audit_events",
+                True,
+            )
+            for index, (title, value, category) in enumerate(base_items, start=1)
+        ]
+
+        for key in [
+            "operation_name",
+            "attempts",
+            "affected_service",
+            "dependency_status",
+            "customer_impact",
+            "paused_operations",
+            "required_action",
+            "missing_evidence",
+            "package_id",
+            "package_type",
+            "export_available",
+        ]:
+            if key in metadata:
+                items.append(
+                    self._item(
+                        f"EPI-{_audit_token(audit_event.event_id)}-META-{key.upper()}",
+                        key.replace("_", " ").title(),
+                        "Audit metadata",
+                        "included",
+                        str(metadata[key]),
+                        "audit_events",
+                        True,
+                    )
+                )
+
+        controls = self._metadata_list(metadata, "triggered_controls") or self._metadata_list(
+            metadata,
+            "controls_activated",
+        )
+        for index, control in enumerate(controls, start=1):
+            items.append(
+                self._item(
+                    f"EPI-{_audit_token(audit_event.event_id)}-CTRL-{index:02d}",
+                    control,
+                    "Triggered controls",
+                    "included",
+                    "Control preserved from audit event metadata.",
+                    "audit_events",
+                    True,
+                )
+            )
+
+        return items
+
+    def _metadata_list(
+        self,
+        metadata: dict,
+        key: str,
+    ) -> list[str]:
+        value = metadata.get(key)
+        return value if isinstance(value, list) else []
+
+    def _audit_event_readiness_score(self, audit_event: AuditEvent) -> int:
+        if audit_event.event_id == "AUD-EVIDENCE-FCA-2026-002":
+            return 78
+        if audit_event.event_id == "AUD-OPS-PAYMENTS-DEGRADED":
+            return 84
+        if audit_event.event_id == "AUD-API-GRAPHQL-PIN":
+            return 86
+        if audit_event.event_id == "AUD-RISK-RO-ACTION-002":
+            return 82
+        return 65
+
+    def _audit_event_risk_type(self, audit_event: AuditEvent) -> str:
+        if audit_event.source_module == "api_security":
+            return "API security traceability"
+        if audit_event.source_module == "operational_resilience":
+            return "Operational resilience traceability"
+        if audit_event.source_module == "risk_operations":
+            return "Risk operations traceability"
+        if audit_event.source_module == "evidence_packages":
+            return "Evidence generation traceability"
+        return "Audit event traceability"
+
+    def _audit_event_recommendation(self, audit_event: AuditEvent) -> str:
+        if audit_event.source_module == "api_security":
+            return "Review API decision, rate-limit evidence, and request envelope summary."
+        if audit_event.source_module == "operational_resilience":
+            return "Review continuity controls, paused operations, and dependency recovery path."
+        if audit_event.source_module == "risk_operations":
+            return "Confirm review case context, priority, and required evidence."
+        if audit_event.source_module == "evidence_packages":
+            return "Confirm source package readiness, blockers, and audit trail continuity."
+        return "Review audit context before package closure."
+
+    def _normalize_severity(self, value: str | None) -> str:
+        if value in {"low", "medium", "high", "critical"}:
+            return value
+        if value == "urgent":
+            return "critical"
+        return "medium"
 
     def _item(
         self,
@@ -497,6 +852,46 @@ class EvidencePackagesService:
                 event_type="readiness_checked",
                 title="Readiness check calculated",
                 description="Deterministic readiness score and blockers were calculated.",
+                source_module="evidence_packages",
+            ),
+        ]
+
+    def _audit_timeline(
+        self,
+        suffix: str,
+        audit_event_id: str,
+    ) -> list[EvidenceTimelineEvent]:
+        return [
+            EvidenceTimelineEvent(
+                event_id=f"EPT-AUDIT-{suffix}-01",
+                timestamp="2026-06-15T09:00:00+03:00",
+                event_type="audit_event_recorded",
+                title="Audit event recorded",
+                description=(
+                    f"Structured audit event {audit_event_id} was recorded by "
+                    "the backend decision workflow."
+                ),
+                source_module="audit_events",
+            ),
+            EvidenceTimelineEvent(
+                event_id=f"EPT-AUDIT-{suffix}-02",
+                timestamp="2026-06-15T09:10:00+03:00",
+                event_type="traceability_context_mapped",
+                title="Traceability context mapped",
+                description=(
+                    "Decision, correlation ID, object reference, and metadata "
+                    "were mapped into evidence package context."
+                ),
+                source_module="evidence_packages",
+            ),
+            EvidenceTimelineEvent(
+                event_id=f"EPT-AUDIT-{suffix}-03",
+                timestamp="2026-06-15T09:20:00+03:00",
+                event_type="evidence_package_prepared",
+                title="Evidence package prepared",
+                description=(
+                    "Audit-linked evidence package was prepared for reviewer inspection."
+                ),
                 source_module="evidence_packages",
             ),
         ]

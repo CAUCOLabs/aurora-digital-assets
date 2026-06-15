@@ -1,12 +1,12 @@
-from typing import Literal
+from typing import Any, Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 EvidenceItemStatus = Literal["included", "missing", "reviewer_required", "optional"]
 EvidencePackageSeverity = Literal["low", "medium", "high", "critical"]
 EvidencePackageStatus = Literal["draft", "ready", "incomplete", "escalated"]
-EvidencePackageSourceType = Literal["alert", "review_case"]
+EvidencePackageSourceType = Literal["alert", "review_case", "case", "audit_event"]
 EvidencePackageType = Literal[
     "internal_review",
     "audit",
@@ -39,6 +39,13 @@ class EvidencePackage(BaseModel):
     title: str
     source_alert_id: str | None = None
     source_case_id: str | None = None
+    source_audit_event_id: str | None = None
+    source_module: str | None = None
+    backend_decision: str | None = None
+    correlation_id: str | None = None
+    traceability_summary: str | None = None
+    audit_context: dict[str, Any] | None = None
+    linked_audit_events: list[str] = Field(default_factory=list)
     risk_type: str
     severity: EvidencePackageSeverity
     status: EvidencePackageStatus
@@ -84,4 +91,11 @@ class GenerateEvidencePackageResponse(BaseModel):
     audit_event_created: bool
     audit_event_id: str
     correlation_id: str
+    source_type: EvidencePackageSourceType
+    source_id: str
+    source_audit_event_id: str | None = None
+    traceability_summary: str | None = None
+    evidence_items: list[EvidenceItem] = Field(default_factory=list)
+    linked_audit_events: list[str] = Field(default_factory=list)
+    recommended_next_steps: list[str] = Field(default_factory=list)
     user_message: str

@@ -35,6 +35,19 @@ def generate_evidence_package(
     )
 
 
+@router.get(
+    "/from-audit-event/{audit_event_id}",
+    response_model=EvidencePackage,
+)
+def get_evidence_package_from_audit_event(
+    audit_event_id: str,
+) -> EvidencePackage:
+    package = evidence_packages_service.get_package_from_audit_event(audit_event_id)
+    if package is None:
+        raise HTTPException(status_code=404, detail="Audit event not found.")
+    return package
+
+
 @router.get("/{package_id}", response_model=EvidencePackage)
 def get_evidence_package(package_id: str) -> EvidencePackage:
     package = evidence_packages_service.get_package(package_id)

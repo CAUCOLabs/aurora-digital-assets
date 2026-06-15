@@ -28,6 +28,13 @@ const sourceIdOptions = [
   'CASE-FC-2026-002',
 ]
 
+const auditEventOptions = [
+  'AUD-API-GRAPHQL-PIN',
+  'AUD-OPS-PAYMENTS-DEGRADED',
+  'AUD-RISK-RO-ACTION-002',
+  'AUD-EVIDENCE-FCA-2026-002',
+]
+
 const packageTypeOptions: EvidencePackageType[] = [
   'internal_review',
   'audit',
@@ -119,6 +126,7 @@ function PackageCard({
   const sourceReference =
     evidencePackage.source_alert_id ??
     evidencePackage.source_case_id ??
+    evidencePackage.source_audit_event_id ??
     'No source reference'
 
   return (
@@ -296,12 +304,19 @@ export function EvidencePackagesPage() {
   const [packageType, setPackageType] =
     useState<EvidencePackageType>('internal_review')
   const [reviewerId, setReviewerId] = useState('reviewer-demo')
+  const [auditEventId, setAuditEventId] = useState('AUD-API-GRAPHQL-PIN')
+  const [auditPackageType, setAuditPackageType] =
+    useState<EvidencePackageType>('internal_review')
+  const [auditReviewerId, setAuditReviewerId] = useState('reviewer-demo')
   const [generateResult, setGenerateResult] =
+    useState<GenerateEvidencePackageResponse | null>(null)
+  const [auditGenerateResult, setAuditGenerateResult] =
     useState<GenerateEvidencePackageResponse | null>(null)
   const [selectedReadiness, setSelectedReadiness] =
     useState<EvidenceReadinessCheck | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isGeneratingFromAudit, setIsGeneratingFromAudit] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const readyPackages = packages.filter((item) => item.status === 'ready').length
@@ -430,6 +445,28 @@ export function EvidencePackagesPage() {
       setErrorMessage('The evidence package demo could not be generated.')
     } finally {
       setIsGenerating(false)
+    }
+  }
+
+  async function handleGeneratePackageFromAuditEvent() {
+    setIsGeneratingFromAudit(true)
+    setErrorMessage(null)
+
+    try {
+      const response = await generateEvidencePackage({
+        source_type: 'audit_event',
+        source_id: auditEventId,
+        package_type: auditPackageType,
+        reviewer_id: auditReviewerId || null,
+      })
+      setAuditGenerateResult(response)
+      setSelectedReadiness(response.readiness_check)
+    } catch {
+      setErrorMessage(
+        'The audit-linked evidence package could not be generated.',
+      )
+    } finally {
+      setIsGeneratingFromAudit(false)
     }
   }
 
@@ -617,6 +654,150 @@ export function EvidencePackagesPage() {
                   </div>
                 </div>
               )}
+            </Panel>
+
+            <Panel className="risk-panel">
+              <p className="eyebrow">{t.common.traceabilityRecord}</p>
+              <h2>{t.evidencePackages.generateEvidenceFromAuditEvent}</h2>
+
+              <div className="form-grid">
+                <label>
+                  <span>{t.common.auditEventId}</span>
+                  <select
+                    value={auditEventId}
+                    onChange={(event) => setAuditEventId(event.target.value)}
+                  >
+                    {auditEventOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
+                  <span>{t.evidencePackages.packageType}</span>
+                  <select
+                    value={auditPackageType}
+                    onChange={(event) =>
+                      setAuditPackageType(
+                        event.target.value as EvidencePackageType,
+                      )
+                    }
+                  >
+                    {packageTypeOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {formatStatus(option)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
+                  <span>{t.evidencePackages.reviewerId}</span>
+                  <input
+                    value={auditReviewerId}
+                    onChange={(event) => setAuditReviewerId(event.target.value)}
+                  />
+                </label>
+              </div>
+
+              <div className="action-row">
+                <button
+                  onClick={() => void handleGeneratePackageFromAuditEvent()}
+                  disabled={isGeneratingFromAudit}
+                >
+                  {t.evidencePackages.generateFromAuditEvent}
+                </button>
+              </div>
+
+              {auditGenerateResult && (
+                <div className="summary-list">
+                  <div>
+                    <span>{t.evidencePackages.packageTitle}</span>
+                    <strong>{auditGenerateResult.package.title}</strong>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.sourceAuditEventId}</span>
+                    <strong>
+                      {auditGenerateResult.source_audit_event_id}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.common.correlationId}</span>
+                    <strong>
+                      {auditGenerateResult.package.correlation_id ??
+                        auditGenerateResult.correlation_id}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.traceabilitySummary}</span>
+                    <strong>
+                      {auditGenerateResult.traceability_summary}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.readinessScore}</span>
+                    <strong>
+                      {auditGenerateResult.readiness_check.score}/100
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.common.auditEventCreated}</span>
+                    <strong>
+                      {auditGenerateResult.audit_event_created
+                        ? t.common.yes
+                        : t.common.no}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.common.auditEventId}</span>
+                    <strong>{auditGenerateResult.audit_event_id}</strong>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.backendDecision}</span>
+                    <strong>
+                      {auditGenerateResult.package.backend_decision ??
+                        formatStatus('review_required')}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.linkedAuditEvents}</span>
+                    <ul className="compact-list">
+                      {auditGenerateResult.linked_audit_events.map((event) => (
+                        <li key={event}>{event}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.recommendedActions}</span>
+                    <ul className="compact-list">
+                      {auditGenerateResult.recommended_next_steps.map(
+                        (action) => (
+                          <li key={action}>{action}</li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.includedEvidence}</span>
+                    <ul className="compact-list">
+                      {auditGenerateResult.evidence_items.map((item) => (
+                        <li key={item.item_id}>
+                          <strong>{item.title}: </strong>
+                          {item.description}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </Panel>
+
+            <Panel>
+              <p className="eyebrow">{t.evidencePackages.auditLinkedEvidence}</p>
+              <h2>{t.evidencePackages.auditLinkedEvidence}</h2>
+              <p>{t.evidencePackages.auditLinkedEvidenceCopy}</p>
             </Panel>
 
             <Panel>
