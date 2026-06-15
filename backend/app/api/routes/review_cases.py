@@ -16,6 +16,11 @@ def list_review_cases() -> list[ReviewCase]:
     return review_case_service.list_cases()
 
 
+@router.get("/persisted", response_model=list[ReviewCase])
+def list_persisted_review_cases() -> list[ReviewCase]:
+    return review_case_service.list_persisted_cases()
+
+
 @router.get("/{case_id}", response_model=ReviewCase)
 def get_review_case(case_id: str) -> ReviewCase:
     review_case = review_case_service.get_case(case_id)

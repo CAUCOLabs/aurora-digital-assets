@@ -5,6 +5,11 @@ from typing import Any
 
 from app.db.database import get_connection
 from app.schemas.audit_event import AuditEvent
+from app.storage.sqlite_store import (
+    get_audit_event_by_id,
+    list_persisted_audit_events,
+    save_audit_event,
+)
 
 
 EXTENDED_AUDIT_COLUMNS = {
@@ -151,6 +156,7 @@ class AuditService:
             user_message=user_message,
         )
         self._upsert_extended_event(event)
+        save_audit_event(event)
         return event
 
     def create_audit_event_from_sensitive_action(
@@ -203,6 +209,7 @@ class AuditService:
             metadata=metadata or {},
         )
         self._upsert_extended_event(event)
+        save_audit_event(event)
         return event
 
     def list_events(self) -> list[AuditEvent]:
@@ -241,7 +248,16 @@ class AuditService:
                 """
             ).fetchall()
 
-        return [self._row_to_event(row) for row in rows]
+        return self._merge_events(
+            [self._row_to_event(row) for row in rows],
+            list_persisted_audit_events(),
+        )
+
+    def list_persisted_events(self) -> list[AuditEvent]:
+        return list_persisted_audit_events()
+
+    def get_persisted_event(self, event_id: str) -> AuditEvent | None:
+        return get_audit_event_by_id(event_id)
 
     def _next_event_id(self) -> str:
         with get_connection() as connection:
@@ -284,6 +300,16 @@ class AuditService:
             immutable_note=row["immutable_note"],
             metadata=json.loads(row["metadata"] or "{}"),
         )
+
+    def _merge_events(
+        self,
+        base_events: list[AuditEvent],
+        persisted_events: list[AuditEvent],
+    ) -> list[AuditEvent]:
+        merged = {event.event_id: event for event in base_events}
+        for event in persisted_events:
+            merged[event.event_id] = event
+        return sorted(merged.values(), key=lambda event: event.event_id)
 
     def _ensure_extended_columns(self) -> None:
         with get_connection() as connection:

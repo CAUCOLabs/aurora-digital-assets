@@ -457,6 +457,21 @@ class RiskOperationsService:
                 "missing_evidence": action.missing_evidence,
             },
         )
+        review_case_service.persist_case_trace(
+            review_case,
+            source_module="risk_operations",
+            source_id=action.source_id,
+            source_action_id=action.action_id,
+            reviewer_id=reviewer_id,
+            recommended_next_action=recommended_next_action,
+            audit_event_id=audit_event.event_id,
+            correlation_id=audit_event.correlation_id,
+            metadata={
+                "risk_type": action.risk_type,
+                "required_action": action.required_action,
+                "missing_evidence": action.missing_evidence,
+            },
+        )
 
         return RiskOperationsReviewCaseResponse(
             status="created",

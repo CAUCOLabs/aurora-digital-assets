@@ -31,3 +31,4 @@ class AuditEvent(BaseModel):
     correlation_id: str | None = None
     immutable_note: str | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
+    persisted: bool = False

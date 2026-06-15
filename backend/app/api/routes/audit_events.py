@@ -10,3 +10,8 @@ router = APIRouter(prefix="/audit-events", tags=["audit events"])
 @router.get("", response_model=list[AuditEvent])
 def list_audit_events() -> list[AuditEvent]:
     return audit_service.list_events()
+
+
+@router.get("/persisted", response_model=list[AuditEvent])
+def list_persisted_audit_events() -> list[AuditEvent]:
+    return audit_service.list_persisted_events()

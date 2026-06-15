@@ -32,11 +32,13 @@ from app.api.routes.staff_customer_access import (
 from app.api.routes.withdrawals import router as withdrawals_router
 from app.core.config import settings
 from app.db.database import initialize_database
+from app.storage.sqlite_store import init_db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     initialize_database()
+    init_db()
     yield
 
 

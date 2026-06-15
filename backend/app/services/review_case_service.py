@@ -11,6 +11,11 @@ from app.schemas.payment import (
 from app.schemas.review_case import ReviewCase
 from app.schemas.risk_review import RiskDecisionResponse
 from app.schemas.withdrawal import WithdrawalEvaluateRequest
+from app.storage.sqlite_store import (
+    get_review_case_by_id,
+    list_persisted_review_cases,
+    save_review_case,
+)
 
 
 REVIEW_DECISION_STATUSES = {
@@ -170,7 +175,10 @@ class ReviewCaseService:
                 """
             ).fetchall()
 
-        return [self._row_to_case(row) for row in rows]
+        return self._merge_cases(
+            [self._row_to_case(row) for row in rows],
+            list_persisted_review_cases(),
+        )
 
     def get_case(self, case_id: str) -> ReviewCase | None:
         with get_connection() as connection:
@@ -200,8 +208,36 @@ class ReviewCaseService:
             ).fetchone()
 
         if row is None:
-            return None
+            return get_review_case_by_id(case_id)
         return self._row_to_case(row)
+
+    def list_persisted_cases(self) -> list[ReviewCase]:
+        return list_persisted_review_cases()
+
+    def persist_case_trace(
+        self,
+        case: ReviewCase,
+        *,
+        source_module: str | None = None,
+        source_id: str | None = None,
+        source_action_id: str | None = None,
+        reviewer_id: str | None = None,
+        recommended_next_action: str | None = None,
+        audit_event_id: str | None = None,
+        correlation_id: str | None = None,
+        metadata: dict | None = None,
+    ) -> ReviewCase:
+        return save_review_case(
+            case,
+            source_module=source_module,
+            source_id=source_id,
+            source_action_id=source_action_id,
+            reviewer_id=reviewer_id,
+            recommended_next_action=recommended_next_action,
+            audit_event_id=audit_event_id,
+            correlation_id=correlation_id,
+            metadata=metadata,
+        )
 
     def record_decision(
         self,
@@ -246,7 +282,7 @@ class ReviewCaseService:
         with get_connection() as connection:
             connection.execute(
                 """
-                INSERT INTO review_cases (
+                INSERT OR REPLACE INTO review_cases (
                     case_id,
                     created_at,
                     case_type,
@@ -285,6 +321,7 @@ class ReviewCaseService:
                     case.reviewer_notes,
                 ),
             )
+        save_review_case(case)
 
     def _row_to_case(self, row: Row) -> ReviewCase:
         return ReviewCase(
@@ -305,6 +342,16 @@ class ReviewCaseService:
             reviewer_decision=row["reviewer_decision"],
             reviewer_notes=row["reviewer_notes"],
         )
+
+    def _merge_cases(
+        self,
+        base_cases: list[ReviewCase],
+        persisted_cases: list[ReviewCase],
+    ) -> list[ReviewCase]:
+        merged = {case.case_id: case for case in base_cases}
+        for case in persisted_cases:
+            merged[case.case_id] = case
+        return sorted(merged.values(), key=lambda case: case.case_id)
 
 
 review_case_service = ReviewCaseService()
