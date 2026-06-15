@@ -33,6 +33,13 @@ const workspaceModules = [
     to: '/bank-staff/api-security',
   },
   {
+    title: 'Infrastructure security control center',
+    description:
+      'Monitor application-to-cloud chain reaction risks across backend authorization, Kubernetes RBAC, IAM, secrets, audit evidence, and risk operations.',
+    status: 'Cross-layer security',
+    to: '/bank-staff/infrastructure-security',
+  },
+  {
     title: 'Compliance review',
     description:
       'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
@@ -97,6 +104,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.customerAccess,
     t.bankStaffWorkspace.modules.riskOperations,
     t.bankStaffWorkspace.modules.apiSecurity,
+    t.bankStaffWorkspace.modules.infrastructureSecurity,
     t.bankStaffWorkspace.modules.complianceReview,
     t.bankStaffWorkspace.modules.financialCrime,
     t.bankStaffWorkspace.modules.complianceIntelligence,
@@ -110,6 +118,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.customerAuthorization,
     t.bankStaffWorkspace.statuses.orchestrationLayer,
     t.bankStaffWorkspace.statuses.backendSecurityLayer,
+    t.bankStaffWorkspace.statuses.crossLayerSecurity,
     t.bankStaffWorkspace.statuses.complianceReview,
     t.bankStaffWorkspace.statuses.monitoringAlerts,
     t.bankStaffWorkspace.statuses.reasoningLayer,
@@ -123,6 +132,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.moduleDescriptions.customerAccess,
     t.bankStaffWorkspace.moduleDescriptions.riskOperations,
     t.bankStaffWorkspace.moduleDescriptions.apiSecurity,
+    t.bankStaffWorkspace.moduleDescriptions.infrastructureSecurity,
     t.bankStaffWorkspace.moduleDescriptions.complianceReview,
     t.bankStaffWorkspace.moduleDescriptions.financialCrime,
     t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,

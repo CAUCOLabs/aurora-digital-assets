@@ -9,6 +9,7 @@ RiskSourceModule = Literal[
     "compliance_intelligence",
     "evidence_packages",
     "operational_resilience",
+    "infrastructure_security",
     "compliance_review",
     "reports",
 ]
@@ -25,6 +26,7 @@ TimelineSeverity = Literal["low", "medium", "high", "critical"]
 EscalationType = Literal[
     "financial_crime",
     "operational_resilience",
+    "infrastructure_security",
     "evidence_gap",
     "compliance_review",
 ]

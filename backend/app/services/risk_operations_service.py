@@ -18,6 +18,7 @@ REVIEW_CASE_TITLES = {
     "RO-ACTION-004": "Payments degradation operational review",
     "RO-ACTION-005": "Foreign transfer evidence review",
     "RO-ACTION-006": "Structured deposits compliance review",
+    "RO-ACTION-007": "Infrastructure chain reaction review",
 }
 
 
@@ -87,10 +88,18 @@ class RiskOperationsService:
                 self._metric(
                     "rom-staff-action-items",
                     "Staff action items",
-                    "6",
+                    "7",
                     "warning",
                     "Unified action queue items across risk, evidence, and resilience.",
                     "reports",
+                ),
+                self._metric(
+                    "rom-infrastructure-chain-risks",
+                    "Infrastructure chain risks",
+                    "1",
+                    "critical",
+                    "Application-to-cloud chain reaction risk requiring infrastructure security review.",
+                    "infrastructure_security",
                 ),
             ],
             highest_priority="urgent",
@@ -105,6 +114,7 @@ class RiskOperationsService:
                 "Review critical financial crime alerts",
                 "Complete missing evidence for shell company and insider risk packages",
                 "Monitor payments degradation and digital asset withdrawal pause",
+                "Review application-to-cloud infrastructure security chain risk",
                 "Preserve audit trail and reviewer rationale",
                 "Prepare escalation-ready evidence packages",
             ],
@@ -257,6 +267,42 @@ class RiskOperationsService:
                     self._link("Open financial crime monitoring", "/bank-staff/financial-crime-monitoring", "FCA-2026-003"),
                 ],
                 created_at="2026-06-14T11:05:00+03:00",
+            ),
+            RiskActionItem(
+                action_id="RO-ACTION-007",
+                title="Review application-to-cloud chain reaction risk",
+                source_module="infrastructure_security",
+                source_id="INFRASEC-2026-007",
+                priority="urgent",
+                status="escalated",
+                risk_type="Cross-layer infrastructure security",
+                summary=(
+                    "Multiple simulated control weaknesses could allow an "
+                    "application issue to move into Kubernetes, IAM, secrets, "
+                    "and sensitive data access."
+                ),
+                required_action=(
+                    "Review the Infrastructure Security Control Center result, "
+                    "preserve audit evidence, and confirm hardening actions."
+                ),
+                missing_evidence=[
+                    "Infrastructure control owner confirmation",
+                    "Kubernetes RBAC hardening record",
+                    "Cloud IAM scope review",
+                ],
+                related_links=[
+                    self._link(
+                        "Open infrastructure security",
+                        "/bank-staff/infrastructure-security",
+                        "INFRASEC-2026-007",
+                    ),
+                    self._link(
+                        "Open evidence packages",
+                        "/bank-staff/evidence-packages",
+                        "AUD-INFRA-CHAIN-REACTION",
+                    ),
+                ],
+                created_at="2026-06-14T11:58:00+03:00",
             ),
         ]
 

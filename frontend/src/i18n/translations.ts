@@ -218,6 +218,7 @@ export const translations = {
         customerAccess: 'Customer access authorization',
         riskOperations: 'Risk operations console',
         apiSecurity: 'API security control center',
+        infrastructureSecurity: 'Infrastructure security control center',
         complianceReview: 'Compliance review',
         financialCrime: 'Financial crime monitoring',
         complianceIntelligence: 'Compliance intelligence',
@@ -235,6 +236,8 @@ export const translations = {
           'Unified command view for alerts, incidents, evidence readiness, escalations, paused operations, and staff priorities.',
         apiSecurity:
           'Monitor sensitive backend actions, resolver authorization, business rate limits, schema exposure, step-up authentication, and audit logging.',
+        infrastructureSecurity:
+          'Monitor application-to-cloud chain reaction risks across backend authorization, Kubernetes RBAC, IAM, secrets, audit evidence, and risk operations.',
         complianceReview:
           'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
         financialCrime:
@@ -255,6 +258,7 @@ export const translations = {
         customerAuthorization: 'Customer authorization',
         orchestrationLayer: 'Orchestration layer',
         backendSecurityLayer: 'Backend security layer',
+        crossLayerSecurity: 'Cross-layer security',
         complianceReview: 'Compliance review',
         monitoringAlerts: 'Monitoring alerts',
         reasoningLayer: 'Reasoning layer',
@@ -443,6 +447,58 @@ export const translations = {
       ],
       prototypeDisclaimer:
         'Aurora Digital Assets is a concept prototype. API security controls, events, scenarios, risk scores, and audit records are fictional deterministic demo data only.',
+    },
+    infrastructureSecurity: {
+      title: 'Infrastructure Security Control Center',
+      subtitle:
+        'Cross-layer security posture for application authorization, Kubernetes RBAC, cloud IAM, secrets, audit evidence, and risk operations.',
+      commandBannerTitle: 'Prevent one vulnerability from becoming a chain reaction',
+      commandBannerText:
+        'Aurora models how a backend issue can be contained before it reaches containers, Kubernetes permissions, cloud roles, secrets, or sensitive financial data.',
+      cloudNativeBoundary: 'Cloud-native containment',
+      securityLayers: 'Security layers',
+      infrastructureControls: 'Infrastructure controls',
+      activeEvents: 'Active events',
+      criticalChainRisks: 'Critical chain risks',
+      crossLayerSecurityEvents: 'Cross-layer security events',
+      eventQueue: 'Event queue',
+      affectedLayer: 'Affected layer',
+      affectedLayers: 'Affected layers',
+      chainStage: 'Chain stage',
+      chainReactionRisk: 'Chain reaction risk',
+      affectedAsset: 'Affected asset',
+      evidencePackageReady: 'Evidence package ready',
+      protectedAssets: 'Protected assets',
+      monitoredSignals: 'Monitored signals',
+      possibleChain: 'Possible chain',
+      evaluateInfrastructureScenario: 'Evaluate infrastructure scenario',
+      objectAuthorizationFailed: 'Object authorization failed',
+      unsafeTemplateInputDetected: 'Unsafe template input detected',
+      podPrivileged: 'Pod privileged',
+      serviceAccountCanReadSecrets: 'Service account can read secrets',
+      cloudIamWildcardPermissions: 'Cloud IAM wildcard permissions',
+      weakTrustPolicy: 'Weak trust policy',
+      secretExposureDetected: 'Secret exposure detected',
+      applicationSecurity: 'Application Security',
+      kubernetesSecurity: 'Kubernetes Security',
+      cloudIamSecurity: 'Cloud IAM Security',
+      secretsSecurity: 'Secrets Security',
+      auditEvidence: 'Audit Evidence',
+      riskOperations: 'Risk Operations',
+      goldenRuleItems: [
+        'Do not trust client-controlled IDs.',
+        'Enforce object-level authorization.',
+        'Users may provide data, not executable templates.',
+        'Web workloads should not read secrets by default.',
+        'Kubernetes RBAC must be least privilege.',
+        'Cloud IAM trust must be bound to specific workloads.',
+        'IAM permissions must avoid wildcards.',
+        'Secrets must be scoped, rotated, and never logged.',
+        'Logs must connect application, Kubernetes, IAM, secrets, and data access.',
+        'One weak layer must not become full compromise.',
+      ],
+      prototypeDisclaimer:
+        'Aurora Digital Assets is a concept prototype. Infrastructure security controls, events, scenarios, risk scores, and audit records are fictional deterministic demo data only.',
     },
     riskOperations: {
       title: 'Risk Operations Console',
@@ -701,6 +757,8 @@ export const translations = {
         customerAccess: 'Autorización de acceso a clientes',
         riskOperations: 'Consola de operaciones de riesgo',
         apiSecurity: 'Centro de control de seguridad API',
+        infrastructureSecurity:
+          'Centro de control de seguridad de infraestructura',
         complianceReview: 'Revisión de cumplimiento',
         financialCrime: 'Monitoreo de delitos financieros',
         complianceIntelligence: 'Inteligencia de cumplimiento',
@@ -718,6 +776,8 @@ export const translations = {
           'Vista de comando unificada para alertas, incidentes, preparación de evidencia, escalaciones, operaciones pausadas y prioridades del equipo.',
         apiSecurity:
           'Monitorear acciones sensibles del backend, autorización por resolver, límites por acción de negocio, exposición de esquema, autenticación reforzada y auditoría.',
+        infrastructureSecurity:
+          'Monitorear riesgos de reacción en cadena desde aplicación hacia cloud, incluyendo autorización backend, RBAC de Kubernetes, IAM, secretos, evidencia de auditoría y operaciones de riesgo.',
         complianceReview:
           'Revisar resultados simulados de monitoreo transaccional, controles de riesgo de billetera y evidencia de escalamiento.',
         financialCrime:
@@ -738,6 +798,7 @@ export const translations = {
         customerAuthorization: 'Autorización del cliente',
         orchestrationLayer: 'Capa de orquestación',
         backendSecurityLayer: 'Capa de seguridad backend',
+        crossLayerSecurity: 'Seguridad transversal',
         complianceReview: 'Revisión de cumplimiento',
         monitoringAlerts: 'Alertas de monitoreo',
         reasoningLayer: 'Capa de razonamiento',
@@ -927,6 +988,61 @@ export const translations = {
       ],
       prototypeDisclaimer:
         'Aurora Digital Assets es un prototipo conceptual. Los controles API, eventos, escenarios, puntajes de riesgo y registros de auditoría son datos demo ficticios y determinísticos.',
+    },
+    infrastructureSecurity: {
+      title: 'Centro de Control de Seguridad de Infraestructura',
+      subtitle:
+        'Postura de seguridad transversal para autorización de aplicación, RBAC de Kubernetes, IAM cloud, secretos, evidencia de auditoría y operaciones de riesgo.',
+      commandBannerTitle:
+        'Evitar que una vulnerabilidad se convierta en una reacción en cadena',
+      commandBannerText:
+        'Aurora modela cómo un problema de backend puede contenerse antes de alcanzar contenedores, permisos de Kubernetes, roles cloud, secretos o datos financieros sensibles.',
+      cloudNativeBoundary: 'Contención cloud-native',
+      securityLayers: 'Capas de seguridad',
+      infrastructureControls: 'Controles de infraestructura',
+      activeEvents: 'Eventos activos',
+      criticalChainRisks: 'Riesgos críticos de cadena',
+      crossLayerSecurityEvents: 'Eventos de seguridad transversal',
+      eventQueue: 'Cola de eventos',
+      affectedLayer: 'Capa afectada',
+      affectedLayers: 'Capas afectadas',
+      chainStage: 'Etapa de cadena',
+      chainReactionRisk: 'Riesgo de reacción en cadena',
+      affectedAsset: 'Activo afectado',
+      evidencePackageReady: 'Paquete de evidencia listo',
+      protectedAssets: 'Activos protegidos',
+      monitoredSignals: 'Señales monitoreadas',
+      possibleChain: 'Cadena posible',
+      evaluateInfrastructureScenario:
+        'Evaluar escenario de infraestructura',
+      objectAuthorizationFailed: 'Autorización de objeto fallida',
+      unsafeTemplateInputDetected: 'Entrada de plantilla insegura detectada',
+      podPrivileged: 'Pod privilegiado',
+      serviceAccountCanReadSecrets:
+        'Cuenta de servicio puede leer secretos',
+      cloudIamWildcardPermissions: 'Permisos wildcard en IAM cloud',
+      weakTrustPolicy: 'Política de confianza débil',
+      secretExposureDetected: 'Exposición de secreto detectada',
+      applicationSecurity: 'Seguridad de Aplicación',
+      kubernetesSecurity: 'Seguridad de Kubernetes',
+      cloudIamSecurity: 'Seguridad IAM Cloud',
+      secretsSecurity: 'Seguridad de Secretos',
+      auditEvidence: 'Evidencia de Auditoría',
+      riskOperations: 'Operaciones de Riesgo',
+      goldenRuleItems: [
+        'No confiar en IDs controlados por el cliente.',
+        'Aplicar autorización a nivel de objeto.',
+        'Los usuarios pueden aportar datos, no plantillas ejecutables.',
+        'Las cargas web no deben leer secretos por defecto.',
+        'El RBAC de Kubernetes debe seguir privilegio mínimo.',
+        'La confianza IAM cloud debe vincularse a cargas específicas.',
+        'Los permisos IAM deben evitar wildcards.',
+        'Los secretos deben estar acotados, rotados y nunca registrarse en logs.',
+        'Los logs deben conectar aplicación, Kubernetes, IAM, secretos y acceso a datos.',
+        'Una capa débil no debe convertirse en compromiso total.',
+      ],
+      prototypeDisclaimer:
+        'Aurora Digital Assets es un prototipo conceptual. Los controles, eventos, escenarios, puntajes de riesgo y registros de auditoría de infraestructura son datos demo ficticios y determinísticos.',
     },
     riskOperations: {
       title: 'Consola de Operaciones de Riesgo',
