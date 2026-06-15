@@ -101,6 +101,49 @@ class ReviewCaseService:
         self._insert_case(case)
         return case
 
+    def create_risk_operations_case(
+        self,
+        *,
+        title: str,
+        summary: str,
+        required_action: str,
+        missing_evidence: list[str],
+        source_action_id: str,
+        source_id: str,
+        reviewer_id: str,
+        priority: str,
+        risk_type: str,
+    ) -> ReviewCase:
+        reasons = [
+            summary,
+            f"Required action: {required_action}",
+            f"Source action: {source_action_id}",
+            f"Assigned reviewer: {reviewer_id}",
+        ]
+        if missing_evidence:
+            reasons.append(
+                "Missing evidence: " + ", ".join(missing_evidence)
+            )
+
+        case = ReviewCase(
+            case_id=self._next_case_id(),
+            created_at=datetime.now(timezone.utc).isoformat(),
+            case_type="risk_operations_review",
+            title=title,
+            status="Pending review",
+            risk_level=priority,
+            reasons=reasons,
+            customer="Aurora Bank internal prototype",
+            action_type="risk_operations_review_case_prepared",
+            asset="digital_assets_controls",
+            amount=0.0,
+            network="internal_review_workflow",
+            destination_address=source_id,
+            wallet_type=risk_type,
+        )
+        self._insert_case(case)
+        return case
+
     def list_cases(self) -> list[ReviewCase]:
         with get_connection() as connection:
             rows = connection.execute(
