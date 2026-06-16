@@ -8,7 +8,11 @@ from app.schemas.payment import (
     DigitalAssetPaymentEvaluateRequest,
     DigitalAssetPaymentEvaluateResponse,
 )
-from app.schemas.review_case import ReviewCase
+from app.schemas.review_case import (
+    CreateReviewCaseFromEvidencePackageResponse,
+    ReviewCase,
+)
+from app.services.audit_service import audit_service
 from app.schemas.risk_review import RiskDecisionResponse
 from app.schemas.withdrawal import WithdrawalEvaluateRequest
 from app.storage.sqlite_store import (
@@ -148,6 +152,153 @@ class ReviewCaseService:
         )
         self._insert_case(case)
         return case
+
+    def create_from_evidence_package(
+        self,
+        *,
+        package_id: str,
+        source_audit_event_id: str,
+        correlation_id: str,
+        reviewer_id: str,
+        priority: str,
+    ) -> CreateReviewCaseFromEvidencePackageResponse:
+        normalized_package_id = package_id.strip().upper()
+        normalized_audit_event_id = source_audit_event_id.strip().upper()
+        normalized_correlation_id = correlation_id.strip().upper()
+        normalized_priority = priority.strip().lower()
+        if normalized_package_id == "EP-FROM-AUD-INFRA-CHAIN-REACTION":
+            case_id = "CASE-INFRA-CHAIN-REACTION"
+            title = "Infrastructure Security Chain Reaction Review Case"
+            case_type = "infrastructure_security_review"
+            assigned_team = "Risk Operations / Infrastructure Security"
+            review_reason = (
+                "Critical evidence package indicates a simulated "
+                "application-to-cloud chain reaction path involving application "
+                "authorization, Kubernetes RBAC, cloud IAM, secrets, audit "
+                "evidence, and risk operations."
+            )
+            severity = "critical"
+            audit_event_id = "AUD-REVIEW-FROM-EP-INFRA-CHAIN-REACTION"
+            linked_audit_events = [
+                normalized_audit_event_id,
+                "AUD-EVIDENCE-FROM-AUD-INFRA-CHAIN-REACTION",
+            ]
+            recommended_actions = [
+                "Review object-level authorization controls.",
+                "Review safe template execution controls.",
+                "Review Kubernetes RBAC and service account permissions.",
+                "Review cloud IAM trust conditions.",
+                "Review IAM wildcard permissions.",
+                "Review secret management and rotation posture.",
+                "Preserve audit and evidence traceability.",
+                "Escalate or close after internal review.",
+            ]
+        else:
+            case_id = f"CASE-FROM-{normalized_package_id}"
+            title = "Evidence Package Review Case"
+            case_type = "evidence_package_review"
+            assigned_team = "Compliance Review"
+            review_reason = (
+                "Evidence package was routed into formal compliance review."
+            )
+            severity = normalized_priority or "medium"
+            audit_event_id = f"AUD-REVIEW-FROM-{normalized_package_id}"
+            linked_audit_events = [normalized_audit_event_id]
+            recommended_actions = [
+                "Review package evidence and traceability.",
+                "Record reviewer decision rationale.",
+            ]
+
+        case = ReviewCase(
+            case_id=case_id,
+            created_at=datetime.now(timezone.utc).isoformat(),
+            case_type=case_type,
+            title=title,
+            status="open",
+            risk_level=normalized_priority,
+            reasons=[
+                review_reason,
+                f"Source evidence package: {normalized_package_id}",
+                f"Source audit event: {normalized_audit_event_id}",
+                f"Correlation ID: {normalized_correlation_id}",
+            ],
+            customer="Aurora Bank internal prototype",
+            action_type="evidence_package_review_case_created",
+            asset="digital_assets_controls",
+            amount=0.0,
+            network="internal_review_workflow",
+            destination_address=normalized_package_id,
+            wallet_type="infrastructure_security_evidence_package",
+        )
+        self._insert_case(case)
+
+        audit_event = audit_service.create_audit_event_from_sensitive_action(
+            event_id=audit_event_id,
+            actor_id=reviewer_id or "reviewer-demo",
+            actor_type="staff",
+            source_module="review_cases",
+            action="create_from_evidence_package",
+            object_type="evidence_package",
+            object_id=normalized_package_id,
+            decision="review_case_created",
+            severity=severity,
+            summary="Review case created from evidence package.",
+            evidence_reference=normalized_package_id,
+            review_case_id=case_id,
+            correlation_id=normalized_correlation_id,
+            metadata={
+                "source_audit_event_id": normalized_audit_event_id,
+                "linked_audit_events": linked_audit_events,
+                "linked_evidence_packages": [normalized_package_id],
+                "assigned_team": assigned_team,
+                "review_reason": review_reason,
+                "recommended_actions": recommended_actions,
+            },
+        )
+        persisted_case = self.persist_case_trace(
+            case,
+            source_module="evidence_packages",
+            source_id=normalized_package_id,
+            source_action_id=normalized_audit_event_id,
+            reviewer_id=reviewer_id,
+            recommended_next_action="; ".join(recommended_actions),
+            audit_event_id=audit_event.event_id,
+            correlation_id=normalized_correlation_id,
+            metadata={
+                "case_type": case_type,
+                "severity": severity,
+                "assigned_team": assigned_team,
+                "review_reason": review_reason,
+                "source_package_id": normalized_package_id,
+                "source_audit_event_id": normalized_audit_event_id,
+                "linked_audit_events": linked_audit_events,
+                "linked_evidence_packages": [normalized_package_id],
+                "recommended_actions": recommended_actions,
+                "source_domain": "infrastructure_security"
+                if normalized_package_id == "EP-FROM-AUD-INFRA-CHAIN-REACTION"
+                else "evidence_packages",
+            },
+        )
+
+        return CreateReviewCaseFromEvidencePackageResponse(
+            case_id=case_id,
+            title=title,
+            source_package_id=normalized_package_id,
+            source_audit_event_id=normalized_audit_event_id,
+            correlation_id=normalized_correlation_id,
+            case_type=case_type,
+            priority=normalized_priority,
+            severity=severity,
+            status=persisted_case.status,
+            assigned_team=assigned_team,
+            review_reason=review_reason,
+            linked_audit_events=linked_audit_events,
+            linked_evidence_packages=[normalized_package_id],
+            recommended_actions=recommended_actions,
+            audit_event_created=audit_event is not None,
+            audit_event_id=audit_event.event_id,
+            created_at=persisted_case.created_at,
+        )
 
     def list_cases(self) -> list[ReviewCase]:
         with get_connection() as connection:

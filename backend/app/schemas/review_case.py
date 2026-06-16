@@ -32,3 +32,31 @@ class ReviewCase(BaseModel):
 class ReviewCaseDecisionRequest(BaseModel):
     decision: str
     notes: str | None = None
+
+
+class CreateReviewCaseFromEvidencePackageRequest(BaseModel):
+    package_id: str
+    source_audit_event_id: str
+    correlation_id: str
+    reviewer_id: str
+    priority: str
+
+
+class CreateReviewCaseFromEvidencePackageResponse(BaseModel):
+    case_id: str
+    title: str
+    source_package_id: str
+    source_audit_event_id: str
+    correlation_id: str
+    case_type: str
+    priority: str
+    severity: str
+    status: str
+    assigned_team: str
+    review_reason: str
+    linked_audit_events: list[str]
+    linked_evidence_packages: list[str]
+    recommended_actions: list[str]
+    audit_event_created: bool
+    audit_event_id: str
+    created_at: str

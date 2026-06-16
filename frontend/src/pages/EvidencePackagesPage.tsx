@@ -4,10 +4,12 @@ import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
 import { useLanguage } from '../context/LanguageContext'
 import {
+  createReviewCaseFromEvidencePackage,
   generateEvidencePackage,
   getEvidencePackageReadiness,
   getEvidencePackageTemplates,
   getEvidencePackages,
+  type CreateReviewCaseFromEvidencePackageResponse,
   type EvidenceItem,
   type EvidencePackage,
   type EvidencePackageSourceType,
@@ -331,11 +333,14 @@ export function EvidencePackagesPage() {
     useState<GenerateEvidencePackageResponse | null>(null)
   const [auditGenerateResult, setAuditGenerateResult] =
     useState<GenerateEvidencePackageResponse | null>(null)
+  const [reviewCaseResult, setReviewCaseResult] =
+    useState<CreateReviewCaseFromEvidencePackageResponse | null>(null)
   const [selectedReadiness, setSelectedReadiness] =
     useState<EvidenceReadinessCheck | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isGenerating, setIsGenerating] = useState(false)
   const [isGeneratingFromAudit, setIsGeneratingFromAudit] = useState(false)
+  const [isCreatingReviewCase, setIsCreatingReviewCase] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const readyPackages = packages.filter((item) => item.status === 'ready').length
@@ -479,6 +484,7 @@ export function EvidencePackagesPage() {
         reviewer_id: auditReviewerId || null,
       })
       setAuditGenerateResult(response)
+      setReviewCaseResult(null)
       setSelectedReadiness(response.readiness_check)
     } catch {
       setErrorMessage(
@@ -486,6 +492,32 @@ export function EvidencePackagesPage() {
       )
     } finally {
       setIsGeneratingFromAudit(false)
+    }
+  }
+
+  async function handleCreateReviewCaseFromEvidencePackage() {
+    if (!auditGenerateResult) return
+
+    setIsCreatingReviewCase(true)
+    setErrorMessage(null)
+
+    try {
+      const response = await createReviewCaseFromEvidencePackage({
+        package_id: auditGenerateResult.package.package_id,
+        source_audit_event_id:
+          auditGenerateResult.source_audit_event_id ??
+          auditGenerateResult.source_id,
+        correlation_id:
+          auditGenerateResult.package.correlation_id ??
+          auditGenerateResult.correlation_id,
+        reviewer_id: auditReviewerId || 'reviewer-demo',
+        priority: auditGenerateResult.package.severity,
+      })
+      setReviewCaseResult(response)
+    } catch {
+      setErrorMessage('The review case could not be created.')
+    } finally {
+      setIsCreatingReviewCase(false)
     }
   }
 
@@ -823,6 +855,51 @@ export function EvidencePackagesPage() {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                  {auditGenerateResult.readiness_check.ready && (
+                    <div>
+                      <span>{t.evidencePackages.evidenceToReviewTraceability}</span>
+                      <p>{t.evidencePackages.createFormalReviewCaseFromEvidencePackage}</p>
+                      <button
+                        className="secondary-button"
+                        disabled={isCreatingReviewCase}
+                        onClick={() =>
+                          void handleCreateReviewCaseFromEvidencePackage()
+                        }
+                        type="button"
+                      >
+                        {t.evidencePackages.openReviewCase}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {reviewCaseResult && (
+                <div className="summary-list">
+                  <div>
+                    <span>{t.evidencePackages.reviewCaseCreated}</span>
+                    <strong>{reviewCaseResult.case_id}</strong>
+                  </div>
+                  <div>
+                    <span>{t.common.status}</span>
+                    <strong>{formatStatus(reviewCaseResult.status)}</strong>
+                  </div>
+                  <div>
+                    <span>{t.riskOperations.highestPriority}</span>
+                    <strong>{formatStatus(reviewCaseResult.priority)}</strong>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.linkedEvidencePackage}</span>
+                    <strong>{reviewCaseResult.source_package_id}</strong>
+                  </div>
+                  <div>
+                    <span>{t.evidencePackages.sourceAuditEventId}</span>
+                    <strong>{reviewCaseResult.source_audit_event_id}</strong>
+                  </div>
+                  <div>
+                    <span>{t.common.correlationId}</span>
+                    <strong>{reviewCaseResult.correlation_id}</strong>
                   </div>
                 </div>
               )}

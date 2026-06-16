@@ -17,6 +17,15 @@ export type ReviewCase = {
   wallet_type: string
   reviewer_decision: string | null
   reviewer_notes: string | null
+  persisted?: boolean
+  source_module?: string | null
+  source_id?: string | null
+  source_action_id?: string | null
+  reviewer_id?: string | null
+  recommended_next_action?: string | null
+  audit_event_id?: string | null
+  correlation_id?: string | null
+  metadata?: Record<string, unknown>
 }
 
 export type AuditEvent = {

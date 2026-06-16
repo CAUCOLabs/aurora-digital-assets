@@ -28,6 +28,11 @@ type LocalReviewCase = {
   network: string
   reasons: string[]
   reviewer_decision?: string | null
+  source_module?: string | null
+  source_id?: string | null
+  source_action_id?: string | null
+  correlation_id?: string | null
+  metadata?: Record<string, unknown>
 }
 
 const reviewQueue: LocalReviewCase[] = [
@@ -157,6 +162,24 @@ function formatDecision(value: string) {
   return formatLabel(value)
 }
 
+function metadataString(
+  metadata: Record<string, unknown> | undefined,
+  key: string,
+) {
+  const value = metadata?.[key]
+  return typeof value === 'string' ? value : null
+}
+
+function metadataList(
+  metadata: Record<string, unknown> | undefined,
+  key: string,
+) {
+  const value = metadata?.[key]
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === 'string')
+    : []
+}
+
 export function ComplianceReviewPage() {
   const [selectedDecision, setSelectedDecision] =
     useState<ReviewerDecision | null>(null)
@@ -215,6 +238,20 @@ export function ComplianceReviewPage() {
         formatStatus(selectedCase.status),
       )
     : false
+  const sourcePackageId =
+    selectedCase?.source_id ??
+    metadataString(selectedCase?.metadata, 'source_package_id')
+  const sourceAuditEventId =
+    selectedCase?.source_action_id ??
+    metadataString(selectedCase?.metadata, 'source_audit_event_id')
+  const linkedEvidencePackages = metadataList(
+    selectedCase?.metadata,
+    'linked_evidence_packages',
+  )
+  const linkedAuditEvents = metadataList(
+    selectedCase?.metadata,
+    'linked_audit_events',
+  )
 
   useEffect(() => {
     void fetchBackendReviewData()
@@ -459,11 +496,69 @@ export function ComplianceReviewPage() {
                   <strong>
                     {selectedCase?.reviewer_decision
                       ? formatDecision(selectedCase.reviewer_decision)
-                      : 'Not recorded'}
+                    : 'Not recorded'}
                   </strong>
                 </div>
               </div>
             </Panel>
+
+            {selectedCase?.source_module === 'evidence_packages' && (
+              <Panel>
+                <p className="eyebrow">Compliance review linkage</p>
+                <h2>Evidence-to-review traceability</h2>
+                <div className="summary-list">
+                  <div>
+                    <span>Origin</span>
+                    <strong>Evidence package</strong>
+                  </div>
+                  <div>
+                    <span>Source module</span>
+                    <strong>
+                      {formatLabel(
+                        metadataString(selectedCase.metadata, 'source_domain') ??
+                          'infrastructure_security',
+                      )}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Source evidence package</span>
+                    <strong>{sourcePackageId ?? 'Not recorded'}</strong>
+                  </div>
+                  <div>
+                    <span>Audit event</span>
+                    <strong>{sourceAuditEventId ?? 'Not recorded'}</strong>
+                  </div>
+                  <div>
+                    <span>Correlation ID</span>
+                    <strong>
+                      {selectedCase.correlation_id ?? 'Not recorded'}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Linked evidence packages</span>
+                    <ul className="compact-list">
+                      {(linkedEvidencePackages.length
+                        ? linkedEvidencePackages
+                        : [sourcePackageId ?? 'Not recorded']
+                      ).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <span>Linked audit events</span>
+                    <ul className="compact-list">
+                      {(linkedAuditEvents.length
+                        ? linkedAuditEvents
+                        : [sourceAuditEventId ?? 'Not recorded']
+                      ).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Panel>
+            )}
 
             <Panel>
               <p className="eyebrow">Reviewer actions</p>

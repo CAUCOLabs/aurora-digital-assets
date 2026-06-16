@@ -1,6 +1,11 @@
 from fastapi import APIRouter, HTTPException
 
-from app.schemas.review_case import ReviewCase, ReviewCaseDecisionRequest
+from app.schemas.review_case import (
+    CreateReviewCaseFromEvidencePackageRequest,
+    CreateReviewCaseFromEvidencePackageResponse,
+    ReviewCase,
+    ReviewCaseDecisionRequest,
+)
 from app.services.audit_service import audit_service
 from app.services.review_case_service import (
     REVIEW_DECISION_STATUSES,
@@ -19,6 +24,22 @@ def list_review_cases() -> list[ReviewCase]:
 @router.get("/persisted", response_model=list[ReviewCase])
 def list_persisted_review_cases() -> list[ReviewCase]:
     return review_case_service.list_persisted_cases()
+
+
+@router.post(
+    "/create-from-evidence-package",
+    response_model=CreateReviewCaseFromEvidencePackageResponse,
+)
+def create_review_case_from_evidence_package(
+    request: CreateReviewCaseFromEvidencePackageRequest,
+) -> CreateReviewCaseFromEvidencePackageResponse:
+    return review_case_service.create_from_evidence_package(
+        package_id=request.package_id,
+        source_audit_event_id=request.source_audit_event_id,
+        correlation_id=request.correlation_id,
+        reviewer_id=request.reviewer_id,
+        priority=request.priority,
+    )
 
 
 @router.get("/{case_id}", response_model=ReviewCase)

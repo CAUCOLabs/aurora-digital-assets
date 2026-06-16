@@ -339,6 +339,16 @@ export const translations = {
       infrastructureEvidencePackage: 'Infrastructure evidence package',
       crossLayerAuditEvidence: 'Cross-layer audit evidence',
       applicationToCloudChainReaction: 'Application to cloud chain reaction',
+      openReviewCase: 'Open review case',
+      reviewCaseCreated: 'Review case created',
+      sourceEvidencePackage: 'Source evidence package',
+      linkedEvidencePackage: 'Linked evidence package',
+      infrastructureSecurityChainReactionReviewCase:
+        'Infrastructure Security Chain Reaction Review Case',
+      createFormalReviewCaseFromEvidencePackage:
+        'Create a formal review case from this evidence package.',
+      evidenceToReviewTraceability: 'Evidence-to-review traceability',
+      complianceReviewLinkage: 'Compliance review linkage',
       auditLinkedEvidence: 'Audit-linked evidence',
       sourceAuditEventId: 'Source audit event ID',
       traceabilitySummary: 'Traceability summary',
@@ -889,6 +899,16 @@ export const translations = {
       crossLayerAuditEvidence: 'Evidencia de auditoría entre capas',
       applicationToCloudChainReaction:
         'Reacción en cadena de aplicación a nube',
+      openReviewCase: 'Abrir caso de revisión',
+      reviewCaseCreated: 'Caso de revisión creado',
+      sourceEvidencePackage: 'Paquete de evidencia fuente',
+      linkedEvidencePackage: 'Paquete de evidencia vinculado',
+      infrastructureSecurityChainReactionReviewCase:
+        'Caso de revisión de reacción en cadena de seguridad de infraestructura',
+      createFormalReviewCaseFromEvidencePackage:
+        'Crear un caso formal de revisión desde este paquete de evidencia.',
+      evidenceToReviewTraceability: 'Trazabilidad de evidencia a revisión',
+      complianceReviewLinkage: 'Vinculación con revisión de cumplimiento',
       auditLinkedEvidence: 'Evidencia vinculada a auditoría',
       sourceAuditEventId: 'ID de evento de auditoría origen',
       traceabilitySummary: 'Resumen de trazabilidad',

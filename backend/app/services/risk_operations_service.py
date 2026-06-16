@@ -301,6 +301,11 @@ class RiskOperationsService:
                         "/bank-staff/evidence-packages",
                         "AUD-INFRA-CHAIN-REACTION",
                     ),
+                    self._link(
+                        "Open infrastructure review case",
+                        "/compliance-review",
+                        "CASE-INFRA-CHAIN-REACTION",
+                    ),
                 ],
                 created_at="2026-06-14T11:58:00+03:00",
             ),
@@ -385,6 +390,17 @@ class RiskOperationsService:
                 "audit-trail",
                 "Continue preserving reviewer rationale and evidence outputs.",
             ),
+            self._event(
+                "RO-TL-008",
+                "2026-06-14T11:58:00+03:00",
+                "infrastructure_security",
+                "review_case_linked",
+                "critical",
+                "Infrastructure review case linked",
+                "CASE-INFRA-CHAIN-REACTION is related to the infrastructure security chain reaction escalation.",
+                "CASE-INFRA-CHAIN-REACTION",
+                "Review evidence package EP-FROM-AUD-INFRA-CHAIN-REACTION and preserve cross-layer traceability.",
+            ),
         ]
 
     def list_escalation_summary(self) -> list[EscalationSummary]:
@@ -450,6 +466,23 @@ class RiskOperationsService:
                     "prototype export."
                 ),
                 recommended_action="Route ready item to reviewer workflow.",
+            ),
+            EscalationSummary(
+                summary_id="RO-ESC-005",
+                title="Infrastructure security escalation",
+                severity="critical",
+                escalation_type="infrastructure_security",
+                open_items=1,
+                blocked_items=0,
+                ready_items=1,
+                summary=(
+                    "CASE-INFRA-CHAIN-REACTION is linked to the critical "
+                    "application-to-cloud evidence package and audit trail."
+                ),
+                recommended_action=(
+                    "Review infrastructure controls, evidence package, and "
+                    "correlation ID before closure."
+                ),
             ),
         ]
 

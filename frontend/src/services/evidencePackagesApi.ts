@@ -104,6 +104,34 @@ export type GenerateEvidencePackageResponse = {
   user_message: string
 }
 
+export type CreateReviewCaseFromEvidencePackageRequest = {
+  package_id: string
+  source_audit_event_id: string
+  correlation_id: string
+  reviewer_id: string
+  priority: string
+}
+
+export type CreateReviewCaseFromEvidencePackageResponse = {
+  case_id: string
+  title: string
+  source_package_id: string
+  source_audit_event_id: string
+  correlation_id: string
+  case_type: string
+  priority: string
+  severity: string
+  status: string
+  assigned_team: string
+  review_reason: string
+  linked_audit_events: string[]
+  linked_evidence_packages: string[]
+  recommended_actions: string[]
+  audit_event_created: boolean
+  audit_event_id: string
+  created_at: string
+}
+
 export function getEvidencePackages(): Promise<EvidencePackage[]> {
   return getJson<EvidencePackage[]>('/evidence-packages')
 }
@@ -144,4 +172,13 @@ export function getEvidencePackageReadiness(
   return getJson<EvidenceReadinessCheck>(
     `/evidence-packages/${packageId}/readiness`,
   )
+}
+
+export function createReviewCaseFromEvidencePackage(
+  payload: CreateReviewCaseFromEvidencePackageRequest,
+): Promise<CreateReviewCaseFromEvidencePackageResponse> {
+  return postJson<
+    CreateReviewCaseFromEvidencePackageResponse,
+    CreateReviewCaseFromEvidencePackageRequest
+  >('/review-cases/create-from-evidence-package', payload)
 }
