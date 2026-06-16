@@ -31,6 +31,19 @@ InfrastructureSecurityControlCategory = Literal[
     "identity_monitoring",
     "key_vault_monitoring",
     "storage_identity_chain_containment",
+    "dockerfile_hardening",
+    "image_secret_exposure",
+    "non_root_runtime",
+    "dependency_surface",
+    "image_version_pinning",
+    "kubernetes_security_context",
+    "service_account_token_control",
+    "kubernetes_rbac_least_privilege",
+    "network_policy_isolation",
+    "resource_limit_enforcement",
+    "cluster_cis_audit",
+    "devsecops_verification",
+    "runtime_hardening_evidence",
 ]
 InfrastructureSecurityChainStage = Literal[
     "initial_access",
@@ -136,6 +149,18 @@ class EvaluateInfrastructureSecurityScenarioRequest(BaseModel):
     managed_identity_excessive_scope: bool = False
     password_reset_privilege_detected: bool = False
     identity_monitoring_gap: bool = False
+    dockerfile_secrets_detected: bool = False
+    image_uses_latest_tag: bool = False
+    container_runs_as_root: bool = False
+    plaintext_secrets_in_manifest: bool = False
+    missing_security_context: bool = False
+    service_account_token_mounted: bool = False
+    rbac_wildcard_permissions: bool = False
+    can_read_kubernetes_secrets: bool = False
+    network_policy_missing: bool = False
+    resource_limits_missing: bool = False
+    cis_audit_missing: bool = False
+    hardening_verification_missing: bool = False
 
 
 class EvaluateInfrastructureSecurityScenarioResponse(BaseModel):

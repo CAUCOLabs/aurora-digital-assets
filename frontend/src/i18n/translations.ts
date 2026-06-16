@@ -510,6 +510,27 @@ export const translations = {
       managedIdentityExcessiveScope: 'Managed identity excessive scope',
       passwordResetPrivilegeDetected: 'Password reset privilege detected',
       identityMonitoringGap: 'Identity monitoring gap',
+      containerKubernetesHardeningFailure:
+        'Container and Kubernetes hardening failure',
+      dockerfileSecretsDetected: 'Dockerfile secrets detected',
+      imageUsesLatestTag: 'Image uses latest tag',
+      containerRunsAsRoot: 'Container runs as root',
+      plaintextSecretsInManifest: 'Plaintext secrets in manifest',
+      missingSecurityContext: 'Missing Kubernetes securityContext',
+      serviceAccountTokenMounted: 'ServiceAccount token mounted',
+      rbacWildcardPermissions: 'RBAC wildcard permissions',
+      canReadKubernetesSecrets: 'Can read Kubernetes secrets',
+      networkPolicyMissing: 'NetworkPolicy missing',
+      resourceLimitsMissing: 'Resource limits missing',
+      cisAuditMissing: 'CIS audit missing',
+      hardeningVerificationMissing: 'Hardening verification missing',
+      containerKubernetesHardening: 'Container and Kubernetes Hardening',
+      containerKubernetesHardeningEvidencePackage:
+        'Container and Kubernetes Hardening Evidence Package',
+      containerKubernetesHardeningReviewCase:
+        'Container and Kubernetes Hardening Review Case',
+      runtimeHardeningFailure: 'Runtime hardening failure',
+      devSecOpsVerificationEvidence: 'DevSecOps verification evidence',
       azureStorageToIdentityRisk: 'Azure Storage to Identity Risk',
       azureStorageToIdentityRiskEvidencePackage:
         'Azure Storage to Identity Risk Evidence Package',
@@ -1100,6 +1121,27 @@ export const translations = {
       passwordResetPrivilegeDetected:
         'Privilegio de reset de contraseña detectado',
       identityMonitoringGap: 'Brecha de monitoreo de identidad',
+      containerKubernetesHardeningFailure:
+        'Fallo de hardening de contenedores y Kubernetes',
+      dockerfileSecretsDetected: 'Secretos detectados en Dockerfile',
+      imageUsesLatestTag: 'Imagen usa etiqueta latest',
+      containerRunsAsRoot: 'Contenedor ejecuta como root',
+      plaintextSecretsInManifest: 'Secretos en texto plano en manifest',
+      missingSecurityContext: 'Falta securityContext de Kubernetes',
+      serviceAccountTokenMounted: 'Token de ServiceAccount montado',
+      rbacWildcardPermissions: 'Permisos RBAC wildcard',
+      canReadKubernetesSecrets: 'Puede leer secretos de Kubernetes',
+      networkPolicyMissing: 'Falta NetworkPolicy',
+      resourceLimitsMissing: 'Faltan límites de recursos',
+      cisAuditMissing: 'Falta auditoría CIS',
+      hardeningVerificationMissing: 'Falta verificación de hardening',
+      containerKubernetesHardening: 'Hardening de contenedores y Kubernetes',
+      containerKubernetesHardeningEvidencePackage:
+        'Paquete de evidencia de hardening de contenedores y Kubernetes',
+      containerKubernetesHardeningReviewCase:
+        'Caso de revisión de hardening de contenedores y Kubernetes',
+      runtimeHardeningFailure: 'Fallo de hardening de runtime',
+      devSecOpsVerificationEvidence: 'Evidencia de verificación DevSecOps',
       azureStorageToIdentityRisk: 'Riesgo de Azure Storage a identidad',
       azureStorageToIdentityRiskEvidencePackage:
         'Paquete de evidencia de riesgo de Azure Storage a identidad',

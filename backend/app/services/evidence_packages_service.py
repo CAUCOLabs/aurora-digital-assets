@@ -30,6 +30,7 @@ INFRASTRUCTURE_AUDIT_EVENT_IDS = {
     "AUD-INFRA-IAM-WILDCARD",
     "AUD-INFRA-SECRET",
     "AUD-INFRA-AZURE-STORAGE-IDENTITY",
+    "AUD-INFRA-K8S-HARDENING-FAILURE",
 }
 
 INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES = {
@@ -41,6 +42,7 @@ INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES = {
     "AUD-INFRA-IAM-WILDCARD": "cloud_iam_permission_scope",
     "AUD-INFRA-SECRET": "secret_management",
     "AUD-INFRA-AZURE-STORAGE-IDENTITY": "storage_to_identity_chain_reaction",
+    "AUD-INFRA-K8S-HARDENING-FAILURE": "runtime_hardening_failure",
 }
 
 
@@ -647,9 +649,12 @@ class EvidencePackagesService:
         correlation_id = audit_event_id.replace("AUD-", "CORR-")
         category = INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES[audit_event_id]
         is_azure_storage_identity = audit_event_id == "AUD-INFRA-AZURE-STORAGE-IDENTITY"
+        is_k8s_hardening_failure = audit_event_id == "AUD-INFRA-K8S-HARDENING-FAILURE"
         package_title = (
             "Azure Storage to Identity Risk Evidence Package"
             if is_azure_storage_identity
+            else "Container and Kubernetes Hardening Evidence Package"
+            if is_k8s_hardening_failure
             else
             "Infrastructure Security Chain Reaction Evidence Package"
             if audit_event_id == "AUD-INFRA-CHAIN-REACTION"
@@ -658,6 +663,8 @@ class EvidencePackagesService:
         domain = (
             "azure_identity_storage_security"
             if is_azure_storage_identity
+            else "container_kubernetes_hardening"
+            if is_k8s_hardening_failure
             else "infrastructure_security"
         )
         risk_context = (
@@ -665,6 +672,13 @@ class EvidencePackagesService:
             "scope, deployment access, managed identity permissions, privileged "
             "identity roles, and monitoring gaps can combine into cloud identity risk."
             if is_azure_storage_identity
+            else (
+                "Dockerfile secrets, mutable images, root runtime, weak "
+                "securityContext, service account tokens, broad RBAC, missing "
+                "NetworkPolicies, missing resource limits, CIS audit gaps, and "
+                "DevSecOps verification gaps can combine into platform-wide risk."
+            )
+            if is_k8s_hardening_failure
             else (
                 "A backend vulnerability may become a chain reaction if "
                 "Kubernetes permissions, cloud IAM trust, IAM policy scope, "
@@ -678,6 +692,15 @@ class EvidencePackagesService:
             "identity permissions, privileged identity roles, monitoring, audit "
             "evidence, and risk operations."
             if is_azure_storage_identity
+            else (
+                "This package summarizes a simulated container and Kubernetes "
+                "hardening failure involving Dockerfile secrets, root runtime, "
+                "weak Kubernetes securityContext, service account token exposure, "
+                "broad RBAC, missing NetworkPolicies, missing resource limits, "
+                "missing CIS audit, DevSecOps verification gaps, audit evidence, "
+                "and risk operations."
+            )
+            if is_k8s_hardening_failure
             else (
                 "This package summarizes a simulated cross-layer infrastructure "
                 "security event connecting application authorization, Kubernetes "
@@ -699,6 +722,22 @@ class EvidencePackagesService:
                 self._item("EPI-AZURE-INFRA-10", "Risk Operations escalation context", "Risk operations", "included", "Escalation context is included for staff review and audit continuity.", "risk_operations", True),
             ]
             if is_azure_storage_identity
+            else [
+                self._item("EPI-K8S-HARDENING-01", "Dockerfile hardening assessment", "Dockerfile hardening", "included", "Dockerfile hardening context is included for deterministic review.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-02", "Image secret exposure context", "Image secrets", "included", "Image secret exposure context is recorded without inspecting any real image.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-03", "Non-root runtime verification", "Runtime permissions", "included", "Non-root runtime posture is included for reviewer inspection.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-04", "Kubernetes securityContext review", "Runtime hardening", "included", "securityContext hardening controls are mapped for review.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-05", "ServiceAccount token exposure review", "Service account", "included", "ServiceAccount token exposure is included as a deterministic indicator.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-06", "RBAC least privilege review", "RBAC", "included", "RBAC least privilege posture is included for review.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-07", "Kubernetes secret access review", "Kubernetes secrets", "included", "Kubernetes secret access risk is mapped to the evidence package.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-08", "NetworkPolicy isolation review", "Network policy", "included", "NetworkPolicy isolation posture is included.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-09", "Resource request and limit review", "Resource limits", "included", "CPU and memory request/limit posture is included.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-10", "CIS/kube-bench audit context", "CIS audit", "included", "CIS-style audit context is included without running kube-bench.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-11", "DevSecOps hardening verification context", "DevSecOps verification", "included", "Hardening verification evidence context is included.", "infrastructure_security", True),
+                self._item("EPI-K8S-HARDENING-12", "Audit event ID and correlation ID", "Audit traceability", "included", f"{audit_event_id} is preserved with correlation ID {correlation_id}.", "audit_events", True),
+                self._item("EPI-K8S-HARDENING-13", "Risk Operations escalation context", "Risk operations", "included", "Escalation context is included for staff review and audit continuity.", "risk_operations", True),
+            ]
+            if is_k8s_hardening_failure
             else [
                 self._item("EPI-INFRA-01", "Infrastructure security scenario evaluation", "Scenario evaluation", "included", "Deterministic infrastructure scenario evaluation is included.", "infrastructure_security", True),
                 self._item("EPI-INFRA-02", "Affected security layers", "Layer coverage", "included", "Application, Kubernetes, cloud IAM, secrets, audit, and risk operations context is recorded.", "infrastructure_security", True),
@@ -723,6 +762,21 @@ class EvidencePackagesService:
                 "Storage-to-identity chain containment",
             ]
             if is_azure_storage_identity
+            else [
+                "Dockerfile hardening control",
+                "Image secret exclusion control",
+                "Non-root container runtime control",
+                "Immutable image reference control",
+                "Kubernetes securityContext control",
+                "ServiceAccount token control",
+                "Kubernetes RBAC least privilege control",
+                "NetworkPolicy isolation control",
+                "Resource limit enforcement control",
+                "Cluster CIS audit control",
+                "DevSecOps hardening verification control",
+                "Runtime hardening evidence control",
+            ]
+            if is_k8s_hardening_failure
             else [
                 "Object-level authorization guard",
                 "Safe template execution control",
@@ -756,21 +810,37 @@ class EvidencePackagesService:
                 "evidence_package_ready": True,
                 "readiness": "ready_for_internal_review",
                 "risk_context": risk_context,
-                "review_questions": [
-                    "Was the original application weakness blocked?",
-                    "Could the affected workload read Kubernetes secrets?",
-                    "Were IAM trust conditions bound to a specific service account?",
-                    "Were IAM permissions scoped to specific resources?",
-                    "Was any secret exposed or logged?",
-                    "Was the event correlated across application, Kubernetes, IAM, secrets, and risk operations?",
-                    "Was escalation required?",
-                ],
+                "review_questions": (
+                    [
+                        "Were Dockerfile secrets removed and rotated?",
+                        "Does the workload run as non-root?",
+                        "Is Kubernetes securityContext enforced?",
+                        "Is automatic ServiceAccount token mounting disabled?",
+                        "Is RBAC scoped to least privilege?",
+                        "Are NetworkPolicies and resource limits defined?",
+                        "Is CIS-style and DevSecOps hardening evidence preserved?",
+                    ]
+                    if is_k8s_hardening_failure
+                    else [
+                        "Was the original application weakness blocked?",
+                        "Could the affected workload read Kubernetes secrets?",
+                        "Were IAM trust conditions bound to a specific service account?",
+                        "Were IAM permissions scoped to specific resources?",
+                        "Was any secret exposed or logged?",
+                        "Was the event correlated across application, Kubernetes, IAM, secrets, and risk operations?",
+                        "Was escalation required?",
+                    ]
+                ),
             },
             linked_audit_events=[audit_event_id],
             risk_type="Infrastructure security traceability",
             severity="critical" if audit_event_id != "AUD-INFRA-TEMPLATE" else "high",
             status="ready",
-            readiness_score=94 if audit_event_id == "AUD-INFRA-CHAIN-REACTION" else 90,
+            readiness_score=96
+            if is_k8s_hardening_failure
+            else 94
+            if audit_event_id == "AUD-INFRA-CHAIN-REACTION"
+            else 90,
             summary=summary,
             included_evidence=included_evidence,
             missing_evidence=[],
@@ -788,6 +858,12 @@ class EvidencePackagesService:
             timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
             recommended_next_action=(
                 "Escalate to Risk Operations, preserve audit evidence, and harden "
+                "Dockerfile, image secrets, non-root runtime, Kubernetes "
+                "securityContext, ServiceAccount token settings, RBAC, "
+                "NetworkPolicies, resource limits, CIS audit, and DevSecOps "
+                "verification."
+                if is_k8s_hardening_failure
+                else "Escalate to Risk Operations, preserve audit evidence, and harden "
                 "application, Kubernetes, IAM, and secrets controls."
             ),
             created_at="2026-06-15T09:30:00+03:00",

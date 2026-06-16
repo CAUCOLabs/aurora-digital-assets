@@ -96,3 +96,47 @@ class EvidencePackageAuditEventTests(unittest.TestCase):
             response["package"]["audit_context"]["domain"],
             "azure_identity_storage_security",
         )
+
+    def test_generate_container_kubernetes_hardening_evidence_package_from_audit_event(self) -> None:
+        status, response = request_json(
+            "POST",
+            "/api/evidence-packages/generate",
+            {
+                "source_type": "audit_event",
+                "source_id": "AUD-INFRA-K8S-HARDENING-FAILURE",
+                "package_type": "internal_review",
+                "reviewer_id": "reviewer-demo",
+            },
+        )
+
+        self.assertEqual(status, 200)
+        self.assertEqual(
+            response["source_audit_event_id"],
+            "AUD-INFRA-K8S-HARDENING-FAILURE",
+        )
+        self.assertEqual(
+            response["correlation_id"],
+            "CORR-INFRA-K8S-HARDENING-FAILURE",
+        )
+        self.assertIn(
+            "AUD-INFRA-K8S-HARDENING-FAILURE",
+            response["linked_audit_events"],
+        )
+        self.assertIn(
+            "Container and Kubernetes Hardening",
+            response["package"]["title"],
+        )
+        self.assertEqual(
+            response["package"]["source_module"],
+            "infrastructure_security",
+        )
+        self.assertEqual(
+            response["package"]["audit_context"]["domain"],
+            "container_kubernetes_hardening",
+        )
+        self.assertEqual(
+            response["package"]["audit_context"]["category"],
+            "runtime_hardening_failure",
+        )
+        self.assertEqual(response["package"]["status"], "ready")
+        self.assertTrue(response["readiness_check"]["ready"])

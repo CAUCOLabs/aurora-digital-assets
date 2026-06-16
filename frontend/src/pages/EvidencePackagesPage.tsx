@@ -32,6 +32,8 @@ const sourceIdOptions = [
 
 const infrastructureChainReactionAuditEventId = 'AUD-INFRA-CHAIN-REACTION'
 const azureStorageIdentityAuditEventId = 'AUD-INFRA-AZURE-STORAGE-IDENTITY'
+const containerKubernetesHardeningAuditEventId =
+  'AUD-INFRA-K8S-HARDENING-FAILURE'
 
 const auditEventOptions = [
   {
@@ -59,6 +61,11 @@ const auditEventOptions = [
     value: azureStorageIdentityAuditEventId,
     label:
       'Azure Storage to Identity Risk - AUD-INFRA-AZURE-STORAGE-IDENTITY - CORR-INFRA-AZURE-STORAGE-IDENTITY',
+  },
+  {
+    value: containerKubernetesHardeningAuditEventId,
+    label:
+      'Container and Kubernetes Hardening - AUD-INFRA-K8S-HARDENING-FAILURE - CORR-INFRA-K8S-HARDENING-FAILURE',
   },
 ]
 

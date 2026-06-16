@@ -94,3 +94,45 @@ class ReviewCasesFromEvidencePackageTests(unittest.TestCase):
             response["linked_audit_events"],
         )
         self.assertTrue(response["audit_event_created"])
+
+    def test_create_container_kubernetes_hardening_review_case_from_evidence_package(self) -> None:
+        status, response = request_json(
+            "POST",
+            "/api/review-cases/create-from-evidence-package",
+            {
+                "package_id": "EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE",
+                "source_audit_event_id": "AUD-INFRA-K8S-HARDENING-FAILURE",
+                "correlation_id": "CORR-INFRA-K8S-HARDENING-FAILURE",
+                "reviewer_id": "reviewer-demo",
+                "priority": "critical",
+            },
+        )
+
+        self.assertEqual(status, 200)
+        self.assertEqual(response["case_id"], "CASE-INFRA-K8S-HARDENING-FAILURE")
+        self.assertEqual(
+            response["source_package_id"],
+            "EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE",
+        )
+        self.assertEqual(
+            response["source_audit_event_id"],
+            "AUD-INFRA-K8S-HARDENING-FAILURE",
+        )
+        self.assertEqual(
+            response["correlation_id"],
+            "CORR-INFRA-K8S-HARDENING-FAILURE",
+        )
+        self.assertEqual(response["severity"], "critical")
+        self.assertIn(
+            "EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE",
+            response["linked_evidence_packages"],
+        )
+        self.assertIn(
+            "AUD-INFRA-K8S-HARDENING-FAILURE",
+            response["linked_audit_events"],
+        )
+        self.assertTrue(response["audit_event_created"])
+        self.assertEqual(
+            response["audit_event_id"],
+            "AUD-REVIEW-FROM-EP-INFRA-K8S-HARDENING-FAILURE",
+        )

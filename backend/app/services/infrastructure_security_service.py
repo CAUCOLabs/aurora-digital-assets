@@ -17,6 +17,7 @@ AUDIT_IDS_BY_SCENARIO = {
     "plaintext_secret_exposure": "AUD-INFRA-SECRET",
     "app_to_cloud_chain_reaction": "AUD-INFRA-CHAIN-REACTION",
     "azure_storage_to_identity_chain_reaction": "AUD-INFRA-AZURE-STORAGE-IDENTITY",
+    "container_kubernetes_hardening_failure": "AUD-INFRA-K8S-HARDENING-FAILURE",
 }
 
 CORRELATION_IDS_BY_SCENARIO = {
@@ -140,6 +141,136 @@ class InfrastructureSecurityService:
                 ],
                 "One vulnerable layer must not allow uncontrolled movement to the next layer.",
                 ["risk_operations_escalation", "evidence_readiness_flag"],
+            ),
+            self._control(
+                "infrasec-ctrl-dockerfile-hardening",
+                "Dockerfile hardening control",
+                "kubernetes",
+                "dockerfile_hardening",
+                "Models Dockerfile review for minimal, reproducible runtime images before deployment.",
+                ["container images", "runtime environment", "production services"],
+                "A Dockerfile that works is not automatically safe. Runtime images must be pinned, minimal, reproducible, and reviewed.",
+                ["dockerfile_review_record", "runtime_image_hardening_evidence"],
+            ),
+            self._control(
+                "infrasec-ctrl-image-secret-exclusion",
+                "Image secret exclusion control",
+                "secrets",
+                "image_secret_exposure",
+                "Prevents simulated credential-like values from being represented in image layers, Dockerfiles, manifests, or build artifacts.",
+                ["API keys", "database URLs", "JWT secrets", "payment provider tokens"],
+                "Secrets must never be baked into Dockerfiles, image layers, manifests, or build artifacts.",
+                ["image_secret_exclusion_record", "secret_rotation_trigger"],
+            ),
+            self._control(
+                "infrasec-ctrl-non-root-runtime",
+                "Non-root container runtime control",
+                "kubernetes",
+                "non_root_runtime",
+                "Requires business service containers to run without root privileges in the deterministic prototype model.",
+                ["container process", "filesystem access", "runtime permissions"],
+                "Business services should run as non-root with explicit user and group IDs.",
+                ["runtime_user_record", "non_root_enforcement_evidence"],
+            ),
+            self._control(
+                "infrasec-ctrl-minimal-dependency-surface",
+                "Minimal dependency surface control",
+                "application",
+                "dependency_surface",
+                "Keeps the simulated application dependency surface intentional, pinned, reviewed, and limited to production needs.",
+                ["dependency tree", "package lockfile", "supply chain"],
+                "Dependencies should be intentional, pinned, reviewed, scanned, and limited to production needs.",
+                ["dependency_inventory", "production_dependency_review"],
+            ),
+            self._control(
+                "infrasec-ctrl-immutable-image-reference",
+                "Immutable image reference control",
+                "kubernetes",
+                "image_version_pinning",
+                "Requires production workload references to avoid mutable latest tags in the deterministic manifest model.",
+                ["image registry", "deployment traceability"],
+                "Production workloads must avoid latest and use pinned versions or immutable digests.",
+                ["image_reference_record", "deployment_traceability_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-k8s-security-context",
+                "Kubernetes securityContext control",
+                "kubernetes",
+                "kubernetes_security_context",
+                "Models pod and container securityContext hardening for non-root execution and reduced runtime privileges.",
+                ["pod runtime", "container runtime"],
+                "Workloads should enforce runAsNonRoot, allowPrivilegeEscalation false, readOnlyRootFilesystem true, seccomp RuntimeDefault, and dropped capabilities.",
+                ["security_context_snapshot", "runtime_restriction_evidence"],
+            ),
+            self._control(
+                "infrasec-ctrl-service-account-token-control",
+                "ServiceAccount token control",
+                "kubernetes",
+                "service_account_token_control",
+                "Prevents simulated business workloads from receiving Kubernetes API tokens when cluster API access is not required.",
+                ["Kubernetes API token", "service account identity"],
+                "Most business applications should not automatically receive Kubernetes API tokens.",
+                ["service_account_token_mount_record", "api_token_justification"],
+            ),
+            self._control(
+                "infrasec-ctrl-k8s-rbac-least-privilege",
+                "Kubernetes RBAC least privilege control",
+                "kubernetes",
+                "kubernetes_rbac_least_privilege",
+                "Restricts simulated workload RBAC from wildcard actions, secret reads, pod creation, and cross-namespace access.",
+                ["Kubernetes API", "secrets", "configmaps", "pods", "deployments"],
+                "Business workloads should not have wildcard RBAC, secret read access, pod creation, or cross-namespace permissions.",
+                ["rbac_least_privilege_review", "secret_access_denial_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-network-policy-isolation",
+                "NetworkPolicy isolation control",
+                "kubernetes",
+                "network_policy_isolation",
+                "Models default-deny namespace traffic posture and explicit allow paths for required service communication.",
+                ["internal services", "databases", "namespaces", "east-west traffic"],
+                "A secure cluster denies traffic by default and only allows explicitly required connections.",
+                ["network_policy_snapshot", "allowed_traffic_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-resource-limit-enforcement",
+                "Resource limit enforcement control",
+                "kubernetes",
+                "resource_limit_enforcement",
+                "Requires simulated workloads to define CPU and memory requests and limits for platform stability.",
+                ["node resources", "cluster stability", "workload availability"],
+                "Every workload should define CPU and memory requests and limits.",
+                ["resource_request_limit_record", "workload_stability_evidence"],
+            ),
+            self._control(
+                "infrasec-ctrl-cluster-cis-audit",
+                "Cluster CIS audit control",
+                "audit",
+                "cluster_cis_audit",
+                "Models periodic CIS-style hardening verification evidence without running kube-bench or accessing a cluster.",
+                ["API server", "kubelet", "etcd", "node configuration", "control plane configuration"],
+                "Cluster hardening should be periodically verified against CIS-style benchmarks such as kube-bench, without giving normal applications elevated host visibility.",
+                ["cis_audit_schedule_record", "cluster_hardening_attestation"],
+            ),
+            self._control(
+                "infrasec-ctrl-devsecops-hardening-verification",
+                "DevSecOps hardening verification control",
+                "audit",
+                "devsecops_verification",
+                "Requires build and deployment hardening checks to produce deterministic review evidence in the prototype.",
+                ["CI/CD pipeline", "deployment manifests", "container images"],
+                "Security controls should produce evidence. Builds/deployments should fail if critical hardening controls are missing.",
+                ["pipeline_hardening_gate_record", "deployment_verification_evidence"],
+            ),
+            self._control(
+                "infrasec-ctrl-runtime-hardening-evidence",
+                "Runtime hardening evidence control",
+                "risk_operations",
+                "runtime_hardening_evidence",
+                "Connects container, Kubernetes, audit, and risk operations evidence for internal review.",
+                ["audit trail", "review cases", "runtime hardening posture"],
+                "Runtime hardening gaps must preserve evidence and route critical chain risk into review.",
+                ["runtime_hardening_evidence_package", "risk_operations_review_case"],
             ),
             self._control(
                 "infrasec-ctrl-azure-storage-private",
@@ -376,6 +507,170 @@ class InfrastructureSecurityService:
                 "2026-06-14T11:58:00+03:00",
             ),
             self._event(
+                "INFRASEC-K8S-2026-001",
+                "Secrets detected in container image configuration",
+                "secrets",
+                "secret_exposure",
+                "Secrets baked into image",
+                "critical",
+                "harden_required",
+                "under_review",
+                ["Image secret exclusion control", "Dockerfile hardening control"],
+                "payments-service-image",
+                "A simulated container image contains secret-like configuration values.",
+                "If pushed or copied, the image itself becomes a credential exposure risk.",
+                "Remove secrets from image layers, rotate exposed credentials, use secure secret management, and scan build artifacts.",
+                "AUD-INFRA-K8S-IMAGE-SECRETS",
+                "CORR-INFRA-K8S-IMAGE-SECRETS",
+                "2026-06-16T09:00:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-K8S-2026-002",
+                "Container runs as root",
+                "kubernetes",
+                "privilege_expansion",
+                "Root container runtime",
+                "high",
+                "harden_required",
+                "under_review",
+                ["Non-root container runtime control", "Kubernetes securityContext control"],
+                "payments-service-container",
+                "A simulated workload runs without an explicit non-root user.",
+                "A compromised app process may have unnecessary container-level privileges.",
+                "Set USER in Dockerfile and enforce runAsNonRoot in Kubernetes.",
+                "AUD-INFRA-K8S-ROOT-RUNTIME",
+                "CORR-INFRA-K8S-ROOT-RUNTIME",
+                "2026-06-16T09:08:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-K8S-2026-003",
+                "Weak Kubernetes securityContext",
+                "kubernetes",
+                "privilege_expansion",
+                "Missing runtime restrictions",
+                "critical",
+                "harden_required",
+                "under_review",
+                [
+                    "Kubernetes securityContext control",
+                    "Non-root container runtime control",
+                    "Runtime hardening evidence control",
+                ],
+                "payments-service-deployment",
+                "A simulated deployment is missing key runtime hardening controls.",
+                "Missing allowPrivilegeEscalation, readOnlyRootFilesystem, dropped capabilities, or seccomp may increase blast radius.",
+                "Enforce securityContext, drop Linux capabilities, disable privilege escalation, use read-only root filesystem, and define controlled writable volumes.",
+                "AUD-INFRA-K8S-SECURITY-CONTEXT",
+                "CORR-INFRA-K8S-SECURITY-CONTEXT",
+                "2026-06-16T09:16:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-K8S-2026-004",
+                "ServiceAccount token mounted unnecessarily",
+                "kubernetes",
+                "lateral_movement",
+                "Unnecessary Kubernetes API access path",
+                "high",
+                "review_required",
+                "under_review",
+                ["ServiceAccount token control", "Kubernetes RBAC least privilege control"],
+                "payments-service-account",
+                "A simulated business workload receives a Kubernetes API token despite not needing cluster API access.",
+                "A compromised workload could become a Kubernetes API client.",
+                "Set automountServiceAccountToken false and provide explicit RBAC only when justified.",
+                "AUD-INFRA-K8S-SA-TOKEN",
+                "CORR-INFRA-K8S-SA-TOKEN",
+                "2026-06-16T09:24:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-K8S-2026-005",
+                "Broad Kubernetes RBAC permission",
+                "kubernetes",
+                "lateral_movement",
+                "RBAC wildcard permission",
+                "critical",
+                "harden_required",
+                "under_review",
+                [
+                    "Kubernetes RBAC least privilege control",
+                    "ServiceAccount token control",
+                    "Image secret exclusion control",
+                ],
+                "payments-service-role",
+                "A simulated workload has excessive Kubernetes API permissions.",
+                "A compromised pod could list secrets, inspect cluster resources, create jobs, or access unrelated namespaces.",
+                "Remove wildcard permissions, deny secret access by default, and scope permissions to exact resources.",
+                "AUD-INFRA-K8S-BROAD-RBAC",
+                "CORR-INFRA-K8S-BROAD-RBAC",
+                "2026-06-16T09:32:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-K8S-2026-006",
+                "NetworkPolicy missing",
+                "kubernetes",
+                "lateral_movement",
+                "Unrestricted east-west traffic",
+                "high",
+                "harden_required",
+                "under_review",
+                ["NetworkPolicy isolation control", "Chain reaction containment"],
+                "production namespace",
+                "A simulated namespace lacks default-deny NetworkPolicy.",
+                "A compromised pod could scan or reach unrelated internal services.",
+                "Apply default deny ingress/egress and allow only explicitly required traffic.",
+                "AUD-INFRA-K8S-NETWORK-POLICY",
+                "CORR-INFRA-K8S-NETWORK-POLICY",
+                "2026-06-16T09:40:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-K8S-2026-007",
+                "Cluster CIS audit missing",
+                "kubernetes",
+                "evidence_required",
+                "Unverified cluster hardening",
+                "high",
+                "review_required",
+                "under_review",
+                ["Cluster CIS audit control", "DevSecOps hardening verification control"],
+                "kubernetes-cluster-baseline",
+                "A simulated Kubernetes environment lacks CIS/kube-bench style audit evidence.",
+                "A hardened deployment may still run on a weak cluster configuration.",
+                "Schedule controlled CIS benchmark verification and preserve audit evidence.",
+                "AUD-INFRA-K8S-CIS-AUDIT",
+                "CORR-INFRA-K8S-CIS-AUDIT",
+                "2026-06-16T09:48:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-K8S-2026-008",
+                "Container-to-cluster hardening failure",
+                "risk_operations",
+                "evidence_required",
+                "Container and Kubernetes hardening chain reaction",
+                "critical",
+                "escalate",
+                "escalated",
+                [
+                    "Dockerfile hardening control",
+                    "Image secret exclusion control",
+                    "Non-root container runtime control",
+                    "Kubernetes securityContext control",
+                    "ServiceAccount token control",
+                    "Kubernetes RBAC least privilege control",
+                    "NetworkPolicy isolation control",
+                    "Resource limit enforcement control",
+                    "Cluster CIS audit control",
+                    "DevSecOps hardening verification control",
+                    "Runtime hardening evidence control",
+                ],
+                "Aurora Kubernetes runtime boundary",
+                "Multiple simulated weak controls could allow a vulnerable container to become a Kubernetes platform incident.",
+                "Secrets in images, root runtime, weak securityContext, broad RBAC, missing NetworkPolicies, and missing verification can combine into platform-wide risk.",
+                "Escalate to Risk Operations, create audit evidence, prepare review case, and harden Dockerfile, image, runtime, RBAC, NetworkPolicies, and verification controls.",
+                "AUD-INFRA-K8S-HARDENING-FAILURE",
+                "CORR-INFRA-K8S-HARDENING-FAILURE",
+                "2026-06-16T09:56:00+03:00",
+            ),
+            self._event(
                 "INFRASEC-AZURE-2026-001",
                 "Public storage exposure detected",
                 "secrets",
@@ -529,13 +824,27 @@ class InfrastructureSecurityService:
                 "Kubernetes Runtime Security",
                 "kubernetes",
                 "review_required",
-                "Workload identity, RBAC, namespace access, and secret reads require least privilege review.",
+                "Workload identity, RBAC, namespace access, runtime restrictions, and secret reads require least privilege review.",
                 [
                     "Kubernetes least privilege RBAC",
                     "Namespace isolation control",
                     "Service account secret restriction",
+                    "Dockerfile hardening control",
+                    "Non-root container runtime control",
+                    "Immutable image reference control",
+                    "Kubernetes securityContext control",
+                    "ServiceAccount token control",
+                    "Kubernetes RBAC least privilege control",
+                    "NetworkPolicy isolation control",
+                    "Resource limit enforcement control",
                 ],
-                ["service account permissions", "namespace access attempts"],
+                [
+                    "service account permissions",
+                    "namespace access attempts",
+                    "securityContext gaps",
+                    "network policy coverage",
+                    "resource limit coverage",
+                ],
             ),
             self._layer(
                 "layer-cloud-iam",
@@ -551,9 +860,14 @@ class InfrastructureSecurityService:
                 "Secrets Security",
                 "secrets",
                 "monitored",
-                "Secret access is simulated as centralized, scoped, rotated, and redacted from logs.",
-                ["Secret management control"],
-                ["secret access attempts", "rotation status", "log redaction checks"],
+                "Secret access is simulated as centralized, scoped, rotated, redacted from logs, and excluded from image artifacts.",
+                ["Secret management control", "Image secret exclusion control"],
+                [
+                    "secret access attempts",
+                    "rotation status",
+                    "log redaction checks",
+                    "image secret indicators",
+                ],
             ),
             self._layer(
                 "layer-audit",
@@ -561,8 +875,17 @@ class InfrastructureSecurityService:
                 "audit",
                 "hardened",
                 "Cross-layer events use deterministic correlation IDs for later evidence package preparation.",
-                ["Cross-layer audit correlation"],
-                ["audit event creation", "correlation ID propagation"],
+                [
+                    "Cross-layer audit correlation",
+                    "Cluster CIS audit control",
+                    "DevSecOps hardening verification control",
+                ],
+                [
+                    "audit event creation",
+                    "correlation ID propagation",
+                    "CIS audit evidence",
+                    "hardening verification evidence",
+                ],
             ),
             self._layer(
                 "layer-risk-operations",
@@ -570,8 +893,12 @@ class InfrastructureSecurityService:
                 "risk_operations",
                 "monitored",
                 "Cross-layer chain reaction risk is escalated for staff review before sensitive operations continue.",
-                ["Chain reaction containment"],
-                ["escalated infrastructure events", "critical chain risk count"],
+                ["Chain reaction containment", "Runtime hardening evidence control"],
+                [
+                    "escalated infrastructure events",
+                    "critical chain risk count",
+                    "runtime hardening review cases",
+                ],
             ),
         ]
 
@@ -705,6 +1032,53 @@ class InfrastructureSecurityService:
                     "Storage-to-identity chain containment",
                 ],
             ),
+            self._scenario(
+                "container_kubernetes_hardening_failure",
+                "Container and Kubernetes hardening failure",
+                "Models how an insecure Dockerfile and weak Kubernetes deployment can allow one compromised service to become a platform-wide incident.",
+                "kubernetes",
+                [
+                    "dockerfile_secret_exposure",
+                    "root_container_runtime",
+                    "weak_kubernetes_security_context",
+                    "service_account_token_mounted",
+                    "broad_rbac_permissions",
+                    "missing_network_policy",
+                    "missing_resource_limits",
+                    "missing_cis_audit",
+                    "missing_devsecops_verification",
+                    "audit_evidence_required",
+                    "risk_operations_escalation",
+                ],
+                [
+                    "dockerfile_secrets_detected",
+                    "image_uses_latest_tag",
+                    "container_runs_as_root",
+                    "plaintext_secrets_in_manifest",
+                    "missing_security_context",
+                    "service_account_token_mounted",
+                    "rbac_wildcard_permissions",
+                    "can_read_kubernetes_secrets",
+                    "network_policy_missing",
+                    "resource_limits_missing",
+                    "cis_audit_missing",
+                    "hardening_verification_missing",
+                ],
+                "escalate",
+                [
+                    "Dockerfile hardening control",
+                    "Image secret exclusion control",
+                    "Non-root container runtime control",
+                    "Immutable image reference control",
+                    "Kubernetes securityContext control",
+                    "ServiceAccount token control",
+                    "Kubernetes RBAC least privilege control",
+                    "NetworkPolicy isolation control",
+                    "Resource limit enforcement control",
+                    "Cluster CIS audit control",
+                    "DevSecOps hardening verification control",
+                ],
+            ),
         ]
 
     def evaluate_scenario(
@@ -725,6 +1099,18 @@ class InfrastructureSecurityService:
         managed_identity_excessive_scope: bool = False,
         password_reset_privilege_detected: bool = False,
         identity_monitoring_gap: bool = False,
+        dockerfile_secrets_detected: bool = False,
+        image_uses_latest_tag: bool = False,
+        container_runs_as_root: bool = False,
+        plaintext_secrets_in_manifest: bool = False,
+        missing_security_context: bool = False,
+        service_account_token_mounted: bool = False,
+        rbac_wildcard_permissions: bool = False,
+        can_read_kubernetes_secrets: bool = False,
+        network_policy_missing: bool = False,
+        resource_limits_missing: bool = False,
+        cis_audit_missing: bool = False,
+        hardening_verification_missing: bool = False,
     ) -> EvaluateInfrastructureSecurityScenarioResponse:
         if scenario_id == "azure_storage_to_identity_chain_reaction":
             return self._evaluate_azure_storage_identity_scenario(
@@ -735,6 +1121,21 @@ class InfrastructureSecurityService:
                 managed_identity_excessive_scope=managed_identity_excessive_scope,
                 password_reset_privilege_detected=password_reset_privilege_detected,
                 identity_monitoring_gap=identity_monitoring_gap,
+            )
+        if scenario_id == "container_kubernetes_hardening_failure":
+            return self._evaluate_container_kubernetes_hardening_scenario(
+                dockerfile_secrets_detected=dockerfile_secrets_detected,
+                image_uses_latest_tag=image_uses_latest_tag,
+                container_runs_as_root=container_runs_as_root,
+                plaintext_secrets_in_manifest=plaintext_secrets_in_manifest,
+                missing_security_context=missing_security_context,
+                service_account_token_mounted=service_account_token_mounted,
+                rbac_wildcard_permissions=rbac_wildcard_permissions,
+                can_read_kubernetes_secrets=can_read_kubernetes_secrets,
+                network_policy_missing=network_policy_missing,
+                resource_limits_missing=resource_limits_missing,
+                cis_audit_missing=cis_audit_missing,
+                hardening_verification_missing=hardening_verification_missing,
             )
 
         score = 10
@@ -1033,6 +1434,206 @@ class InfrastructureSecurityService:
                 "chain_reaction_risk": chain_reaction_risk,
                 "evidence_package_ready": True,
                 "risk_reasons": risk_reasons,
+            },
+        )
+        return EvaluateInfrastructureSecurityScenarioResponse(
+            risk_score=risk_score,
+            severity=severity,
+            decision=decision,
+            affected_layers=sorted(affected_layers),
+            chain_reaction_risk=chain_reaction_risk,
+            triggered_controls=sorted(triggered_controls),
+            audit_event_created=True,
+            audit_event_id=audit_event_id,
+            correlation_id=correlation_id,
+            evidence_package_ready=True,
+            recommended_action=recommended_action,
+            explanation=explanation,
+        )
+
+    def _evaluate_container_kubernetes_hardening_scenario(
+        self,
+        *,
+        dockerfile_secrets_detected: bool,
+        image_uses_latest_tag: bool,
+        container_runs_as_root: bool,
+        plaintext_secrets_in_manifest: bool,
+        missing_security_context: bool,
+        service_account_token_mounted: bool,
+        rbac_wildcard_permissions: bool,
+        can_read_kubernetes_secrets: bool,
+        network_policy_missing: bool,
+        resource_limits_missing: bool,
+        cis_audit_missing: bool,
+        hardening_verification_missing: bool,
+    ) -> EvaluateInfrastructureSecurityScenarioResponse:
+        score = 10
+        affected_layers = set[str]()
+        triggered_controls = set[str]()
+        risk_reasons: list[str] = []
+        checks = [
+            (
+                dockerfile_secrets_detected,
+                35,
+                ["secrets", "kubernetes", "audit"],
+                ["Dockerfile hardening control", "Image secret exclusion control"],
+                "dockerfile secrets detected",
+            ),
+            (
+                image_uses_latest_tag,
+                20,
+                ["kubernetes", "audit"],
+                ["Immutable image reference control", "DevSecOps hardening verification control"],
+                "image uses latest tag",
+            ),
+            (
+                container_runs_as_root,
+                30,
+                ["kubernetes", "risk_operations"],
+                ["Non-root container runtime control", "Kubernetes securityContext control"],
+                "container runs as root",
+            ),
+            (
+                plaintext_secrets_in_manifest,
+                35,
+                ["secrets", "kubernetes", "audit"],
+                ["Image secret exclusion control", "Secret management control"],
+                "plaintext secrets in manifest",
+            ),
+            (
+                missing_security_context,
+                35,
+                ["kubernetes", "risk_operations"],
+                ["Kubernetes securityContext control", "Runtime hardening evidence control"],
+                "missing Kubernetes securityContext",
+            ),
+            (
+                service_account_token_mounted,
+                30,
+                ["kubernetes", "risk_operations"],
+                ["ServiceAccount token control", "Kubernetes RBAC least privilege control"],
+                "service account token mounted",
+            ),
+            (
+                rbac_wildcard_permissions,
+                35,
+                ["kubernetes", "secrets", "risk_operations"],
+                ["Kubernetes RBAC least privilege control", "ServiceAccount token control"],
+                "RBAC wildcard permissions",
+            ),
+            (
+                can_read_kubernetes_secrets,
+                35,
+                ["kubernetes", "secrets", "risk_operations"],
+                ["Kubernetes RBAC least privilege control", "Image secret exclusion control"],
+                "can read Kubernetes secrets",
+            ),
+            (
+                network_policy_missing,
+                30,
+                ["kubernetes", "risk_operations"],
+                ["NetworkPolicy isolation control", "Chain reaction containment"],
+                "network policy missing",
+            ),
+            (
+                resource_limits_missing,
+                20,
+                ["kubernetes", "risk_operations"],
+                ["Resource limit enforcement control", "Runtime hardening evidence control"],
+                "resource limits missing",
+            ),
+            (
+                cis_audit_missing,
+                30,
+                ["kubernetes", "audit", "risk_operations"],
+                ["Cluster CIS audit control", "Runtime hardening evidence control"],
+                "CIS audit missing",
+            ),
+            (
+                hardening_verification_missing,
+                30,
+                ["audit", "risk_operations"],
+                ["DevSecOps hardening verification control", "Runtime hardening evidence control"],
+                "hardening verification missing",
+            ),
+        ]
+
+        for enabled, points, layers, controls, reason in checks:
+            if enabled:
+                score += points
+                affected_layers.update(layers)
+                triggered_controls.update(controls)
+                risk_reasons.append(reason)
+
+        true_flags = len(risk_reasons)
+        if true_flags >= 8:
+            score += 25
+        elif true_flags >= 5:
+            score += 18
+        elif true_flags >= 3:
+            score += 10
+        elif true_flags >= 2:
+            score += 5
+
+        if not affected_layers:
+            affected_layers.add("kubernetes")
+            triggered_controls.add("DevSecOps hardening verification control")
+            risk_reasons.append("no container or Kubernetes hardening indicator selected")
+
+        risk_score = min(score, 100)
+        if risk_score >= 85:
+            severity = "critical"
+            decision = "escalate"
+        elif risk_score >= 70:
+            severity = "critical"
+            decision = "harden_required"
+        elif risk_score >= 50:
+            severity = "high"
+            decision = "review_required"
+        else:
+            severity = "medium"
+            decision = "review_required"
+
+        audit_event_id = "AUD-INFRA-K8S-HARDENING-FAILURE"
+        correlation_id = "CORR-INFRA-K8S-HARDENING-FAILURE"
+        chain_reaction_risk = (
+            "Critical container-to-Kubernetes hardening failure path involving "
+            "secrets in images, root runtime, weak securityContext, service "
+            "account token exposure, broad RBAC, missing NetworkPolicies, "
+            "missing resource limits, missing CIS audit, and missing DevSecOps "
+            "verification."
+        )
+        recommended_action = (
+            "Escalate to Risk Operations, preserve audit evidence, and harden "
+            "Dockerfile, image secrets, non-root runtime, Kubernetes "
+            "securityContext, ServiceAccount token settings, RBAC, "
+            "NetworkPolicies, resource limits, CIS audit, and DevSecOps "
+            "verification."
+        )
+        explanation = (
+            "Deterministic prototype evaluation. No real Docker image, "
+            "Kubernetes cluster, scanner, kube-bench run, or secret was accessed."
+        )
+        audit_service.create_audit_event_from_sensitive_action(
+            event_id=audit_event_id,
+            actor_id="infrastructure-security-engine",
+            actor_type="service",
+            source_module="infrastructure_security",
+            action="evaluate_scenario",
+            object_type="infrastructure_security_scenario",
+            object_id="container_kubernetes_hardening_failure",
+            decision=decision,
+            severity=severity,
+            risk_score=risk_score,
+            summary=explanation,
+            correlation_id=correlation_id,
+            metadata={
+                "prototype": True,
+                "affected_layers": sorted(affected_layers),
+                "chain_reaction_risk": chain_reaction_risk,
+                "evidence_package_ready": True,
+                "risk_reasons": risk_reasons,
+                "triggered_controls": sorted(triggered_controls),
             },
         )
         return EvaluateInfrastructureSecurityScenarioResponse(

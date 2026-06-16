@@ -83,3 +83,58 @@ class InfrastructureSecurityTests(unittest.TestCase):
             "Azure private storage control",
             response["triggered_controls"],
         )
+
+    def test_evaluate_container_kubernetes_hardening_scenario_creates_audit_event(self) -> None:
+        status, response = request_json(
+            "POST",
+            "/api/infrastructure-security/evaluate-scenario",
+            {
+                "scenario_id": "container_kubernetes_hardening_failure",
+                "object_authorization_failed": False,
+                "unsafe_template_input_detected": False,
+                "pod_privileged": False,
+                "service_account_can_read_secrets": False,
+                "cloud_iam_wildcard_permissions": False,
+                "weak_trust_policy": False,
+                "secret_exposure_detected": False,
+                "dockerfile_secrets_detected": True,
+                "image_uses_latest_tag": True,
+                "container_runs_as_root": True,
+                "plaintext_secrets_in_manifest": True,
+                "missing_security_context": True,
+                "service_account_token_mounted": True,
+                "rbac_wildcard_permissions": True,
+                "can_read_kubernetes_secrets": True,
+                "network_policy_missing": True,
+                "resource_limits_missing": True,
+                "cis_audit_missing": True,
+                "hardening_verification_missing": True,
+            },
+        )
+
+        self.assertEqual(status, 200)
+        self.assertEqual(response["risk_score"], 100)
+        self.assertEqual(response["decision"], "escalate")
+        self.assertEqual(response["severity"], "critical")
+        self.assertTrue(response["audit_event_created"])
+        self.assertEqual(
+            response["audit_event_id"],
+            "AUD-INFRA-K8S-HARDENING-FAILURE",
+        )
+        self.assertEqual(
+            response["correlation_id"],
+            "CORR-INFRA-K8S-HARDENING-FAILURE",
+        )
+        self.assertTrue(response["evidence_package_ready"])
+        self.assertIn("kubernetes", response["affected_layers"])
+        self.assertIn("secrets", response["affected_layers"])
+        self.assertIn("audit", response["affected_layers"])
+        self.assertIn("risk_operations", response["affected_layers"])
+        self.assertIn(
+            "Kubernetes securityContext control",
+            response["triggered_controls"],
+        )
+        self.assertIn(
+            "NetworkPolicy isolation control",
+            response["triggered_controls"],
+        )

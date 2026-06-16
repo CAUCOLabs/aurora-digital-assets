@@ -27,6 +27,19 @@ export type InfrastructureSecurityControlCategory =
   | 'identity_monitoring'
   | 'key_vault_monitoring'
   | 'storage_identity_chain_containment'
+  | 'dockerfile_hardening'
+  | 'image_secret_exposure'
+  | 'non_root_runtime'
+  | 'dependency_surface'
+  | 'image_version_pinning'
+  | 'kubernetes_security_context'
+  | 'service_account_token_control'
+  | 'kubernetes_rbac_least_privilege'
+  | 'network_policy_isolation'
+  | 'resource_limit_enforcement'
+  | 'cluster_cis_audit'
+  | 'devsecops_verification'
+  | 'runtime_hardening_evidence'
 export type InfrastructureSecurityChainStage =
   | 'initial_access'
   | 'privilege_expansion'
@@ -126,6 +139,18 @@ export type EvaluateInfrastructureSecurityScenarioRequest = {
   managed_identity_excessive_scope?: boolean
   password_reset_privilege_detected?: boolean
   identity_monitoring_gap?: boolean
+  dockerfile_secrets_detected?: boolean
+  image_uses_latest_tag?: boolean
+  container_runs_as_root?: boolean
+  plaintext_secrets_in_manifest?: boolean
+  missing_security_context?: boolean
+  service_account_token_mounted?: boolean
+  rbac_wildcard_permissions?: boolean
+  can_read_kubernetes_secrets?: boolean
+  network_policy_missing?: boolean
+  resource_limits_missing?: boolean
+  cis_audit_missing?: boolean
+  hardening_verification_missing?: boolean
 }
 
 export type EvaluateInfrastructureSecurityScenarioResponse = {

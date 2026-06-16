@@ -221,6 +221,34 @@ class ReviewCaseService:
                 "Review identity and Key Vault monitoring coverage.",
                 "Escalate or close after internal review.",
             ]
+        elif normalized_package_id == "EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE":
+            case_id = "CASE-INFRA-K8S-HARDENING-FAILURE"
+            title = "Container and Kubernetes Hardening Review Case"
+            case_type = "container_kubernetes_hardening_review"
+            assigned_team = "Risk Operations / Kubernetes Security"
+            review_reason = (
+                "Critical evidence package indicates a simulated "
+                "container-to-Kubernetes hardening failure involving image "
+                "secrets, root runtime, weak securityContext, service account "
+                "token exposure, broad RBAC, missing NetworkPolicies, missing "
+                "resource limits, missing CIS audit, and missing DevSecOps "
+                "verification."
+            )
+            severity = "critical"
+            audit_event_id = "AUD-REVIEW-FROM-EP-INFRA-K8S-HARDENING-FAILURE"
+            linked_audit_events = [
+                normalized_audit_event_id,
+                "AUD-EVIDENCE-FROM-AUD-INFRA-K8S-HARDENING-FAILURE",
+            ]
+            recommended_actions = [
+                "Review Dockerfile hardening and image secret exclusion.",
+                "Review non-root runtime and Kubernetes securityContext posture.",
+                "Review ServiceAccount token mounting and RBAC least privilege.",
+                "Review Kubernetes secret access restrictions.",
+                "Review NetworkPolicy isolation and resource limits.",
+                "Review CIS-style audit and DevSecOps hardening evidence.",
+                "Escalate or close after internal review.",
+            ]
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -307,6 +335,7 @@ class ReviewCaseService:
                 in {
                     "EP-FROM-AUD-INFRA-CHAIN-REACTION",
                     "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
+                    "EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE",
                 }
                 else "evidence_packages",
             },

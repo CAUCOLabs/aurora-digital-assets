@@ -20,6 +20,7 @@ REVIEW_CASE_TITLES = {
     "RO-ACTION-006": "Structured deposits compliance review",
     "RO-ACTION-007": "Infrastructure chain reaction review",
     "RO-ACTION-008": "Azure storage-to-identity risk review",
+    "RO-ACTION-009": "Container and Kubernetes hardening review",
 }
 
 
@@ -89,7 +90,7 @@ class RiskOperationsService:
                 self._metric(
                     "rom-staff-action-items",
                     "Staff action items",
-                    "7",
+                    "8",
                     "warning",
                     "Unified action queue items across risk, evidence, and resilience.",
                     "reports",
@@ -97,9 +98,9 @@ class RiskOperationsService:
                 self._metric(
                     "rom-infrastructure-chain-risks",
                     "Infrastructure chain risks",
-                    "2",
+                    "3",
                     "critical",
-                    "Application-to-cloud and Azure storage-to-identity risks requiring infrastructure security review.",
+                    "Application-to-cloud, Azure storage-to-identity, and container/Kubernetes hardening risks requiring infrastructure security review.",
                     "infrastructure_security",
                 ),
             ],
@@ -116,6 +117,7 @@ class RiskOperationsService:
                 "Complete missing evidence for shell company and insider risk packages",
                 "Monitor payments degradation and digital asset withdrawal pause",
                 "Review application-to-cloud infrastructure security chain risk",
+                "Review container and Kubernetes hardening evidence",
                 "Preserve audit trail and reviewer rationale",
                 "Prepare escalation-ready evidence packages",
             ],
@@ -352,6 +354,51 @@ class RiskOperationsService:
                     ),
                 ],
                 created_at="2026-06-15T10:48:00+03:00",
+            ),
+            RiskActionItem(
+                action_id="RO-ACTION-009",
+                title="Review container and Kubernetes hardening risk",
+                source_module="infrastructure_security",
+                source_id="INFRASEC-K8S-2026-008",
+                priority="urgent",
+                status="escalated",
+                risk_type="Container and Kubernetes hardening",
+                summary=(
+                    "Simulated image secrets, root runtime, weak securityContext, "
+                    "service account token exposure, broad RBAC, missing "
+                    "NetworkPolicies, resource limits, CIS audit, and DevSecOps "
+                    "verification gaps could combine into platform-wide risk."
+                ),
+                required_action=(
+                    "Review the container and Kubernetes hardening evaluation, "
+                    "preserve audit evidence, and confirm Dockerfile, image, "
+                    "runtime, RBAC, NetworkPolicy, resource limit, CIS audit, "
+                    "and DevSecOps verification hardening actions."
+                ),
+                missing_evidence=[
+                    "Dockerfile hardening assessment",
+                    "Kubernetes securityContext review",
+                    "NetworkPolicy and resource limits review",
+                    "CIS and DevSecOps verification evidence",
+                ],
+                related_links=[
+                    self._link(
+                        "Open infrastructure security",
+                        "/bank-staff/infrastructure-security",
+                        "INFRASEC-K8S-2026-008",
+                    ),
+                    self._link(
+                        "Open evidence packages",
+                        "/bank-staff/evidence-packages",
+                        "AUD-INFRA-K8S-HARDENING-FAILURE",
+                    ),
+                    self._link(
+                        "Open Kubernetes hardening review case",
+                        "/compliance-review",
+                        "CASE-INFRA-K8S-HARDENING-FAILURE",
+                    ),
+                ],
+                created_at="2026-06-16T09:56:00+03:00",
             ),
         ]
 

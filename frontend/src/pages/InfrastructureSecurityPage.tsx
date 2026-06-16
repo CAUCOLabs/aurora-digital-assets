@@ -284,6 +284,23 @@ export function InfrastructureSecurityPage() {
   const [passwordResetPrivilegeDetected, setPasswordResetPrivilegeDetected] =
     useState(true)
   const [identityMonitoringGap, setIdentityMonitoringGap] = useState(true)
+  const [dockerfileSecretsDetected, setDockerfileSecretsDetected] =
+    useState(true)
+  const [imageUsesLatestTag, setImageUsesLatestTag] = useState(true)
+  const [containerRunsAsRoot, setContainerRunsAsRoot] = useState(true)
+  const [plaintextSecretsInManifest, setPlaintextSecretsInManifest] =
+    useState(true)
+  const [missingSecurityContext, setMissingSecurityContext] = useState(true)
+  const [serviceAccountTokenMounted, setServiceAccountTokenMounted] =
+    useState(true)
+  const [rbacWildcardPermissions, setRbacWildcardPermissions] = useState(true)
+  const [canReadKubernetesSecrets, setCanReadKubernetesSecrets] =
+    useState(true)
+  const [networkPolicyMissing, setNetworkPolicyMissing] = useState(true)
+  const [resourceLimitsMissing, setResourceLimitsMissing] = useState(true)
+  const [cisAuditMissing, setCisAuditMissing] = useState(true)
+  const [hardeningVerificationMissing, setHardeningVerificationMissing] =
+    useState(true)
   const [evaluationResult, setEvaluationResult] =
     useState<EvaluateInfrastructureSecurityScenarioResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -395,6 +412,18 @@ export function InfrastructureSecurityPage() {
         managed_identity_excessive_scope: managedIdentityExcessiveScope,
         password_reset_privilege_detected: passwordResetPrivilegeDetected,
         identity_monitoring_gap: identityMonitoringGap,
+        dockerfile_secrets_detected: dockerfileSecretsDetected,
+        image_uses_latest_tag: imageUsesLatestTag,
+        container_runs_as_root: containerRunsAsRoot,
+        plaintext_secrets_in_manifest: plaintextSecretsInManifest,
+        missing_security_context: missingSecurityContext,
+        service_account_token_mounted: serviceAccountTokenMounted,
+        rbac_wildcard_permissions: rbacWildcardPermissions,
+        can_read_kubernetes_secrets: canReadKubernetesSecrets,
+        network_policy_missing: networkPolicyMissing,
+        resource_limits_missing: resourceLimitsMissing,
+        cis_audit_missing: cisAuditMissing,
+        hardening_verification_missing: hardeningVerificationMissing,
       })
       setEvaluationResult(response)
     } catch {
@@ -714,6 +743,136 @@ export function InfrastructureSecurityPage() {
                     }
                   />
                   <span>{t.infrastructureSecurity.identityMonitoringGap}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={dockerfileSecretsDetected}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setDockerfileSecretsDetected(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.dockerfileSecretsDetected}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={imageUsesLatestTag}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setImageUsesLatestTag(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.imageUsesLatestTag}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={containerRunsAsRoot}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setContainerRunsAsRoot(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.containerRunsAsRoot}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={plaintextSecretsInManifest}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setPlaintextSecretsInManifest(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.plaintextSecretsInManifest}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={missingSecurityContext}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setMissingSecurityContext(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.missingSecurityContext}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={serviceAccountTokenMounted}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setServiceAccountTokenMounted(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.serviceAccountTokenMounted}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={rbacWildcardPermissions}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setRbacWildcardPermissions(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.rbacWildcardPermissions}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={canReadKubernetesSecrets}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setCanReadKubernetesSecrets(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.canReadKubernetesSecrets}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={networkPolicyMissing}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setNetworkPolicyMissing(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.networkPolicyMissing}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={resourceLimitsMissing}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setResourceLimitsMissing(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.resourceLimitsMissing}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={cisAuditMissing}
+                    type="checkbox"
+                    onChange={(event) => setCisAuditMissing(event.target.checked)}
+                  />
+                  <span>{t.infrastructureSecurity.cisAuditMissing}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={hardeningVerificationMissing}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setHardeningVerificationMissing(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.hardeningVerificationMissing}</span>
                 </label>
               </div>
 
