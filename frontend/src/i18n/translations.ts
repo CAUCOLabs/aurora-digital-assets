@@ -332,6 +332,13 @@ export const translations = {
       userMessage: 'User message',
       generateEvidenceFromAuditEvent: 'Generate evidence from audit event',
       generateFromAuditEvent: 'Generate from audit event',
+      infrastructureChainReactionAuditEvent:
+        'Infrastructure Security Chain Reaction',
+      useInfrastructureChainReactionAuditEvent:
+        'Use infrastructure chain reaction audit event',
+      infrastructureEvidencePackage: 'Infrastructure evidence package',
+      crossLayerAuditEvidence: 'Cross-layer audit evidence',
+      applicationToCloudChainReaction: 'Application to cloud chain reaction',
       auditLinkedEvidence: 'Audit-linked evidence',
       sourceAuditEventId: 'Source audit event ID',
       traceabilitySummary: 'Traceability summary',
@@ -873,6 +880,15 @@ export const translations = {
       generateEvidenceFromAuditEvent:
         'Generar evidencia desde evento de auditoría',
       generateFromAuditEvent: 'Generar desde evento de auditoría',
+      infrastructureChainReactionAuditEvent:
+        'Reacción en cadena de seguridad de infraestructura',
+      useInfrastructureChainReactionAuditEvent:
+        'Usar evento de auditoría de reacción en cadena de infraestructura',
+      infrastructureEvidencePackage:
+        'Paquete de evidencia de seguridad de infraestructura',
+      crossLayerAuditEvidence: 'Evidencia de auditoría entre capas',
+      applicationToCloudChainReaction:
+        'Reacción en cadena de aplicación a nube',
       auditLinkedEvidence: 'Evidencia vinculada a auditoría',
       sourceAuditEventId: 'ID de evento de auditoría origen',
       traceabilitySummary: 'Resumen de trazabilidad',

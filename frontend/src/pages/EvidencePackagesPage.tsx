@@ -28,11 +28,30 @@ const sourceIdOptions = [
   'CASE-FC-2026-002',
 ]
 
+const infrastructureChainReactionAuditEventId = 'AUD-INFRA-CHAIN-REACTION'
+
 const auditEventOptions = [
-  'AUD-API-GRAPHQL-PIN',
-  'AUD-OPS-PAYMENTS-DEGRADED',
-  'AUD-RISK-RO-ACTION-002',
-  'AUD-EVIDENCE-FCA-2026-002',
+  {
+    value: 'AUD-API-GRAPHQL-PIN',
+    label: 'AUD-API-GRAPHQL-PIN',
+  },
+  {
+    value: 'AUD-OPS-PAYMENTS-DEGRADED',
+    label: 'AUD-OPS-PAYMENTS-DEGRADED',
+  },
+  {
+    value: 'AUD-RISK-RO-ACTION-002',
+    label: 'AUD-RISK-RO-ACTION-002',
+  },
+  {
+    value: 'AUD-EVIDENCE-FCA-2026-002',
+    label: 'AUD-EVIDENCE-FCA-2026-002',
+  },
+  {
+    value: infrastructureChainReactionAuditEventId,
+    label:
+      'Infrastructure Security Chain Reaction - AUD-INFRA-CHAIN-REACTION - CORR-INFRA-CHAIN-REACTION',
+  },
 ]
 
 const packageTypeOptions: EvidencePackageType[] = [
@@ -668,8 +687,8 @@ export function EvidencePackagesPage() {
                     onChange={(event) => setAuditEventId(event.target.value)}
                   >
                     {auditEventOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
+                      <option key={option.value} value={option.value}>
+                        {option.label}
                       </option>
                     ))}
                   </select>
@@ -704,12 +723,27 @@ export function EvidencePackagesPage() {
 
               <div className="action-row">
                 <button
+                  className="secondary-button"
+                  onClick={() =>
+                    setAuditEventId(infrastructureChainReactionAuditEventId)
+                  }
+                  type="button"
+                >
+                  {t.evidencePackages.useInfrastructureChainReactionAuditEvent}
+                </button>
+                <button
                   onClick={() => void handleGeneratePackageFromAuditEvent()}
                   disabled={isGeneratingFromAudit}
                 >
                   {t.evidencePackages.generateFromAuditEvent}
                 </button>
               </div>
+              <p className="panel-note">
+                {t.evidencePackages.infrastructureChainReactionAuditEvent}
+                {' · '}
+                {infrastructureChainReactionAuditEventId}
+                {' · CORR-INFRA-CHAIN-REACTION'}
+              </p>
 
               {auditGenerateResult && (
                 <div className="summary-list">
