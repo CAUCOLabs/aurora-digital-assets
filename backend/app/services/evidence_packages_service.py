@@ -29,6 +29,7 @@ INFRASTRUCTURE_AUDIT_EVENT_IDS = {
     "AUD-INFRA-IAM-TRUST",
     "AUD-INFRA-IAM-WILDCARD",
     "AUD-INFRA-SECRET",
+    "AUD-INFRA-AZURE-STORAGE-IDENTITY",
 }
 
 INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES = {
@@ -39,6 +40,7 @@ INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES = {
     "AUD-INFRA-IAM-TRUST": "cloud_iam_trust_policy",
     "AUD-INFRA-IAM-WILDCARD": "cloud_iam_permission_scope",
     "AUD-INFRA-SECRET": "secret_management",
+    "AUD-INFRA-AZURE-STORAGE-IDENTITY": "storage_to_identity_chain_reaction",
 }
 
 
@@ -644,10 +646,94 @@ class EvidencePackagesService:
     ) -> EvidencePackage:
         correlation_id = audit_event_id.replace("AUD-", "CORR-")
         category = INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES[audit_event_id]
+        is_azure_storage_identity = audit_event_id == "AUD-INFRA-AZURE-STORAGE-IDENTITY"
         package_title = (
+            "Azure Storage to Identity Risk Evidence Package"
+            if is_azure_storage_identity
+            else
             "Infrastructure Security Chain Reaction Evidence Package"
             if audit_event_id == "AUD-INFRA-CHAIN-REACTION"
             else "Infrastructure security evidence package"
+        )
+        domain = (
+            "azure_identity_storage_security"
+            if is_azure_storage_identity
+            else "infrastructure_security"
+        )
+        risk_context = (
+            "Public storage exposure, certificate handling, service principal "
+            "scope, deployment access, managed identity permissions, privileged "
+            "identity roles, and monitoring gaps can combine into cloud identity risk."
+            if is_azure_storage_identity
+            else (
+                "A backend vulnerability may become a chain reaction if "
+                "Kubernetes permissions, cloud IAM trust, IAM policy scope, "
+                "or secret management controls are weak."
+            )
+        )
+        summary = (
+            "This package summarizes a simulated Azure storage-to-identity "
+            "chain reaction risk involving public storage exposure, certificate "
+            "handling, service principal scope, deployment access, managed "
+            "identity permissions, privileged identity roles, monitoring, audit "
+            "evidence, and risk operations."
+            if is_azure_storage_identity
+            else (
+                "This package summarizes a simulated cross-layer infrastructure "
+                "security event connecting application authorization, Kubernetes "
+                "RBAC, cloud IAM permissions, secrets exposure risk, audit "
+                "evidence, and risk operations."
+            )
+        )
+        included_evidence = (
+            [
+                self._item("EPI-AZURE-INFRA-01", "Azure storage exposure assessment", "Storage exposure", "included", "Simulated public storage exposure assessment is included.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-02", "Certificate protection context", "Certificate protection", "included", "Certificate handling and secure secret management context is recorded.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-03", "Service principal permission review", "Service principal", "included", "Service principal scope and excessive permission risk are mapped for review.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-04", "Deployment access control review", "Deployment access", "included", "Deployment credential posture is included for reviewer inspection.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-05", "Managed identity scope review", "Managed identity", "included", "Managed identity scope and workload permission context is included.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-06", "Password reset privilege review", "Privileged identity", "included", "Privileged identity administration risk is included.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-07", "Key Vault / secret access monitoring context", "Secret monitoring", "included", "Key Vault, secret, certificate, and key access monitoring context is included.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-08", "Identity behavior monitoring context", "Identity monitoring", "included", "Service principal sign-in, managed identity token, role assignment, and password reset monitoring context is included.", "infrastructure_security", True),
+                self._item("EPI-AZURE-INFRA-09", "Audit event ID and correlation ID", "Audit traceability", "included", f"{audit_event_id} is preserved with correlation ID {correlation_id}.", "audit_events", True),
+                self._item("EPI-AZURE-INFRA-10", "Risk Operations escalation context", "Risk operations", "included", "Escalation context is included for staff review and audit continuity.", "risk_operations", True),
+            ]
+            if is_azure_storage_identity
+            else [
+                self._item("EPI-INFRA-01", "Infrastructure security scenario evaluation", "Scenario evaluation", "included", "Deterministic infrastructure scenario evaluation is included.", "infrastructure_security", True),
+                self._item("EPI-INFRA-02", "Affected security layers", "Layer coverage", "included", "Application, Kubernetes, cloud IAM, secrets, audit, and risk operations context is recorded.", "infrastructure_security", True),
+                self._item("EPI-INFRA-03", "Triggered infrastructure controls", "Control coverage", "included", "Triggered infrastructure controls are mapped for reviewer inspection.", "infrastructure_security", True),
+                self._item("EPI-INFRA-04", "Chain reaction risk score", "Risk score", "included", "The deterministic chain reaction risk score is preserved for internal review.", "infrastructure_security", True),
+                self._item("EPI-INFRA-05", "Audit event ID and correlation ID", "Audit traceability", "included", f"{audit_event_id} is preserved with correlation ID {correlation_id}.", "audit_events", True),
+                self._item("EPI-INFRA-06", "Recommended hardening action", "Hardening", "included", "Application, Kubernetes, IAM, and secrets controls require hardening review.", "infrastructure_security", True),
+                self._item("EPI-INFRA-07", "Evidence readiness confirmation", "Readiness", "included", "Evidence package readiness is confirmed for internal review.", "evidence_packages", True),
+                self._item("EPI-INFRA-08", "Risk Operations escalation context", "Risk operations", "included", "Escalation context is included for staff review and audit continuity.", "risk_operations", True),
+            ]
+        )
+        triggered_controls = (
+            [
+                "Azure private storage control",
+                "Certificate protection control",
+                "Service principal least privilege control",
+                "Deployment access control",
+                "Managed identity scope control",
+                "Password reset privilege control",
+                "Azure identity monitoring control",
+                "Key Vault access monitoring control",
+                "Storage-to-identity chain containment",
+            ]
+            if is_azure_storage_identity
+            else [
+                "Object-level authorization guard",
+                "Safe template execution control",
+                "Kubernetes least privilege RBAC",
+                "Service account secret restriction",
+                "Cloud IAM trust policy restriction",
+                "Cloud IAM permission scope",
+                "Secret management control",
+                "Cross-layer audit correlation",
+                "Chain reaction containment",
+            ]
         )
 
         return EvidencePackage(
@@ -665,15 +751,11 @@ class EvidencePackagesService:
             audit_context={
                 "audit_event_id": audit_event_id,
                 "correlation_id": correlation_id,
-                "domain": "infrastructure_security",
+                "domain": domain,
                 "category": category,
                 "evidence_package_ready": True,
                 "readiness": "ready_for_internal_review",
-                "risk_context": (
-                    "A backend vulnerability may become a chain reaction if "
-                    "Kubernetes permissions, cloud IAM trust, IAM policy scope, "
-                    "or secret management controls are weak."
-                ),
+                "risk_context": risk_context,
                 "review_questions": [
                     "Was the original application weakness blocked?",
                     "Could the affected workload read Kubernetes secrets?",
@@ -689,34 +771,10 @@ class EvidencePackagesService:
             severity="critical" if audit_event_id != "AUD-INFRA-TEMPLATE" else "high",
             status="ready",
             readiness_score=94 if audit_event_id == "AUD-INFRA-CHAIN-REACTION" else 90,
-            summary=(
-                "This package summarizes a simulated cross-layer infrastructure "
-                "security event connecting application authorization, Kubernetes "
-                "RBAC, cloud IAM permissions, secrets exposure risk, audit "
-                "evidence, and risk operations."
-            ),
-            included_evidence=[
-                self._item("EPI-INFRA-01", "Infrastructure security scenario evaluation", "Scenario evaluation", "included", "Deterministic infrastructure scenario evaluation is included.", "infrastructure_security", True),
-                self._item("EPI-INFRA-02", "Affected security layers", "Layer coverage", "included", "Application, Kubernetes, cloud IAM, secrets, audit, and risk operations context is recorded.", "infrastructure_security", True),
-                self._item("EPI-INFRA-03", "Triggered infrastructure controls", "Control coverage", "included", "Triggered infrastructure controls are mapped for reviewer inspection.", "infrastructure_security", True),
-                self._item("EPI-INFRA-04", "Chain reaction risk score", "Risk score", "included", "The deterministic chain reaction risk score is preserved for internal review.", "infrastructure_security", True),
-                self._item("EPI-INFRA-05", "Audit event ID and correlation ID", "Audit traceability", "included", f"{audit_event_id} is preserved with correlation ID {correlation_id}.", "audit_events", True),
-                self._item("EPI-INFRA-06", "Recommended hardening action", "Hardening", "included", "Application, Kubernetes, IAM, and secrets controls require hardening review.", "infrastructure_security", True),
-                self._item("EPI-INFRA-07", "Evidence readiness confirmation", "Readiness", "included", "Evidence package readiness is confirmed for internal review.", "evidence_packages", True),
-                self._item("EPI-INFRA-08", "Risk Operations escalation context", "Risk operations", "included", "Escalation context is included for staff review and audit continuity.", "risk_operations", True),
-            ],
+            summary=summary,
+            included_evidence=included_evidence,
             missing_evidence=[],
-            triggered_controls=[
-                "Object-level authorization guard",
-                "Safe template execution control",
-                "Kubernetes least privilege RBAC",
-                "Service account secret restriction",
-                "Cloud IAM trust policy restriction",
-                "Cloud IAM permission scope",
-                "Secret management control",
-                "Cross-layer audit correlation",
-                "Chain reaction containment",
-            ],
+            triggered_controls=triggered_controls,
             reviewer_notes=[
                 "Infrastructure evidence package is ready for internal review.",
                 f"Source audit event: {audit_event_id}",

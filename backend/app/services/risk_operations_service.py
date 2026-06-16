@@ -19,6 +19,7 @@ REVIEW_CASE_TITLES = {
     "RO-ACTION-005": "Foreign transfer evidence review",
     "RO-ACTION-006": "Structured deposits compliance review",
     "RO-ACTION-007": "Infrastructure chain reaction review",
+    "RO-ACTION-008": "Azure storage-to-identity risk review",
 }
 
 
@@ -96,9 +97,9 @@ class RiskOperationsService:
                 self._metric(
                     "rom-infrastructure-chain-risks",
                     "Infrastructure chain risks",
-                    "1",
+                    "2",
                     "critical",
-                    "Application-to-cloud chain reaction risk requiring infrastructure security review.",
+                    "Application-to-cloud and Azure storage-to-identity risks requiring infrastructure security review.",
                     "infrastructure_security",
                 ),
             ],
@@ -309,6 +310,49 @@ class RiskOperationsService:
                 ],
                 created_at="2026-06-14T11:58:00+03:00",
             ),
+            RiskActionItem(
+                action_id="RO-ACTION-008",
+                title="Review Azure storage-to-identity chain risk",
+                source_module="infrastructure_security",
+                source_id="INFRASEC-AZURE-2026-007",
+                priority="urgent",
+                status="escalated",
+                risk_type="Azure storage-to-identity chain",
+                summary=(
+                    "Simulated public storage, certificate exposure, service "
+                    "principal scope, deployment credentials, managed identity "
+                    "permissions, privileged identity roles, and monitoring "
+                    "gaps could combine into cloud identity risk."
+                ),
+                required_action=(
+                    "Review the Azure storage-to-identity evaluation, preserve "
+                    "audit evidence, and confirm storage, certificate, identity, "
+                    "deployment, and monitoring hardening actions."
+                ),
+                missing_evidence=[
+                    "Storage access posture review",
+                    "Certificate rotation record",
+                    "Cloud identity permission review",
+                ],
+                related_links=[
+                    self._link(
+                        "Open infrastructure security",
+                        "/bank-staff/infrastructure-security",
+                        "INFRASEC-AZURE-2026-007",
+                    ),
+                    self._link(
+                        "Open evidence packages",
+                        "/bank-staff/evidence-packages",
+                        "AUD-INFRA-AZURE-STORAGE-IDENTITY",
+                    ),
+                    self._link(
+                        "Open Azure identity review case",
+                        "/compliance-review",
+                        "CASE-INFRA-AZURE-STORAGE-IDENTITY",
+                    ),
+                ],
+                created_at="2026-06-15T10:48:00+03:00",
+            ),
         ]
 
     def list_unified_timeline(self) -> list[UnifiedTimelineEvent]:
@@ -401,6 +445,17 @@ class RiskOperationsService:
                 "CASE-INFRA-CHAIN-REACTION",
                 "Review evidence package EP-FROM-AUD-INFRA-CHAIN-REACTION and preserve cross-layer traceability.",
             ),
+            self._event(
+                "RO-TL-009",
+                "2026-06-15T10:48:00+03:00",
+                "infrastructure_security",
+                "azure_identity_chain_escalated",
+                "critical",
+                "Azure storage-to-identity risk escalated",
+                "CASE-INFRA-AZURE-STORAGE-IDENTITY is related to the Azure storage-to-identity chain risk.",
+                "CASE-INFRA-AZURE-STORAGE-IDENTITY",
+                "Review evidence package EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY and preserve cloud identity traceability.",
+            ),
         ]
 
     def list_escalation_summary(self) -> list[EscalationSummary]:
@@ -482,6 +537,25 @@ class RiskOperationsService:
                 recommended_action=(
                     "Review infrastructure controls, evidence package, and "
                     "correlation ID before closure."
+                ),
+            ),
+            EscalationSummary(
+                summary_id="RO-ESC-006",
+                title="Azure cloud identity escalation",
+                severity="critical",
+                escalation_type="infrastructure_security",
+                open_items=1,
+                blocked_items=0,
+                ready_items=1,
+                summary=(
+                    "CASE-INFRA-AZURE-STORAGE-IDENTITY is linked to the "
+                    "critical Azure storage-to-identity evidence package and "
+                    "audit trail."
+                ),
+                recommended_action=(
+                    "Review storage access, certificates, service principals, "
+                    "deployment access, managed identities, privileged identity "
+                    "roles, and monitoring before closure."
                 ),
             ),
         ]

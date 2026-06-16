@@ -31,6 +31,7 @@ const sourceIdOptions = [
 ]
 
 const infrastructureChainReactionAuditEventId = 'AUD-INFRA-CHAIN-REACTION'
+const azureStorageIdentityAuditEventId = 'AUD-INFRA-AZURE-STORAGE-IDENTITY'
 
 const auditEventOptions = [
   {
@@ -53,6 +54,11 @@ const auditEventOptions = [
     value: infrastructureChainReactionAuditEventId,
     label:
       'Infrastructure Security Chain Reaction - AUD-INFRA-CHAIN-REACTION - CORR-INFRA-CHAIN-REACTION',
+  },
+  {
+    value: azureStorageIdentityAuditEventId,
+    label:
+      'Azure Storage to Identity Risk - AUD-INFRA-AZURE-STORAGE-IDENTITY - CORR-INFRA-AZURE-STORAGE-IDENTITY',
   },
 ]
 
@@ -762,6 +768,13 @@ export function EvidencePackagesPage() {
                   type="button"
                 >
                   {t.evidencePackages.useInfrastructureChainReactionAuditEvent}
+                </button>
+                <button
+                  className="secondary-button"
+                  onClick={() => setAuditEventId(azureStorageIdentityAuditEventId)}
+                  type="button"
+                >
+                  {t.evidencePackages.azureStorageToIdentityRisk}
                 </button>
                 <button
                   onClick={() => void handleGeneratePackageFromAuditEvent()}

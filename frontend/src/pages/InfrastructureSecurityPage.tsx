@@ -271,6 +271,19 @@ export function InfrastructureSecurityPage() {
     useState(true)
   const [weakTrustPolicy, setWeakTrustPolicy] = useState(true)
   const [secretExposureDetected, setSecretExposureDetected] = useState(true)
+  const [storagePublicAccessDetected, setStoragePublicAccessDetected] =
+    useState(true)
+  const [certificateExposureDetected, setCertificateExposureDetected] =
+    useState(true)
+  const [servicePrincipalOverprivileged, setServicePrincipalOverprivileged] =
+    useState(true)
+  const [deploymentCredentialsEnabled, setDeploymentCredentialsEnabled] =
+    useState(true)
+  const [managedIdentityExcessiveScope, setManagedIdentityExcessiveScope] =
+    useState(true)
+  const [passwordResetPrivilegeDetected, setPasswordResetPrivilegeDetected] =
+    useState(true)
+  const [identityMonitoringGap, setIdentityMonitoringGap] = useState(true)
   const [evaluationResult, setEvaluationResult] =
     useState<EvaluateInfrastructureSecurityScenarioResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -375,6 +388,13 @@ export function InfrastructureSecurityPage() {
         cloud_iam_wildcard_permissions: cloudIamWildcardPermissions,
         weak_trust_policy: weakTrustPolicy,
         secret_exposure_detected: secretExposureDetected,
+        storage_public_access_detected: storagePublicAccessDetected,
+        certificate_exposure_detected: certificateExposureDetected,
+        service_principal_overprivileged: servicePrincipalOverprivileged,
+        deployment_credentials_enabled: deploymentCredentialsEnabled,
+        managed_identity_excessive_scope: managedIdentityExcessiveScope,
+        password_reset_privilege_detected: passwordResetPrivilegeDetected,
+        identity_monitoring_gap: identityMonitoringGap,
       })
       setEvaluationResult(response)
     } catch {
@@ -617,6 +637,83 @@ export function InfrastructureSecurityPage() {
                     }
                   />
                   <span>{t.infrastructureSecurity.secretExposureDetected}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={storagePublicAccessDetected}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setStoragePublicAccessDetected(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.publicStorageExposureDetected}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={certificateExposureDetected}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setCertificateExposureDetected(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.certificateExposureDetected}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={servicePrincipalOverprivileged}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setServicePrincipalOverprivileged(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.servicePrincipalOverprivileged}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={deploymentCredentialsEnabled}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setDeploymentCredentialsEnabled(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.deploymentCredentialsEnabled}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={managedIdentityExcessiveScope}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setManagedIdentityExcessiveScope(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.managedIdentityExcessiveScope}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={passwordResetPrivilegeDetected}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setPasswordResetPrivilegeDetected(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.passwordResetPrivilegeDetected}</span>
+                </label>
+
+                <label className="compliance-checkbox">
+                  <input
+                    checked={identityMonitoringGap}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setIdentityMonitoringGap(event.target.checked)
+                    }
+                  />
+                  <span>{t.infrastructureSecurity.identityMonitoringGap}</span>
                 </label>
               </div>
 

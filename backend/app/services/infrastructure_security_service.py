@@ -16,6 +16,7 @@ AUDIT_IDS_BY_SCENARIO = {
     "wildcard_iam_permission": "AUD-INFRA-IAM-WILDCARD",
     "plaintext_secret_exposure": "AUD-INFRA-SECRET",
     "app_to_cloud_chain_reaction": "AUD-INFRA-CHAIN-REACTION",
+    "azure_storage_to_identity_chain_reaction": "AUD-INFRA-AZURE-STORAGE-IDENTITY",
 }
 
 CORRELATION_IDS_BY_SCENARIO = {
@@ -139,6 +140,96 @@ class InfrastructureSecurityService:
                 ],
                 "One vulnerable layer must not allow uncontrolled movement to the next layer.",
                 ["risk_operations_escalation", "evidence_readiness_flag"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-storage-private",
+                "Azure private storage control",
+                "secrets",
+                "cloud_storage_access",
+                "Models private-by-default storage posture for simulated internal financial assets.",
+                ["blob containers", "reports", "exports", "backups", "operational files"],
+                "Sensitive storage must be private by default. Anonymous public access is not allowed for internal financial assets.",
+                ["storage_access_posture_record", "anonymous_access_denial"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-certificate-protection",
+                "Certificate protection control",
+                "secrets",
+                "certificate_protection",
+                "Treats certificates as identity credentials requiring secure secret management.",
+                ["service principal certificates", "private keys", "signing credentials"],
+                "Certificates are identity credentials and must be stored in secure secret management, not public storage, source code, or deployment folders.",
+                ["certificate_location_record", "credential_rotation_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-sp-least-privilege",
+                "Service principal least privilege control",
+                "cloud_iam",
+                "service_principal_least_privilege",
+                "Restricts simulated app registrations and automation identities to purpose-specific permissions.",
+                ["service principals", "app registrations", "automation identities"],
+                "One workload, one identity, one purpose, minimum permissions, specific scope, monitored usage.",
+                ["service_principal_scope_review", "role_assignment_snapshot"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-deployment-access",
+                "Deployment access control",
+                "cloud_iam",
+                "deployment_access_control",
+                "Models deployment credentials and CI/CD identities as privileged access paths.",
+                ["App Service deployment credentials", "production deployment flows", "CI/CD identities"],
+                "Deployment access is privileged access. Basic deployment credentials should be disabled if not required.",
+                ["deployment_credential_status", "deployment_change_audit_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-managed-identity-scope",
+                "Managed identity scope control",
+                "cloud_iam",
+                "managed_identity_scope",
+                "Requires managed identities to remain narrowly scoped despite reducing stored secrets.",
+                ["managed identities", "workload tokens", "cloud resource permissions"],
+                "Managed identities reduce stored secrets, but must still be narrowly scoped.",
+                ["managed_identity_scope_review", "token_usage_monitoring_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-password-reset-privilege",
+                "Password reset privilege control",
+                "cloud_iam",
+                "privileged_identity_management",
+                "Prevents application identities from holding standing identity administration privileges.",
+                ["privileged roles", "password reset permissions", "identity administration permissions"],
+                "Application identities should not have standing password reset or administrative identity privileges.",
+                ["privileged_role_review", "password_reset_permission_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-identity-monitoring",
+                "Azure identity monitoring control",
+                "audit",
+                "identity_monitoring",
+                "Models monitoring for abnormal service principal, managed identity, and role assignment behavior.",
+                ["service principal sign-ins", "managed identity token usage", "role assignments", "password resets"],
+                "Security monitoring must detect abnormal identity behavior early.",
+                ["identity_behavior_alert", "role_assignment_audit_record"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-key-vault-monitoring",
+                "Key Vault access monitoring control",
+                "secrets",
+                "key_vault_monitoring",
+                "Models logging and review for secret, certificate, and key access.",
+                ["Key Vault secrets", "certificates", "keys"],
+                "Secret and certificate access must be logged, monitored, and reviewed.",
+                ["key_vault_access_log", "secret_access_review"],
+            ),
+            self._control(
+                "infrasec-ctrl-azure-storage-identity-containment",
+                "Storage-to-identity chain containment",
+                "risk_operations",
+                "storage_identity_chain_containment",
+                "Escalates storage exposure before it can become cloud identity compromise.",
+                ["storage", "certificates", "service principals", "deployment flows", "managed identities", "privileged roles"],
+                "A storage exposure should not become cloud identity compromise.",
+                ["risk_operations_escalation", "azure_identity_evidence_readiness_flag"],
             ),
         ]
 
@@ -283,6 +374,142 @@ class InfrastructureSecurityService:
                 "AUD-INFRA-CHAIN-REACTION",
                 "CORR-INFRA-CHAIN-REACTION",
                 "2026-06-14T11:58:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-AZURE-2026-001",
+                "Public storage exposure detected",
+                "secrets",
+                "initial_access",
+                "Exposed cloud storage",
+                "critical",
+                "harden_required",
+                "under_review",
+                ["Azure private storage control", "Storage-to-identity chain containment"],
+                "aurora-internal-reports-container",
+                "A simulated storage container exposes internal financial platform assets.",
+                "Exposed storage could reveal certificates, metadata, reports, or credentials.",
+                "Disable anonymous access, classify files, move credentials to secure secret storage, and review storage access logs.",
+                "AUD-INFRA-AZURE-STORAGE-001",
+                "CORR-INFRA-AZURE-STORAGE-001",
+                "2026-06-15T10:00:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-AZURE-2026-002",
+                "Certificate exposed through storage artifact",
+                "secrets",
+                "secret_exposure",
+                "Certificate exposure",
+                "critical",
+                "harden_required",
+                "under_review",
+                ["Certificate protection control", "Key Vault access monitoring control"],
+                "service-principal-certificate-demo",
+                "A simulated certificate artifact is exposed outside secure secret management.",
+                "A leaked certificate can become a leaked cloud identity.",
+                "Revoke and rotate certificate, move credential to Key Vault, and review app registration credential activity.",
+                "AUD-INFRA-AZURE-CERTIFICATE",
+                "CORR-INFRA-AZURE-CERTIFICATE",
+                "2026-06-15T10:08:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-AZURE-2026-003",
+                "Overprivileged service principal",
+                "cloud_iam",
+                "cloud_role_misuse",
+                "Service principal excessive permissions",
+                "critical",
+                "harden_required",
+                "under_review",
+                ["Service principal least privilege control", "Azure identity monitoring control"],
+                "aurora-deployment-sp",
+                "A simulated service principal has broad permissions beyond its workload purpose.",
+                "A compromised credential could access unrelated financial resources.",
+                "Reduce role scope, assign ownership, monitor sign-ins, and review role assignments.",
+                "AUD-INFRA-AZURE-SP-SCOPE",
+                "CORR-INFRA-AZURE-SP-SCOPE",
+                "2026-06-15T10:16:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-AZURE-2026-004",
+                "Deployment credential risk",
+                "cloud_iam",
+                "privilege_expansion",
+                "Deployment access exposure",
+                "high",
+                "review_required",
+                "under_review",
+                ["Deployment access control", "Azure identity monitoring control"],
+                "app-service-deployment-profile",
+                "A simulated deployment credential remains enabled without clear operational need.",
+                "Deployment access can modify runtime behavior and influence sensitive workflows.",
+                "Disable unused basic deployment credentials, use secure CI/CD identity, require approvals, and monitor deployment changes.",
+                "AUD-INFRA-AZURE-DEPLOYMENT",
+                "CORR-INFRA-AZURE-DEPLOYMENT",
+                "2026-06-15T10:24:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-AZURE-2026-005",
+                "Managed identity has excessive resource scope",
+                "cloud_iam",
+                "lateral_movement",
+                "Managed identity excessive permissions",
+                "critical",
+                "harden_required",
+                "under_review",
+                ["Managed identity scope control", "Azure identity monitoring control"],
+                "aurora-managed-identity",
+                "A simulated managed identity can access resources outside its business purpose.",
+                "A compromised workload could use the managed identity to reach unrelated systems.",
+                "Scope permissions to specific resources, separate identities per workload, and monitor token/resource usage.",
+                "AUD-INFRA-AZURE-MANAGED-IDENTITY",
+                "CORR-INFRA-AZURE-MANAGED-IDENTITY",
+                "2026-06-15T10:32:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-AZURE-2026-006",
+                "Application identity has password reset capability",
+                "cloud_iam",
+                "privilege_expansion",
+                "Privileged identity administration",
+                "critical",
+                "escalate",
+                "escalated",
+                ["Password reset privilege control", "Azure identity monitoring control"],
+                "aurora-automation-identity",
+                "A simulated application identity has sensitive password reset privileges.",
+                "Application identity compromise could become identity administration compromise.",
+                "Remove standing password reset privilege, require PIM/MFA/approval for privileged actions, and monitor identity administration events.",
+                "AUD-INFRA-AZURE-PASSWORD-RESET",
+                "CORR-INFRA-AZURE-PASSWORD-RESET",
+                "2026-06-15T10:40:00+03:00",
+            ),
+            self._event(
+                "INFRASEC-AZURE-2026-007",
+                "Azure storage-to-identity chain reaction risk",
+                "risk_operations",
+                "evidence_required",
+                "Storage-to-identity compromise chain",
+                "critical",
+                "escalate",
+                "escalated",
+                [
+                    "Azure private storage control",
+                    "Certificate protection control",
+                    "Service principal least privilege control",
+                    "Deployment access control",
+                    "Managed identity scope control",
+                    "Password reset privilege control",
+                    "Azure identity monitoring control",
+                    "Key Vault access monitoring control",
+                    "Storage-to-identity chain containment",
+                ],
+                "Aurora Azure identity security boundary",
+                "Multiple simulated weak controls could allow exposed storage to become cloud identity compromise.",
+                "Public storage could expose credentials, enable service principal misuse, affect deployment access, misuse managed identities, and reach identity administration privileges.",
+                "Escalate to Risk Operations, create audit evidence, prepare review case, and harden storage, certificates, service principals, deployment controls, managed identities, and monitoring.",
+                "AUD-INFRA-AZURE-STORAGE-IDENTITY",
+                "CORR-INFRA-AZURE-STORAGE-IDENTITY",
+                "2026-06-15T10:48:00+03:00",
             ),
         ]
 
@@ -440,6 +667,44 @@ class InfrastructureSecurityService:
                     "Chain reaction containment",
                 ],
             ),
+            self._scenario(
+                "azure_storage_to_identity_chain_reaction",
+                "Azure storage-to-identity chain reaction",
+                "Models how exposed storage, leaked certificates, overprivileged service principals, weak deployment controls, excessive managed identities, and password reset privileges can combine into cloud identity risk.",
+                "secrets",
+                [
+                    "public_storage_exposure",
+                    "certificate_exposure",
+                    "service_principal_misuse",
+                    "deployment_access_abuse",
+                    "managed_identity_lateral_movement",
+                    "password_reset_privilege",
+                    "weak_monitoring",
+                    "audit_evidence_required",
+                    "risk_operations_escalation",
+                ],
+                [
+                    "storage_public_access_detected",
+                    "certificate_exposure_detected",
+                    "service_principal_overprivileged",
+                    "deployment_credentials_enabled",
+                    "managed_identity_excessive_scope",
+                    "password_reset_privilege_detected",
+                    "identity_monitoring_gap",
+                ],
+                "escalate",
+                [
+                    "Azure private storage control",
+                    "Certificate protection control",
+                    "Service principal least privilege control",
+                    "Deployment access control",
+                    "Managed identity scope control",
+                    "Password reset privilege control",
+                    "Azure identity monitoring control",
+                    "Key Vault access monitoring control",
+                    "Storage-to-identity chain containment",
+                ],
+            ),
         ]
 
     def evaluate_scenario(
@@ -453,7 +718,25 @@ class InfrastructureSecurityService:
         cloud_iam_wildcard_permissions: bool,
         weak_trust_policy: bool,
         secret_exposure_detected: bool,
+        storage_public_access_detected: bool = False,
+        certificate_exposure_detected: bool = False,
+        service_principal_overprivileged: bool = False,
+        deployment_credentials_enabled: bool = False,
+        managed_identity_excessive_scope: bool = False,
+        password_reset_privilege_detected: bool = False,
+        identity_monitoring_gap: bool = False,
     ) -> EvaluateInfrastructureSecurityScenarioResponse:
+        if scenario_id == "azure_storage_to_identity_chain_reaction":
+            return self._evaluate_azure_storage_identity_scenario(
+                storage_public_access_detected=storage_public_access_detected,
+                certificate_exposure_detected=certificate_exposure_detected,
+                service_principal_overprivileged=service_principal_overprivileged,
+                deployment_credentials_enabled=deployment_credentials_enabled,
+                managed_identity_excessive_scope=managed_identity_excessive_scope,
+                password_reset_privilege_detected=password_reset_privilege_detected,
+                identity_monitoring_gap=identity_monitoring_gap,
+            )
+
         score = 10
         affected_layers = set[str]()
         triggered_controls = set[str]()
@@ -609,6 +892,160 @@ class InfrastructureSecurityService:
             audit_event_id=audit_event_id,
             correlation_id=correlation_id,
             evidence_package_ready=evidence_package_ready,
+            recommended_action=recommended_action,
+            explanation=explanation,
+        )
+
+    def _evaluate_azure_storage_identity_scenario(
+        self,
+        *,
+        storage_public_access_detected: bool,
+        certificate_exposure_detected: bool,
+        service_principal_overprivileged: bool,
+        deployment_credentials_enabled: bool,
+        managed_identity_excessive_scope: bool,
+        password_reset_privilege_detected: bool,
+        identity_monitoring_gap: bool,
+    ) -> EvaluateInfrastructureSecurityScenarioResponse:
+        score = 10
+        affected_layers = set[str]()
+        triggered_controls = set[str]()
+        risk_reasons: list[str] = []
+        checks = [
+            (
+                storage_public_access_detected,
+                35,
+                ["secrets", "audit", "risk_operations"],
+                ["Azure private storage control", "Storage-to-identity chain containment"],
+                "public storage exposure detected",
+            ),
+            (
+                certificate_exposure_detected,
+                35,
+                ["secrets", "cloud_iam", "audit"],
+                ["Certificate protection control", "Key Vault access monitoring control"],
+                "certificate exposure detected",
+            ),
+            (
+                service_principal_overprivileged,
+                35,
+                ["cloud_iam", "audit", "risk_operations"],
+                ["Service principal least privilege control", "Azure identity monitoring control"],
+                "service principal overprivileged",
+            ),
+            (
+                deployment_credentials_enabled,
+                25,
+                ["cloud_iam", "audit"],
+                ["Deployment access control", "Azure identity monitoring control"],
+                "deployment credentials enabled",
+            ),
+            (
+                managed_identity_excessive_scope,
+                35,
+                ["cloud_iam", "audit", "risk_operations"],
+                ["Managed identity scope control", "Azure identity monitoring control"],
+                "managed identity excessive scope",
+            ),
+            (
+                password_reset_privilege_detected,
+                35,
+                ["cloud_iam", "audit", "risk_operations"],
+                ["Password reset privilege control", "Azure identity monitoring control"],
+                "password reset privilege detected",
+            ),
+            (
+                identity_monitoring_gap,
+                25,
+                ["audit", "risk_operations"],
+                ["Azure identity monitoring control", "Storage-to-identity chain containment"],
+                "identity monitoring gap",
+            ),
+        ]
+        for enabled, points, layers, controls, reason in checks:
+            if enabled:
+                score += points
+                affected_layers.update(layers)
+                triggered_controls.update(controls)
+                risk_reasons.append(reason)
+
+        true_flags = len(risk_reasons)
+        if true_flags >= 5:
+            score += 20
+        elif true_flags >= 3:
+            score += 12
+        elif true_flags >= 2:
+            score += 6
+
+        if not affected_layers:
+            affected_layers.add("cloud_iam")
+            triggered_controls.add("Azure identity monitoring control")
+            risk_reasons.append("no Azure identity chain indicator selected")
+
+        risk_score = min(score, 100)
+        if risk_score >= 85:
+            severity = "critical"
+            decision = "escalate"
+        elif risk_score >= 70:
+            severity = "critical"
+            decision = "harden_required"
+        elif risk_score >= 50:
+            severity = "high"
+            decision = "review_required"
+        else:
+            severity = "medium"
+            decision = "review_required"
+
+        audit_event_id = "AUD-INFRA-AZURE-STORAGE-IDENTITY"
+        correlation_id = "CORR-INFRA-AZURE-STORAGE-IDENTITY"
+        chain_reaction_risk = (
+            "Critical Azure storage-to-identity chain reaction path involving "
+            "exposed storage, certificate exposure, service principal permissions, "
+            "deployment access, managed identity scope, password reset privilege, "
+            "and monitoring gaps."
+        )
+        recommended_action = (
+            "Escalate to Risk Operations, preserve audit evidence, and harden "
+            "storage access, certificate handling, service principal scope, "
+            "deployment controls, managed identity permissions, privileged "
+            "identity roles, and monitoring."
+        )
+        explanation = (
+            "Deterministic prototype evaluation. No real Azure environment, "
+            "storage account, identity, certificate, or secret was accessed."
+        )
+        audit_service.create_audit_event_from_sensitive_action(
+            event_id=audit_event_id,
+            actor_id="infrastructure-security-engine",
+            actor_type="service",
+            source_module="infrastructure_security",
+            action="evaluate_scenario",
+            object_type="infrastructure_security_scenario",
+            object_id="azure_storage_to_identity_chain_reaction",
+            decision=decision,
+            severity=severity,
+            risk_score=risk_score,
+            summary=explanation,
+            correlation_id=correlation_id,
+            metadata={
+                "prototype": True,
+                "affected_layers": sorted(affected_layers),
+                "chain_reaction_risk": chain_reaction_risk,
+                "evidence_package_ready": True,
+                "risk_reasons": risk_reasons,
+            },
+        )
+        return EvaluateInfrastructureSecurityScenarioResponse(
+            risk_score=risk_score,
+            severity=severity,
+            decision=decision,
+            affected_layers=sorted(affected_layers),
+            chain_reaction_risk=chain_reaction_risk,
+            triggered_controls=sorted(triggered_controls),
+            audit_event_created=True,
+            audit_event_id=audit_event_id,
+            correlation_id=correlation_id,
+            evidence_package_ready=True,
             recommended_action=recommended_action,
             explanation=explanation,
         )

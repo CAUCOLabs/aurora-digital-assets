@@ -56,3 +56,41 @@ class ReviewCasesFromEvidencePackageTests(unittest.TestCase):
                 for review_case in cases
             )
         )
+
+    def test_create_azure_storage_identity_review_case_from_evidence_package(self) -> None:
+        status, response = request_json(
+            "POST",
+            "/api/review-cases/create-from-evidence-package",
+            {
+                "package_id": "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
+                "source_audit_event_id": "AUD-INFRA-AZURE-STORAGE-IDENTITY",
+                "correlation_id": "CORR-INFRA-AZURE-STORAGE-IDENTITY",
+                "reviewer_id": "reviewer-demo",
+                "priority": "critical",
+            },
+        )
+
+        self.assertEqual(status, 200)
+        self.assertEqual(response["case_id"], "CASE-INFRA-AZURE-STORAGE-IDENTITY")
+        self.assertEqual(
+            response["source_package_id"],
+            "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
+        )
+        self.assertEqual(
+            response["source_audit_event_id"],
+            "AUD-INFRA-AZURE-STORAGE-IDENTITY",
+        )
+        self.assertEqual(
+            response["correlation_id"],
+            "CORR-INFRA-AZURE-STORAGE-IDENTITY",
+        )
+        self.assertEqual(response["severity"], "critical")
+        self.assertIn(
+            "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
+            response["linked_evidence_packages"],
+        )
+        self.assertIn(
+            "AUD-INFRA-AZURE-STORAGE-IDENTITY",
+            response["linked_audit_events"],
+        )
+        self.assertTrue(response["audit_event_created"])

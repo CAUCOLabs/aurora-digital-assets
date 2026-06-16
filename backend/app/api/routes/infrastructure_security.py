@@ -55,4 +55,11 @@ def evaluate_scenario(
         cloud_iam_wildcard_permissions=request.cloud_iam_wildcard_permissions,
         weak_trust_policy=request.weak_trust_policy,
         secret_exposure_detected=request.secret_exposure_detected,
+        storage_public_access_detected=request.storage_public_access_detected,
+        certificate_exposure_detected=request.certificate_exposure_detected,
+        service_principal_overprivileged=request.service_principal_overprivileged,
+        deployment_credentials_enabled=request.deployment_credentials_enabled,
+        managed_identity_excessive_scope=request.managed_identity_excessive_scope,
+        password_reset_privilege_detected=request.password_reset_privilege_detected,
+        identity_monitoring_gap=request.identity_monitoring_gap,
     )

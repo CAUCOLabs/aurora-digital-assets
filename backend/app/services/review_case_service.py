@@ -193,6 +193,34 @@ class ReviewCaseService:
                 "Preserve audit and evidence traceability.",
                 "Escalate or close after internal review.",
             ]
+        elif normalized_package_id == "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY":
+            case_id = "CASE-INFRA-AZURE-STORAGE-IDENTITY"
+            title = "Azure Storage to Identity Risk Review Case"
+            case_type = "azure_identity_storage_security_review"
+            assigned_team = "Risk Operations / Cloud Identity Security"
+            review_reason = (
+                "Critical evidence package indicates a simulated Azure "
+                "storage-to-identity chain reaction path involving exposed "
+                "storage, certificate exposure, service principal permissions, "
+                "deployment access, managed identity scope, privileged identity "
+                "roles, and monitoring gaps."
+            )
+            severity = "critical"
+            audit_event_id = "AUD-REVIEW-FROM-EP-INFRA-AZURE-STORAGE-IDENTITY"
+            linked_audit_events = [
+                normalized_audit_event_id,
+                "AUD-EVIDENCE-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
+            ]
+            recommended_actions = [
+                "Review Azure storage public access posture.",
+                "Review certificate storage and rotation posture.",
+                "Review service principal permission scope.",
+                "Review deployment credential controls.",
+                "Review managed identity resource scope.",
+                "Review privileged identity and password reset permissions.",
+                "Review identity and Key Vault monitoring coverage.",
+                "Escalate or close after internal review.",
+            ]
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -275,7 +303,11 @@ class ReviewCaseService:
                 "linked_evidence_packages": [normalized_package_id],
                 "recommended_actions": recommended_actions,
                 "source_domain": "infrastructure_security"
-                if normalized_package_id == "EP-FROM-AUD-INFRA-CHAIN-REACTION"
+                if normalized_package_id
+                in {
+                    "EP-FROM-AUD-INFRA-CHAIN-REACTION",
+                    "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
+                }
                 else "evidence_packages",
             },
         )

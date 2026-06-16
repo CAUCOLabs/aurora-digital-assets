@@ -339,6 +339,11 @@ export const translations = {
       infrastructureEvidencePackage: 'Infrastructure evidence package',
       crossLayerAuditEvidence: 'Cross-layer audit evidence',
       applicationToCloudChainReaction: 'Application to cloud chain reaction',
+      azureStorageToIdentityRisk: 'Azure Storage to Identity Risk',
+      azureStorageToIdentityRiskEvidencePackage:
+        'Azure Storage to Identity Risk Evidence Package',
+      azureStorageToIdentityRiskReviewCase:
+        'Azure Storage to Identity Risk Review Case',
       openReviewCase: 'Open review case',
       reviewCaseCreated: 'Review case created',
       sourceEvidencePackage: 'Source evidence package',
@@ -496,6 +501,23 @@ export const translations = {
       cloudIamWildcardPermissions: 'Cloud IAM wildcard permissions',
       weakTrustPolicy: 'Weak trust policy',
       secretExposureDetected: 'Secret exposure detected',
+      azureStorageToIdentityChainReaction:
+        'Azure storage-to-identity chain reaction',
+      publicStorageExposureDetected: 'Public storage exposure detected',
+      certificateExposureDetected: 'Certificate exposure detected',
+      servicePrincipalOverprivileged: 'Service principal overprivileged',
+      deploymentCredentialsEnabled: 'Deployment credentials enabled',
+      managedIdentityExcessiveScope: 'Managed identity excessive scope',
+      passwordResetPrivilegeDetected: 'Password reset privilege detected',
+      identityMonitoringGap: 'Identity monitoring gap',
+      azureStorageToIdentityRisk: 'Azure Storage to Identity Risk',
+      azureStorageToIdentityRiskEvidencePackage:
+        'Azure Storage to Identity Risk Evidence Package',
+      azureStorageToIdentityRiskReviewCase:
+        'Azure Storage to Identity Risk Review Case',
+      cloudIdentitySecurity: 'Cloud Identity Security',
+      storageToIdentityChainContainment:
+        'Storage-to-identity chain containment',
       applicationSecurity: 'Application Security',
       kubernetesSecurity: 'Kubernetes Security',
       cloudIamSecurity: 'Cloud IAM Security',
@@ -899,6 +921,11 @@ export const translations = {
       crossLayerAuditEvidence: 'Evidencia de auditoría entre capas',
       applicationToCloudChainReaction:
         'Reacción en cadena de aplicación a nube',
+      azureStorageToIdentityRisk: 'Riesgo de Azure Storage a identidad',
+      azureStorageToIdentityRiskEvidencePackage:
+        'Paquete de evidencia de riesgo de Azure Storage a identidad',
+      azureStorageToIdentityRiskReviewCase:
+        'Caso de revisión de riesgo de Azure Storage a identidad',
       openReviewCase: 'Abrir caso de revisión',
       reviewCaseCreated: 'Caso de revisión creado',
       sourceEvidencePackage: 'Paquete de evidencia fuente',
@@ -1059,6 +1086,28 @@ export const translations = {
       cloudIamWildcardPermissions: 'Permisos wildcard en IAM cloud',
       weakTrustPolicy: 'Política de confianza débil',
       secretExposureDetected: 'Exposición de secreto detectada',
+      azureStorageToIdentityChainReaction:
+        'Reacción en cadena de almacenamiento Azure a identidad',
+      publicStorageExposureDetected:
+        'Exposición de almacenamiento público detectada',
+      certificateExposureDetected: 'Exposición de certificado detectada',
+      servicePrincipalOverprivileged:
+        'Service principal con privilegios excesivos',
+      deploymentCredentialsEnabled:
+        'Credenciales de despliegue habilitadas',
+      managedIdentityExcessiveScope:
+        'Managed identity con alcance excesivo',
+      passwordResetPrivilegeDetected:
+        'Privilegio de reset de contraseña detectado',
+      identityMonitoringGap: 'Brecha de monitoreo de identidad',
+      azureStorageToIdentityRisk: 'Riesgo de Azure Storage a identidad',
+      azureStorageToIdentityRiskEvidencePackage:
+        'Paquete de evidencia de riesgo de Azure Storage a identidad',
+      azureStorageToIdentityRiskReviewCase:
+        'Caso de revisión de riesgo de Azure Storage a identidad',
+      cloudIdentitySecurity: 'Seguridad de identidad cloud',
+      storageToIdentityChainContainment:
+        'Contención de cadena de almacenamiento a identidad',
       applicationSecurity: 'Seguridad de Aplicación',
       kubernetesSecurity: 'Seguridad de Kubernetes',
       cloudIamSecurity: 'Seguridad IAM Cloud',

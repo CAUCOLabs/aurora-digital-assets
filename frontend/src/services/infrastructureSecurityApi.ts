@@ -18,12 +18,22 @@ export type InfrastructureSecurityControlCategory =
   | 'secret_management'
   | 'logging'
   | 'chain_containment'
+  | 'cloud_storage_access'
+  | 'certificate_protection'
+  | 'service_principal_least_privilege'
+  | 'deployment_access_control'
+  | 'managed_identity_scope'
+  | 'privileged_identity_management'
+  | 'identity_monitoring'
+  | 'key_vault_monitoring'
+  | 'storage_identity_chain_containment'
 export type InfrastructureSecurityChainStage =
   | 'initial_access'
   | 'privilege_expansion'
   | 'lateral_movement'
   | 'secret_exposure'
   | 'cloud_role_misuse'
+  | 'deployment_access_abuse'
   | 'evidence_required'
   | 'contained'
 export type InfrastructureSecuritySeverity = 'low' | 'medium' | 'high' | 'critical'
@@ -109,6 +119,13 @@ export type EvaluateInfrastructureSecurityScenarioRequest = {
   cloud_iam_wildcard_permissions: boolean
   weak_trust_policy: boolean
   secret_exposure_detected: boolean
+  storage_public_access_detected?: boolean
+  certificate_exposure_detected?: boolean
+  service_principal_overprivileged?: boolean
+  deployment_credentials_enabled?: boolean
+  managed_identity_excessive_scope?: boolean
+  password_reset_privilege_detected?: boolean
+  identity_monitoring_gap?: boolean
 }
 
 export type EvaluateInfrastructureSecurityScenarioResponse = {

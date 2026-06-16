@@ -22,6 +22,15 @@ InfrastructureSecurityControlCategory = Literal[
     "secret_management",
     "logging",
     "chain_containment",
+    "cloud_storage_access",
+    "certificate_protection",
+    "service_principal_least_privilege",
+    "deployment_access_control",
+    "managed_identity_scope",
+    "privileged_identity_management",
+    "identity_monitoring",
+    "key_vault_monitoring",
+    "storage_identity_chain_containment",
 ]
 InfrastructureSecurityChainStage = Literal[
     "initial_access",
@@ -29,6 +38,7 @@ InfrastructureSecurityChainStage = Literal[
     "lateral_movement",
     "secret_exposure",
     "cloud_role_misuse",
+    "deployment_access_abuse",
     "evidence_required",
     "contained",
 ]
@@ -119,6 +129,13 @@ class EvaluateInfrastructureSecurityScenarioRequest(BaseModel):
     cloud_iam_wildcard_permissions: bool
     weak_trust_policy: bool
     secret_exposure_detected: bool
+    storage_public_access_detected: bool = False
+    certificate_exposure_detected: bool = False
+    service_principal_overprivileged: bool = False
+    deployment_credentials_enabled: bool = False
+    managed_identity_excessive_scope: bool = False
+    password_reset_privilege_detected: bool = False
+    identity_monitoring_gap: bool = False
 
 
 class EvaluateInfrastructureSecurityScenarioResponse(BaseModel):
