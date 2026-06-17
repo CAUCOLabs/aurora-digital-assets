@@ -421,6 +421,7 @@ class RiskOperationsService:
                     "migration roadmap without quantum-proof claims."
                 ),
                 missing_evidence=[
+                    "Lifecycle review pending",
                     "Complete cryptographic inventory",
                     "Algorithm and key policy version map",
                     "KMS/HSM/Key Vault integration roadmap",
@@ -436,6 +437,11 @@ class RiskOperationsService:
                         "Open evidence packages",
                         "/bank-staff/evidence-packages",
                         "AUD-CRYPTO-AGILITY-PQ-READINESS",
+                    ),
+                    self._link(
+                        "Continue lifecycle in Compliance Review",
+                        "/compliance-review",
+                        "CASE-CRYPTO-AGILITY-PQ-READINESS",
                     ),
                     self._link(
                         "Open cryptographic governance review case",

@@ -1,4 +1,25 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
+
+
+ReviewCaseLifecycleStatus = Literal[
+    "open",
+    "under_review",
+    "action_required",
+    "mitigation_in_progress",
+    "mitigated",
+    "closed",
+]
+ReviewCaseActionType = Literal[
+    "reviewer_note",
+    "evidence_reviewed",
+    "mitigation_requested",
+    "mitigation_started",
+    "mitigation_verified",
+    "risk_accepted",
+    "case_closed",
+]
 
 
 class ReviewCase(BaseModel):
@@ -32,6 +53,69 @@ class ReviewCase(BaseModel):
 class ReviewCaseDecisionRequest(BaseModel):
     decision: str
     notes: str | None = None
+
+
+class ReviewCaseLifecycleTransitionRequest(BaseModel):
+    case_id: str | None = None
+    target_status: ReviewCaseLifecycleStatus
+    reviewer_id: str
+    decision_note: str
+    mitigation_action: str | None = None
+    evidence_package_id: str | None = None
+    risk_acceptance: bool = False
+
+
+class ReviewCaseLifecycleTransitionResponse(BaseModel):
+    case_id: str
+    previous_status: str
+    new_status: str
+    transition_allowed: bool
+    lifecycle_stage: str
+    reviewer_id: str
+    decision_note: str
+    mitigation_action: str | None = None
+    linked_evidence_package: str | None = None
+    audit_event_created: bool
+    audit_event_id: str
+    correlation_id: str
+    recommended_next_status: str | None = None
+    created_at: str
+
+
+class ReviewCaseActionRequest(BaseModel):
+    action_type: ReviewCaseActionType
+    actor_id: str
+    note: str
+
+
+class ReviewCaseAction(BaseModel):
+    action_id: str
+    case_id: str
+    action_type: ReviewCaseActionType
+    actor_id: str
+    note: str
+    created_at: str
+    audit_event_id: str | None = None
+
+
+class ReviewCaseCloseRequest(BaseModel):
+    reviewer_id: str
+    decision_note: str
+    final_decision: str
+    evidence_package_id: str | None = None
+    risk_acceptance: bool = False
+
+
+class ReviewCaseLifecycleSummary(BaseModel):
+    case_id: str
+    current_status: str
+    allowed_next_statuses: list[str]
+    lifecycle_progress_percent: int
+    actions: list[ReviewCaseAction]
+    linked_evidence_packages: list[str]
+    linked_audit_events: list[str]
+    final_decision: str | None = None
+    closure_ready: bool
 
 
 class CreateReviewCaseFromEvidencePackageRequest(BaseModel):

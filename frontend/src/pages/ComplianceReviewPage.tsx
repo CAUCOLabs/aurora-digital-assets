@@ -2,12 +2,21 @@ import { useEffect, useMemo, useState } from 'react'
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
 import {
+  addReviewCaseAction,
+  closeReviewCase,
+  getReviewCaseLifecycle,
   listAuditEvents,
   listReviewCases,
   recordReviewerDecision,
+  transitionReviewCase,
   type AuditEvent,
   type ReviewCase,
+  type ReviewCaseActionType,
+  type ReviewCaseLifecycleStatus,
+  type ReviewCaseLifecycleSummary,
+  type ReviewCaseLifecycleTransitionResponse,
 } from '../services/complianceApi'
+import { useLanguage } from '../context/LanguageContext'
 
 type ReviewerDecision =
   | 'Approve'
@@ -147,6 +156,25 @@ const monitoringSignals = [
 const defaultDecisionNotes =
   'Simulated reviewer decision from Compliance Review dashboard.'
 
+const deterministicLifecycleCases = [
+  {
+    caseId: 'CASE-INFRA-CHAIN-REACTION',
+    evidencePackageId: 'EP-FROM-AUD-INFRA-CHAIN-REACTION',
+  },
+  {
+    caseId: 'CASE-INFRA-AZURE-STORAGE-IDENTITY',
+    evidencePackageId: 'EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY',
+  },
+  {
+    caseId: 'CASE-INFRA-K8S-HARDENING-FAILURE',
+    evidencePackageId: 'EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE',
+  },
+  {
+    caseId: 'CASE-CRYPTO-AGILITY-PQ-READINESS',
+    evidencePackageId: 'EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS',
+  },
+]
+
 function formatLabel(value: string) {
   const normalizedValue = value.replaceAll('_', ' ').replace(/\s+/g, ' ').trim()
   return normalizedValue
@@ -181,6 +209,7 @@ function metadataList(
 }
 
 export function ComplianceReviewPage() {
+  const { t } = useLanguage()
   const [selectedDecision, setSelectedDecision] =
     useState<ReviewerDecision | null>(null)
   const [reviewCases, setReviewCases] = useState<ReviewCase[]>([])
@@ -191,6 +220,24 @@ export function ComplianceReviewPage() {
   const [backendError, setBackendError] = useState<string | null>(null)
   const [reviewerMessage, setReviewerMessage] = useState<string | null>(null)
   const [decisionNotes, setDecisionNotes] = useState(defaultDecisionNotes)
+  const [lifecycleCaseId, setLifecycleCaseId] = useState(
+    'CASE-CRYPTO-AGILITY-PQ-READINESS',
+  )
+  const [lifecycleSummary, setLifecycleSummary] =
+    useState<ReviewCaseLifecycleSummary | null>(null)
+  const [lifecycleResult, setLifecycleResult] =
+    useState<ReviewCaseLifecycleTransitionResponse | null>(null)
+  const [lifecycleDecisionNote, setLifecycleDecisionNote] = useState(
+    'Initial review started.',
+  )
+  const [mitigationAction, setMitigationAction] = useState(
+    'Prepare deterministic mitigation path and preserve evidence.',
+  )
+  const [lifecycleEvidencePackageId, setLifecycleEvidencePackageId] = useState(
+    'EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS',
+  )
+  const [isTransitioningLifecycle, setIsTransitioningLifecycle] =
+    useState(false)
 
   const activeReviewCases = backendError ? reviewQueue : reviewCases
   const selectedCaseIdOrDefault =
@@ -256,6 +303,10 @@ export function ComplianceReviewPage() {
   useEffect(() => {
     void fetchBackendReviewData()
   }, [])
+
+  useEffect(() => {
+    void fetchLifecycle(lifecycleCaseId)
+  }, [lifecycleCaseId])
 
   async function fetchBackendReviewData() {
     setIsLoading(true)
@@ -324,6 +375,63 @@ export function ComplianceReviewPage() {
     setSelectedCaseId(caseId)
     setSelectedDecision(null)
     setReviewerMessage(null)
+  }
+
+  async function fetchLifecycle(caseId: string) {
+    try {
+      const summary = await getReviewCaseLifecycle(caseId)
+      setLifecycleSummary(summary)
+    } catch {
+      setLifecycleSummary(null)
+    }
+  }
+
+  function handleSelectLifecycleCase(caseId: string) {
+    const selectedLifecycleCase = deterministicLifecycleCases.find(
+      (reviewCase) => reviewCase.caseId === caseId,
+    )
+    setLifecycleCaseId(caseId)
+    setLifecycleEvidencePackageId(
+      selectedLifecycleCase?.evidencePackageId ?? '',
+    )
+    setLifecycleResult(null)
+  }
+
+  async function handleLifecycleTransition(
+    targetStatus: ReviewCaseLifecycleStatus,
+  ) {
+    setIsTransitioningLifecycle(true)
+    try {
+      const response =
+        targetStatus === 'closed'
+          ? await closeReviewCase(lifecycleCaseId, {
+              reviewer_id: 'reviewer-demo',
+              decision_note: lifecycleDecisionNote,
+              final_decision: 'mitigated',
+              evidence_package_id: lifecycleEvidencePackageId || null,
+            })
+          : await transitionReviewCase(lifecycleCaseId, {
+              target_status: targetStatus,
+              reviewer_id: 'reviewer-demo',
+              decision_note: lifecycleDecisionNote,
+              mitigation_action: mitigationAction,
+              evidence_package_id: lifecycleEvidencePackageId || null,
+            })
+      setLifecycleResult(response)
+      await fetchLifecycle(lifecycleCaseId)
+      await fetchBackendReviewData()
+    } finally {
+      setIsTransitioningLifecycle(false)
+    }
+  }
+
+  async function handleAddLifecycleAction(actionType: ReviewCaseActionType) {
+    await addReviewCaseAction(lifecycleCaseId, {
+      action_type: actionType,
+      actor_id: 'reviewer-demo',
+      note: lifecycleDecisionNote || 'Lifecycle action recorded.',
+    })
+    await fetchLifecycle(lifecycleCaseId)
   }
 
   return (
@@ -434,6 +542,220 @@ export function ComplianceReviewPage() {
                   No monitoring signals are currently recorded.
                 </p>
               )}
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">{t.reviewCaseLifecycle.caseLifecycle}</p>
+                  <h2>{t.reviewCaseLifecycle.title}</h2>
+                </div>
+                <span className="module-tag">
+                  {t.reviewCaseLifecycle.lifecycleProgress}
+                </span>
+              </div>
+
+              <div className="form-grid">
+                <label>
+                  <span>Case ID</span>
+                  <select
+                    value={lifecycleCaseId}
+                    onChange={(event) =>
+                      handleSelectLifecycleCase(event.target.value)
+                    }
+                  >
+                    {deterministicLifecycleCases.map((reviewCase) => (
+                      <option key={reviewCase.caseId} value={reviewCase.caseId}>
+                        {reviewCase.caseId}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
+                  <span>{t.reviewCaseLifecycle.decisionNote}</span>
+                  <textarea
+                    value={lifecycleDecisionNote}
+                    onChange={(event) =>
+                      setLifecycleDecisionNote(event.target.value)
+                    }
+                  />
+                </label>
+
+                <label>
+                  <span>{t.reviewCaseLifecycle.mitigationAction}</span>
+                  <input
+                    value={mitigationAction}
+                    onChange={(event) =>
+                      setMitigationAction(event.target.value)
+                    }
+                  />
+                </label>
+
+                <label>
+                  <span>{t.evidencePackages.linkedEvidencePackage}</span>
+                  <input
+                    value={lifecycleEvidencePackageId}
+                    onChange={(event) =>
+                      setLifecycleEvidencePackageId(event.target.value)
+                    }
+                  />
+                </label>
+              </div>
+
+              <div className="summary-list">
+                <div>
+                  <span>{t.reviewCaseLifecycle.currentStatus}</span>
+                  <strong>
+                    {lifecycleSummary
+                      ? formatStatus(lifecycleSummary.current_status)
+                      : 'Not loaded'}
+                  </strong>
+                </div>
+                <div>
+                  <span>{t.reviewCaseLifecycle.allowedNextStatuses}</span>
+                  <ul className="compact-list">
+                    {(lifecycleSummary?.allowed_next_statuses.length
+                      ? lifecycleSummary.allowed_next_statuses
+                      : ['None']
+                    ).map((status) => (
+                      <li key={status}>{formatStatus(status)}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <span>{t.reviewCaseLifecycle.closureReady}</span>
+                  <strong>
+                    {lifecycleSummary?.closure_ready ? 'Yes' : 'No'}
+                  </strong>
+                </div>
+              </div>
+
+              <div className="lifecycle-progress-track">
+                <span
+                  style={{
+                    width: `${lifecycleSummary?.lifecycle_progress_percent ?? 0}%`,
+                  }}
+                />
+              </div>
+
+              <div className="action-row vertical-actions">
+                <button
+                  type="button"
+                  disabled={isTransitioningLifecycle}
+                  onClick={() => handleLifecycleTransition('under_review')}
+                >
+                  {t.reviewCaseLifecycle.startReview}
+                </button>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  disabled={isTransitioningLifecycle}
+                  onClick={() => handleLifecycleTransition('action_required')}
+                >
+                  {t.reviewCaseLifecycle.markActionRequired}
+                </button>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  disabled={isTransitioningLifecycle}
+                  onClick={() =>
+                    handleLifecycleTransition('mitigation_in_progress')
+                  }
+                >
+                  {t.reviewCaseLifecycle.startMitigation}
+                </button>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  disabled={isTransitioningLifecycle}
+                  onClick={() => handleLifecycleTransition('mitigated')}
+                >
+                  {t.reviewCaseLifecycle.markMitigated}
+                </button>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  disabled={isTransitioningLifecycle}
+                  onClick={() => handleLifecycleTransition('closed')}
+                >
+                  {t.reviewCaseLifecycle.closeCase}
+                </button>
+              </div>
+
+              {lifecycleResult && (
+                <div className="summary-list">
+                  <div>
+                    <span>{t.reviewCaseLifecycle.previousStatus}</span>
+                    <strong>{formatStatus(lifecycleResult.previous_status)}</strong>
+                  </div>
+                  <div>
+                    <span>{t.reviewCaseLifecycle.currentStatus}</span>
+                    <strong>{formatStatus(lifecycleResult.new_status)}</strong>
+                  </div>
+                  <div>
+                    <span>{t.common.auditEventCreated}</span>
+                    <strong>
+                      {lifecycleResult.audit_event_created ? 'Yes' : 'No'}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>{t.common.auditEventId}</span>
+                    <strong>{lifecycleResult.audit_event_id || 'Not created'}</strong>
+                  </div>
+                  <div>
+                    <span>{t.common.correlationId}</span>
+                    <strong>{lifecycleResult.correlation_id}</strong>
+                  </div>
+                  <div>
+                    <span>{t.reviewCaseLifecycle.recommendedNextStatus}</span>
+                    <strong>
+                      {lifecycleResult.recommended_next_status
+                        ? formatStatus(lifecycleResult.recommended_next_status)
+                        : 'None'}
+                    </strong>
+                  </div>
+                </div>
+              )}
+
+              <div className="financial-crime-evidence compliance-evidence-grid">
+                <div>
+                  <h4>{t.reviewCaseLifecycle.reviewerAction}</h4>
+                  <div className="action-row vertical-actions">
+                    {(
+                      [
+                        'reviewer_note',
+                        'evidence_reviewed',
+                        'mitigation_requested',
+                        'mitigation_started',
+                        'mitigation_verified',
+                        'case_closed',
+                      ] as ReviewCaseActionType[]
+                    ).map((actionType) => (
+                      <button
+                        className="secondary-button compact-link"
+                        type="button"
+                        key={actionType}
+                        onClick={() => void handleAddLifecycleAction(actionType)}
+                      >
+                        {formatStatus(actionType)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4>{t.reviewCaseLifecycle.caseLifecycle}</h4>
+                  <div className="evidence-timeline">
+                    {(lifecycleSummary?.actions ?? []).map((action) => (
+                      <div key={action.action_id}>
+                        <span>{formatStatus(action.action_type)}</span>
+                        <strong>{action.actor_id}</strong>
+                        <p>{action.note}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </Panel>
           </div>
 

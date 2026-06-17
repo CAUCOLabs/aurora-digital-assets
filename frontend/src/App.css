@@ -649,6 +649,22 @@ a {
   width: 100%;
 }
 
+.lifecycle-progress-track {
+  height: 0.75rem;
+  margin: 1rem 0;
+  overflow: hidden;
+  border: 1px solid #c8d8e8;
+  border-radius: 999px;
+  background: #eef5fb;
+}
+
+.lifecycle-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #005ea8;
+}
+
 .checkbox-label input,
 .check-list input {
   width: auto;

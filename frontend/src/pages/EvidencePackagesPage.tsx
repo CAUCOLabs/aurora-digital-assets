@@ -930,6 +930,12 @@ export function EvidencePackagesPage() {
                     <span>{t.common.correlationId}</span>
                     <strong>{reviewCaseResult.correlation_id}</strong>
                   </div>
+                  <div>
+                    <span>{t.reviewCaseLifecycle.caseLifecycle}</span>
+                    <strong>
+                      {t.reviewCaseLifecycle.continueLifecycleInComplianceReview}
+                    </strong>
+                  </div>
                 </div>
               )}
             </Panel>

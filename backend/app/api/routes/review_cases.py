@@ -4,7 +4,13 @@ from app.schemas.review_case import (
     CreateReviewCaseFromEvidencePackageRequest,
     CreateReviewCaseFromEvidencePackageResponse,
     ReviewCase,
+    ReviewCaseAction,
+    ReviewCaseActionRequest,
+    ReviewCaseCloseRequest,
     ReviewCaseDecisionRequest,
+    ReviewCaseLifecycleSummary,
+    ReviewCaseLifecycleTransitionRequest,
+    ReviewCaseLifecycleTransitionResponse,
 )
 from app.services.audit_service import audit_service
 from app.services.review_case_service import (
@@ -48,6 +54,61 @@ def get_review_case(case_id: str) -> ReviewCase:
     if review_case is None:
         raise HTTPException(status_code=404, detail="Review case not found.")
     return review_case
+
+
+@router.get("/{case_id}/lifecycle", response_model=ReviewCaseLifecycleSummary)
+def get_review_case_lifecycle(case_id: str) -> ReviewCaseLifecycleSummary:
+    return review_case_service.get_lifecycle_summary(case_id)
+
+
+@router.post(
+    "/{case_id}/transition",
+    response_model=ReviewCaseLifecycleTransitionResponse,
+)
+def transition_review_case_lifecycle(
+    case_id: str,
+    request: ReviewCaseLifecycleTransitionRequest,
+) -> ReviewCaseLifecycleTransitionResponse:
+    return review_case_service.transition_lifecycle(
+        case_id=case_id,
+        target_status=request.target_status,
+        reviewer_id=request.reviewer_id,
+        decision_note=request.decision_note,
+        mitigation_action=request.mitigation_action,
+        evidence_package_id=request.evidence_package_id,
+        risk_acceptance=request.risk_acceptance,
+    )
+
+
+@router.post("/{case_id}/actions", response_model=ReviewCaseAction)
+def add_review_case_lifecycle_action(
+    case_id: str,
+    request: ReviewCaseActionRequest,
+) -> ReviewCaseAction:
+    return review_case_service.add_lifecycle_action(
+        case_id=case_id,
+        action_type=request.action_type,
+        actor_id=request.actor_id,
+        note=request.note,
+    )
+
+
+@router.post(
+    "/{case_id}/close",
+    response_model=ReviewCaseLifecycleTransitionResponse,
+)
+def close_review_case_lifecycle(
+    case_id: str,
+    request: ReviewCaseCloseRequest,
+) -> ReviewCaseLifecycleTransitionResponse:
+    return review_case_service.close_lifecycle_case(
+        case_id=case_id,
+        reviewer_id=request.reviewer_id,
+        decision_note=request.decision_note,
+        final_decision=request.final_decision,
+        evidence_package_id=request.evidence_package_id,
+        risk_acceptance=request.risk_acceptance,
+    )
 
 
 @router.post("/{case_id}/decision", response_model=ReviewCase)
