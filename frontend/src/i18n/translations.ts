@@ -220,6 +220,7 @@ export const translations = {
         apiSecurity: 'API security control center',
         infrastructureSecurity: 'Infrastructure security control center',
         cryptoAgility: 'Cryptographic agility control center',
+        sensitiveApproval: 'Sensitive operations approval engine',
         complianceReview: 'Compliance review',
         financialCrime: 'Financial crime monitoring',
         complianceIntelligence: 'Compliance intelligence',
@@ -241,6 +242,8 @@ export const translations = {
           'Monitor application-to-cloud chain reaction risks across backend authorization, Kubernetes RBAC, IAM, secrets, audit evidence, and risk operations.',
         cryptoAgility:
           'Track cryptographic inventory, algorithm versioning, key rotation, long-term confidentiality risk, and post-quantum migration readiness.',
+        sensitiveApproval:
+          'Model bank-style step-up approval, simulated mobile approval status, backend risk decisioning, audit evidence, and review routing.',
         complianceReview:
           'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
         financialCrime:
@@ -263,6 +266,7 @@ export const translations = {
         backendSecurityLayer: 'Backend security layer',
         crossLayerSecurity: 'Cross-layer security',
         cryptoAgility: 'Crypto-agility',
+        stepUpApproval: 'Step-up approval',
         complianceReview: 'Compliance review',
         monitoringAlerts: 'Monitoring alerts',
         reasoningLayer: 'Reasoning layer',
@@ -574,6 +578,58 @@ export const translations = {
       },
       prototypeDisclaimer:
         'Aurora Digital Assets is a concept prototype. No real cryptographic operation, key material, wallet key, custody key, KMS, HSM, Key Vault, or post-quantum algorithm is accessed or executed.',
+    },
+    sensitiveApproval: {
+      title: 'Sensitive Operations Approval Engine',
+      subtitle:
+        'Bank-style strong approval for digital assets and internal sensitive actions.',
+      bankStyleStrongApproval: 'Bank-style strong approval',
+      stepUpApproval: 'Step-up approval',
+      mobileApprovalSimulated: 'Mobile approval simulated',
+      backendRiskDecision: 'Backend risk decision',
+      approvalRequired: 'Approval required',
+      operationCatalog: 'Operation catalog',
+      sensitiveOperations: 'Sensitive operations',
+      scenarioEvaluator: 'Scenario evaluator',
+      customerConfirmed: 'Customer confirmed',
+      deviceTrusted: 'Device trusted',
+      mobileApprovalStatus: 'Mobile approval status',
+      highValueNewWalletWithdrawal: 'High-value new wallet withdrawal',
+      securityDeviceChange: 'Security device change',
+      reviewerCaseClosure: 'Reviewer case closure',
+      recommendedNextAction: 'Recommended next action',
+      temporaryWithdrawalFreeze: 'Temporary withdrawal freeze',
+      pendingReview: 'Pending review',
+      blocked: 'Blocked',
+      approved: 'Approved',
+      evidencePackageReady: 'Evidence package ready',
+      reviewCaseRequired: 'Review case required',
+      operationType: 'Operation type',
+      actorType: 'Actor type',
+      amountEur: 'Amount EUR',
+      asset: 'Asset',
+      isNewDestination: 'New destination',
+      riskLevel: 'Risk level',
+      riskScore: 'Risk score',
+      reasons: 'Reasons',
+      evaluate: 'Evaluate sensitive approval',
+      finnishModel: 'Finnish banking model',
+      conceptBannerTitle: 'Access is not execution',
+      conceptRules: [
+        'Login allows access.',
+        'Step-up approval allows an attempt.',
+        'Backend risk evaluation decides the outcome.',
+      ],
+      finnishModelCopy:
+        'Aurora adapts a familiar Finnish bank approval pattern to digital asset operations. The mobile approval is simulated in this prototype, and approval itself does not automatically mean execution. The backend still evaluates risk.',
+      statuses: {
+        pending: 'Pending',
+        approved: 'Approved',
+        rejected: 'Rejected',
+        expired: 'Expired',
+      },
+      prototypeDisclaimer:
+        'Aurora Digital Assets is a concept prototype. No real mobile approval, MFA, notifications, cryptographic signing, payment execution, or blockchain execution is performed.',
     },
     infrastructureSecurity: {
       title: 'Infrastructure Security Control Center',
@@ -951,6 +1007,8 @@ export const translations = {
         infrastructureSecurity:
           'Centro de control de seguridad de infraestructura',
         cryptoAgility: 'Centro de control de agilidad criptográfica',
+        sensitiveApproval:
+          'Motor de Aprobación de Operaciones Sensibles',
         complianceReview: 'Revisión de cumplimiento',
         financialCrime: 'Monitoreo de delitos financieros',
         complianceIntelligence: 'Inteligencia de cumplimiento',
@@ -972,6 +1030,8 @@ export const translations = {
           'Monitorear riesgos de reacción en cadena desde aplicación hacia cloud, incluyendo autorización backend, RBAC de Kubernetes, IAM, secretos, evidencia de auditoría y operaciones de riesgo.',
         cryptoAgility:
           'Controlar inventario criptográfico, versionado de algoritmos, rotación de claves, riesgo de confidencialidad a largo plazo y preparación para migración post-cuántica.',
+        sensitiveApproval:
+          'Modelar aprobación reforzada de estilo bancario, aprobación móvil simulada, decisión de riesgo backend, evidencia de auditoría y enrutamiento a revisión.',
         complianceReview:
           'Revisar resultados simulados de monitoreo transaccional, controles de riesgo de billetera y evidencia de escalamiento.',
         financialCrime:
@@ -994,6 +1054,7 @@ export const translations = {
         backendSecurityLayer: 'Capa de seguridad backend',
         crossLayerSecurity: 'Seguridad transversal',
         cryptoAgility: 'Agilidad criptográfica',
+        stepUpApproval: 'Aprobación reforzada',
         complianceReview: 'Revisión de cumplimiento',
         monitoringAlerts: 'Alertas de monitoreo',
         reasoningLayer: 'Capa de razonamiento',
@@ -1312,6 +1373,59 @@ export const translations = {
       },
       prototypeDisclaimer:
         'Aurora Digital Assets es un prototipo conceptual. No se accede ni se ejecuta ninguna operación criptográfica real, material de claves, clave de billetera, clave de custodia, KMS, HSM, Key Vault ni algoritmo post-cuántico.',
+    },
+    sensitiveApproval: {
+      title: 'Motor de Aprobación de Operaciones Sensibles',
+      subtitle:
+        'Aprobación reforzada de estilo bancario para activos digitales y acciones internas sensibles.',
+      bankStyleStrongApproval: 'Aprobación reforzada de estilo bancario',
+      stepUpApproval: 'Aprobación reforzada',
+      mobileApprovalSimulated: 'Aprobación móvil simulada',
+      backendRiskDecision: 'Decisión de riesgo backend',
+      approvalRequired: 'Aprobación requerida',
+      operationCatalog: 'Catálogo de operaciones',
+      sensitiveOperations: 'Operaciones sensibles',
+      scenarioEvaluator: 'Evaluador de escenarios',
+      customerConfirmed: 'Cliente confirmó',
+      deviceTrusted: 'Dispositivo confiable',
+      mobileApprovalStatus: 'Estado de aprobación móvil',
+      highValueNewWalletWithdrawal:
+        'Retiro de alto valor a billetera nueva',
+      securityDeviceChange: 'Cambio de dispositivo de seguridad',
+      reviewerCaseClosure: 'Cierre de caso por revisor',
+      recommendedNextAction: 'Siguiente acción recomendada',
+      temporaryWithdrawalFreeze: 'Congelamiento temporal de retiros',
+      pendingReview: 'Revisión pendiente',
+      blocked: 'Bloqueado',
+      approved: 'Aprobado',
+      evidencePackageReady: 'Paquete de evidencia listo',
+      reviewCaseRequired: 'Caso de revisión requerido',
+      operationType: 'Tipo de operación',
+      actorType: 'Tipo de actor',
+      amountEur: 'Importe EUR',
+      asset: 'Activo',
+      isNewDestination: 'Destino nuevo',
+      riskLevel: 'Nivel de riesgo',
+      riskScore: 'Puntaje de riesgo',
+      reasons: 'Razones',
+      evaluate: 'Evaluar aprobación sensible',
+      finnishModel: 'Modelo bancario finlandés',
+      conceptBannerTitle: 'Acceso no es ejecución',
+      conceptRules: [
+        'El inicio de sesión permite acceso.',
+        'La aprobación reforzada permite intentar una operación.',
+        'La evaluación de riesgo backend decide el resultado.',
+      ],
+      finnishModelCopy:
+        'Aurora adapta un patrón familiar de aprobación bancaria finlandesa a operaciones de activos digitales. La aprobación móvil se simula en este prototipo y la aprobación por sí sola no significa ejecución automática. El backend todavía evalúa el riesgo.',
+      statuses: {
+        pending: 'Pendiente',
+        approved: 'Aprobado',
+        rejected: 'Rechazado',
+        expired: 'Expirado',
+      },
+      prototypeDisclaimer:
+        'Aurora Digital Assets es un prototipo conceptual. No se realiza aprobación móvil real, MFA, notificaciones, firma criptográfica, ejecución de pagos ni ejecución blockchain.',
     },
     infrastructureSecurity: {
       title: 'Centro de Control de Seguridad de Infraestructura',

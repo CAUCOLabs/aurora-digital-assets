@@ -87,6 +87,15 @@ DETERMINISTIC_CASE_CONTEXT = {
         "audit_slug": "CRYPTO-AGILITY",
         "risk_level": "critical",
     },
+    "CASE-APPROVAL-HIGH-VALUE-NEW-WALLET": {
+        "title": "High-Value New Wallet Withdrawal Approval Review Case",
+        "case_type": "sensitive_approval_review",
+        "source_package_id": "EP-FROM-AUD-APPROVAL-HIGH-VALUE-NEW-WALLET",
+        "source_audit_event_id": "AUD-APPROVAL-HIGH-VALUE-NEW-WALLET",
+        "correlation_id": "CORR-APPROVAL-HIGH-VALUE-NEW-WALLET",
+        "audit_slug": "APPROVAL-HIGH-VALUE-NEW-WALLET",
+        "risk_level": "critical",
+    },
 }
 
 
@@ -337,6 +346,31 @@ class ReviewCaseService:
                 "Preserve audit and evidence traceability.",
                 "Escalate or close after internal review.",
             ]
+        elif normalized_package_id == "EP-FROM-AUD-APPROVAL-HIGH-VALUE-NEW-WALLET":
+            case_id = "CASE-APPROVAL-HIGH-VALUE-NEW-WALLET"
+            title = "High-Value New Wallet Withdrawal Approval Review Case"
+            case_type = "sensitive_approval_review"
+            assigned_team = "Risk Operations / Customer Protection"
+            review_reason = (
+                "Sensitive approval evidence indicates a simulated high-value "
+                "external wallet withdrawal to a new destination. Customer "
+                "mobile approval was recorded, but backend risk evaluation "
+                "requires customer-protection review before any operation could "
+                "continue."
+            )
+            severity = "critical"
+            audit_event_id = "AUD-REVIEW-FROM-EP-APPROVAL-HIGH-VALUE-NEW-WALLET"
+            linked_audit_events = [
+                normalized_audit_event_id,
+                "AUD-EVIDENCE-FROM-AUD-APPROVAL-HIGH-VALUE-NEW-WALLET",
+            ]
+            recommended_actions = [
+                "Review customer approval context.",
+                "Review new wallet destination risk.",
+                "Review high-value withdrawal rationale.",
+                "Preserve approval and audit traceability.",
+                "Escalate or close after customer-protection review.",
+            ]
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -428,6 +462,9 @@ class ReviewCaseService:
                 else "crypto_agility"
                 if normalized_package_id
                 == "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS"
+                else "sensitive_approval"
+                if normalized_package_id
+                == "EP-FROM-AUD-APPROVAL-HIGH-VALUE-NEW-WALLET"
                 else "evidence_packages",
             },
         )

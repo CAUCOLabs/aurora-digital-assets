@@ -24,6 +24,7 @@ import { FinancialCrimeMonitoringPage } from '../pages/FinancialCrimeMonitoringP
 import { InfrastructureSecurityPage } from '../pages/InfrastructureSecurityPage'
 import { OperationalResiliencePage } from '../pages/OperationalResiliencePage'
 import { RiskOperationsPage } from '../pages/RiskOperationsPage'
+import { SensitiveApprovalPage } from '../pages/SensitiveApprovalPage'
 import { StaffCustomerAccessPage } from '../pages/StaffCustomerAccessPage'
 import { BankLoginPage } from '../pages/BankLoginPage'
 import { ProtectedRoute } from '../components/ProtectedRoute'
@@ -252,6 +253,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <CryptoAgilityPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/sensitive-approval"
+        element={
+          <ProtectedRoute>
+            <SensitiveApprovalPage />
           </ProtectedRoute>
         }
       />

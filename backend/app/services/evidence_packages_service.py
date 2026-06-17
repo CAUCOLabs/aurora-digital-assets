@@ -46,6 +46,9 @@ INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES = {
 }
 
 CRYPTO_AGILITY_AUDIT_EVENT_ID = "AUD-CRYPTO-AGILITY-PQ-READINESS"
+SENSITIVE_APPROVAL_HIGH_VALUE_AUDIT_EVENT_ID = (
+    "AUD-APPROVAL-HIGH-VALUE-NEW-WALLET"
+)
 
 
 class EvidencePackagesService:
@@ -493,6 +496,11 @@ class EvidencePackagesService:
         normalized_audit_event_id = audit_event_id.strip().upper()
         if normalized_audit_event_id == CRYPTO_AGILITY_AUDIT_EVENT_ID:
             return self._build_crypto_agility_audit_event_package()
+        if (
+            normalized_audit_event_id
+            == SENSITIVE_APPROVAL_HIGH_VALUE_AUDIT_EVENT_ID
+        ):
+            return self._build_sensitive_approval_audit_event_package()
 
         if normalized_audit_event_id in INFRASTRUCTURE_AUDIT_EVENT_IDS:
             return self._build_infrastructure_audit_event_package(
@@ -730,6 +738,73 @@ class EvidencePackagesService:
                 "standards-based post-quantum migration roadmap."
             ),
             created_at="2026-06-15T09:45:00+03:00",
+        )
+
+    def _build_sensitive_approval_audit_event_package(self) -> EvidencePackage:
+        audit_event_id = SENSITIVE_APPROVAL_HIGH_VALUE_AUDIT_EVENT_ID
+        correlation_id = "CORR-APPROVAL-HIGH-VALUE-NEW-WALLET"
+        return EvidencePackage(
+            package_id="EP-FROM-AUD-APPROVAL-HIGH-VALUE-NEW-WALLET",
+            title="Sensitive Approval High-Value New Wallet Evidence Package",
+            source_audit_event_id=audit_event_id,
+            source_module="sensitive_approval",
+            backend_decision="pending_review",
+            correlation_id=correlation_id,
+            traceability_summary=(
+                f"Sensitive approval audit event {audit_event_id} is linked "
+                f"to correlation ID {correlation_id}, domain "
+                "sensitive_operations_approval, and category "
+                "high_value_new_wallet_withdrawal."
+            ),
+            audit_context={
+                "audit_event_id": audit_event_id,
+                "correlation_id": correlation_id,
+                "domain": "sensitive_operations_approval",
+                "category": "high_value_new_wallet_withdrawal",
+                "readiness": "ready_for_internal_review",
+                "evidence_package_ready": True,
+            },
+            linked_audit_events=[audit_event_id],
+            risk_type="Sensitive operation approval",
+            severity="critical",
+            status="ready",
+            readiness_score=94,
+            summary=(
+                "This package summarizes a simulated high-value external wallet "
+                "withdrawal to a new destination where customer mobile approval "
+                "was recorded but backend risk evaluation still required "
+                "customer-protection review."
+            ),
+            included_evidence=[
+                self._item("EPI-APPROVAL-01", "Sensitive approval evaluation", "Approval decision", "included", "Backend decision, risk score, and simulated approval context are included.", "sensitive_approval", True),
+                self._item("EPI-APPROVAL-02", "Mobile approval simulation status", "Step-up approval", "included", "The prototype records simulated mobile approval status without real push or MFA integration.", "sensitive_approval", True),
+                self._item("EPI-APPROVAL-03", "High-value new wallet risk context", "Customer protection", "included", "High value and new destination controls are preserved for review.", "sensitive_approval", True),
+                self._item("EPI-APPROVAL-04", "Audit event ID and correlation ID", "Audit traceability", "included", f"{audit_event_id} is preserved with correlation ID {correlation_id}.", "audit_events", True),
+                self._item("EPI-APPROVAL-05", "Review case routing context", "Risk operations", "included", "CASE-APPROVAL-HIGH-VALUE-NEW-WALLET is ready for customer-protection review.", "review_cases", True),
+            ],
+            missing_evidence=[],
+            triggered_controls=[
+                "Mobile approval simulated",
+                "Backend risk decision required",
+                "High-value withdrawal review",
+                "New wallet destination review",
+                "Audit evidence generation",
+            ],
+            reviewer_notes=[
+                "Mobile approval does not automatically mean execution.",
+                "Backend risk evaluation remains authoritative.",
+                "No real mobile approval, notification, payment, or blockchain execution occurred.",
+            ],
+            decision_rationale=(
+                "The deterministic approval policy routes high-value new-wallet "
+                "withdrawals to review even after simulated customer approval."
+            ),
+            timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
+            recommended_next_action=(
+                "Route to Risk Operations / Customer Protection and preserve "
+                "approval, destination, risk, and audit evidence."
+            ),
+            created_at="2026-06-16T11:20:00+03:00",
         )
 
     def _build_infrastructure_audit_event_package(

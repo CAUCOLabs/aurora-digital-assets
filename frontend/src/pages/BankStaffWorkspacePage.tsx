@@ -47,6 +47,13 @@ const workspaceModules = [
     to: '/bank-staff/crypto-agility',
   },
   {
+    title: 'Sensitive operations approval engine',
+    description:
+      'Model bank-style step-up approval, simulated mobile approval status, backend risk decisioning, audit evidence, and review routing.',
+    status: 'Step-up approval',
+    to: '/bank-staff/sensitive-approval',
+  },
+  {
     title: 'Compliance review',
     description:
       'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
@@ -113,6 +120,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.apiSecurity,
     t.bankStaffWorkspace.modules.infrastructureSecurity,
     t.bankStaffWorkspace.modules.cryptoAgility,
+    t.bankStaffWorkspace.modules.sensitiveApproval,
     t.bankStaffWorkspace.modules.complianceReview,
     t.bankStaffWorkspace.modules.financialCrime,
     t.bankStaffWorkspace.modules.complianceIntelligence,
@@ -128,6 +136,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.backendSecurityLayer,
     t.bankStaffWorkspace.statuses.crossLayerSecurity,
     t.bankStaffWorkspace.statuses.cryptoAgility,
+    t.bankStaffWorkspace.statuses.stepUpApproval,
     t.bankStaffWorkspace.statuses.complianceReview,
     t.bankStaffWorkspace.statuses.monitoringAlerts,
     t.bankStaffWorkspace.statuses.reasoningLayer,
@@ -143,6 +152,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.moduleDescriptions.apiSecurity,
     t.bankStaffWorkspace.moduleDescriptions.infrastructureSecurity,
     t.bankStaffWorkspace.moduleDescriptions.cryptoAgility,
+    t.bankStaffWorkspace.moduleDescriptions.sensitiveApproval,
     t.bankStaffWorkspace.moduleDescriptions.complianceReview,
     t.bankStaffWorkspace.moduleDescriptions.financialCrime,
     t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,

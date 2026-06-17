@@ -649,6 +649,15 @@ a {
   width: 100%;
 }
 
+.approval-check-list {
+  margin-top: 1rem;
+}
+
+.approval-action {
+  margin-top: 1.2rem;
+  width: 100%;
+}
+
 .lifecycle-progress-track {
   height: 0.75rem;
   margin: 1rem 0;
