@@ -136,3 +136,41 @@ class ReviewCasesFromEvidencePackageTests(unittest.TestCase):
             response["audit_event_id"],
             "AUD-REVIEW-FROM-EP-INFRA-K8S-HARDENING-FAILURE",
         )
+
+    def test_create_crypto_agility_review_case_from_evidence_package(self) -> None:
+        status, response = request_json(
+            "POST",
+            "/api/review-cases/create-from-evidence-package",
+            {
+                "package_id": "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS",
+                "source_audit_event_id": "AUD-CRYPTO-AGILITY-PQ-READINESS",
+                "correlation_id": "CORR-CRYPTO-AGILITY-PQ-READINESS",
+                "reviewer_id": "reviewer-demo",
+                "priority": "critical",
+            },
+        )
+
+        self.assertEqual(status, 200)
+        self.assertEqual(response["case_id"], "CASE-CRYPTO-AGILITY-PQ-READINESS")
+        self.assertEqual(
+            response["source_package_id"],
+            "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS",
+        )
+        self.assertEqual(
+            response["source_audit_event_id"],
+            "AUD-CRYPTO-AGILITY-PQ-READINESS",
+        )
+        self.assertEqual(
+            response["correlation_id"],
+            "CORR-CRYPTO-AGILITY-PQ-READINESS",
+        )
+        self.assertEqual(response["severity"], "critical")
+        self.assertIn(
+            "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS",
+            response["linked_evidence_packages"],
+        )
+        self.assertIn(
+            "AUD-CRYPTO-AGILITY-PQ-READINESS",
+            response["linked_audit_events"],
+        )
+        self.assertTrue(response["audit_event_created"])

@@ -63,6 +63,38 @@ class EvidencePackageAuditEventTests(unittest.TestCase):
         self.assertTrue(response["readiness_check"]["ready"])
         self.assertTrue(response["evidence_items"])
 
+    def test_generate_crypto_agility_evidence_package_from_audit_event(self) -> None:
+        status, response = request_json(
+            "POST",
+            "/api/evidence-packages/generate",
+            {
+                "source_type": "audit_event",
+                "source_id": "AUD-CRYPTO-AGILITY-PQ-READINESS",
+                "package_type": "internal_review",
+                "reviewer_id": "reviewer-demo",
+            },
+        )
+
+        self.assertEqual(status, 200)
+        self.assertEqual(
+            response["source_audit_event_id"],
+            "AUD-CRYPTO-AGILITY-PQ-READINESS",
+        )
+        self.assertEqual(
+            response["correlation_id"],
+            "CORR-CRYPTO-AGILITY-PQ-READINESS",
+        )
+        self.assertIn(
+            "AUD-CRYPTO-AGILITY-PQ-READINESS",
+            response["linked_audit_events"],
+        )
+        self.assertIn("Cryptographic Agility", response["package"]["title"])
+        self.assertEqual(
+            response["package"]["audit_context"]["domain"],
+            "cryptographic_agility",
+        )
+        self.assertTrue(response["readiness_check"]["ready"])
+
     def test_generate_azure_storage_identity_evidence_package_from_audit_event(self) -> None:
         status, response = request_json(
             "POST",

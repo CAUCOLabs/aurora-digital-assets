@@ -21,6 +21,7 @@ REVIEW_CASE_TITLES = {
     "RO-ACTION-007": "Infrastructure chain reaction review",
     "RO-ACTION-008": "Azure storage-to-identity risk review",
     "RO-ACTION-009": "Container and Kubernetes hardening review",
+    "RO-ACTION-010": "Cryptographic agility readiness review",
 }
 
 
@@ -400,6 +401,50 @@ class RiskOperationsService:
                 ],
                 created_at="2026-06-16T09:56:00+03:00",
             ),
+            RiskActionItem(
+                action_id="RO-ACTION-010",
+                title="Review cryptographic agility and PQ readiness",
+                source_module="crypto_agility",
+                source_id="AUD-CRYPTO-AGILITY-PQ-READINESS",
+                priority="urgent",
+                status="escalated",
+                risk_type="Cryptographic Governance",
+                summary=(
+                    "Simulated crypto-agility readiness gap involves inventory, "
+                    "algorithm versioning, key rotation, backup confidentiality, "
+                    "audit integrity, custody key governance, blockchain protocol "
+                    "separation, and post-quantum migration planning."
+                ),
+                required_action=(
+                    "Review the Cryptographic Agility Control Center result, "
+                    "preserve audit evidence, and prepare a standards-based "
+                    "migration roadmap without quantum-proof claims."
+                ),
+                missing_evidence=[
+                    "Complete cryptographic inventory",
+                    "Algorithm and key policy version map",
+                    "KMS/HSM/Key Vault integration roadmap",
+                    "Post-quantum migration plan",
+                ],
+                related_links=[
+                    self._link(
+                        "Open cryptographic agility",
+                        "/bank-staff/crypto-agility",
+                        "AUD-CRYPTO-AGILITY-PQ-READINESS",
+                    ),
+                    self._link(
+                        "Open evidence packages",
+                        "/bank-staff/evidence-packages",
+                        "AUD-CRYPTO-AGILITY-PQ-READINESS",
+                    ),
+                    self._link(
+                        "Open cryptographic governance review case",
+                        "/compliance-review",
+                        "CASE-CRYPTO-AGILITY-PQ-READINESS",
+                    ),
+                ],
+                created_at="2026-06-16T10:30:00+03:00",
+            ),
         ]
 
     def list_unified_timeline(self) -> list[UnifiedTimelineEvent]:
@@ -502,6 +547,17 @@ class RiskOperationsService:
                 "CASE-INFRA-AZURE-STORAGE-IDENTITY is related to the Azure storage-to-identity chain risk.",
                 "CASE-INFRA-AZURE-STORAGE-IDENTITY",
                 "Review evidence package EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY and preserve cloud identity traceability.",
+            ),
+            self._event(
+                "RO-TL-010",
+                "2026-06-16T10:30:00+03:00",
+                "crypto_agility",
+                "crypto_agility_escalated",
+                "critical",
+                "Cryptographic agility review linked",
+                "CASE-CRYPTO-AGILITY-PQ-READINESS is related to the post-quantum readiness gap.",
+                "CASE-CRYPTO-AGILITY-PQ-READINESS",
+                "Review evidence package EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS and preserve cryptographic governance traceability.",
             ),
         ]
 

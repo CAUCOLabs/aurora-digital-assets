@@ -249,6 +249,35 @@ class ReviewCaseService:
                 "Review CIS-style audit and DevSecOps hardening evidence.",
                 "Escalate or close after internal review.",
             ]
+        elif normalized_package_id == "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS":
+            case_id = "CASE-CRYPTO-AGILITY-PQ-READINESS"
+            title = "Cryptographic Agility and Post-Quantum Readiness Review Case"
+            case_type = "cryptographic_agility_review"
+            assigned_team = "Risk Operations / Cryptographic Governance"
+            review_reason = (
+                "Critical evidence package indicates a simulated cryptographic "
+                "agility and post-quantum readiness gap involving inventory, "
+                "algorithm versioning, key rotation, long-term confidentiality, "
+                "audit integrity, custody key governance, blockchain protocol "
+                "separation, and migration planning."
+            )
+            severity = "critical"
+            audit_event_id = "AUD-REVIEW-FROM-EP-CRYPTO-AGILITY-PQ-READINESS"
+            linked_audit_events = [
+                normalized_audit_event_id,
+                "AUD-EVIDENCE-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS",
+            ]
+            recommended_actions = [
+                "Complete cryptographic inventory.",
+                "Version all algorithms and key policies.",
+                "Define key rotation and emergency rollover procedures.",
+                "Classify long-term confidentiality risks.",
+                "Separate Aurora platform cryptography from external blockchain protocol cryptography.",
+                "Define KMS/HSM/Key Vault integration roadmap.",
+                "Prepare standards-based post-quantum migration plan.",
+                "Preserve audit and evidence traceability.",
+                "Escalate or close after internal review.",
+            ]
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -337,6 +366,9 @@ class ReviewCaseService:
                     "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
                     "EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE",
                 }
+                else "crypto_agility"
+                if normalized_package_id
+                == "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS"
                 else "evidence_packages",
             },
         )

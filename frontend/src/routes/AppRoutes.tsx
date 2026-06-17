@@ -13,6 +13,7 @@ import { AccountsPage } from '../pages/AccountsPage'
 import { ApiSecurityPage } from '../pages/ApiSecurityPage'
 import { CardsPage } from '../pages/CardsPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
+import { CryptoAgilityPage } from '../pages/CryptoAgilityPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
 import { BankAccessPage } from '../pages/BankAccessPage'
 import { BankStaffWorkspacePage } from '../pages/BankStaffWorkspacePage'
@@ -243,6 +244,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <InfrastructureSecurityPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/crypto-agility"
+        element={
+          <ProtectedRoute>
+            <CryptoAgilityPage />
           </ProtectedRoute>
         }
       />

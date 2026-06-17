@@ -14,6 +14,7 @@ from app.api.routes.compliance_intelligence import (
     router as compliance_intelligence_router,
 )
 from app.api.routes.custody import router as custody_router
+from app.api.routes.crypto_agility import router as crypto_agility_router
 from app.api.routes.demo_admin import router as demo_admin_router
 from app.api.routes.digital_assets import router as digital_assets_router
 from app.api.routes.evidence_packages import router as evidence_packages_router
@@ -84,6 +85,7 @@ def create_app() -> FastAPI:
     app.include_router(risk_operations_router, prefix=settings.api_prefix)
     app.include_router(api_security_router, prefix=settings.api_prefix)
     app.include_router(infrastructure_security_router, prefix=settings.api_prefix)
+    app.include_router(crypto_agility_router, prefix=settings.api_prefix)
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app

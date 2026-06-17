@@ -45,6 +45,8 @@ INFRASTRUCTURE_AUDIT_EVENT_CATEGORIES = {
     "AUD-INFRA-K8S-HARDENING-FAILURE": "runtime_hardening_failure",
 }
 
+CRYPTO_AGILITY_AUDIT_EVENT_ID = "AUD-CRYPTO-AGILITY-PQ-READINESS"
+
 
 class EvidencePackagesService:
     """Provides deterministic evidence package demo data."""
@@ -489,6 +491,9 @@ class EvidencePackagesService:
         audit_event_id: str,
     ) -> EvidencePackage | None:
         normalized_audit_event_id = audit_event_id.strip().upper()
+        if normalized_audit_event_id == CRYPTO_AGILITY_AUDIT_EVENT_ID:
+            return self._build_crypto_agility_audit_event_package()
+
         if normalized_audit_event_id in INFRASTRUCTURE_AUDIT_EVENT_IDS:
             return self._build_infrastructure_audit_event_package(
                 normalized_audit_event_id,
@@ -640,6 +645,91 @@ class EvidencePackagesService:
             timeline=self._audit_timeline("GENERIC", audit_event_id),
             recommended_next_action="Confirm audit event context before review.",
             created_at="2026-06-15T09:20:00+03:00",
+        )
+
+    def _build_crypto_agility_audit_event_package(self) -> EvidencePackage:
+        audit_event_id = CRYPTO_AGILITY_AUDIT_EVENT_ID
+        correlation_id = "CORR-CRYPTO-AGILITY-PQ-READINESS"
+        included_evidence = [
+            self._item("EPI-CRYPTO-AGILITY-01", "Cryptographic inventory snapshot", "Inventory", "included", "Simulated cryptographic asset inventory is included for internal review.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-02", "Algorithm version map", "Algorithm versioning", "included", "Algorithm family and policy versioning context is preserved.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-03", "Key lifecycle and rotation posture", "Key lifecycle", "included", "Rotation due, emergency rollover, and audit requirements are mapped.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-04", "Long-term confidentiality risk classification", "Confidentiality", "included", "Long-term confidentiality and harvest-now-decrypt-later risk context is included.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-05", "Backup encryption risk context", "Backup encryption", "included", "Backup encryption policy and long-lived retention risk are documented.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-06", "Audit log integrity context", "Audit integrity", "included", "Audit integrity and long-term verification context is included.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-07", "Custody key governance context", "Custody governance", "included", "External custody key governance boundaries and evidence gaps are recorded.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-08", "Platform crypto vs blockchain protocol separation", "Boundary control", "included", "Aurora platform cryptography is separated from external blockchain protocol cryptography.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-09", "Post-quantum migration readiness assessment", "Post-quantum readiness", "included", "Readiness is monitored as migration planning, without quantum-proof claims.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-10", "KMS/HSM/Key Vault integration gap", "Key governance", "included", "Production key governance integration gaps are included as architectural findings.", "crypto_agility", True),
+            self._item("EPI-CRYPTO-AGILITY-11", "Audit event ID and correlation ID", "Audit traceability", "included", f"{audit_event_id} is preserved with correlation ID {correlation_id}.", "audit_events", True),
+            self._item("EPI-CRYPTO-AGILITY-12", "Risk Operations escalation context", "Risk operations", "included", "Escalation context is included for cryptographic governance review.", "risk_operations", True),
+        ]
+
+        return EvidencePackage(
+            package_id="EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS",
+            title="Cryptographic Agility and Post-Quantum Readiness Evidence Package",
+            source_audit_event_id=audit_event_id,
+            source_module="crypto_agility",
+            backend_decision="evidence_package_ready",
+            correlation_id=correlation_id,
+            traceability_summary=(
+                f"Crypto-agility audit event {audit_event_id} is linked to "
+                f"correlation ID {correlation_id}, domain cryptographic_agility, "
+                "and category post_quantum_readiness."
+            ),
+            audit_context={
+                "audit_event_id": audit_event_id,
+                "correlation_id": correlation_id,
+                "source_module": "crypto_agility",
+                "domain": "cryptographic_agility",
+                "category": "post_quantum_readiness",
+                "readiness": "ready_for_internal_review",
+                "evidence_package_ready": True,
+            },
+            linked_audit_events=[audit_event_id],
+            risk_type="Cryptographic agility",
+            severity="critical",
+            status="ready",
+            readiness_score=96,
+            summary=(
+                "This package summarizes a simulated cryptographic agility "
+                "readiness gap involving cryptographic inventory, algorithm "
+                "versioning, key rotation, long-term confidentiality risk, "
+                "audit integrity, custody key governance, blockchain protocol "
+                "separation, and post-quantum migration planning."
+            ),
+            included_evidence=included_evidence,
+            missing_evidence=[],
+            triggered_controls=[
+                "Cryptographic inventory required",
+                "Algorithm versioning required",
+                "Key rotation policy required",
+                "Long-term confidentiality classification required",
+                "No custom cryptography",
+                "KMS/HSM/Key Vault integration required",
+                "Audit evidence required for key lifecycle events",
+                "Blockchain protocol separation required",
+                "Post-quantum readiness monitored",
+            ],
+            reviewer_notes=[
+                "Crypto-agility evidence package is ready for internal review.",
+                f"Source audit event: {audit_event_id}",
+                f"Correlation ID: {correlation_id}",
+                "No real cryptographic operation, key material, custody key, KMS, HSM, Key Vault, or post-quantum algorithm was accessed.",
+            ],
+            decision_rationale=(
+                "The crypto-agility scenario produced a deterministic "
+                "evidence-ready audit event with preserved governance "
+                "traceability."
+            ),
+            timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
+            recommended_next_action=(
+                "Create cryptographic inventory, version algorithms, define key "
+                "rotation and emergency rollover procedures, classify long-term "
+                "confidentiality risk, preserve audit evidence, and prepare a "
+                "standards-based post-quantum migration roadmap."
+            ),
+            created_at="2026-06-15T09:45:00+03:00",
         )
 
     def _build_infrastructure_audit_event_package(

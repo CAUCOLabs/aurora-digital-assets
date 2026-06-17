@@ -7,6 +7,7 @@ export type RiskSourceModule =
   | 'evidence_packages'
   | 'operational_resilience'
   | 'infrastructure_security'
+  | 'crypto_agility'
   | 'compliance_review'
   | 'reports'
 export type RiskPriority = 'low' | 'medium' | 'high' | 'urgent'
@@ -22,6 +23,7 @@ export type EscalationType =
   | 'financial_crime'
   | 'operational_resilience'
   | 'infrastructure_security'
+  | 'crypto_agility'
   | 'evidence_gap'
   | 'compliance_review'
 export type OperatingMode =

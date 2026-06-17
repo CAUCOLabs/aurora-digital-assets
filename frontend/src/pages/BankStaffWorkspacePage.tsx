@@ -40,6 +40,13 @@ const workspaceModules = [
     to: '/bank-staff/infrastructure-security',
   },
   {
+    title: 'Cryptographic agility control center',
+    description:
+      'Track cryptographic inventory, algorithm versioning, key rotation, long-term confidentiality risk, and post-quantum migration readiness.',
+    status: 'Crypto-agility',
+    to: '/bank-staff/crypto-agility',
+  },
+  {
     title: 'Compliance review',
     description:
       'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
@@ -105,6 +112,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.riskOperations,
     t.bankStaffWorkspace.modules.apiSecurity,
     t.bankStaffWorkspace.modules.infrastructureSecurity,
+    t.bankStaffWorkspace.modules.cryptoAgility,
     t.bankStaffWorkspace.modules.complianceReview,
     t.bankStaffWorkspace.modules.financialCrime,
     t.bankStaffWorkspace.modules.complianceIntelligence,
@@ -119,6 +127,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.orchestrationLayer,
     t.bankStaffWorkspace.statuses.backendSecurityLayer,
     t.bankStaffWorkspace.statuses.crossLayerSecurity,
+    t.bankStaffWorkspace.statuses.cryptoAgility,
     t.bankStaffWorkspace.statuses.complianceReview,
     t.bankStaffWorkspace.statuses.monitoringAlerts,
     t.bankStaffWorkspace.statuses.reasoningLayer,
@@ -133,6 +142,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.moduleDescriptions.riskOperations,
     t.bankStaffWorkspace.moduleDescriptions.apiSecurity,
     t.bankStaffWorkspace.moduleDescriptions.infrastructureSecurity,
+    t.bankStaffWorkspace.moduleDescriptions.cryptoAgility,
     t.bankStaffWorkspace.moduleDescriptions.complianceReview,
     t.bankStaffWorkspace.moduleDescriptions.financialCrime,
     t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,

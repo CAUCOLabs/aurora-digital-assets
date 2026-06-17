@@ -34,6 +34,8 @@ const infrastructureChainReactionAuditEventId = 'AUD-INFRA-CHAIN-REACTION'
 const azureStorageIdentityAuditEventId = 'AUD-INFRA-AZURE-STORAGE-IDENTITY'
 const containerKubernetesHardeningAuditEventId =
   'AUD-INFRA-K8S-HARDENING-FAILURE'
+const cryptoAgilityPqReadinessAuditEventId =
+  'AUD-CRYPTO-AGILITY-PQ-READINESS'
 
 const auditEventOptions = [
   {
@@ -66,6 +68,11 @@ const auditEventOptions = [
     value: containerKubernetesHardeningAuditEventId,
     label:
       'Container and Kubernetes Hardening - AUD-INFRA-K8S-HARDENING-FAILURE - CORR-INFRA-K8S-HARDENING-FAILURE',
+  },
+  {
+    value: cryptoAgilityPqReadinessAuditEventId,
+    label:
+      'Crypto-agility PQ readiness - AUD-CRYPTO-AGILITY-PQ-READINESS - CORR-CRYPTO-AGILITY-PQ-READINESS',
   },
 ]
 
@@ -733,7 +740,9 @@ export function EvidencePackagesPage() {
                   >
                     {auditEventOptions.map((option) => (
                       <option key={option.value} value={option.value}>
-                        {option.label}
+                        {option.value === cryptoAgilityPqReadinessAuditEventId
+                          ? `${t.evidencePackages.cryptoAgilityPqReadiness} - ${option.value} - CORR-CRYPTO-AGILITY-PQ-READINESS`
+                          : option.label}
                       </option>
                     ))}
                   </select>

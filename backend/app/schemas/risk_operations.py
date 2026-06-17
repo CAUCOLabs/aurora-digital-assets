@@ -10,6 +10,7 @@ RiskSourceModule = Literal[
     "evidence_packages",
     "operational_resilience",
     "infrastructure_security",
+    "crypto_agility",
     "compliance_review",
     "reports",
 ]
@@ -27,6 +28,7 @@ EscalationType = Literal[
     "financial_crime",
     "operational_resilience",
     "infrastructure_security",
+    "crypto_agility",
     "evidence_gap",
     "compliance_review",
 ]
