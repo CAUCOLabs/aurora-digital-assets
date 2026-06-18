@@ -141,6 +141,78 @@ DETERMINISTIC_CASE_CONTEXT = {
         "audit_slug": "AI-THREAT-API-MAPPING",
         "risk_level": "high",
     },
+    "CASE-SECRET-GUARD-CONFIG": {
+        "title": "Secret Exposure Guard Config Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-CONFIG",
+        "source_audit_event_id": "AUD-SECRET-GUARD-CONFIG",
+        "correlation_id": "CORR-SECRET-GUARD-CONFIG",
+        "audit_slug": "SECRET-GUARD-CONFIG",
+        "risk_level": "critical",
+    },
+    "CASE-SECRET-GUARD-PROMPT-CONTEXT": {
+        "title": "Secret Exposure Guard Prompt Context Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-PROMPT-CONTEXT",
+        "source_audit_event_id": "AUD-SECRET-GUARD-PROMPT-CONTEXT",
+        "correlation_id": "CORR-SECRET-GUARD-PROMPT-CONTEXT",
+        "audit_slug": "SECRET-GUARD-PROMPT-CONTEXT",
+        "risk_level": "critical",
+    },
+    "CASE-SECRET-GUARD-LOGS": {
+        "title": "Secret Exposure Guard Logs Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-LOGS",
+        "source_audit_event_id": "AUD-SECRET-GUARD-LOGS",
+        "correlation_id": "CORR-SECRET-GUARD-LOGS",
+        "audit_slug": "SECRET-GUARD-LOGS",
+        "risk_level": "high",
+    },
+    "CASE-SECRET-GUARD-EVIDENCE-PACKAGE": {
+        "title": "Secret Exposure Guard Evidence Package Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-EVIDENCE-PACKAGE",
+        "source_audit_event_id": "AUD-SECRET-GUARD-EVIDENCE-PACKAGE",
+        "correlation_id": "CORR-SECRET-GUARD-EVIDENCE-PACKAGE",
+        "audit_slug": "SECRET-GUARD-EVIDENCE-PACKAGE",
+        "risk_level": "critical",
+    },
+    "CASE-SECRET-GUARD-REVIEW-CASE": {
+        "title": "Secret Exposure Guard Review Case Exposure Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-REVIEW-CASE",
+        "source_audit_event_id": "AUD-SECRET-GUARD-REVIEW-CASE",
+        "correlation_id": "CORR-SECRET-GUARD-REVIEW-CASE",
+        "audit_slug": "SECRET-GUARD-REVIEW-CASE",
+        "risk_level": "critical",
+    },
+    "CASE-SECRET-GUARD-API-RESPONSE": {
+        "title": "Secret Exposure Guard API Response Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-API-RESPONSE",
+        "source_audit_event_id": "AUD-SECRET-GUARD-API-RESPONSE",
+        "correlation_id": "CORR-SECRET-GUARD-API-RESPONSE",
+        "audit_slug": "SECRET-GUARD-API-RESPONSE",
+        "risk_level": "critical",
+    },
+    "CASE-SECRET-GUARD-CUSTODIAN-SECRET": {
+        "title": "Secret Exposure Guard Custodian Secret Reference Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-CUSTODIAN-SECRET",
+        "source_audit_event_id": "AUD-SECRET-GUARD-CUSTODIAN-SECRET",
+        "correlation_id": "CORR-SECRET-GUARD-CUSTODIAN-SECRET",
+        "audit_slug": "SECRET-GUARD-CUSTODIAN-SECRET",
+        "risk_level": "critical",
+    },
+    "CASE-SECRET-GUARD-CLOUD-SECRET": {
+        "title": "Secret Exposure Guard Cloud Secret Reference Review Case",
+        "case_type": "secret_exposure_review",
+        "source_package_id": "EP-FROM-AUD-SECRET-GUARD-CLOUD-SECRET",
+        "source_audit_event_id": "AUD-SECRET-GUARD-CLOUD-SECRET",
+        "correlation_id": "CORR-SECRET-GUARD-CLOUD-SECRET",
+        "audit_slug": "SECRET-GUARD-CLOUD-SECRET",
+        "risk_level": "critical",
+    },
 }
 
 AI_THREAT_REVIEW_CASE_CONTEXT = {
@@ -245,6 +317,99 @@ AI_THREAT_REVIEW_CASE_CONTEXT = {
             "Review object-level authorization and server-side validation.",
             "Review secure error handling and enumeration detection.",
         ],
+    },
+}
+
+SECRET_EXPOSURE_GUARD_REVIEW_CASE_CONTEXT = {
+    "EP-FROM-AUD-SECRET-GUARD-CONFIG": {
+        "case_id": "CASE-SECRET-GUARD-CONFIG",
+        "title": "Secret Exposure Guard Config Review Case",
+        "assigned_team": "Risk Operations / Security Architecture",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible configuration "
+            "context exposure signal. Review must preserve evidence without "
+            "recording or echoing any raw secret value."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+    },
+    "EP-FROM-AUD-SECRET-GUARD-PROMPT-CONTEXT": {
+        "case_id": "CASE-SECRET-GUARD-PROMPT-CONTEXT",
+        "title": "Secret Exposure Guard Prompt Context Review Case",
+        "assigned_team": "Risk Operations / Security Architecture",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible prompt or AI "
+            "workflow context exposure signal. Review must preserve evidence "
+            "without storing or echoing raw secret values."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+    },
+    "EP-FROM-AUD-SECRET-GUARD-LOGS": {
+        "case_id": "CASE-SECRET-GUARD-LOGS",
+        "title": "Secret Exposure Guard Logs Review Case",
+        "assigned_team": "Risk Operations / Security Architecture",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible log context "
+            "exposure signal requiring controlled review."
+        ),
+        "severity": "high",
+        "priority": "high",
+    },
+    "EP-FROM-AUD-SECRET-GUARD-EVIDENCE-PACKAGE": {
+        "case_id": "CASE-SECRET-GUARD-EVIDENCE-PACKAGE",
+        "title": "Secret Exposure Guard Evidence Package Review Case",
+        "assigned_team": "Risk Operations / Evidence Integrity",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible evidence package "
+            "context exposure signal requiring evidence integrity review."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+    },
+    "EP-FROM-AUD-SECRET-GUARD-REVIEW-CASE": {
+        "case_id": "CASE-SECRET-GUARD-REVIEW-CASE",
+        "title": "Secret Exposure Guard Review Case Exposure Review Case",
+        "assigned_team": "Risk Operations / Evidence Integrity",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible review case "
+            "context exposure signal requiring evidence integrity review."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+    },
+    "EP-FROM-AUD-SECRET-GUARD-API-RESPONSE": {
+        "case_id": "CASE-SECRET-GUARD-API-RESPONSE",
+        "title": "Secret Exposure Guard API Response Review Case",
+        "assigned_team": "Risk Operations / API Security",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible API response "
+            "context exposure signal requiring API security review."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+    },
+    "EP-FROM-AUD-SECRET-GUARD-CUSTODIAN-SECRET": {
+        "case_id": "CASE-SECRET-GUARD-CUSTODIAN-SECRET",
+        "title": "Secret Exposure Guard Custodian Secret Reference Review Case",
+        "assigned_team": "Risk Operations / Custodian Oversight",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible future custodian "
+            "secret reference signal requiring custodian oversight review."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+    },
+    "EP-FROM-AUD-SECRET-GUARD-CLOUD-SECRET": {
+        "case_id": "CASE-SECRET-GUARD-CLOUD-SECRET",
+        "title": "Secret Exposure Guard Cloud Secret Reference Review Case",
+        "assigned_team": "Risk Operations / Cloud Security",
+        "review_reason": (
+            "Secret Exposure Guard evidence indicates a possible future cloud "
+            "secret reference signal requiring cloud security review."
+        ),
+        "severity": "critical",
+        "priority": "critical",
     },
 }
 
@@ -536,6 +701,31 @@ class ReviewCaseService:
                 context["linked_evidence_audit_event"],
             ]
             recommended_actions = context["recommended_actions"]
+        elif normalized_package_id in SECRET_EXPOSURE_GUARD_REVIEW_CASE_CONTEXT:
+            context = SECRET_EXPOSURE_GUARD_REVIEW_CASE_CONTEXT[normalized_package_id]
+            case_id = context["case_id"]
+            title = context["title"]
+            case_type = "secret_exposure_review"
+            assigned_team = context["assigned_team"]
+            review_reason = context["review_reason"]
+            severity = context["severity"]
+            normalized_priority = context["priority"]
+            audit_event_id = (
+                "AUD-REVIEW-FROM-"
+                f"{normalized_package_id.replace('EP-FROM-AUD-', 'EP-')}"
+            )
+            linked_audit_events = [
+                normalized_audit_event_id,
+                f"AUD-EVIDENCE-FROM-{normalized_audit_event_id}",
+            ]
+            recommended_actions = [
+                "redact_sensitive_material",
+                "preserve_evidence_without_secret_value",
+                "restrict_access_to_affected_surface",
+                "create_human_review_case",
+                "verify_no_secret_value_is_stored",
+                "pause_sensitive_operations_if_related",
+            ]
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -626,6 +816,9 @@ class ReviewCaseService:
                 }
                 else "ai_assisted_threat_defense"
                 if normalized_package_id in AI_THREAT_REVIEW_CASE_CONTEXT
+                else "secret_exposure_guard"
+                if normalized_package_id
+                in SECRET_EXPOSURE_GUARD_REVIEW_CASE_CONTEXT
                 else "crypto_agility"
                 if normalized_package_id
                 == "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS"

@@ -214,6 +214,130 @@ AI_THREAT_DEFENSE_AUDIT_EVENT_CONTEXT = {
     },
 }
 
+SECRET_EXPOSURE_GUARD_AUDIT_EVENT_CONTEXT = {
+    "AUD-SECRET-GUARD-CONFIG": {
+        "title": "Secret Exposure Guard Config Evidence Package",
+        "correlation_id": "CORR-SECRET-GUARD-CONFIG",
+        "category": "config_secret_signal",
+        "severity": "critical",
+        "readiness_score": 96,
+        "summary": (
+            "Aurora detected a possible secret exposure signal in configuration context."
+        ),
+        "traceability_summary": (
+            "Aurora detected a possible secret exposure signal in configuration "
+            "context. Evidence is preserved without storing or echoing any raw "
+            "secret value."
+        ),
+        "assigned_focus": "Configuration context",
+    },
+    "AUD-SECRET-GUARD-PROMPT-CONTEXT": {
+        "title": "Secret Exposure Guard Prompt Context Evidence Package",
+        "correlation_id": "CORR-SECRET-GUARD-PROMPT-CONTEXT",
+        "category": "prompt_context_secret_signal",
+        "severity": "critical",
+        "readiness_score": 94,
+        "summary": (
+            "Aurora detected a possible secret exposure signal in prompt or AI workflow context."
+        ),
+        "traceability_summary": (
+            "Aurora detected a possible secret exposure signal in prompt or AI "
+            "workflow context. Evidence is preserved without storing or echoing "
+            "raw secret values."
+        ),
+        "assigned_focus": "Prompt and AI workflow context",
+    },
+    "AUD-SECRET-GUARD-LOGS": {
+        "title": "Secret Exposure Guard Logs Evidence Package",
+        "correlation_id": "CORR-SECRET-GUARD-LOGS",
+        "category": "logs_secret_signal",
+        "severity": "high",
+        "readiness_score": 93,
+        "summary": "Aurora detected a possible secret exposure signal in log context.",
+        "traceability_summary": (
+            "Aurora detected a possible secret exposure signal in log context. "
+            "Evidence is preserved without storing or echoing any raw secret value."
+        ),
+        "assigned_focus": "Log context",
+    },
+    "AUD-SECRET-GUARD-EVIDENCE-PACKAGE": {
+        "title": "Secret Exposure Guard Evidence Package Exposure Review",
+        "correlation_id": "CORR-SECRET-GUARD-EVIDENCE-PACKAGE",
+        "category": "evidence_package_secret_signal",
+        "severity": "critical",
+        "readiness_score": 97,
+        "summary": (
+            "Aurora detected a possible secret exposure signal in evidence package context."
+        ),
+        "traceability_summary": (
+            "Aurora detected a possible secret exposure signal in evidence package "
+            "context. Evidence is preserved without storing or echoing any raw "
+            "secret value."
+        ),
+        "assigned_focus": "Evidence package context",
+    },
+    "AUD-SECRET-GUARD-REVIEW-CASE": {
+        "title": "Secret Exposure Guard Review Case Exposure Evidence Package",
+        "correlation_id": "CORR-SECRET-GUARD-REVIEW-CASE",
+        "category": "review_case_secret_signal",
+        "severity": "critical",
+        "readiness_score": 95,
+        "summary": (
+            "Aurora detected a possible secret exposure signal in review case context."
+        ),
+        "traceability_summary": (
+            "Aurora detected a possible secret exposure signal in review case "
+            "context. Evidence is preserved without storing or echoing any raw "
+            "secret value."
+        ),
+        "assigned_focus": "Review case context",
+    },
+    "AUD-SECRET-GUARD-API-RESPONSE": {
+        "title": "Secret Exposure Guard API Response Evidence Package",
+        "correlation_id": "CORR-SECRET-GUARD-API-RESPONSE",
+        "category": "api_response_secret_signal",
+        "severity": "critical",
+        "readiness_score": 96,
+        "summary": (
+            "Aurora detected a possible secret exposure signal in API response context."
+        ),
+        "traceability_summary": (
+            "Aurora detected a possible secret exposure signal in API response "
+            "context. Evidence is preserved without storing or echoing any raw "
+            "secret value."
+        ),
+        "assigned_focus": "API response context",
+    },
+    "AUD-SECRET-GUARD-CUSTODIAN-SECRET": {
+        "title": "Secret Exposure Guard Custodian Secret Reference Evidence Package",
+        "correlation_id": "CORR-SECRET-GUARD-CUSTODIAN-SECRET",
+        "category": "custodian_secret_reference",
+        "severity": "critical",
+        "readiness_score": 98,
+        "summary": (
+            "Aurora detected a possible future custodian secret reference signal."
+        ),
+        "traceability_summary": (
+            "Aurora detected a possible future custodian secret reference signal. "
+            "Evidence is preserved without storing or echoing any raw secret value."
+        ),
+        "assigned_focus": "Future custodian boundary",
+    },
+    "AUD-SECRET-GUARD-CLOUD-SECRET": {
+        "title": "Secret Exposure Guard Cloud Secret Reference Evidence Package",
+        "correlation_id": "CORR-SECRET-GUARD-CLOUD-SECRET",
+        "category": "cloud_secret_reference",
+        "severity": "critical",
+        "readiness_score": 98,
+        "summary": "Aurora detected a possible future cloud secret reference signal.",
+        "traceability_summary": (
+            "Aurora detected a possible future cloud secret reference signal. "
+            "Evidence is preserved without storing or echoing any raw secret value."
+        ),
+        "assigned_focus": "Future cloud boundary",
+    },
+}
+
 
 class EvidencePackagesService:
     """Provides deterministic evidence package demo data."""
@@ -674,6 +798,10 @@ class EvidencePackagesService:
             return self._build_ai_threat_defense_audit_event_package(
                 normalized_audit_event_id,
             )
+        if normalized_audit_event_id in SECRET_EXPOSURE_GUARD_AUDIT_EVENT_CONTEXT:
+            return self._build_secret_exposure_guard_audit_event_package(
+                normalized_audit_event_id,
+            )
 
         audit_event = self._find_audit_event(audit_event_id)
         if audit_event is None:
@@ -1047,6 +1175,105 @@ class EvidencePackagesService:
             timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
             recommended_next_action=context["recommended_next_action"],
             created_at="2026-06-18T10:00:00+03:00",
+        )
+
+    def _build_secret_exposure_guard_audit_event_package(
+        self,
+        audit_event_id: str,
+    ) -> EvidencePackage:
+        context = SECRET_EXPOSURE_GUARD_AUDIT_EVENT_CONTEXT[audit_event_id]
+        correlation_id = context["correlation_id"]
+        included_evidence = [
+            self._item(
+                "EPI-SECRET-GUARD-01",
+                "Secret Exposure Guard evaluation",
+                "Signal evaluation",
+                "included",
+                "Metadata-only signal evaluation is included for internal review.",
+                "secret_exposure_guard",
+                True,
+            ),
+            self._item(
+                "EPI-SECRET-GUARD-02",
+                context["assigned_focus"],
+                "Exposure context",
+                "included",
+                "Affected context is preserved without raw secret material.",
+                "secret_exposure_guard",
+                True,
+            ),
+            self._item(
+                "EPI-SECRET-GUARD-03",
+                "Safe evidence handling",
+                "Evidence safety",
+                "included",
+                "Evidence is preserved without storing or echoing any raw secret value.",
+                "evidence_packages",
+                True,
+            ),
+            self._item(
+                "EPI-SECRET-GUARD-04",
+                "Audit event ID and correlation ID",
+                "Audit traceability",
+                "included",
+                f"{audit_event_id} is preserved with correlation ID {correlation_id}.",
+                "audit_events",
+                True,
+            ),
+        ]
+
+        return EvidencePackage(
+            package_id=f"EP-FROM-{_audit_token(audit_event_id)}",
+            title=context["title"],
+            source_audit_event_id=audit_event_id,
+            source_module="secret_exposure_guard",
+            backend_decision="evidence_package_ready",
+            correlation_id=correlation_id,
+            traceability_summary=context["traceability_summary"],
+            audit_context={
+                "audit_event_id": audit_event_id,
+                "correlation_id": correlation_id,
+                "source_module": "secret_exposure_guard",
+                "domain": "secret_exposure_guard",
+                "category": context["category"],
+                "readiness": "ready_for_internal_review",
+                "evidence_package_ready": True,
+                "secret_value_stored": False,
+                "raw_secret_echoed": False,
+            },
+            linked_audit_events=[audit_event_id],
+            risk_type="Secret exposure guard",
+            severity=context["severity"],
+            status="ready",
+            readiness_score=context["readiness_score"],
+            summary=context["summary"],
+            included_evidence=included_evidence,
+            missing_evidence=[],
+            triggered_controls=[
+                "redact_sensitive_material",
+                "preserve_evidence_without_secret_value",
+                "restrict_access_to_affected_surface",
+                "create_human_review_case",
+                "verify_no_secret_value_is_stored",
+                "pause_sensitive_operations_if_related",
+            ],
+            reviewer_notes=[
+                "Secret Exposure Guard evidence package is ready for internal review.",
+                f"Source audit event: {audit_event_id}",
+                f"Correlation ID: {correlation_id}",
+                "No real secret value is stored, echoed, or included.",
+            ],
+            decision_rationale=(
+                "The Secret Exposure Guard signal produced a deterministic "
+                "evidence-ready audit event with safe defensive traceability."
+            ),
+            timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
+            recommended_next_action=(
+                "Preserve evidence without raw secret material, restrict affected "
+                "surface access, create a human review case, and pause sensitive "
+                "operations if related."
+            ),
+            created_at="2026-06-18T11:00:00+03:00",
         )
 
     def _build_infrastructure_audit_event_package(
