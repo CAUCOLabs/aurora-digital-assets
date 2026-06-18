@@ -50,6 +50,170 @@ SENSITIVE_APPROVAL_HIGH_VALUE_AUDIT_EVENT_ID = (
     "AUD-APPROVAL-HIGH-VALUE-NEW-WALLET"
 )
 
+AI_THREAT_DEFENSE_AUDIT_EVENT_CONTEXT = {
+    "AUD-AI-THREAT-SENSITIVE-OPERATION-CHAIN": {
+        "title": "AI-Assisted Sensitive Operation Chain Evidence Package",
+        "correlation_id": "CORR-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "category": "sensitive_operation_chain",
+        "severity": "critical",
+        "readiness_score": 95,
+        "summary": (
+            "Aurora detected an AI-assisted attack-path risk involving "
+            "sensitive operations, permissions, endpoint enumeration, audit "
+            "events, evidence packages, and review surfaces."
+        ),
+        "traceability_summary": (
+            "Aurora detected an AI-assisted attack-path risk involving "
+            "sensitive operations, permission anomalies, endpoint enumeration, "
+            "audit/evidence/review surfaces, and required human review. This "
+            "record is defensive only and contains no offensive detail."
+        ),
+        "included_evidence": [
+            ("AI threat defense evaluation", "Scenario evaluation", "Deterministic AI threat defense evaluation is included for internal review."),
+            ("Sensitive operation chain risk", "Sensitive operations", "Sensitive operation chaining risk was recorded for human review."),
+            ("Permission and endpoint signals", "Weak signals", "Permission anomaly and endpoint enumeration signals are preserved without operational attack detail."),
+            ("Audit, evidence, and review surface context", "Traceability", "Audit, evidence package, and review case surfaces are linked for defensive traceability."),
+        ],
+        "triggered_controls": [
+            "Sensitive operation pause",
+            "Step-up approval",
+            "Least privilege review",
+            "Audit event correlation",
+            "Evidence package generation",
+            "Human review required",
+        ],
+        "recommended_next_action": (
+            "Create a review case, preserve evidence, and keep the sensitive "
+            "operation paused until human review completes."
+        ),
+    },
+    "AUD-AI-THREAT-SECRET-EXPOSURE": {
+        "title": "AI-Assisted Secret Exposure Signal Evidence Package",
+        "correlation_id": "CORR-AI-THREAT-SECRET-EXPOSURE",
+        "category": "secret_exposure_signal",
+        "severity": "critical",
+        "readiness_score": 96,
+        "summary": (
+            "Aurora detected a possible secret exposure signal in "
+            "documentation, logs, prompts, evidence, or configuration context."
+        ),
+        "traceability_summary": (
+            "Aurora detected a possible secret exposure signal in "
+            "documentation, logs, prompts, evidence, or configuration context "
+            "and requires controlled review. No real secrets or example secrets "
+            "are included."
+        ),
+        "included_evidence": [
+            ("Secret exposure signal", "Configuration and secrets", "Possible secret exposure context is preserved without recording any secret value."),
+            ("Documentation and log context", "Exposure context", "Documentation, log, prompt, evidence, and configuration contexts are marked for controlled review."),
+            ("Review and rotation readiness", "Corrective control", "Credential rotation is listed only as an applicable defensive action."),
+            ("Audit event ID and correlation ID", "Audit traceability", "Source audit and correlation identifiers are preserved for review."),
+        ],
+        "triggered_controls": [
+            "No secrets in prompts/logs/docs",
+            "Secret exposure signal review",
+            "Credential rotation when applicable",
+            "Evidence package generation",
+            "Human review required",
+        ],
+        "recommended_next_action": (
+            "Create a review case, inspect controlled internal records, and "
+            "rotate credentials if a real exposure is confirmed outside this prototype."
+        ),
+    },
+    "AUD-AI-THREAT-PERMISSION-ABUSE": {
+        "title": "AI-Assisted Permission Abuse Evidence Package",
+        "correlation_id": "CORR-AI-THREAT-PERMISSION-ABUSE",
+        "category": "permission_abuse",
+        "severity": "high",
+        "readiness_score": 92,
+        "summary": (
+            "Aurora detected permission anomaly signals affecting review, "
+            "evidence, audit, or demo administration surfaces."
+        ),
+        "traceability_summary": (
+            "Aurora detected AI-assisted permission abuse risk across review "
+            "workflow, evidence, audit, and demo administration surfaces. The "
+            "package supports access governance review only."
+        ),
+        "included_evidence": [
+            ("Permission anomaly signal", "Access governance", "Permission anomaly signal is preserved for access governance review."),
+            ("Reviewer and admin surface context", "Review workflow", "Review case, evidence, audit, and demo admin surfaces are linked."),
+            ("Least privilege control context", "Preventive control", "Least privilege and permission-aware retrieval controls are mapped."),
+        ],
+        "triggered_controls": [
+            "Least privilege review",
+            "Permission-aware retrieval",
+            "Reviewer action monitoring",
+            "Audit event correlation",
+        ],
+        "recommended_next_action": (
+            "Tighten permissions and route the package to access governance review."
+        ),
+    },
+    "AUD-AI-THREAT-DOCUMENTATION-EXPOSURE": {
+        "title": "AI-Assisted Documentation Exposure Evidence Package",
+        "correlation_id": "CORR-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "category": "documentation_exposure",
+        "severity": "high",
+        "readiness_score": 90,
+        "summary": (
+            "Aurora detected documentation exposure risk affecting frontend, "
+            "backend API, and configuration surfaces."
+        ),
+        "traceability_summary": (
+            "Aurora detected AI-assisted documentation exposure risk involving "
+            "public-safe wording, internal control detail, and configuration "
+            "context. The package supports documentation classification review."
+        ),
+        "included_evidence": [
+            ("Documentation exposure signal", "Documentation", "Documentation exposure signal is preserved for classification review."),
+            ("Frontend and API surface context", "Surface inventory", "Frontend route and backend API surfaces are linked defensively."),
+            ("Configuration detail boundary", "Configuration", "Configuration and secret-handling boundaries are marked for review."),
+        ],
+        "triggered_controls": [
+            "Documentation classification",
+            "Response minimization",
+            "Secure error handling",
+            "No secrets in prompts/logs/docs",
+        ],
+        "recommended_next_action": (
+            "Restrict exposed documentation and preserve a public-safe/internal-only boundary."
+        ),
+    },
+    "AUD-AI-THREAT-API-MAPPING": {
+        "title": "AI-Assisted API Mapping Evidence Package",
+        "correlation_id": "CORR-AI-THREAT-API-MAPPING",
+        "category": "api_mapping",
+        "severity": "high",
+        "readiness_score": 88,
+        "summary": (
+            "Aurora detected AI-assisted API mapping risk affecting backend API "
+            "and observability surfaces."
+        ),
+        "traceability_summary": (
+            "Aurora detected AI-assisted API mapping risk involving endpoint "
+            "enumeration, response minimization, and secure error handling. The "
+            "package contains defensive control context only."
+        ),
+        "included_evidence": [
+            ("API mapping signal", "Backend API", "Endpoint enumeration signal is preserved without request patterns or payloads."),
+            ("Logs and error context", "Observability", "Logs and error surfaces are marked as sensitive internal records."),
+            ("API hardening controls", "Preventive control", "Response minimization, validation, authorization, and secure errors are mapped."),
+        ],
+        "triggered_controls": [
+            "Response minimization",
+            "Server-side validation",
+            "Object-level authorization",
+            "Secure error handling",
+            "Enumeration pattern detection",
+        ],
+        "recommended_next_action": (
+            "Review API response shape, error handling, and endpoint hardening controls."
+        ),
+    },
+}
+
 
 class EvidencePackagesService:
     """Provides deterministic evidence package demo data."""
@@ -506,6 +670,10 @@ class EvidencePackagesService:
             return self._build_infrastructure_audit_event_package(
                 normalized_audit_event_id,
             )
+        if normalized_audit_event_id in AI_THREAT_DEFENSE_AUDIT_EVENT_CONTEXT:
+            return self._build_ai_threat_defense_audit_event_package(
+                normalized_audit_event_id,
+            )
 
         audit_event = self._find_audit_event(audit_event_id)
         if audit_event is None:
@@ -805,6 +973,80 @@ class EvidencePackagesService:
                 "approval, destination, risk, and audit evidence."
             ),
             created_at="2026-06-16T11:20:00+03:00",
+        )
+
+    def _build_ai_threat_defense_audit_event_package(
+        self,
+        audit_event_id: str,
+    ) -> EvidencePackage:
+        context = AI_THREAT_DEFENSE_AUDIT_EVENT_CONTEXT[audit_event_id]
+        correlation_id = context["correlation_id"]
+        included_evidence = [
+            self._item(
+                f"EPI-AI-THREAT-{index:02d}",
+                title,
+                category,
+                "included",
+                description,
+                "ai_threat_defense",
+                True,
+            )
+            for index, (title, category, description) in enumerate(
+                context["included_evidence"],
+                start=1,
+            )
+        ]
+        included_evidence.append(
+            self._item(
+                "EPI-AI-THREAT-AUDIT-TRACE",
+                "Audit event ID and correlation ID",
+                "Audit traceability",
+                "included",
+                f"{audit_event_id} is preserved with correlation ID {correlation_id}.",
+                "audit_events",
+                True,
+            )
+        )
+
+        return EvidencePackage(
+            package_id=f"EP-FROM-{_audit_token(audit_event_id)}",
+            title=context["title"],
+            source_audit_event_id=audit_event_id,
+            source_module="ai_threat_defense",
+            backend_decision="evidence_package_ready",
+            correlation_id=correlation_id,
+            traceability_summary=context["traceability_summary"],
+            audit_context={
+                "audit_event_id": audit_event_id,
+                "correlation_id": correlation_id,
+                "source_module": "ai_threat_defense",
+                "domain": "ai_assisted_threat_defense",
+                "category": context["category"],
+                "readiness": "ready_for_internal_review",
+                "evidence_package_ready": True,
+            },
+            linked_audit_events=[audit_event_id],
+            risk_type="AI-assisted threat defense",
+            severity=context["severity"],
+            status="ready",
+            readiness_score=context["readiness_score"],
+            summary=context["summary"],
+            included_evidence=included_evidence,
+            missing_evidence=[],
+            triggered_controls=context["triggered_controls"],
+            reviewer_notes=[
+                "AI Threat Defense evidence package is ready for internal review.",
+                f"Source audit event: {audit_event_id}",
+                f"Correlation ID: {correlation_id}",
+                "No real AI detection, monitoring, scanning, offensive logic, exploit payload, or secret value is included.",
+            ],
+            decision_rationale=(
+                "The AI Threat Defense scenario produced a deterministic "
+                "evidence-ready audit event with preserved defensive traceability."
+            ),
+            timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
+            recommended_next_action=context["recommended_next_action"],
+            created_at="2026-06-18T10:00:00+03:00",
         )
 
     def _build_infrastructure_audit_event_package(

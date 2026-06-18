@@ -96,6 +96,156 @@ DETERMINISTIC_CASE_CONTEXT = {
         "audit_slug": "APPROVAL-HIGH-VALUE-NEW-WALLET",
         "risk_level": "critical",
     },
+    "CASE-AI-THREAT-SENSITIVE-OPERATION-CHAIN": {
+        "title": "AI-Assisted Sensitive Operation Chain Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "source_package_id": "EP-FROM-AUD-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "source_audit_event_id": "AUD-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "correlation_id": "CORR-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "audit_slug": "AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "risk_level": "critical",
+    },
+    "CASE-AI-THREAT-SECRET-EXPOSURE": {
+        "title": "AI-Assisted Secret Exposure Signal Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "source_package_id": "EP-FROM-AUD-AI-THREAT-SECRET-EXPOSURE",
+        "source_audit_event_id": "AUD-AI-THREAT-SECRET-EXPOSURE",
+        "correlation_id": "CORR-AI-THREAT-SECRET-EXPOSURE",
+        "audit_slug": "AI-THREAT-SECRET-EXPOSURE",
+        "risk_level": "critical",
+    },
+    "CASE-AI-THREAT-PERMISSION-ABUSE": {
+        "title": "AI-Assisted Permission Abuse Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "source_package_id": "EP-FROM-AUD-AI-THREAT-PERMISSION-ABUSE",
+        "source_audit_event_id": "AUD-AI-THREAT-PERMISSION-ABUSE",
+        "correlation_id": "CORR-AI-THREAT-PERMISSION-ABUSE",
+        "audit_slug": "AI-THREAT-PERMISSION-ABUSE",
+        "risk_level": "high",
+    },
+    "CASE-AI-THREAT-DOCUMENTATION-EXPOSURE": {
+        "title": "AI-Assisted Documentation Exposure Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "source_package_id": "EP-FROM-AUD-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "source_audit_event_id": "AUD-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "correlation_id": "CORR-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "audit_slug": "AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "risk_level": "high",
+    },
+    "CASE-AI-THREAT-API-MAPPING": {
+        "title": "AI-Assisted API Mapping Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "source_package_id": "EP-FROM-AUD-AI-THREAT-API-MAPPING",
+        "source_audit_event_id": "AUD-AI-THREAT-API-MAPPING",
+        "correlation_id": "CORR-AI-THREAT-API-MAPPING",
+        "audit_slug": "AI-THREAT-API-MAPPING",
+        "risk_level": "high",
+    },
+}
+
+AI_THREAT_REVIEW_CASE_CONTEXT = {
+    "EP-FROM-AUD-AI-THREAT-SENSITIVE-OPERATION-CHAIN": {
+        "case_id": "CASE-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "title": "AI-Assisted Sensitive Operation Chain Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "assigned_team": "Risk Operations / Security Architecture",
+        "review_reason": (
+            "Critical AI Threat Defense evidence indicates a defensive "
+            "attack-path risk across sensitive operations, permission signals, "
+            "endpoint enumeration, audit events, evidence packages, and review "
+            "surfaces. Human review is required before the workflow continues."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "audit_event_id": "AUD-REVIEW-FROM-EP-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "linked_evidence_audit_event": "AUD-EVIDENCE-FROM-AUD-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "recommended_actions": [
+            "Review sensitive operation chain risk.",
+            "Review permission and endpoint enumeration signals.",
+            "Confirm audit, evidence, and review traceability.",
+            "Keep the sensitive operation paused until human review completes.",
+        ],
+    },
+    "EP-FROM-AUD-AI-THREAT-SECRET-EXPOSURE": {
+        "case_id": "CASE-AI-THREAT-SECRET-EXPOSURE",
+        "title": "AI-Assisted Secret Exposure Signal Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "assigned_team": "Risk Operations / Security Architecture",
+        "review_reason": (
+            "Critical AI Threat Defense evidence indicates a possible secret "
+            "exposure signal in documentation, logs, prompts, evidence, or "
+            "configuration context. Controlled review is required without "
+            "recording any real secret values."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "audit_event_id": "AUD-REVIEW-FROM-EP-AI-THREAT-SECRET-EXPOSURE",
+        "linked_evidence_audit_event": "AUD-EVIDENCE-FROM-AUD-AI-THREAT-SECRET-EXPOSURE",
+        "recommended_actions": [
+            "Review controlled documentation, log, evidence, and configuration context.",
+            "Confirm no secret values are present in exposed material.",
+            "Rotate credentials if real exposure is confirmed outside this prototype.",
+            "Preserve audit and evidence traceability.",
+        ],
+    },
+    "EP-FROM-AUD-AI-THREAT-PERMISSION-ABUSE": {
+        "case_id": "CASE-AI-THREAT-PERMISSION-ABUSE",
+        "title": "AI-Assisted Permission Abuse Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "assigned_team": "Risk Operations / Access Governance",
+        "review_reason": (
+            "AI Threat Defense evidence indicates permission anomaly risk "
+            "across review, evidence, audit, or demo administration surfaces."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "audit_event_id": "AUD-REVIEW-FROM-EP-AI-THREAT-PERMISSION-ABUSE",
+        "linked_evidence_audit_event": "AUD-EVIDENCE-FROM-AUD-AI-THREAT-PERMISSION-ABUSE",
+        "recommended_actions": [
+            "Review least privilege posture.",
+            "Review reviewer, staff, and admin permissions.",
+            "Tighten access governance controls.",
+        ],
+    },
+    "EP-FROM-AUD-AI-THREAT-DOCUMENTATION-EXPOSURE": {
+        "case_id": "CASE-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "title": "AI-Assisted Documentation Exposure Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "assigned_team": "Risk Operations / Security Architecture",
+        "review_reason": (
+            "AI Threat Defense evidence indicates documentation exposure risk "
+            "requiring public-safe and internal-only classification review."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "audit_event_id": "AUD-REVIEW-FROM-EP-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "linked_evidence_audit_event": "AUD-EVIDENCE-FROM-AUD-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "recommended_actions": [
+            "Classify documentation as public-safe or internal-only.",
+            "Remove unnecessary internal control detail from public material.",
+            "Confirm no secret or configuration detail is exposed.",
+        ],
+    },
+    "EP-FROM-AUD-AI-THREAT-API-MAPPING": {
+        "case_id": "CASE-AI-THREAT-API-MAPPING",
+        "title": "AI-Assisted API Mapping Review Case",
+        "case_type": "ai_assisted_threat_review",
+        "assigned_team": "Risk Operations / API Security",
+        "review_reason": (
+            "AI Threat Defense evidence indicates API mapping risk requiring "
+            "response minimization, authorization, validation, and secure error "
+            "handling review."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "audit_event_id": "AUD-REVIEW-FROM-EP-AI-THREAT-API-MAPPING",
+        "linked_evidence_audit_event": "AUD-EVIDENCE-FROM-AUD-AI-THREAT-API-MAPPING",
+        "recommended_actions": [
+            "Review API response minimization.",
+            "Review object-level authorization and server-side validation.",
+            "Review secure error handling and enumeration detection.",
+        ],
+    },
 }
 
 
@@ -371,6 +521,21 @@ class ReviewCaseService:
                 "Preserve approval and audit traceability.",
                 "Escalate or close after customer-protection review.",
             ]
+        elif normalized_package_id in AI_THREAT_REVIEW_CASE_CONTEXT:
+            context = AI_THREAT_REVIEW_CASE_CONTEXT[normalized_package_id]
+            case_id = context["case_id"]
+            title = context["title"]
+            case_type = context["case_type"]
+            assigned_team = context["assigned_team"]
+            review_reason = context["review_reason"]
+            severity = context["severity"]
+            normalized_priority = context["priority"]
+            audit_event_id = context["audit_event_id"]
+            linked_audit_events = [
+                normalized_audit_event_id,
+                context["linked_evidence_audit_event"],
+            ]
+            recommended_actions = context["recommended_actions"]
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -459,6 +624,8 @@ class ReviewCaseService:
                     "EP-FROM-AUD-INFRA-AZURE-STORAGE-IDENTITY",
                     "EP-FROM-AUD-INFRA-K8S-HARDENING-FAILURE",
                 }
+                else "ai_assisted_threat_defense"
+                if normalized_package_id in AI_THREAT_REVIEW_CASE_CONTEXT
                 else "crypto_agility"
                 if normalized_package_id
                 == "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS"
