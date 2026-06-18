@@ -32,6 +32,9 @@ from app.api.routes.reports import router as reports_router
 from app.api.routes.review_cases import router as review_cases_router
 from app.api.routes.risk_operations import router as risk_operations_router
 from app.api.routes.sensitive_approval import router as sensitive_approval_router
+from app.api.routes.secret_exposure_guard import (
+    router as secret_exposure_guard_router,
+)
 from app.api.routes.staff_customer_access import (
     router as staff_customer_access_router,
 )
@@ -90,6 +93,7 @@ def create_app() -> FastAPI:
     app.include_router(crypto_agility_router, prefix=settings.api_prefix)
     app.include_router(sensitive_approval_router, prefix=settings.api_prefix)
     app.include_router(ai_threat_defense_router, prefix=settings.api_prefix)
+    app.include_router(secret_exposure_guard_router, prefix=settings.api_prefix)
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app
