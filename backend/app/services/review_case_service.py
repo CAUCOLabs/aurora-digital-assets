@@ -952,6 +952,11 @@ class ReviewCaseService:
             closure_ready=status == "mitigated",
         )
 
+    def get_lifecycle_status(self, case_id: str) -> str:
+        normalized_case_id = case_id.strip().upper()
+        case = self._resolve_lifecycle_case(normalized_case_id)
+        return self._normalize_lifecycle_status(case.status)
+
     def persist_case_trace(
         self,
         case: ReviewCase,

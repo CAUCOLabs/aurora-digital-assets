@@ -47,6 +47,10 @@ class SensitiveApprovalRequest(BaseModel):
     device_trusted: bool = True
     session_age_minutes: int = 5
     risk_context: dict[str, Any] = Field(default_factory=dict)
+    linked_ai_threat_case_id: str | None = None
+    ai_threat_guard_required: bool = False
+    ai_threat_guard_status: str | None = None
+    ai_threat_guard_reason: str | None = None
 
 
 class SensitiveApprovalResponse(BaseModel):
@@ -69,6 +73,13 @@ class SensitiveApprovalResponse(BaseModel):
     review_case_required: bool
     review_case_id: str | None = None
     recommended_next_action: str
+    ai_threat_guard_applied: bool = False
+    ai_threat_case_id: str | None = None
+    ai_threat_case_status: str | None = None
+    ai_threat_guard_decision: str | None = None
+    ai_threat_guard_reason: str | None = None
+    operation_paused_until_review: bool = False
+    required_lifecycle_status: str | None = None
     created_at: str
 
 

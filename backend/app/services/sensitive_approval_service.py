@@ -7,6 +7,79 @@ from app.schemas.sensitive_approval import (
     SensitiveOperation,
 )
 from app.services.audit_service import audit_service
+from app.services.review_case_service import review_case_service
+
+
+ACTIVE_AI_THREAT_GUARD_STATUSES = {
+    "open",
+    "under_review",
+    "action_required",
+    "mitigation_in_progress",
+}
+CLEARED_AI_THREAT_GUARD_STATUSES = {"mitigated", "closed"}
+AI_THREAT_APPROVAL_GUARDS = {
+    "CASE-AI-THREAT-SENSITIVE-OPERATION-CHAIN": {
+        "correlation_id": "CORR-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
+        "audit_event_id": "AUD-APPROVAL-AI-THREAT-GUARD-SENSITIVE-OPERATION-CHAIN",
+        "reason": (
+            "Critical AI Threat Defense review case is active for a sensitive "
+            "operation chain. Operation must remain paused until mitigated or closed."
+        ),
+        "recommended_next_action": (
+            "keep_sensitive_operation_paused_until_ai_threat_review_is_mitigated_or_closed; "
+            "preserve_evidence_package; review_permission_and_endpoint_exposure_signals; "
+            "require_human_approval_before_continuing; verify_lifecycle_closure_before_releasing_operation"
+        ),
+    },
+    "CASE-AI-THREAT-SECRET-EXPOSURE": {
+        "correlation_id": "CORR-AI-THREAT-SECRET-EXPOSURE",
+        "audit_event_id": "AUD-APPROVAL-AI-THREAT-GUARD-SECRET-EXPOSURE",
+        "reason": (
+            "Critical AI Threat Defense review case indicates possible secret "
+            "exposure signal. Operation must remain paused until mitigated or closed."
+        ),
+        "recommended_next_action": (
+            "preserve_evidence; rotate_exposed_credentials_where_applicable; "
+            "restrict_operation; require_human_review"
+        ),
+    },
+    "CASE-AI-THREAT-PERMISSION-ABUSE": {
+        "correlation_id": "CORR-AI-THREAT-PERMISSION-ABUSE",
+        "audit_event_id": "AUD-APPROVAL-AI-THREAT-GUARD-PERMISSION-ABUSE",
+        "reason": (
+            "AI Threat Defense review case indicates permission abuse risk. "
+            "Operation must remain paused until mitigated or closed."
+        ),
+        "recommended_next_action": (
+            "keep_sensitive_operation_paused_until_ai_threat_review_is_mitigated_or_closed; "
+            "review_permission_signals; require_human_review"
+        ),
+    },
+    "CASE-AI-THREAT-DOCUMENTATION-EXPOSURE": {
+        "correlation_id": "CORR-AI-THREAT-DOCUMENTATION-EXPOSURE",
+        "audit_event_id": "AUD-APPROVAL-AI-THREAT-GUARD-DOCUMENTATION-EXPOSURE",
+        "reason": (
+            "AI Threat Defense review case indicates documentation exposure risk. "
+            "Operation must remain paused until mitigated or closed."
+        ),
+        "recommended_next_action": (
+            "keep_sensitive_operation_paused_until_ai_threat_review_is_mitigated_or_closed; "
+            "preserve_evidence_package; require_human_review"
+        ),
+    },
+    "CASE-AI-THREAT-API-MAPPING": {
+        "correlation_id": "CORR-AI-THREAT-API-MAPPING",
+        "audit_event_id": "AUD-APPROVAL-AI-THREAT-GUARD-API-MAPPING",
+        "reason": (
+            "AI Threat Defense review case indicates API mapping risk. "
+            "Operation must remain paused until mitigated or closed."
+        ),
+        "recommended_next_action": (
+            "keep_sensitive_operation_paused_until_ai_threat_review_is_mitigated_or_closed; "
+            "review_endpoint_exposure_signals; require_human_review"
+        ),
+    },
+}
 
 
 class SensitiveApprovalService:
@@ -209,6 +282,69 @@ class SensitiveApprovalService:
             risk_score = min(100, risk_score + 10)
             reasons.append("Session age requires additional scrutiny.")
 
+        ai_threat_guard_applied = False
+        ai_threat_case_id = None
+        ai_threat_case_status = None
+        ai_threat_guard_decision = None
+        ai_threat_guard_reason = None
+        operation_paused_until_review = False
+        required_lifecycle_status = None
+
+        if request.ai_threat_guard_required and request.linked_ai_threat_case_id:
+            normalized_case_id = request.linked_ai_threat_case_id.strip().upper()
+            guard = AI_THREAT_APPROVAL_GUARDS.get(normalized_case_id)
+            if guard is not None:
+                ai_threat_guard_applied = True
+                ai_threat_case_id = normalized_case_id
+                ai_threat_case_status = (
+                    request.ai_threat_guard_status.strip().lower().replace(" ", "_")
+                    if request.ai_threat_guard_status
+                    else review_case_service.get_lifecycle_status(normalized_case_id)
+                )
+                ai_threat_guard_reason = (
+                    request.ai_threat_guard_reason or guard["reason"]
+                )
+                required_lifecycle_status = "mitigated_or_closed"
+
+                if ai_threat_case_status in ACTIVE_AI_THREAT_GUARD_STATUSES:
+                    operation_paused_until_review = True
+                    ai_threat_guard_decision = "pending_review"
+                    decision = "blocked" if decision == "blocked" else "pending_review"
+                    risk_level = "critical"
+                    risk_score = max(risk_score, 96)
+                    audit_event_id = guard["audit_event_id"]
+                    correlation_id = guard["correlation_id"]
+                    evidence_package_ready = True
+                    review_case_required = True
+                    review_case_id = normalized_case_id
+                    recommended_next_action = guard["recommended_next_action"]
+                    reasons.append(ai_threat_guard_reason)
+                    reasons.append(
+                        "Sensitive operation remains paused until the linked AI "
+                        "Threat Defense review case is mitigated or closed."
+                    )
+                elif ai_threat_case_status in CLEARED_AI_THREAT_GUARD_STATUSES:
+                    ai_threat_guard_decision = "cleared"
+                    reasons.append(
+                        "AI Threat Defense guard is cleared because the linked "
+                        f"review case status is {ai_threat_case_status}."
+                    )
+                else:
+                    operation_paused_until_review = True
+                    ai_threat_guard_decision = "pending_review"
+                    decision = "blocked" if decision == "blocked" else "pending_review"
+                    risk_level = "critical"
+                    risk_score = max(risk_score, 90)
+                    audit_event_id = guard["audit_event_id"]
+                    correlation_id = guard["correlation_id"]
+                    review_case_required = True
+                    review_case_id = normalized_case_id
+                    recommended_next_action = guard["recommended_next_action"]
+                    reasons.append(
+                        "AI Threat Defense guard status is not cleared. "
+                        "Human review is required before continuing."
+                    )
+
         audit_event = audit_service.create_audit_event_from_sensitive_action(
             event_id=audit_event_id,
             actor_id=request.actor_id,
@@ -233,6 +369,11 @@ class SensitiveApprovalService:
                 "customer_confirmed": request.customer_confirmed,
                 "mobile_approval_status": request.mobile_approval_status,
                 "recommended_next_action": recommended_next_action,
+                "ai_threat_guard_applied": ai_threat_guard_applied,
+                "ai_threat_case_id": ai_threat_case_id,
+                "ai_threat_case_status": ai_threat_case_status,
+                "ai_threat_guard_decision": ai_threat_guard_decision,
+                "operation_paused_until_review": operation_paused_until_review,
             },
         )
 
@@ -258,6 +399,13 @@ class SensitiveApprovalService:
             review_case_required=review_case_required,
             review_case_id=review_case_id,
             recommended_next_action=recommended_next_action,
+            ai_threat_guard_applied=ai_threat_guard_applied,
+            ai_threat_case_id=ai_threat_case_id,
+            ai_threat_case_status=ai_threat_case_status,
+            ai_threat_guard_decision=ai_threat_guard_decision,
+            ai_threat_guard_reason=ai_threat_guard_reason,
+            operation_paused_until_review=operation_paused_until_review,
+            required_lifecycle_status=required_lifecycle_status,
             created_at=datetime.now(timezone.utc).isoformat(),
         )
 
