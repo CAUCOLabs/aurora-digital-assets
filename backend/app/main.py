@@ -11,6 +11,9 @@ from app.api.routes.auth import router as auth_router
 from app.api.routes.bank_access import router as bank_access_router
 from app.api.routes.bank_staff import router as bank_staff_router
 from app.api.routes.buy_sell import router as buy_sell_router
+from app.api.routes.cloud_kubernetes_guardrails import (
+    router as cloud_kubernetes_guardrails_router,
+)
 from app.api.routes.compliance_intelligence import (
     router as compliance_intelligence_router,
 )
@@ -94,6 +97,10 @@ def create_app() -> FastAPI:
     app.include_router(sensitive_approval_router, prefix=settings.api_prefix)
     app.include_router(ai_threat_defense_router, prefix=settings.api_prefix)
     app.include_router(secret_exposure_guard_router, prefix=settings.api_prefix)
+    app.include_router(
+        cloud_kubernetes_guardrails_router,
+        prefix=settings.api_prefix,
+    )
     app.include_router(auth_router, prefix=settings.api_prefix)
 
     return app
