@@ -17,6 +17,75 @@ ACTIVE_AI_THREAT_GUARD_STATUSES = {
     "mitigation_in_progress",
 }
 CLEARED_AI_THREAT_GUARD_STATUSES = {"mitigated", "closed"}
+ACTIVE_SECRET_GUARD_STATUSES = {
+    "open",
+    "under_review",
+    "action_required",
+    "mitigation_in_progress",
+}
+CLEARED_SECRET_GUARD_STATUSES = {"mitigated", "closed"}
+SECRET_GUARD_RECOMMENDED_NEXT_ACTION = (
+    "keep_sensitive_operation_paused_until_secret_guard_review_is_mitigated_or_closed; "
+    "preserve_evidence_without_secret_value; redact_sensitive_material; "
+    "restrict_access_to_affected_surface; verify_no_secret_value_is_stored; "
+    "require_human_approval_before_continuing; "
+    "rotate_exposed_credentials_where_applicable; "
+    "verify_lifecycle_closure_before_releasing_operation"
+)
+SECRET_GUARD_DEFAULT_REASON = (
+    "Critical Secret Exposure Guard review case is active. Operation must remain "
+    "paused until mitigated or closed."
+)
+SECRET_GUARD_APPROVAL_GUARDS = {
+    "CASE-SECRET-GUARD-CONFIG": {
+        "correlation_id": "CORR-SECRET-GUARD-CONFIG",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-CONFIG",
+        "reason": (
+            "Critical Secret Exposure Guard review case is active for "
+            "configuration context. Operation must remain paused until mitigated "
+            "or closed."
+        ),
+    },
+    "CASE-SECRET-GUARD-PROMPT-CONTEXT": {
+        "correlation_id": "CORR-SECRET-GUARD-PROMPT-CONTEXT",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-PROMPT-CONTEXT",
+        "reason": SECRET_GUARD_DEFAULT_REASON,
+    },
+    "CASE-SECRET-GUARD-LOGS": {
+        "correlation_id": "CORR-SECRET-GUARD-LOGS",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-LOGS",
+        "reason": SECRET_GUARD_DEFAULT_REASON,
+    },
+    "CASE-SECRET-GUARD-EVIDENCE-PACKAGE": {
+        "correlation_id": "CORR-SECRET-GUARD-EVIDENCE-PACKAGE",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-EVIDENCE-PACKAGE",
+        "reason": SECRET_GUARD_DEFAULT_REASON,
+    },
+    "CASE-SECRET-GUARD-REVIEW-CASE": {
+        "correlation_id": "CORR-SECRET-GUARD-REVIEW-CASE",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-REVIEW-CASE",
+        "reason": SECRET_GUARD_DEFAULT_REASON,
+    },
+    "CASE-SECRET-GUARD-API-RESPONSE": {
+        "correlation_id": "CORR-SECRET-GUARD-API-RESPONSE",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-API-RESPONSE",
+        "reason": SECRET_GUARD_DEFAULT_REASON,
+    },
+    "CASE-SECRET-GUARD-CUSTODIAN-SECRET": {
+        "correlation_id": "CORR-SECRET-GUARD-CUSTODIAN-SECRET",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-CUSTODIAN-SECRET",
+        "reason": (
+            "Critical Secret Exposure Guard review case is active for custodian "
+            "secret reference. Operation must remain paused until mitigated or "
+            "closed."
+        ),
+    },
+    "CASE-SECRET-GUARD-CLOUD-SECRET": {
+        "correlation_id": "CORR-SECRET-GUARD-CLOUD-SECRET",
+        "audit_event_id": "AUD-APPROVAL-SECRET-GUARD-CLOUD-SECRET",
+        "reason": SECRET_GUARD_DEFAULT_REASON,
+    },
+}
 AI_THREAT_APPROVAL_GUARDS = {
     "CASE-AI-THREAT-SENSITIVE-OPERATION-CHAIN": {
         "correlation_id": "CORR-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
@@ -289,6 +358,13 @@ class SensitiveApprovalService:
         ai_threat_guard_reason = None
         operation_paused_until_review = False
         required_lifecycle_status = None
+        secret_guard_applied = False
+        secret_guard_case_id = None
+        secret_guard_case_status = None
+        secret_guard_decision = None
+        secret_guard_reason = None
+        operation_paused_by_secret_guard = False
+        secret_guard_required_lifecycle_status = None
 
         if request.ai_threat_guard_required and request.linked_ai_threat_case_id:
             normalized_case_id = request.linked_ai_threat_case_id.strip().upper()
@@ -345,6 +421,59 @@ class SensitiveApprovalService:
                         "Human review is required before continuing."
                     )
 
+        if request.secret_guard_required and request.linked_secret_guard_case_id:
+            normalized_case_id = request.linked_secret_guard_case_id.strip().upper()
+            guard = SECRET_GUARD_APPROVAL_GUARDS.get(normalized_case_id)
+            if guard is not None:
+                secret_guard_applied = True
+                secret_guard_case_id = normalized_case_id
+                secret_guard_case_status = (
+                    request.secret_guard_status.strip().lower().replace(" ", "_")
+                    if request.secret_guard_status
+                    else review_case_service.get_lifecycle_status(normalized_case_id)
+                )
+                secret_guard_reason = request.secret_guard_reason or guard["reason"]
+                secret_guard_required_lifecycle_status = "mitigated_or_closed"
+
+                if secret_guard_case_status in ACTIVE_SECRET_GUARD_STATUSES:
+                    operation_paused_by_secret_guard = True
+                    secret_guard_decision = "pending_review"
+                    decision = "blocked" if decision == "blocked" else "pending_review"
+                    risk_level = "critical"
+                    risk_score = max(risk_score, 96)
+                    audit_event_id = guard["audit_event_id"]
+                    correlation_id = guard["correlation_id"]
+                    evidence_package_ready = True
+                    review_case_required = True
+                    review_case_id = normalized_case_id
+                    recommended_next_action = SECRET_GUARD_RECOMMENDED_NEXT_ACTION
+                    reasons.append(secret_guard_reason)
+                    reasons.append(
+                        "Sensitive operation remains paused until the linked "
+                        "Secret Exposure Guard review case is mitigated or closed."
+                    )
+                elif secret_guard_case_status in CLEARED_SECRET_GUARD_STATUSES:
+                    secret_guard_decision = "cleared"
+                    reasons.append(
+                        "Secret Exposure Guard is cleared because the linked "
+                        f"review case status is {secret_guard_case_status}."
+                    )
+                else:
+                    operation_paused_by_secret_guard = True
+                    secret_guard_decision = "pending_review"
+                    decision = "blocked" if decision == "blocked" else "pending_review"
+                    risk_level = "critical"
+                    risk_score = max(risk_score, 90)
+                    audit_event_id = guard["audit_event_id"]
+                    correlation_id = guard["correlation_id"]
+                    review_case_required = True
+                    review_case_id = normalized_case_id
+                    recommended_next_action = SECRET_GUARD_RECOMMENDED_NEXT_ACTION
+                    reasons.append(
+                        "Secret Exposure Guard status is not cleared. Human "
+                        "review is required before continuing."
+                    )
+
         audit_event = audit_service.create_audit_event_from_sensitive_action(
             event_id=audit_event_id,
             actor_id=request.actor_id,
@@ -374,6 +503,11 @@ class SensitiveApprovalService:
                 "ai_threat_case_status": ai_threat_case_status,
                 "ai_threat_guard_decision": ai_threat_guard_decision,
                 "operation_paused_until_review": operation_paused_until_review,
+                "secret_guard_applied": secret_guard_applied,
+                "secret_guard_case_id": secret_guard_case_id,
+                "secret_guard_case_status": secret_guard_case_status,
+                "secret_guard_decision": secret_guard_decision,
+                "operation_paused_by_secret_guard": operation_paused_by_secret_guard,
             },
         )
 
@@ -406,6 +540,13 @@ class SensitiveApprovalService:
             ai_threat_guard_reason=ai_threat_guard_reason,
             operation_paused_until_review=operation_paused_until_review,
             required_lifecycle_status=required_lifecycle_status,
+            secret_guard_applied=secret_guard_applied,
+            secret_guard_case_id=secret_guard_case_id,
+            secret_guard_case_status=secret_guard_case_status,
+            secret_guard_decision=secret_guard_decision,
+            secret_guard_reason=secret_guard_reason,
+            operation_paused_by_secret_guard=operation_paused_by_secret_guard,
+            secret_guard_required_lifecycle_status=secret_guard_required_lifecycle_status,
             created_at=datetime.now(timezone.utc).isoformat(),
         )
 

@@ -51,6 +51,10 @@ class SensitiveApprovalRequest(BaseModel):
     ai_threat_guard_required: bool = False
     ai_threat_guard_status: str | None = None
     ai_threat_guard_reason: str | None = None
+    linked_secret_guard_case_id: str | None = None
+    secret_guard_required: bool = False
+    secret_guard_status: str | None = None
+    secret_guard_reason: str | None = None
 
 
 class SensitiveApprovalResponse(BaseModel):
@@ -80,6 +84,13 @@ class SensitiveApprovalResponse(BaseModel):
     ai_threat_guard_reason: str | None = None
     operation_paused_until_review: bool = False
     required_lifecycle_status: str | None = None
+    secret_guard_applied: bool = False
+    secret_guard_case_id: str | None = None
+    secret_guard_case_status: str | None = None
+    secret_guard_decision: str | None = None
+    secret_guard_reason: str | None = None
+    operation_paused_by_secret_guard: bool = False
+    secret_guard_required_lifecycle_status: str | None = None
     created_at: str
 
 
