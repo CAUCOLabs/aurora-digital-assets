@@ -338,6 +338,171 @@ SECRET_EXPOSURE_GUARD_AUDIT_EVENT_CONTEXT = {
     },
 }
 
+CUSTODIAN_INTEGRATION_GUARDRAILS_AUDIT_EVENT_CONTEXT = {
+    "AUD-CUSTODIAN-READINESS-GAP": {
+        "title": "Custodian Integration Readiness Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-READINESS-GAP",
+        "review_case_id": "CASE-CUSTODIAN-READINESS-GAP",
+        "category": "custodian_readiness_gap",
+        "severity": "high",
+        "readiness_score": 90,
+        "assigned_focus": "Future regulated custodian readiness",
+        "summary": (
+            "Aurora identified a future regulated custodian integration readiness gap."
+        ),
+    },
+    "AUD-CUSTODIAN-ASSET-SEGREGATION-GAP": {
+        "title": "Custodian Asset Segregation Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-ASSET-SEGREGATION-GAP",
+        "review_case_id": "CASE-CUSTODIAN-ASSET-SEGREGATION-GAP",
+        "category": "custodian_asset_segregation_gap",
+        "severity": "critical",
+        "readiness_score": 94,
+        "assigned_focus": "Asset segregation controls",
+        "summary": (
+            "Aurora identified a future custodian asset segregation control gap."
+        ),
+    },
+    "AUD-CUSTODIAN-LIABILITY-BOUNDARY-GAP": {
+        "title": "Custodian Liability Boundary Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-LIABILITY-BOUNDARY-GAP",
+        "review_case_id": "CASE-CUSTODIAN-LIABILITY-BOUNDARY-GAP",
+        "category": "custodian_liability_boundary_gap",
+        "severity": "critical",
+        "readiness_score": 93,
+        "assigned_focus": "Liability and responsibility boundary",
+        "summary": (
+            "Aurora identified a future custodian liability boundary control gap."
+        ),
+    },
+    "AUD-CUSTODIAN-SLA-CONTRACT-GAP": {
+        "title": "Custodian SLA Contract Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-SLA-CONTRACT-GAP",
+        "review_case_id": "CASE-CUSTODIAN-SLA-CONTRACT-GAP",
+        "category": "custodian_sla_contract_gap",
+        "severity": "high",
+        "readiness_score": 88,
+        "assigned_focus": "SLA and contract controls",
+        "summary": "Aurora identified a future custodian SLA and contract gap.",
+    },
+    "AUD-CUSTODIAN-AUDIT-REPORTS-GAP": {
+        "title": "Custodian Audit Reports Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-AUDIT-REPORTS-GAP",
+        "review_case_id": "CASE-CUSTODIAN-AUDIT-REPORTS-GAP",
+        "category": "custodian_audit_reports_gap",
+        "severity": "high",
+        "readiness_score": 86,
+        "assigned_focus": "Audit report availability",
+        "summary": "Aurora identified a future custodian audit reports gap.",
+    },
+    "AUD-CUSTODIAN-TRANSFER-LIMIT-GAP": {
+        "title": "Custodian Transfer Limit Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-TRANSFER-LIMIT-GAP",
+        "review_case_id": "CASE-CUSTODIAN-TRANSFER-LIMIT-GAP",
+        "category": "custodian_transfer_limit_gap",
+        "severity": "high",
+        "readiness_score": 89,
+        "assigned_focus": "Transfer limit controls",
+        "summary": "Aurora identified a future custodian transfer limit gap.",
+    },
+    "AUD-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP": {
+        "title": "Custodian Withdrawal Approval Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP",
+        "review_case_id": "CASE-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP",
+        "category": "custodian_withdrawal_approval_gap",
+        "severity": "critical",
+        "readiness_score": 94,
+        "assigned_focus": "Withdrawal approval controls",
+        "summary": (
+            "Aurora identified a future custodian withdrawal approval control gap."
+        ),
+    },
+    "AUD-CUSTODIAN-API-ACCESS-CONTROL-GAP": {
+        "title": "Custodian API Access Control Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-API-ACCESS-CONTROL-GAP",
+        "review_case_id": "CASE-CUSTODIAN-API-ACCESS-CONTROL-GAP",
+        "category": "custodian_api_access_control_gap",
+        "severity": "critical",
+        "readiness_score": 93,
+        "assigned_focus": "API access controls",
+        "summary": (
+            "Aurora identified a future custodian API access control gap."
+        ),
+    },
+    "AUD-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP": {
+        "title": "Custodian Key Management Boundary Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP",
+        "review_case_id": "CASE-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP",
+        "category": "custodian_key_management_boundary_gap",
+        "severity": "critical",
+        "readiness_score": 98,
+        "assigned_focus": "Key management boundary gap",
+        "summary": (
+            "Aurora identified a future regulated custodian key management "
+            "boundary gap."
+        ),
+    },
+    "AUD-CUSTODIAN-INCIDENT-REPORTING-GAP": {
+        "title": "Custodian Incident Reporting Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-INCIDENT-REPORTING-GAP",
+        "review_case_id": "CASE-CUSTODIAN-INCIDENT-REPORTING-GAP",
+        "category": "custodian_incident_reporting_gap",
+        "severity": "high",
+        "readiness_score": 86,
+        "assigned_focus": "Incident reporting controls",
+        "summary": "Aurora identified a future custodian incident reporting gap.",
+    },
+    "AUD-CUSTODIAN-RECONCILIATION-GAP": {
+        "title": "Custodian Reconciliation Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-RECONCILIATION-GAP",
+        "review_case_id": "CASE-CUSTODIAN-RECONCILIATION-GAP",
+        "category": "custodian_reconciliation_gap",
+        "severity": "high",
+        "readiness_score": 86,
+        "assigned_focus": "Reconciliation controls",
+        "summary": "Aurora identified a future custodian reconciliation gap.",
+    },
+    "AUD-CUSTODIAN-ACTIVE-AI-THREAT-CASE": {
+        "title": "Custodian Active AI Threat Case Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-ACTIVE-AI-THREAT-CASE",
+        "review_case_id": "CASE-CUSTODIAN-ACTIVE-AI-THREAT-CASE",
+        "category": "active_ai_threat_case",
+        "severity": "critical",
+        "readiness_score": 96,
+        "assigned_focus": "Active AI Threat Defense case clearance",
+        "summary": (
+            "Aurora identified a future custodian integration blocked by an "
+            "active AI Threat Defense case."
+        ),
+    },
+    "AUD-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE": {
+        "title": "Custodian Active Secret Guard Case Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE",
+        "review_case_id": "CASE-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE",
+        "category": "active_secret_guard_case",
+        "severity": "critical",
+        "readiness_score": 97,
+        "assigned_focus": "Active Secret Exposure Guard case clearance",
+        "summary": (
+            "Aurora identified a future custodian integration blocked by an "
+            "active Secret Exposure Guard case."
+        ),
+    },
+    "AUD-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE": {
+        "title": "Custodian Active Cloud Kubernetes Guard Case Evidence Package",
+        "correlation_id": "CORR-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE",
+        "review_case_id": "CASE-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE",
+        "category": "active_cloud_k8s_guard_case",
+        "severity": "critical",
+        "readiness_score": 96,
+        "assigned_focus": "Active cloud and Kubernetes guardrail case clearance",
+        "summary": (
+            "Aurora identified a future custodian integration blocked by an "
+            "active cloud or Kubernetes guardrail case."
+        ),
+    },
+}
+
 
 class EvidencePackagesService:
     """Provides deterministic evidence package demo data."""
@@ -800,6 +965,13 @@ class EvidencePackagesService:
             )
         if normalized_audit_event_id in SECRET_EXPOSURE_GUARD_AUDIT_EVENT_CONTEXT:
             return self._build_secret_exposure_guard_audit_event_package(
+                normalized_audit_event_id,
+            )
+        if (
+            normalized_audit_event_id
+            in CUSTODIAN_INTEGRATION_GUARDRAILS_AUDIT_EVENT_CONTEXT
+        ):
+            return self._build_custodian_integration_guardrails_audit_event_package(
                 normalized_audit_event_id,
             )
 
@@ -1274,6 +1446,129 @@ class EvidencePackagesService:
                 "operations if related."
             ),
             created_at="2026-06-18T11:00:00+03:00",
+        )
+
+    def _build_custodian_integration_guardrails_audit_event_package(
+        self,
+        audit_event_id: str,
+    ) -> EvidencePackage:
+        context = CUSTODIAN_INTEGRATION_GUARDRAILS_AUDIT_EVENT_CONTEXT[
+            audit_event_id
+        ]
+        correlation_id = context["correlation_id"]
+        included_evidence = [
+            self._item(
+                "EPI-CUSTODIAN-GUARD-01",
+                "Future regulated custodian integration guardrail",
+                "Guardrail evaluation",
+                "included",
+                "Deterministic custodian integration guardrail evaluation is included for internal review.",
+                "custodian_integration_guardrails",
+                True,
+            ),
+            self._item(
+                "EPI-CUSTODIAN-GUARD-02",
+                context["assigned_focus"],
+                "Control gap",
+                "included",
+                "The relevant future custodian control gap is preserved for review.",
+                "custodian_integration_guardrails",
+                True,
+            ),
+            self._item(
+                "EPI-CUSTODIAN-GUARD-03",
+                "Custody boundary confirmation",
+                "Boundary control",
+                "included",
+                "Aurora does not store or handle custody signing material in this prototype.",
+                "custodian_integration_guardrails",
+                True,
+            ),
+            self._item(
+                "EPI-CUSTODIAN-GUARD-04",
+                "No custodian execution",
+                "Prototype safety",
+                "included",
+                "No real custodian integration, custody execution, or asset movement was performed.",
+                "custodian_integration_guardrails",
+                True,
+            ),
+            self._item(
+                "EPI-CUSTODIAN-GUARD-05",
+                "Integration block",
+                "Operational control",
+                "included",
+                "Future custodian integration must remain blocked until reviewed.",
+                "custodian_integration_guardrails",
+                True,
+            ),
+            self._item(
+                "EPI-CUSTODIAN-GUARD-06",
+                "Audit event ID and correlation ID",
+                "Audit traceability",
+                "included",
+                f"{audit_event_id} is preserved with correlation ID {correlation_id}.",
+                "audit_events",
+                True,
+            ),
+        ]
+
+        return EvidencePackage(
+            package_id=f"EP-FROM-{_audit_token(audit_event_id)}",
+            title=context["title"],
+            source_audit_event_id=audit_event_id,
+            source_module="custodian_integration_guardrails",
+            backend_decision="evidence_package_ready",
+            correlation_id=correlation_id,
+            traceability_summary=(
+                f"{context['summary']} Evidence is metadata-only and no "
+                "custodian execution or asset movement occurred."
+            ),
+            audit_context={
+                "audit_event_id": audit_event_id,
+                "correlation_id": correlation_id,
+                "source_module": "custodian_integration_guardrails",
+                "domain": "future_regulated_custodian_integration",
+                "category": context["category"],
+                "review_case_id": context["review_case_id"],
+                "readiness": "ready_for_internal_review",
+                "evidence_package_ready": True,
+                "real_custodian_integration_executed": False,
+                "custody_execution_performed": False,
+                "asset_movement_performed": False,
+            },
+            linked_audit_events=[audit_event_id],
+            risk_type="Future regulated custodian integration guardrails",
+            severity=context["severity"],
+            status="ready",
+            readiness_score=context["readiness_score"],
+            summary=context["summary"],
+            included_evidence=included_evidence,
+            missing_evidence=[],
+            triggered_controls=[
+                "block_future_custodian_integration_until_controls_are_verified",
+                "define_key_management_boundary",
+                "verify_no_private_keys_or_custody_secrets_are_stored",
+                "require_security_architecture_approval",
+                "create_human_review_case",
+            ],
+            reviewer_notes=[
+                "Custodian Integration Guardrails evidence package is ready for internal review.",
+                f"Source audit event: {audit_event_id}",
+                f"Correlation ID: {correlation_id}",
+                "No real custodian API, custody execution, asset movement, or signing workflow is included.",
+            ],
+            decision_rationale=(
+                "The Custodian Integration Guardrails scenario produced a "
+                "deterministic evidence-ready audit event with preserved "
+                "defensive traceability."
+            ),
+            timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
+            recommended_next_action=(
+                "Create a review case and keep future custodian integration "
+                "blocked until controls are reviewed."
+            ),
+            created_at="2026-06-19T12:00:00+03:00",
         )
 
     def _build_infrastructure_audit_event_package(

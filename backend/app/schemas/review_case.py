@@ -132,6 +132,7 @@ class CreateReviewCaseFromEvidencePackageResponse(BaseModel):
     source_package_id: str
     source_audit_event_id: str
     correlation_id: str
+    source_module: str | None = None
     case_type: str
     priority: str
     severity: str

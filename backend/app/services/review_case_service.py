@@ -213,6 +213,51 @@ DETERMINISTIC_CASE_CONTEXT = {
         "audit_slug": "SECRET-GUARD-CLOUD-SECRET",
         "risk_level": "critical",
     },
+    "CASE-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP": {
+        "title": "Custodian Key Management Boundary Review Case",
+        "case_type": "custodian_integration_review",
+        "source_package_id": "EP-FROM-AUD-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP",
+        "source_audit_event_id": "AUD-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP",
+        "correlation_id": "CORR-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP",
+        "audit_slug": "CUSTODIAN-KEY-MANAGEMENT-BOUNDARY",
+        "risk_level": "critical",
+    },
+    "CASE-CUSTODIAN-ASSET-SEGREGATION-GAP": {
+        "title": "Custodian Asset Segregation Review Case",
+        "case_type": "custodian_integration_review",
+        "source_package_id": "EP-FROM-AUD-CUSTODIAN-ASSET-SEGREGATION-GAP",
+        "source_audit_event_id": "AUD-CUSTODIAN-ASSET-SEGREGATION-GAP",
+        "correlation_id": "CORR-CUSTODIAN-ASSET-SEGREGATION-GAP",
+        "audit_slug": "CUSTODIAN-ASSET-SEGREGATION",
+        "risk_level": "critical",
+    },
+    "CASE-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP": {
+        "title": "Custodian Withdrawal Approval Review Case",
+        "case_type": "custodian_integration_review",
+        "source_package_id": "EP-FROM-AUD-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP",
+        "source_audit_event_id": "AUD-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP",
+        "correlation_id": "CORR-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP",
+        "audit_slug": "CUSTODIAN-WITHDRAWAL-APPROVAL",
+        "risk_level": "critical",
+    },
+    "CASE-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE": {
+        "title": "Custodian Active Secret Guard Review Case",
+        "case_type": "custodian_integration_review",
+        "source_package_id": "EP-FROM-AUD-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE",
+        "source_audit_event_id": "AUD-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE",
+        "correlation_id": "CORR-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE",
+        "audit_slug": "CUSTODIAN-ACTIVE-SECRET-GUARD",
+        "risk_level": "critical",
+    },
+    "CASE-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE": {
+        "title": "Custodian Active Cloud Kubernetes Guard Review Case",
+        "case_type": "custodian_integration_review",
+        "source_package_id": "EP-FROM-AUD-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE",
+        "source_audit_event_id": "AUD-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE",
+        "correlation_id": "CORR-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE",
+        "audit_slug": "CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD",
+        "risk_level": "critical",
+    },
 }
 
 AI_THREAT_REVIEW_CASE_CONTEXT = {
@@ -413,6 +458,242 @@ SECRET_EXPOSURE_GUARD_REVIEW_CASE_CONTEXT = {
     },
 }
 
+CUSTODIAN_INTEGRATION_GUARDRAILS_REVIEW_CASE_CONTEXT = {
+    "EP-FROM-AUD-CUSTODIAN-READINESS-GAP": {
+        "case_id": "CASE-CUSTODIAN-READINESS-GAP",
+        "title": "Custodian Integration Readiness Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates a future "
+            "regulated custodian readiness gap requiring security architecture "
+            "and risk operations review."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "confirm_custodian_regulatory_status",
+            "finalize_bank_custodian_responsibility_matrix",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-ASSET-SEGREGATION-GAP": {
+        "case_id": "CASE-CUSTODIAN-ASSET-SEGREGATION-GAP",
+        "title": "Custodian Asset Segregation Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates asset "
+            "segregation has not been confirmed for a future custodian model."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "verify_asset_segregation",
+            "define_reconciliation_process",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-LIABILITY-BOUNDARY-GAP": {
+        "case_id": "CASE-CUSTODIAN-LIABILITY-BOUNDARY-GAP",
+        "title": "Custodian Liability Boundary Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates liability and "
+            "responsibility boundaries are not sufficiently defined."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "define_liability_boundary",
+            "verify_insurance_coverage",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-SLA-CONTRACT-GAP": {
+        "case_id": "CASE-CUSTODIAN-SLA-CONTRACT-GAP",
+        "title": "Custodian SLA Contract Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates SLA and "
+            "contract terms are not finalized."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "recommended_actions": [
+            "finalize_sla_and_contract_terms",
+            "define_incident_reporting",
+            "enable_evidence_export",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-AUDIT-REPORTS-GAP": {
+        "case_id": "CASE-CUSTODIAN-AUDIT-REPORTS-GAP",
+        "title": "Custodian Audit Reports Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates required "
+            "custodian assurance reports are unavailable."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "recommended_actions": [
+            "obtain_audit_reports",
+            "enable_evidence_export",
+            "define_regulatory_reporting",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-TRANSFER-LIMIT-GAP": {
+        "case_id": "CASE-CUSTODIAN-TRANSFER-LIMIT-GAP",
+        "title": "Custodian Transfer Limit Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates future "
+            "custodian transfer limits are not configured."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "recommended_actions": [
+            "configure_transfer_limits",
+            "enforce_withdrawal_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP": {
+        "case_id": "CASE-CUSTODIAN-WITHDRAWAL-APPROVAL-GAP",
+        "title": "Custodian Withdrawal Approval Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates withdrawal "
+            "approval controls are not required before future custodian execution."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "enforce_withdrawal_approval",
+            "configure_transfer_limits",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-API-ACCESS-CONTROL-GAP": {
+        "case_id": "CASE-CUSTODIAN-API-ACCESS-CONTROL-GAP",
+        "title": "Custodian API Access Control Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates future "
+            "custodian API access controls are not sufficiently defined."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "define_api_access_controls",
+            "define_aurora_custodian_boundary",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP": {
+        "case_id": "CASE-CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP",
+        "title": "Custodian Key Management Boundary Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates a future key "
+            "management boundary gap. Aurora must not handle custody signing "
+            "material or execute custodian operations in this prototype."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "define_key_management_boundary",
+            "verify_no_private_keys_or_custody_secrets_are_stored",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-INCIDENT-REPORTING-GAP": {
+        "case_id": "CASE-CUSTODIAN-INCIDENT-REPORTING-GAP",
+        "title": "Custodian Incident Reporting Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates incident "
+            "reporting obligations are not defined."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "recommended_actions": [
+            "define_incident_reporting",
+            "enable_evidence_export",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-RECONCILIATION-GAP": {
+        "case_id": "CASE-CUSTODIAN-RECONCILIATION-GAP",
+        "title": "Custodian Reconciliation Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates reconciliation "
+            "between Aurora records and future custodian records is not defined."
+        ),
+        "severity": "high",
+        "priority": "high",
+        "recommended_actions": [
+            "define_reconciliation_process",
+            "obtain_audit_reports",
+            "define_regulatory_reporting",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-ACTIVE-AI-THREAT-CASE": {
+        "case_id": "CASE-CUSTODIAN-ACTIVE-AI-THREAT-CASE",
+        "title": "Custodian Active AI Threat Defense Case Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates future "
+            "custodian integration is blocked by an active AI Threat Defense case."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "verify_ai_threat_secret_guard_and_cloud_cases_are_mitigated_or_closed",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE": {
+        "case_id": "CASE-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE",
+        "title": "Custodian Active Secret Guard Case Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates the active "
+            "Secret Guard case must be mitigated or closed before custodian "
+            "integration can proceed."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "verify_ai_threat_secret_guard_and_cloud_cases_are_mitigated_or_closed",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+    "EP-FROM-AUD-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE": {
+        "case_id": "CASE-CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE",
+        "title": "Custodian Active Cloud Kubernetes Guard Case Review Case",
+        "review_reason": (
+            "Custodian Integration Guardrails evidence indicates future "
+            "custodian integration is blocked by an active cloud or Kubernetes "
+            "guardrail case."
+        ),
+        "severity": "critical",
+        "priority": "critical",
+        "recommended_actions": [
+            "block_future_custodian_integration_until_controls_are_verified",
+            "verify_cloud_k8s_boundary",
+            "verify_ai_threat_secret_guard_and_cloud_cases_are_mitigated_or_closed",
+            "require_security_architecture_approval",
+            "create_human_review_case",
+        ],
+    },
+}
+
 
 class ReviewCaseService:
     """SQLite-backed case store for simulated compliance review workflows."""
@@ -549,6 +830,7 @@ class ReviewCaseService:
         normalized_audit_event_id = source_audit_event_id.strip().upper()
         normalized_correlation_id = correlation_id.strip().upper()
         normalized_priority = priority.strip().lower()
+        source_module = "evidence_packages"
         if normalized_package_id == "EP-FROM-AUD-INFRA-CHAIN-REACTION":
             case_id = "CASE-INFRA-CHAIN-REACTION"
             title = "Infrastructure Security Chain Reaction Review Case"
@@ -706,6 +988,7 @@ class ReviewCaseService:
             case_id = context["case_id"]
             title = context["title"]
             case_type = "secret_exposure_review"
+            source_module = "secret_exposure_guard"
             assigned_team = context["assigned_team"]
             review_reason = context["review_reason"]
             severity = context["severity"]
@@ -726,6 +1009,30 @@ class ReviewCaseService:
                 "verify_no_secret_value_is_stored",
                 "pause_sensitive_operations_if_related",
             ]
+        elif (
+            normalized_package_id
+            in CUSTODIAN_INTEGRATION_GUARDRAILS_REVIEW_CASE_CONTEXT
+        ):
+            context = CUSTODIAN_INTEGRATION_GUARDRAILS_REVIEW_CASE_CONTEXT[
+                normalized_package_id
+            ]
+            case_id = context["case_id"]
+            title = context["title"]
+            case_type = "custodian_integration_review"
+            source_module = "custodian_integration_guardrails"
+            assigned_team = "Risk Operations / Security Architecture"
+            review_reason = context["review_reason"]
+            severity = context["severity"]
+            normalized_priority = context["priority"]
+            audit_event_id = (
+                "AUD-REVIEW-FROM-"
+                f"{normalized_package_id.replace('EP-FROM-AUD-', 'EP-')}"
+            )
+            linked_audit_events = [
+                normalized_audit_event_id,
+                f"AUD-EVIDENCE-FROM-{normalized_audit_event_id}",
+            ]
+            recommended_actions = context["recommended_actions"]
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -802,6 +1109,7 @@ class ReviewCaseService:
                 "severity": severity,
                 "assigned_team": assigned_team,
                 "review_reason": review_reason,
+                "source_module": source_module,
                 "source_package_id": normalized_package_id,
                 "source_audit_event_id": normalized_audit_event_id,
                 "linked_audit_events": linked_audit_events,
@@ -819,6 +1127,9 @@ class ReviewCaseService:
                 else "secret_exposure_guard"
                 if normalized_package_id
                 in SECRET_EXPOSURE_GUARD_REVIEW_CASE_CONTEXT
+                else "custodian_integration_guardrails"
+                if normalized_package_id
+                in CUSTODIAN_INTEGRATION_GUARDRAILS_REVIEW_CASE_CONTEXT
                 else "crypto_agility"
                 if normalized_package_id
                 == "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS"
@@ -835,6 +1146,7 @@ class ReviewCaseService:
             source_package_id=normalized_package_id,
             source_audit_event_id=normalized_audit_event_id,
             correlation_id=normalized_correlation_id,
+            source_module=source_module,
             case_type=case_type,
             priority=normalized_priority,
             severity=severity,
