@@ -55,6 +55,9 @@ class SensitiveApprovalRequest(BaseModel):
     secret_guard_required: bool = False
     secret_guard_status: str | None = None
     secret_guard_reason: str | None = None
+    linked_custodian_guard_case_id: str | None = None
+    custodian_guard_required: bool = False
+    custodian_guard_status: str | None = None
 
 
 class SensitiveApprovalResponse(BaseModel):
@@ -91,6 +94,12 @@ class SensitiveApprovalResponse(BaseModel):
     secret_guard_reason: str | None = None
     operation_paused_by_secret_guard: bool = False
     secret_guard_required_lifecycle_status: str | None = None
+    custodian_guard_applied: bool = False
+    custodian_guard_case_id: str | None = None
+    custodian_guard_case_status: str | None = None
+    custodian_guard_decision: str | None = None
+    operation_paused_by_custodian_guard: bool = False
+    custodian_guard_required_lifecycle_status: str | None = None
     created_at: str
 
 

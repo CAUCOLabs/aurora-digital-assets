@@ -24,6 +24,13 @@ ACTIVE_SECRET_GUARD_STATUSES = {
     "mitigation_in_progress",
 }
 CLEARED_SECRET_GUARD_STATUSES = {"mitigated", "closed"}
+ACTIVE_CUSTODIAN_GUARD_STATUSES = {
+    "open",
+    "under_review",
+    "action_required",
+    "mitigation_in_progress",
+}
+CLEARED_CUSTODIAN_GUARD_STATUSES = {"mitigated", "closed"}
 SECRET_GUARD_RECOMMENDED_NEXT_ACTION = (
     "keep_sensitive_operation_paused_until_secret_guard_review_is_mitigated_or_closed; "
     "preserve_evidence_without_secret_value; redact_sensitive_material; "
@@ -32,9 +39,23 @@ SECRET_GUARD_RECOMMENDED_NEXT_ACTION = (
     "rotate_exposed_credentials_where_applicable; "
     "verify_lifecycle_closure_before_releasing_operation"
 )
+ACTIVE_CUSTODIAN_GUARD_RECOMMENDED_NEXT_ACTION = (
+    "keep_sensitive_operation_paused_until_custodian_guard_review_is_mitigated_or_closed; "
+    "block_future_custodian_integration_until_controls_are_verified; "
+    "define_key_management_boundary; verify_asset_segregation; "
+    "define_liability_boundary; require_security_architecture_approval; "
+    "confirm_no_real_custody_execution_occurred; "
+    "verify_no_private_keys_or_custody_secrets_are_stored; "
+    "verify_lifecycle_closure_before_releasing_operation"
+)
 SECRET_GUARD_DEFAULT_REASON = (
     "Critical Secret Exposure Guard review case is active. Operation must remain "
     "paused until mitigated or closed."
+)
+CUSTODIAN_GUARD_DEFAULT_REASON = (
+    "Custodian Integration Guardrails review case is active. Custodian "
+    "integration and sensitive operation flows must remain paused until "
+    "mitigated or closed."
 )
 SECRET_GUARD_APPROVAL_GUARDS = {
     "CASE-SECRET-GUARD-CONFIG": {
@@ -365,6 +386,12 @@ class SensitiveApprovalService:
         secret_guard_reason = None
         operation_paused_by_secret_guard = False
         secret_guard_required_lifecycle_status = None
+        custodian_guard_applied = False
+        custodian_guard_case_id = None
+        custodian_guard_case_status = None
+        custodian_guard_decision = None
+        operation_paused_by_custodian_guard = False
+        custodian_guard_required_lifecycle_status = None
 
         if request.ai_threat_guard_required and request.linked_ai_threat_case_id:
             normalized_case_id = request.linked_ai_threat_case_id.strip().upper()
@@ -474,6 +501,69 @@ class SensitiveApprovalService:
                         "review is required before continuing."
                     )
 
+        if (
+            request.custodian_guard_required
+            and request.linked_custodian_guard_case_id
+        ):
+            normalized_case_id = (
+                request.linked_custodian_guard_case_id.strip().upper()
+            )
+            guard_ids = self._custodian_guard_ids(normalized_case_id)
+            if guard_ids is not None:
+                custodian_guard_applied = True
+                custodian_guard_case_id = normalized_case_id
+                custodian_guard_case_status = (
+                    request.custodian_guard_status.strip().lower().replace(" ", "_")
+                    if request.custodian_guard_status
+                    else review_case_service.get_lifecycle_status(normalized_case_id)
+                )
+                custodian_guard_required_lifecycle_status = "mitigated_or_closed"
+
+                if custodian_guard_case_status in ACTIVE_CUSTODIAN_GUARD_STATUSES:
+                    operation_paused_by_custodian_guard = True
+                    custodian_guard_decision = "pending_review"
+                    decision = "blocked" if decision == "blocked" else "pending_review"
+                    risk_level = "critical"
+                    risk_score = max(risk_score, 96)
+                    audit_event_id = guard_ids["audit_event_id"]
+                    correlation_id = guard_ids["correlation_id"]
+                    evidence_package_ready = True
+                    review_case_required = True
+                    review_case_id = normalized_case_id
+                    recommended_next_action = (
+                        ACTIVE_CUSTODIAN_GUARD_RECOMMENDED_NEXT_ACTION
+                    )
+                    reasons.append(CUSTODIAN_GUARD_DEFAULT_REASON)
+                    reasons.append(
+                        "Sensitive operation remains paused until the linked "
+                        "Custodian Integration Guardrails review case is mitigated "
+                        "or closed."
+                    )
+                elif custodian_guard_case_status in CLEARED_CUSTODIAN_GUARD_STATUSES:
+                    custodian_guard_decision = "cleared"
+                    reasons.append(
+                        "Custodian Integration Guardrails guard is cleared because "
+                        "the linked review case status is "
+                        f"{custodian_guard_case_status}."
+                    )
+                else:
+                    operation_paused_by_custodian_guard = True
+                    custodian_guard_decision = "pending_review"
+                    decision = "blocked" if decision == "blocked" else "pending_review"
+                    risk_level = "critical"
+                    risk_score = max(risk_score, 90)
+                    audit_event_id = guard_ids["audit_event_id"]
+                    correlation_id = guard_ids["correlation_id"]
+                    review_case_required = True
+                    review_case_id = normalized_case_id
+                    recommended_next_action = (
+                        ACTIVE_CUSTODIAN_GUARD_RECOMMENDED_NEXT_ACTION
+                    )
+                    reasons.append(
+                        "Custodian Integration Guardrails status is not cleared. "
+                        "Human review is required before continuing."
+                    )
+
         audit_event = audit_service.create_audit_event_from_sensitive_action(
             event_id=audit_event_id,
             actor_id=request.actor_id,
@@ -508,6 +598,13 @@ class SensitiveApprovalService:
                 "secret_guard_case_status": secret_guard_case_status,
                 "secret_guard_decision": secret_guard_decision,
                 "operation_paused_by_secret_guard": operation_paused_by_secret_guard,
+                "custodian_guard_applied": custodian_guard_applied,
+                "custodian_guard_case_id": custodian_guard_case_id,
+                "custodian_guard_case_status": custodian_guard_case_status,
+                "custodian_guard_decision": custodian_guard_decision,
+                "operation_paused_by_custodian_guard": (
+                    operation_paused_by_custodian_guard
+                ),
             },
         )
 
@@ -547,6 +644,14 @@ class SensitiveApprovalService:
             secret_guard_reason=secret_guard_reason,
             operation_paused_by_secret_guard=operation_paused_by_secret_guard,
             secret_guard_required_lifecycle_status=secret_guard_required_lifecycle_status,
+            custodian_guard_applied=custodian_guard_applied,
+            custodian_guard_case_id=custodian_guard_case_id,
+            custodian_guard_case_status=custodian_guard_case_status,
+            custodian_guard_decision=custodian_guard_decision,
+            operation_paused_by_custodian_guard=operation_paused_by_custodian_guard,
+            custodian_guard_required_lifecycle_status=(
+                custodian_guard_required_lifecycle_status
+            ),
             created_at=datetime.now(timezone.utc).isoformat(),
         )
 
@@ -582,6 +687,20 @@ class SensitiveApprovalService:
             ),
             None,
         )
+
+    def _custodian_guard_ids(self, case_id: str) -> dict[str, str] | None:
+        prefix = "CASE-CUSTODIAN-"
+        if not case_id.startswith(prefix):
+            return None
+
+        suffix = case_id.removeprefix(prefix)
+        if not suffix:
+            return None
+
+        return {
+            "audit_event_id": f"AUD-APPROVAL-CUSTODIAN-GUARD-{suffix}",
+            "correlation_id": f"CORR-CUSTODIAN-{suffix}",
+        }
 
 
 sensitive_approval_service = SensitiveApprovalService()
