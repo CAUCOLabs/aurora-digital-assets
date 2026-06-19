@@ -79,6 +79,7 @@ class ReviewCaseLifecycleTransitionResponse(BaseModel):
     audit_event_id: str
     correlation_id: str
     recommended_next_status: str | None = None
+    recommended_actions: list[str] = Field(default_factory=list)
     created_at: str
 
 

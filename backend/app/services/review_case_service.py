@@ -260,6 +260,38 @@ DETERMINISTIC_CASE_CONTEXT = {
     },
 }
 
+CUSTODIAN_LIFECYCLE_CASE_TITLES = {
+    "CUSTODIAN-READINESS-GAP": "Custodian Integration Readiness Review Case",
+    "CUSTODIAN-ASSET-SEGREGATION-GAP": "Custodian Asset Segregation Review Case",
+    "CUSTODIAN-LIABILITY-BOUNDARY-GAP": "Custodian Liability Boundary Review Case",
+    "CUSTODIAN-SLA-CONTRACT-GAP": "Custodian SLA Contract Review Case",
+    "CUSTODIAN-AUDIT-REPORTS-GAP": "Custodian Audit Reports Review Case",
+    "CUSTODIAN-TRANSFER-LIMIT-GAP": "Custodian Transfer Limit Review Case",
+    "CUSTODIAN-WITHDRAWAL-APPROVAL-GAP": "Custodian Withdrawal Approval Review Case",
+    "CUSTODIAN-API-ACCESS-CONTROL-GAP": "Custodian API Access Control Review Case",
+    "CUSTODIAN-KEY-MANAGEMENT-BOUNDARY-GAP": "Custodian Key Management Boundary Review Case",
+    "CUSTODIAN-INCIDENT-REPORTING-GAP": "Custodian Incident Reporting Review Case",
+    "CUSTODIAN-RECONCILIATION-GAP": "Custodian Reconciliation Review Case",
+    "CUSTODIAN-ACTIVE-AI-THREAT-CASE": "Custodian Active AI Threat Defense Case Review Case",
+    "CUSTODIAN-ACTIVE-SECRET-GUARD-CASE": "Custodian Active Secret Guard Case Review Case",
+    "CUSTODIAN-ACTIVE-CLOUD-K8S-GUARD-CASE": "Custodian Active Cloud Kubernetes Guard Review Case",
+}
+
+DETERMINISTIC_CASE_CONTEXT.update(
+    {
+        f"CASE-{audit_slug}": {
+            "title": title,
+            "case_type": "custodian_integration_review",
+            "source_package_id": f"EP-FROM-AUD-{audit_slug}",
+            "source_audit_event_id": f"AUD-{audit_slug}",
+            "correlation_id": f"CORR-{audit_slug}",
+            "audit_slug": audit_slug,
+            "risk_level": "critical",
+        }
+        for audit_slug, title in CUSTODIAN_LIFECYCLE_CASE_TITLES.items()
+    }
+)
+
 AI_THREAT_REVIEW_CASE_CONTEXT = {
     "EP-FROM-AUD-AI-THREAT-SENSITIVE-OPERATION-CHAIN": {
         "case_id": "CASE-AI-THREAT-SENSITIVE-OPERATION-CHAIN",
@@ -1251,6 +1283,7 @@ class ReviewCaseService:
             previous_status if not allowed else target_status,
             risk_acceptance=risk_acceptance,
         )
+        recommended_actions = self._lifecycle_recommended_actions(normalized_case_id)
 
         if not allowed:
             return ReviewCaseLifecycleTransitionResponse(
@@ -1270,6 +1303,7 @@ class ReviewCaseService:
                 audit_event_id="",
                 correlation_id=correlation_id,
                 recommended_next_status=recommended_next_status,
+                recommended_actions=recommended_actions,
                 created_at=created_at,
             )
 
@@ -1344,6 +1378,7 @@ class ReviewCaseService:
                 target_status,
                 risk_acceptance=risk_acceptance,
             ),
+            recommended_actions=recommended_actions,
             created_at=created_at,
         )
 
@@ -1567,11 +1602,14 @@ class ReviewCaseService:
                 ]
                 if context.get("source_package_id")
                 else [],
-                "linked_audit_events": [
-                    context["source_audit_event_id"]
-                ]
-                if context.get("source_audit_event_id")
-                else [],
+                "linked_audit_events": (
+                    [
+                        context["source_audit_event_id"],
+                        f"AUD-EVIDENCE-FROM-{context['source_audit_event_id']}",
+                    ]
+                    if context.get("source_audit_event_id")
+                    else []
+                ),
                 "lifecycle_actions": [],
             },
         )
@@ -1625,6 +1663,24 @@ class ReviewCaseService:
         }:
             return "closed"
         return STANDARD_LIFECYCLE_TRANSITIONS.get(current_status)
+
+    def _lifecycle_recommended_actions(self, case_id: str) -> list[str]:
+        if case_id.startswith("CASE-CUSTODIAN-"):
+            actions = [
+                "keep_future_custodian_integration_blocked_until_review_closure",
+                "define_key_management_boundary",
+                "verify_asset_segregation",
+                "define_liability_boundary",
+                "require_security_architecture_approval",
+                "confirm_no_real_custody_execution_occurred",
+                "verify_no_private_keys_or_custody_secrets_are_stored",
+            ]
+            if case_id == "CASE-CUSTODIAN-ACTIVE-SECRET-GUARD-CASE":
+                actions.append(
+                    "verify_active_secret_guard_case_is_mitigated_or_closed_before_custodian_integration"
+                )
+            return actions
+        return []
 
     def _lifecycle_progress_percent(self, status: str) -> int:
         progress = {
