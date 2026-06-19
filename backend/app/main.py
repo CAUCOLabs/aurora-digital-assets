@@ -21,6 +21,9 @@ from app.api.routes.custody import router as custody_router
 from app.api.routes.crypto_agility import router as crypto_agility_router
 from app.api.routes.demo_admin import router as demo_admin_router
 from app.api.routes.digital_assets import router as digital_assets_router
+from app.api.routes.custodian_integration_guardrails import (
+    router as custodian_integration_guardrails_router,
+)
 from app.api.routes.evidence_packages import router as evidence_packages_router
 from app.api.routes.financial_crime import router as financial_crime_router
 from app.api.routes.health import router as health_router
@@ -99,6 +102,10 @@ def create_app() -> FastAPI:
     app.include_router(secret_exposure_guard_router, prefix=settings.api_prefix)
     app.include_router(
         cloud_kubernetes_guardrails_router,
+        prefix=settings.api_prefix,
+    )
+    app.include_router(
+        custodian_integration_guardrails_router,
         prefix=settings.api_prefix,
     )
     app.include_router(auth_router, prefix=settings.api_prefix)
