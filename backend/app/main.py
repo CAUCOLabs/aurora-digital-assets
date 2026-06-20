@@ -9,6 +9,7 @@ from app.api.routes.agent_actions import router as agent_actions_router
 from app.api.routes.agent_permissions import router as agent_permissions_router
 from app.api.routes.agent_passport import router as agent_passport_router
 from app.api.routes.agent_registry import router as agent_registry_router
+from app.api.routes.agent_revocation import router as agent_revocation_router
 from app.api.routes.api_security import router as api_security_router
 from app.api.routes.audit_events import router as audit_events_router
 from app.api.routes.auth import router as auth_router
@@ -108,6 +109,7 @@ def create_app() -> FastAPI:
     app.include_router(agent_passport_router, prefix=settings.api_prefix)
     app.include_router(agent_permissions_router, prefix=settings.api_prefix)
     app.include_router(agent_actions_router, prefix=settings.api_prefix)
+    app.include_router(agent_revocation_router, prefix=settings.api_prefix)
     app.include_router(
         cloud_kubernetes_guardrails_router,
         prefix=settings.api_prefix,
