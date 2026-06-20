@@ -726,6 +726,48 @@ CUSTODIAN_INTEGRATION_GUARDRAILS_REVIEW_CASE_CONTEXT = {
     },
 }
 
+AGENT_ACTION_PACKAGE_PREFIX = "EP-FROM-AUD-AGENT-ACTION-"
+
+AGENT_ACTION_BASE_RECOMMENDED_ACTIONS = [
+    "verify_agent_identity_and_passport",
+    "verify_permission_policy",
+    "preserve_agent_action_audit_trail",
+    "keep_sensitive_action_blocked",
+    "confirm_no_real_action_was_executed",
+    "confirm_no_secrets_were_exposed",
+    "review_agent_status_and_scope",
+    "require_human_governance_review",
+    "suspend_or_revoke_agent_if_needed",
+]
+
+AGENT_ACTION_SPECIFIC_RECOMMENDED_ACTIONS = {
+    "ATTEMPT-SECRET-ACCESS": [
+        "confirm_no_secrets_were_exposed",
+        "verify_secret_guard_controls",
+        "review_prompt_and_log_surfaces",
+        "rotate_related_credential_references_if_applicable",
+    ],
+    "ATTEMPT-CUSTODIAN-API-ACCESS": [
+        "confirm_no_real_custodian_api_call_occurred",
+        "verify_custodian_guardrails",
+        "keep_custodian_integration_blocked",
+        "review_agent_status_and_scope",
+    ],
+    "ATTEMPT-WITHDRAWAL-APPROVAL": [
+        "confirm_no_withdrawal_execution_occurred",
+        "keep_sensitive_operation_blocked",
+        "require_human_approval_review",
+        "verify_separation_of_duties",
+    ],
+}
+
+AGENT_ACTION_TRACEABILITY_SUMMARY = (
+    "Review case was created from agent action evidence. The agent action "
+    "attempt is metadata-only; no real action was executed, no external API "
+    "was called, no secrets were stored or exposed, and no custody, "
+    "blockchain, or withdrawal execution occurred."
+)
+
 
 class ReviewCaseService:
     """SQLite-backed case store for simulated compliance review workflows."""
@@ -863,6 +905,7 @@ class ReviewCaseService:
         normalized_correlation_id = correlation_id.strip().upper()
         normalized_priority = priority.strip().lower()
         source_module = "evidence_packages"
+        traceability_summary = None
         if normalized_package_id == "EP-FROM-AUD-INFRA-CHAIN-REACTION":
             case_id = "CASE-INFRA-CHAIN-REACTION"
             title = "Infrastructure Security Chain Reaction Review Case"
@@ -1065,6 +1108,33 @@ class ReviewCaseService:
                 f"AUD-EVIDENCE-FROM-{normalized_audit_event_id}",
             ]
             recommended_actions = context["recommended_actions"]
+        elif normalized_package_id.startswith(AGENT_ACTION_PACKAGE_PREFIX):
+            case_slug = normalized_package_id.removeprefix(
+                AGENT_ACTION_PACKAGE_PREFIX
+            )
+            case_id = f"CASE-AGENT-ACTION-{case_slug}"
+            title = f"Agent Action {case_slug.replace('-', ' ').title()} Review Case"
+            case_type = "agent_action_review"
+            source_module = "agent_actions"
+            assigned_team = "Risk Operations / Security Architecture"
+            severity = self._agent_action_review_severity(
+                case_slug,
+                normalized_priority,
+            )
+            audit_event_id = f"AUD-REVIEW-FROM-EP-AGENT-ACTION-{case_slug}"
+            linked_audit_events = [
+                normalized_audit_event_id,
+                f"AUD-EVIDENCE-FROM-{normalized_audit_event_id}",
+            ]
+            recommended_actions = self._agent_action_recommended_actions(case_slug)
+            traceability_summary = AGENT_ACTION_TRACEABILITY_SUMMARY
+            review_reason = (
+                "Agent action evidence indicates a simulated agent action "
+                "attempt that requires governance review. The review is based "
+                "only on deterministic metadata; no real action, external API "
+                "call, custody operation, blockchain transaction, withdrawal "
+                "execution, or secret exposure occurred."
+            )
         else:
             case_id = f"CASE-FROM-{normalized_package_id}"
             title = "Evidence Package Review Case"
@@ -1162,6 +1232,8 @@ class ReviewCaseService:
                 else "custodian_integration_guardrails"
                 if normalized_package_id
                 in CUSTODIAN_INTEGRATION_GUARDRAILS_REVIEW_CASE_CONTEXT
+                else "agent_actions"
+                if normalized_package_id.startswith(AGENT_ACTION_PACKAGE_PREFIX)
                 else "crypto_agility"
                 if normalized_package_id
                 == "EP-FROM-AUD-CRYPTO-AGILITY-PQ-READINESS"
@@ -1185,9 +1257,12 @@ class ReviewCaseService:
             status=persisted_case.status,
             assigned_team=assigned_team,
             review_reason=review_reason,
+            linked_audit_event=normalized_audit_event_id,
+            linked_evidence_package=normalized_package_id,
             linked_audit_events=linked_audit_events,
             linked_evidence_packages=[normalized_package_id],
             recommended_actions=recommended_actions,
+            traceability_summary=traceability_summary,
             audit_event_created=audit_event is not None,
             audit_event_id=audit_event.event_id,
             created_at=persisted_case.created_at,
@@ -1817,6 +1892,37 @@ class ReviewCaseService:
             correlation_id=self._case_correlation_id(case),
             metadata=metadata,
         )
+
+    def _agent_action_review_severity(
+        self,
+        case_slug: str,
+        normalized_priority: str,
+    ) -> str:
+        if case_slug.endswith(
+            (
+                "ATTEMPT-SECRET-ACCESS",
+                "ATTEMPT-CUSTODIAN-API-ACCESS",
+                "ATTEMPT-WITHDRAWAL-APPROVAL",
+            )
+        ):
+            return "critical"
+        if normalized_priority in {"low", "medium", "high", "critical"}:
+            return normalized_priority
+        return "medium"
+
+    def _agent_action_recommended_actions(self, case_slug: str) -> list[str]:
+        actions = list(AGENT_ACTION_BASE_RECOMMENDED_ACTIONS)
+        for (
+            slug_suffix,
+            specific_actions,
+        ) in AGENT_ACTION_SPECIFIC_RECOMMENDED_ACTIONS.items():
+            if case_slug.endswith(slug_suffix):
+                actions.extend(specific_actions)
+        deduplicated_actions = []
+        for action in actions:
+            if action not in deduplicated_actions:
+                deduplicated_actions.append(action)
+        return deduplicated_actions
 
     def _update_primary_case_status(self, case_id: str, status: str) -> None:
         with get_connection() as connection:

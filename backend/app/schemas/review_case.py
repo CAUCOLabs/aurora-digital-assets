@@ -140,9 +140,12 @@ class CreateReviewCaseFromEvidencePackageResponse(BaseModel):
     status: str
     assigned_team: str
     review_reason: str
+    linked_audit_event: str | None = None
+    linked_evidence_package: str | None = None
     linked_audit_events: list[str]
     linked_evidence_packages: list[str]
     recommended_actions: list[str]
+    traceability_summary: str | None = None
     audit_event_created: bool
     audit_event_id: str
     created_at: str
