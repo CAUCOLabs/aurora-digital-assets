@@ -50,6 +50,46 @@ SENSITIVE_APPROVAL_HIGH_VALUE_AUDIT_EVENT_ID = (
     "AUD-APPROVAL-HIGH-VALUE-NEW-WALLET"
 )
 
+AGENT_ACTION_AUDIT_PREFIX = "AUD-AGENT-ACTION-"
+AGENT_ACTION_CONTEXT = {
+    "READ-AUDIT-EVENT": {
+        "action_type": "read_audit_event",
+        "permission_id": "read_audit_events",
+        "resource_type": "audit_event",
+        "severity": "low",
+        "readiness_score": 84,
+        "outcome": "allowed",
+        "review_case_required": False,
+    },
+    "ATTEMPT-SECRET-ACCESS": {
+        "action_type": "attempt_secret_access",
+        "permission_id": "access_secrets",
+        "resource_type": "secret_reference",
+        "severity": "critical",
+        "readiness_score": 98,
+        "outcome": "blocked_secret_access",
+        "review_case_required": True,
+    },
+    "ATTEMPT-CUSTODIAN-API-ACCESS": {
+        "action_type": "attempt_custodian_api_access",
+        "permission_id": "access_custodian_apis",
+        "resource_type": "future_custodian_api",
+        "severity": "critical",
+        "readiness_score": 98,
+        "outcome": "blocked_by_agent_status",
+        "review_case_required": True,
+    },
+    "ATTEMPT-WITHDRAWAL-APPROVAL": {
+        "action_type": "attempt_withdrawal_approval",
+        "permission_id": "approve_withdrawals",
+        "resource_type": "external_wallet_withdrawal",
+        "severity": "critical",
+        "readiness_score": 98,
+        "outcome": "blocked_sensitive_action",
+        "review_case_required": True,
+    },
+}
+
 AI_THREAT_DEFENSE_AUDIT_EVENT_CONTEXT = {
     "AUD-AI-THREAT-SENSITIVE-OPERATION-CHAIN": {
         "title": "AI-Assisted Sensitive Operation Chain Evidence Package",
@@ -974,6 +1014,10 @@ class EvidencePackagesService:
             return self._build_custodian_integration_guardrails_audit_event_package(
                 normalized_audit_event_id,
             )
+        if normalized_audit_event_id.startswith(AGENT_ACTION_AUDIT_PREFIX):
+            return self._build_agent_action_audit_event_package(
+                normalized_audit_event_id,
+            )
 
         audit_event = self._find_audit_event(audit_event_id)
         if audit_event is None:
@@ -1571,6 +1615,183 @@ class EvidencePackagesService:
             created_at="2026-06-19T12:00:00+03:00",
         )
 
+    def _build_agent_action_audit_event_package(
+        self,
+        audit_event_id: str,
+    ) -> EvidencePackage:
+        context = self._agent_action_context(audit_event_id)
+        agent_id = context["agent_id"]
+        action_slug = context["action_slug"]
+        action_type = context["action_type"]
+        permission_id = context["permission_id"]
+        resource_type = context["resource_type"]
+        severity = context["severity"]
+        correlation_id = f"CORR-AGENT-{agent_id.removeprefix('AGENT-')}"
+        review_case_id = (
+            f"CASE-AGENT-ACTION-{agent_id.removeprefix('AGENT-')}-{action_slug}"
+            if context["review_case_required"]
+            else None
+        )
+        critical_or_blocked = (
+            severity == "critical"
+            or str(context["outcome"]).startswith("blocked")
+        )
+        recommended_actions = (
+            [
+                "preserve_agent_action_audit_trail",
+                "create_human_review_case",
+                "verify_agent_identity_and_passport",
+                "verify_permission_policy",
+                "keep_sensitive_action_blocked",
+                "confirm_no_real_action_was_executed",
+                "confirm_no_secrets_were_exposed",
+                "review_agent_status_and_scope",
+            ]
+            if critical_or_blocked
+            else [
+                "preserve_agent_action_audit_trail",
+                "retain_evidence_for_governance_review",
+                "verify_permission_scope_if_needed",
+            ]
+        )
+        included_evidence = [
+            self._item(
+                "EPI-AGENT-ACTION-01",
+                "Agent identity",
+                "Agent identity governance",
+                "included",
+                (
+                    f"Agent {agent_id} is linked to this action attempt. "
+                    "Human accountability is available in the agent registry."
+                ),
+                "agent_actions",
+                True,
+            ),
+            self._item(
+                "EPI-AGENT-ACTION-02",
+                "Action attempt",
+                "Action metadata",
+                "included",
+                (
+                    f"Action type {action_type}, permission {permission_id}, "
+                    f"resource type {resource_type}, and environment local are "
+                    "preserved for deterministic review."
+                ),
+                "agent_actions",
+                True,
+            ),
+            self._item(
+                "EPI-AGENT-ACTION-03",
+                "Permission decision",
+                "Permission governance",
+                "included",
+                (
+                    f"Permission decision and action outcome are recorded as "
+                    f"{context['outcome']}."
+                ),
+                "agent_permissions",
+                True,
+            ),
+            self._item(
+                "EPI-AGENT-ACTION-04",
+                "Safety boundary",
+                "Prototype safety",
+                "included",
+                (
+                    "No real action was executed, no external API was called, "
+                    "no secrets were stored or exposed, and no custody, "
+                    "blockchain, or withdrawal execution occurred."
+                ),
+                "agent_actions",
+                True,
+            ),
+            self._item(
+                "EPI-AGENT-ACTION-05",
+                "Governance link",
+                "Audit traceability",
+                "included",
+                (
+                    f"Audit event {audit_event_id} is preserved with "
+                    f"correlation ID {correlation_id}."
+                ),
+                "audit_events",
+                True,
+            ),
+        ]
+        if review_case_id:
+            included_evidence.append(
+                self._item(
+                    "EPI-AGENT-ACTION-06",
+                    "Review case routing",
+                    "Human review",
+                    "included",
+                    f"Review case {review_case_id} is required for this action.",
+                    "review_cases",
+                    True,
+                )
+            )
+
+        return EvidencePackage(
+            package_id=f"EP-FROM-{_audit_token(audit_event_id)}",
+            title="Agent Action Audit Evidence Package",
+            source_audit_event_id=audit_event_id,
+            source_module="agent_actions",
+            backend_decision="evidence_package_ready",
+            correlation_id=correlation_id,
+            traceability_summary=(
+                "Agent action attempt was recorded as deterministic metadata "
+                "only. No real action was executed, no external API was called, "
+                "no secrets were stored or exposed, and no custody, blockchain, "
+                "or withdrawal execution occurred."
+            ),
+            audit_context={
+                "audit_event_id": audit_event_id,
+                "correlation_id": correlation_id,
+                "source_module": "agent_actions",
+                "domain": "agent_identity_governance",
+                "category": action_type,
+                "agent_id": agent_id,
+                "permission_id": permission_id,
+                "resource_type": resource_type,
+                "environment": "local",
+                "action_outcome": context["outcome"],
+                "review_case_id": review_case_id,
+                "evidence_package_ready": True,
+                "readiness": "ready_for_internal_review",
+                "real_action_executed": False,
+                "external_api_called": False,
+                "secret_value_stored": False,
+                "custody_execution_performed": False,
+                "withdrawal_execution_performed": False,
+            },
+            linked_audit_events=[audit_event_id],
+            risk_type="Agent identity governance action audit",
+            severity=severity,
+            status="ready",
+            readiness_score=context["readiness_score"],
+            summary=(
+                f"Agent action audit event {audit_event_id} records "
+                f"{action_type} using permission {permission_id} with outcome "
+                f"{context['outcome']}."
+            ),
+            included_evidence=included_evidence,
+            missing_evidence=[],
+            triggered_controls=recommended_actions,
+            reviewer_notes=[
+                "Agent action evidence package is ready for internal review.",
+                f"Source audit event: {audit_event_id}",
+                f"Correlation ID: {correlation_id}",
+                "No real tool, custodian, custody, blockchain, withdrawal, or secret operation occurred.",
+            ],
+            decision_rationale=(
+                "The Agent Action audit event produced deterministic evidence "
+                "with preserved identity, permission, action, and safety context."
+            ),
+            timeline=self._audit_timeline(_audit_token(audit_event_id), audit_event_id),
+            recommended_next_action="; ".join(recommended_actions),
+            created_at="2026-06-20T12:00:00+03:00",
+        )
+
     def _build_infrastructure_audit_event_package(
         self,
         audit_event_id: str,
@@ -1948,6 +2169,44 @@ class EvidencePackagesService:
     ) -> list[str]:
         value = metadata.get(key)
         return value if isinstance(value, list) else []
+
+    def _agent_action_context(self, audit_event_id: str) -> dict[str, object]:
+        remainder = audit_event_id.removeprefix(AGENT_ACTION_AUDIT_PREFIX)
+        matched_action_slug = next(
+            (
+                action_slug
+                for action_slug in sorted(
+                    AGENT_ACTION_CONTEXT,
+                    key=len,
+                    reverse=True,
+                )
+                if remainder.endswith(f"-{action_slug}")
+            ),
+            None,
+        )
+        if matched_action_slug is None:
+            matched_action_slug = remainder.rsplit("-", 1)[-1]
+            agent_suffix = remainder.removesuffix(f"-{matched_action_slug}")
+        else:
+            agent_suffix = remainder.removesuffix(f"-{matched_action_slug}")
+
+        base_context = AGENT_ACTION_CONTEXT.get(
+            matched_action_slug,
+            {
+                "action_type": matched_action_slug.lower().replace("-", "_"),
+                "permission_id": "unknown_permission",
+                "resource_type": "generic_resource",
+                "severity": "medium",
+                "readiness_score": 80,
+                "outcome": "recorded_only",
+                "review_case_required": False,
+            },
+        )
+        return {
+            **base_context,
+            "agent_id": f"AGENT-{agent_suffix.strip('-') or 'UNKNOWN'}",
+            "action_slug": matched_action_slug,
+        }
 
     def _audit_event_readiness_score(self, audit_event: AuditEvent) -> int:
         if audit_event.event_id == "AUD-EVIDENCE-FCA-2026-002":
