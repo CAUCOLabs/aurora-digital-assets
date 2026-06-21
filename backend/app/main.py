@@ -48,6 +48,9 @@ from app.api.routes.health import router as health_router
 from app.api.routes.infrastructure_security import (
     router as infrastructure_security_router,
 )
+from app.api.routes.human_approval_integrity import (
+    router as human_approval_integrity_router,
+)
 from app.api.routes.operational_resilience import (
     router as operational_resilience_router,
 )
@@ -126,6 +129,7 @@ def create_app() -> FastAPI:
     app.include_router(agent_actions_router, prefix=settings.api_prefix)
     app.include_router(agent_revocation_router, prefix=settings.api_prefix)
     app.include_router(agent_identity_governance_router, prefix=settings.api_prefix)
+    app.include_router(human_approval_integrity_router, prefix=settings.api_prefix)
     app.include_router(
         agent_sensitive_action_guard_router,
         prefix=settings.api_prefix,
