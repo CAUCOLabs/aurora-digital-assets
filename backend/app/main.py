@@ -4,6 +4,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.accounts import router as accounts_router
+from app.api.routes.agent_abuse_detection import (
+    router as agent_abuse_detection_router,
+)
 from app.api.routes.ai_threat_defense import router as ai_threat_defense_router
 from app.api.routes.agent_actions import router as agent_actions_router
 from app.api.routes.agent_permissions import router as agent_permissions_router
@@ -109,6 +112,7 @@ def create_app() -> FastAPI:
     app.include_router(sensitive_approval_router, prefix=settings.api_prefix)
     app.include_router(ai_threat_defense_router, prefix=settings.api_prefix)
     app.include_router(secret_exposure_guard_router, prefix=settings.api_prefix)
+    app.include_router(agent_abuse_detection_router, prefix=settings.api_prefix)
     app.include_router(agent_registry_router, prefix=settings.api_prefix)
     app.include_router(agent_passport_router, prefix=settings.api_prefix)
     app.include_router(agent_policy_engine_router, prefix=settings.api_prefix)
