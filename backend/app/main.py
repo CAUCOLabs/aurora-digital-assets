@@ -8,6 +8,7 @@ from app.api.routes.ai_threat_defense import router as ai_threat_defense_router
 from app.api.routes.agent_actions import router as agent_actions_router
 from app.api.routes.agent_permissions import router as agent_permissions_router
 from app.api.routes.agent_passport import router as agent_passport_router
+from app.api.routes.agent_policy_engine import router as agent_policy_engine_router
 from app.api.routes.agent_registry import router as agent_registry_router
 from app.api.routes.agent_revocation import router as agent_revocation_router
 from app.api.routes.agent_sensitive_action_guard import (
@@ -110,6 +111,7 @@ def create_app() -> FastAPI:
     app.include_router(secret_exposure_guard_router, prefix=settings.api_prefix)
     app.include_router(agent_registry_router, prefix=settings.api_prefix)
     app.include_router(agent_passport_router, prefix=settings.api_prefix)
+    app.include_router(agent_policy_engine_router, prefix=settings.api_prefix)
     app.include_router(agent_permissions_router, prefix=settings.api_prefix)
     app.include_router(agent_actions_router, prefix=settings.api_prefix)
     app.include_router(agent_revocation_router, prefix=settings.api_prefix)
