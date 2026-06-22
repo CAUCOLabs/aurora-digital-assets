@@ -54,6 +54,20 @@ const workspaceModules = [
     to: '/bank-staff/sensitive-approval',
   },
   {
+    title: 'Agent governance',
+    description:
+      'Review simulated agent registry, passport, permissions, action audit, revocation, policy controls, abuse detection, and identity governance.',
+    status: 'Agent control',
+    to: '/bank-staff/agent-governance',
+  },
+  {
+    title: 'Human approval integrity',
+    description:
+      'Control human review as a risk event with dual control, segregation of duties, reviewer conflict checks, and post-approval audit evidence.',
+    status: 'Approval integrity',
+    to: '/bank-staff/human-approval-integrity',
+  },
+  {
     title: 'Compliance review',
     description:
       'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
@@ -121,6 +135,8 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.infrastructureSecurity,
     t.bankStaffWorkspace.modules.cryptoAgility,
     t.bankStaffWorkspace.modules.sensitiveApproval,
+    'Agent governance',
+    'Human approval integrity',
     t.bankStaffWorkspace.modules.complianceReview,
     t.bankStaffWorkspace.modules.financialCrime,
     t.bankStaffWorkspace.modules.complianceIntelligence,
@@ -137,6 +153,8 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.crossLayerSecurity,
     t.bankStaffWorkspace.statuses.cryptoAgility,
     t.bankStaffWorkspace.statuses.stepUpApproval,
+    'Agent control',
+    'Approval integrity',
     t.bankStaffWorkspace.statuses.complianceReview,
     t.bankStaffWorkspace.statuses.monitoringAlerts,
     t.bankStaffWorkspace.statuses.reasoningLayer,
@@ -153,6 +171,8 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.moduleDescriptions.infrastructureSecurity,
     t.bankStaffWorkspace.moduleDescriptions.cryptoAgility,
     t.bankStaffWorkspace.moduleDescriptions.sensitiveApproval,
+    'Review simulated agent registry, passport, permissions, action audit, revocation, policy controls, abuse detection, and identity governance.',
+    'Control human review as a risk event with dual control, segregation of duties, reviewer conflict checks, and post-approval audit evidence.',
     t.bankStaffWorkspace.moduleDescriptions.complianceReview,
     t.bankStaffWorkspace.moduleDescriptions.financialCrime,
     t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,
@@ -201,11 +221,11 @@ export function BankStaffWorkspacePage() {
                     to={module.to}
                   >
                     <div>
-                      <h3>{translatedModules[index]}</h3>
+                      <h3>{translatedModules[index] ?? module.title}</h3>
                       <p>{translatedDescriptions[index] ?? module.description}</p>
                       <span>{module.to}</span>
                     </div>
-                    <strong>{translatedStatuses[index]}</strong>
+                    <strong>{translatedStatuses[index] ?? module.status}</strong>
                   </Link>
                 ))}
               </div>

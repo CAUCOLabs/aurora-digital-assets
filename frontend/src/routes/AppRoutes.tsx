@@ -18,9 +18,11 @@ import { DemoAdminPage } from '../pages/DemoAdminPage'
 import { BankAccessPage } from '../pages/BankAccessPage'
 import { BankStaffWorkspacePage } from '../pages/BankStaffWorkspacePage'
 import { BankStaffOnboardingPage } from '../pages/BankStaffOnboardingPage'
+import { AgentGovernancePage } from '../pages/AgentGovernancePage'
 import { ComplianceIntelligencePage } from '../pages/ComplianceIntelligencePage'
 import { EvidencePackagesPage } from '../pages/EvidencePackagesPage'
 import { FinancialCrimeMonitoringPage } from '../pages/FinancialCrimeMonitoringPage'
+import { HumanApprovalIntegrityPage } from '../pages/HumanApprovalIntegrityPage'
 import { InfrastructureSecurityPage } from '../pages/InfrastructureSecurityPage'
 import { OperationalResiliencePage } from '../pages/OperationalResiliencePage'
 import { RiskOperationsPage } from '../pages/RiskOperationsPage'
@@ -197,6 +199,22 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <RiskOperationsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/agent-governance"
+        element={
+          <ProtectedRoute>
+            <AgentGovernancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/human-approval-integrity"
+        element={
+          <ProtectedRoute>
+            <HumanApprovalIntegrityPage />
           </ProtectedRoute>
         }
       />
