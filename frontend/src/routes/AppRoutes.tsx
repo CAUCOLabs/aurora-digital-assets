@@ -9,9 +9,45 @@ import { BuySellPage } from '../pages/BuySellPage'
 import { CustodyPage } from '../pages/CustodyPage'
 import { OperatingModelPage } from '../pages/OperatingModelPage'
 import { PaymentsPage } from '../pages/PaymentsPage'
+import { NewPaymentPage } from '../pages/NewPaymentPage'
+import { ApprovePaymentsPage } from '../pages/ApprovePaymentsPage'
+import { InternationalPaymentPage } from '../pages/InternationalPaymentPage'
+import { RecipientsPage } from '../pages/RecipientsPage'
+import { PaymentLimitsPage } from '../pages/PaymentLimitsPage'
+import { DigitalAssetPaymentPage } from '../pages/DigitalAssetPaymentPage'
+import { SupportedBusinessRecipientsPage } from '../pages/SupportedBusinessRecipientsPage'
+import { PaymentAssetSettingsPage } from '../pages/PaymentAssetSettingsPage'
+import { EInvoiceAgreementPage } from '../pages/EInvoiceAgreementPage'
+import { RecurringPaymentPage } from '../pages/RecurringPaymentPage'
+import { PaymentAgreementsPage } from '../pages/PaymentAgreementsPage'
 import { AccountsPage } from '../pages/AccountsPage'
+import { AccountBalancesPage } from '../pages/AccountBalancesPage'
+import { AccountTransactionsPage } from '../pages/AccountTransactionsPage'
+import { CurrentAccountPage } from '../pages/CurrentAccountPage'
+import { SavingsDepositAccountsPage } from '../pages/SavingsDepositAccountsPage'
+import { ChildAccountPage } from '../pages/ChildAccountPage'
+import { AccountFAQPage } from '../pages/AccountFAQPage'
 import { ApiSecurityPage } from '../pages/ApiSecurityPage'
 import { CardsPage } from '../pages/CardsPage'
+import { CardOverviewPage } from '../pages/CardOverviewPage'
+import { ApplyCardPage } from '../pages/ApplyCardPage'
+import { CardSettingsPage } from '../pages/CardSettingsPage'
+import { CardLimitsPage } from '../pages/CardLimitsPage'
+import { CurrencyAccountsPage } from '../pages/CurrencyAccountsPage'
+import { ExchangeRatesPage } from '../pages/ExchangeRatesPage'
+import { TravelMoneyPage } from '../pages/TravelMoneyPage'
+import { CardFAQPage } from '../pages/CardFAQPage'
+import { InvestmentOverviewPage } from '../pages/InvestmentOverviewPage'
+import { FundsPage } from '../pages/FundsPage'
+import { StocksPage } from '../pages/StocksPage'
+import { InvestmentAccountsPage } from '../pages/InvestmentAccountsPage'
+import { TradingPage } from '../pages/TradingPage'
+import { InvestmentCustodyAccountsPage } from '../pages/InvestmentCustodyAccountsPage'
+import { InvestmentPricesPage } from '../pages/InvestmentPricesPage'
+import { MarketNewsPage } from '../pages/MarketNewsPage'
+import { InvestmentResearchPage } from '../pages/InvestmentResearchPage'
+import { InvestmentFAQPage } from '../pages/InvestmentFAQPage'
+import { InvestmentRiskInformationPage } from '../pages/InvestmentRiskInformationPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
 import { CryptoAgilityPage } from '../pages/CryptoAgilityPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
@@ -52,6 +88,94 @@ export function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/payments/new"
+        element={
+          <ProtectedRoute>
+            <NewPaymentPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/approve"
+        element={
+          <ProtectedRoute>
+            <ApprovePaymentsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/international"
+        element={
+          <ProtectedRoute>
+            <InternationalPaymentPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/recipients"
+        element={
+          <ProtectedRoute>
+            <RecipientsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/limits"
+        element={
+          <ProtectedRoute>
+            <PaymentLimitsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/digital-asset-payment"
+        element={
+          <ProtectedRoute>
+            <DigitalAssetPaymentPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/supported-business-recipients"
+        element={
+          <ProtectedRoute>
+            <SupportedBusinessRecipientsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/asset-settings"
+        element={
+          <ProtectedRoute>
+            <PaymentAssetSettingsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/e-invoice-agreement"
+        element={
+          <ProtectedRoute>
+            <EInvoiceAgreementPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/recurring"
+        element={
+          <ProtectedRoute>
+            <RecurringPaymentPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payments/payment-agreements"
+        element={
+          <ProtectedRoute>
+            <PaymentAgreementsPage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/accounts"
@@ -61,8 +185,127 @@ export function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/accounts/balances"
+        element={
+          <ProtectedRoute>
+            <AccountBalancesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/accounts/transactions"
+        element={
+          <ProtectedRoute>
+            <AccountTransactionsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/accounts/current-account"
+        element={
+          <ProtectedRoute>
+            <CurrentAccountPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/accounts/savings-deposits"
+        element={
+          <ProtectedRoute>
+            <SavingsDepositAccountsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/accounts/child-account"
+        element={
+          <ProtectedRoute>
+            <ChildAccountPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/accounts/faq"
+        element={
+          <ProtectedRoute>
+            <AccountFAQPage />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/cards" element={<CardsPage />} />
+      <Route
+        path="/cards"
+        element={
+          <ProtectedRoute>
+            <CardsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/overview"
+        element={
+          <ProtectedRoute>
+            <CardOverviewPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/apply"
+        element={
+          <ProtectedRoute>
+            <ApplyCardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/settings"
+        element={
+          <ProtectedRoute>
+            <CardSettingsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/limits"
+        element={
+          <ProtectedRoute>
+            <CardLimitsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/currency-accounts"
+        element={
+          <ProtectedRoute>
+            <CurrencyAccountsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/exchange-rates"
+        element={
+          <ProtectedRoute>
+            <ExchangeRatesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/travel-money"
+        element={
+          <ProtectedRoute>
+            <TravelMoneyPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cards/faq"
+        element={
+          <ProtectedRoute>
+            <CardFAQPage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/loans"
@@ -78,11 +321,101 @@ export function AppRoutes() {
       <Route
         path="/investments"
         element={
-          <PlaceholderPage
-            eyebrow="Investments"
-            title="Investments"
-            description="Simulated investments section. The prototype separates traditional investments from Digital Assets."
-          />
+          <ProtectedRoute>
+            <PlaceholderPage
+              eyebrow="Investments"
+              title="Investments"
+              description="Simulated investments section. The prototype separates traditional investments from Digital Assets."
+            />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/overview"
+        element={
+          <ProtectedRoute>
+            <InvestmentOverviewPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/funds"
+        element={
+          <ProtectedRoute>
+            <FundsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/stocks"
+        element={
+          <ProtectedRoute>
+            <StocksPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/accounts"
+        element={
+          <ProtectedRoute>
+            <InvestmentAccountsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/trading"
+        element={
+          <ProtectedRoute>
+            <TradingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/custody-accounts"
+        element={
+          <ProtectedRoute>
+            <InvestmentCustodyAccountsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/prices"
+        element={
+          <ProtectedRoute>
+            <InvestmentPricesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/market-news"
+        element={
+          <ProtectedRoute>
+            <MarketNewsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/research"
+        element={
+          <ProtectedRoute>
+            <InvestmentResearchPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/faq"
+        element={
+          <ProtectedRoute>
+            <InvestmentFAQPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/investments/risk-information"
+        element={
+          <ProtectedRoute>
+            <InvestmentRiskInformationPage />
+          </ProtectedRoute>
         }
       />
 

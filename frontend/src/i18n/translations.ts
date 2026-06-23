@@ -2,6 +2,4656 @@ export type Language = 'en' | 'es'
 
 export const defaultLanguage: Language = 'en'
 
+const enPhrases = {
+  'Local deterministic prototype only. No real assets, no real custody, no real bank integration, no real custodian integration, no real blockchain execution, no real cloud deployment, and no private keys or secrets.':
+    'Local deterministic prototype only. No real assets, no real custody, no real bank integration, no real custodian integration, no real blockchain execution, no real cloud deployment, and no private keys or secrets.',
+  'Human review is not a trust anchor. It is a controlled risk event.':
+    'Human review is not a trust anchor. It is a controlled risk event.',
+  'Every agent must be identifiable, permission-bound, revocable, and auditable.':
+    'Every agent must be identifiable, permission-bound, revocable, and auditable.',
+  'Go to online banking dashboard': 'Go to online banking dashboard',
+  'Digital Assets navigation': 'Digital Assets navigation',
+  'Hidden amount': 'Hidden amount',
+  amount: 'amount',
+  Home: 'Home',
+  Payments: 'Payments',
+  Accounts: 'Accounts',
+  'Cards and Currency': 'Cards and Currency',
+  Loans: 'Loans',
+  Investments: 'Investments',
+  Insurance: 'Insurance',
+  'Digital Assets': 'Digital Assets',
+  Documents: 'Documents',
+  'Online Services': 'Online Services',
+  'New payment': 'New payment',
+  'Approve payments': 'Approve payments',
+  'International payment': 'International payment',
+  Recipients: 'Recipients',
+  'Payment limits': 'Payment limits',
+  'Digital asset payments': 'Digital asset payments',
+  'Digital asset payment': 'Digital asset payment',
+  'Supported business recipients': 'Supported business recipients',
+  'Payment asset settings': 'Payment asset settings',
+  'Payment reporting': 'Payment reporting',
+  'E-invoices and agreements': 'E-invoices and agreements',
+  'Create e-invoice agreement': 'Create e-invoice agreement',
+  'Recurring payment': 'Recurring payment',
+  'View and edit payment agreements': 'View and edit payment agreements',
+  'See also': 'See also',
+  'E-invoice archive': 'E-invoice archive',
+  'Message and notification settings': 'Message and notification settings',
+  'Balances and transactions': 'Balances and transactions',
+  Balances: 'Balances',
+  Transactions: 'Transactions',
+  'Open account': 'Open account',
+  'Current account': 'Current account',
+  'Savings and deposit accounts': 'Savings and deposit accounts',
+  'Account for a child': 'Account for a child',
+  'Frequently asked': 'Frequently asked',
+  'Account FAQ': 'Account FAQ',
+  'Account statements and bank mail': 'Account statements and bank mail',
+  Cards: 'Cards',
+  'Card overview': 'Card overview',
+  'Apply for a card': 'Apply for a card',
+  'Card settings': 'Card settings',
+  'Card limits': 'Card limits',
+  Currency: 'Currency',
+  'Currency accounts': 'Currency accounts',
+  'Exchange rates': 'Exchange rates',
+  'Travel money': 'Travel money',
+  'Card FAQ': 'Card FAQ',
+  'Card statements': 'Card statements',
+  'Security settings': 'Security settings',
+  'Investment overview': 'Investment overview',
+  Funds: 'Funds',
+  Stocks: 'Stocks',
+  'Investment accounts': 'Investment accounts',
+  'Trading and custody': 'Trading and custody',
+  Trading: 'Trading',
+  'Custody accounts': 'Custody accounts',
+  Prices: 'Prices',
+  'News and analysis': 'News and analysis',
+  'Market news': 'Market news',
+  Research: 'Research',
+  'Help with investing': 'Help with investing',
+  'Investment FAQ': 'Investment FAQ',
+  'Risk information': 'Risk information',
+  'Balances and activity': 'Balances and activity',
+  Overview: 'Overview',
+  'Wallet balances': 'Wallet balances',
+  'Transaction history': 'Transaction history',
+  'Manage digital assets': 'Manage digital assets',
+  'Buy / Sell': 'Buy / Sell',
+  'External withdrawals': 'External withdrawals',
+  'Custody model': 'Custody model',
+  Reporting: 'Reporting',
+  'Tax reports': 'Tax reports',
+  'Export documents': 'Export documents',
+  'Audit trail': 'Audit trail',
+  'What is custody?': 'What is custody?',
+  'Are digital assets deposits?': 'Are digital assets deposits?',
+  'What happens during withdrawal?': 'What happens during withdrawal?',
+  'Online banking': 'Online banking',
+  'Online banking settings': 'Online banking settings',
+  'Mobile banking': 'Mobile banking',
+  'Strong authentication': 'Strong authentication',
+  Messages: 'Messages',
+  'Message settings': 'Message settings',
+  'Email notifications': 'Email notifications',
+  'SMS notifications': 'SMS notifications',
+  Security: 'Security',
+  'Login security': 'Login security',
+  'Device management': 'Device management',
+  'Security alerts': 'Security alerts',
+  Help: 'Help',
+  'Online services FAQ': 'Online services FAQ',
+  'Contact support': 'Contact support',
+  Wallet: 'Wallet',
+  Custody: 'Custody',
+  Withdrawals: 'Withdrawals',
+  Reports: 'Reports',
+  'Simulated loans section for the Aurora Bank online banking prototype.':
+    'Simulated loans section for the Aurora Bank online banking prototype.',
+  'Simulated investments section. The prototype separates traditional investments from Digital Assets.':
+    'Simulated investments section. The prototype separates traditional investments from Digital Assets.',
+  'Simulated insurance section for the Aurora Bank online banking prototype.':
+    'Simulated insurance section for the Aurora Bank online banking prototype.',
+  'Simulated online and mobile services section for the Aurora Bank online banking prototype.':
+    'Simulated online and mobile services section for the Aurora Bank online banking prototype.',
+  'Demo section': 'Demo section',
+  'Module placeholder': 'Module placeholder',
+  'Coming later': 'Coming later',
+  'Prototype note': 'Prototype note',
+  Scope: 'Scope',
+  'This section is included to make the online banking prototype feel complete. The main focus of this project remains the bank-integrated Digital Assets module.':
+    'This section is included to make the online banking prototype feel complete. The main focus of this project remains the bank-integrated Digital Assets module.',
+  'This page uses simulated content only. No real bank APIs, payments, cards, loans, or investment services are connected.':
+    'This page uses simulated content only. No real bank APIs, payments, cards, loans, or investment services are connected.',
+  Ready: 'Ready',
+  'Not ready': 'Not ready',
+  Draft: 'Draft',
+  Submitted: 'Submitted',
+  Recorded: 'Recorded',
+  Completed: 'Completed',
+  Active: 'Active',
+  Monitoring: 'Monitoring',
+  Controlled: 'Controlled',
+  Denied: 'Denied',
+  Created: 'Created',
+  Paused: 'Paused',
+  Blocked: 'Blocked',
+  Required: 'Required',
+  Escalated: 'Escalated',
+  Confirmed: 'Confirmed',
+  Visible: 'Visible',
+  Enabled: 'Enabled',
+  Disabled: 'Disabled',
+  Conditional: 'Conditional',
+  'Under review': 'Under review',
+  'Pending review': 'Pending review',
+  'Pending local review': 'Pending local review',
+  'Pending local prototype review': 'Pending local prototype review',
+  'Local fallback': 'Local fallback',
+  'Backend model': 'Backend model',
+  'Backend evaluation': 'Backend evaluation',
+  'Prototype estimate': 'Prototype estimate',
+  'Backend audit concept': 'Backend audit concept',
+  'Local draft': 'Local draft',
+  Evaluated: 'Evaluated',
+  Evaluating: 'Evaluating',
+  'Evaluating...': 'Evaluating...',
+  'Ready for review': 'Ready for review',
+  'Ready for evaluation': 'Ready for evaluation',
+  'Needs correction': 'Needs correction',
+  'Address mismatch': 'Address mismatch',
+  'Unavailable externally': 'Unavailable externally',
+  'Case created': 'Case created',
+  'Review case created': 'Review case created',
+  'Audit event recorded': 'Audit event recorded',
+  'Backend decision returned': 'Backend decision returned',
+  'Evaluation submitted': 'Evaluation submitted',
+  'Buy/sell evaluation submitted': 'Buy/sell evaluation submitted',
+  'Trade form opened': 'Trade form opened',
+  'Local estimate prepared': 'Local estimate prepared',
+  'Withdrawal form opened': 'Withdrawal form opened',
+  'Asset and network selected': 'Asset and network selected',
+  'Destination address entered': 'Destination address entered',
+  'Protection review prepared': 'Protection review prepared',
+  'Submitting...': 'Submitting...',
+  'Submit payment': 'Submit payment',
+  'Not selected': 'Not selected',
+  'Not provided': 'Not provided',
+  Yes: 'Yes',
+  No: 'No',
+  'Control status': 'Control status',
+  'Static demo evidence': 'Static demo evidence',
+  'Local deterministic prototype': 'Local deterministic prototype',
+  'Local deterministic prototype only': 'Local deterministic prototype only',
+  'Local prototype only': 'Local prototype only',
+  'No live execution': 'No live execution',
+  'No real assets': 'No real assets',
+  'No real agent execution': 'No real agent execution',
+  'No real custodian access': 'No real custodian access',
+  'No real bank integration': 'No real bank integration',
+  'No real custodian integration': 'No real custodian integration',
+  'No real custody': 'No real custody',
+  'No real blockchain execution': 'No real blockchain execution',
+  'No real cloud deployment': 'No real cloud deployment',
+  'No real employee monitoring': 'No real employee monitoring',
+  'No legal accusation or criminal finding':
+    'No legal accusation or criminal finding',
+  'No private keys or secrets': 'No private keys or secrets',
+  'No secrets': 'No secrets',
+  'No real onboarding': 'No real onboarding',
+  'No credential creation': 'No credential creation',
+  'No identity verification': 'No identity verification',
+  'No production strong authentication': 'No production strong authentication',
+  'No real customer data': 'No real customer data',
+  'No real legal report is generated': 'No real legal report is generated',
+  'Governance modules': 'Governance modules',
+  'Controlled agent operating model': 'Controlled agent operating model',
+  'Agent governance': 'Agent governance',
+  'Agent governance console': 'Agent governance console',
+  'Bank staff control': 'Bank staff control',
+  'Institutional control view for simulated agent identity, policy, permissions, revocation, abuse detection, and audit evidence.':
+    'Institutional control view for simulated agent identity, policy, permissions, revocation, abuse detection, and audit evidence.',
+  'Operating principle': 'Operating principle',
+  'No blind trust': 'No blind trust',
+  'Aurora does not blindly trust AI, agents, partners, custodians, or human reviewers. Sensitive decisions are controlled, scored, evidenced, reviewable, and auditable before operation state can change.':
+    'Aurora does not blindly trust AI, agents, partners, custodians, or human reviewers. Sensitive decisions are controlled, scored, evidenced, reviewable, and auditable before operation state can change.',
+  'Decision control chain': 'Decision control chain',
+  'Before sensitive action': 'Before sensitive action',
+  'Control step': 'Control step',
+  'Risk signal captured': 'Risk signal captured',
+  'Guardrail evaluated': 'Guardrail evaluated',
+  'Evidence package prepared': 'Evidence package prepared',
+  'Review case routed': 'Review case routed',
+  'Agent and human integrity checked': 'Agent and human integrity checked',
+  'Decision recorded': 'Decision recorded',
+  'Safety boundary': 'Safety boundary',
+  'Prototype constraints': 'Prototype constraints',
+  'Related staff modules': 'Related staff modules',
+  'Review paths': 'Review paths',
+  'Open risk operations': 'Open risk operations',
+  'Open human approval integrity': 'Open human approval integrity',
+  'Aurora Digital Assets is a local deterministic prototype. No real agents, custodians, bank systems, secrets, or customer records are connected.':
+    'Aurora Digital Assets is a local deterministic prototype. No real agents, custodians, bank systems, secrets, or customer records are connected.',
+  'Agent Registry': 'Agent Registry',
+  'Agent Passport': 'Agent Passport',
+  'Agent Permissions': 'Agent Permissions',
+  'Agent Action Audit': 'Agent Action Audit',
+  'Agent Revocation': 'Agent Revocation',
+  'Agent Policy Engine': 'Agent Policy Engine',
+  'Agent Abuse Detection': 'Agent Abuse Detection',
+  'Agent Identity Governance': 'Agent Identity Governance',
+  'Inventory of simulated agent identities, ownership, permitted operating zones, and current lifecycle status.':
+    'Inventory of simulated agent identities, ownership, permitted operating zones, and current lifecycle status.',
+  'Structured profile for declared purpose, control evidence, model boundaries, and institutional review readiness.':
+    'Structured profile for declared purpose, control evidence, model boundaries, and institutional review readiness.',
+  'Deterministic permission model for what an agent may request, recommend, prepare, or never execute.':
+    'Deterministic permission model for what an agent may request, recommend, prepare, or never execute.',
+  'Audit trail view for simulated agent recommendations, evidence creation, routing decisions, and blocked actions.':
+    'Audit trail view for simulated agent recommendations, evidence creation, routing decisions, and blocked actions.',
+  'Control path for suspending or revoking an agent identity when evidence, policy, or operating context changes.':
+    'Control path for suspending or revoking an agent identity when evidence, policy, or operating context changes.',
+  'Policy checks for permitted actions, sensitive operation boundaries, escalation routing, and required evidence.':
+    'Policy checks for permitted actions, sensitive operation boundaries, escalation routing, and required evidence.',
+  'Static risk indicators for prompt abuse, policy bypass attempts, excessive access requests, and suspicious routing.':
+    'Static risk indicators for prompt abuse, policy bypass attempts, excessive access requests, and suspicious routing.',
+  'Governance record for identity ownership, scope, segregation, approval chain, and revocation readiness.':
+    'Governance record for identity ownership, scope, segregation, approval chain, and revocation readiness.',
+  'Bank operations integrity': 'Bank operations integrity',
+  'Human approval integrity console': 'Human approval integrity console',
+  'Critical override protected': 'Critical override protected',
+  'Approval controls': 'Approval controls',
+  'Reviewer integrity safeguards': 'Reviewer integrity safeguards',
+  'Static deterministic control used to prevent human approval from becoming an uncontrolled bypass path.':
+    'Static deterministic control used to prevent human approval from becoming an uncontrolled bypass path.',
+  'Static demo case': 'Static demo case',
+  'External wallet withdrawal blocked': 'External wallet withdrawal blocked',
+  'Core principle': 'Core principle',
+  'Controlled risk event': 'Controlled risk event',
+  'A human reviewer can add context, request evidence, or approve low-risk steps within policy. A human reviewer cannot override a critical system block alone.':
+    'A human reviewer can add context, request evidence, or approve low-risk steps within policy. A human reviewer cannot override a critical system block alone.',
+  'Required evidence': 'Required evidence',
+  'Before approval can proceed': 'Before approval can proceed',
+  'Evidence item': 'Evidence item',
+  'Open agent governance': 'Open agent governance',
+  'Open evidence packages': 'Open evidence packages',
+  'Aurora Digital Assets is a local deterministic prototype. No real employee monitoring, legal accusation, criminal finding, custody, blockchain execution, cloud deployment, or secrets are present.':
+    'Aurora Digital Assets is a local deterministic prototype. No real employee monitoring, legal accusation, criminal finding, custody, blockchain execution, cloud deployment, or secrets are present.',
+  'No single human can override a critical system block':
+    'No single human can override a critical system block',
+  'Dual control / four-eyes approval': 'Dual control / four-eyes approval',
+  'Segregation of duties': 'Segregation of duties',
+  'Reviewer conflict detection': 'Reviewer conflict detection',
+  'Emergency override control': 'Emergency override control',
+  'Post-approval audit': 'Post-approval audit',
+  'Critical system block active': 'Critical system block active',
+  'Emergency override requested': 'Emergency override requested',
+  'Human approval blocked': 'Human approval blocked',
+  'Second reviewer required': 'Second reviewer required',
+  'Compliance escalation required': 'Compliance escalation required',
+  'Evidence package created': 'Evidence package created',
+  'Operation paused': 'Operation paused',
+  'System block reason': 'System block reason',
+  'Requester identity and role': 'Requester identity and role',
+  'Second reviewer requirement': 'Second reviewer requirement',
+  'Conflict check result': 'Conflict check result',
+  'Compliance escalation record': 'Compliance escalation record',
+  'Post-approval audit event': 'Post-approval audit event',
+  'Bank staff customer onboarding model':
+    'Bank staff customer onboarding model',
+  'Identity and document review': 'Identity and document review',
+  'Private PIN / secret credential setup':
+    'Private PIN / secret credential setup',
+  'Digital Assets eligibility check': 'Digital Assets eligibility check',
+  'Bank staff': 'Bank staff',
+  Customer: 'Customer',
+  'Bank system / Compliance': 'Bank system / Compliance',
+  'Private customer action': 'Private customer action',
+  'Passport or national identity document':
+    'Passport or national identity document',
+  'Personal identity information': 'Personal identity information',
+  'Contact information': 'Contact information',
+  'Customer enters PIN privately': 'Customer enters PIN privately',
+  'Staff must not see the secret credential':
+    'Staff must not see the secret credential',
+  'Credential is not displayed back to staff':
+    'Credential is not displayed back to staff',
+  'Active banking relationship': 'Active banking relationship',
+  'Identity verification completed': 'Identity verification completed',
+  'Source-of-funds reviewed': 'Source-of-funds reviewed',
+  'Strong authentication enabled': 'Strong authentication enabled',
+  'Completed by bank': 'Completed by bank',
+  'Finland resident': 'Finland resident',
+  'Reviewed by bank': 'Reviewed by bank',
+  'Customer relationship created through bank-managed onboarding.':
+    'Customer relationship created through bank-managed onboarding.',
+  'Online banking credentials issued by the bank.':
+    'Online banking credentials issued by the bank.',
+  'PIN setup is treated as a private customer action.':
+    'PIN setup is treated as a private customer action.',
+  'Digital Assets access remains subject to eligibility and review controls.':
+    'Digital Assets access remains subject to eligibility and review controls.',
+  'Backend bank staff model unavailable. Showing local prototype fallback.':
+    'Backend bank staff model unavailable. Showing local prototype fallback.',
+  'Simulated bank login service is unavailable. No session was created.':
+    'Simulated bank login service is unavailable. No session was created.',
+  'Login approval request is unavailable. Please start again.':
+    'Login approval request is unavailable. Please start again.',
+  'Simulated mobile key approval is unavailable. No session was created.':
+    'Simulated mobile key approval is unavailable. No session was created.',
+  'Go to Aurora Bank home': 'Go to Aurora Bank home',
+  'Checking banking session...': 'Checking banking session...',
+} satisfies Record<string, string>
+
+const esPhrases: Record<keyof typeof enPhrases, string> = {
+  'Local deterministic prototype only. No real assets, no real custody, no real bank integration, no real custodian integration, no real blockchain execution, no real cloud deployment, and no private keys or secrets.':
+    'Prototipo local y determinístico. Sin activos reales, sin custodia real, sin integración bancaria real, sin integración real con custodios, sin ejecución blockchain real, sin despliegue cloud real y sin llaves privadas ni secretos.',
+  'Human review is not a trust anchor. It is a controlled risk event.':
+    'La revisión humana no es un ancla de confianza. Es un evento de riesgo controlado.',
+  'Every agent must be identifiable, permission-bound, revocable, and auditable.':
+    'Todo agente debe ser identificable, limitado por permisos, revocable y auditable.',
+  'Go to online banking dashboard': 'Ir al panel de banca en línea',
+  'Digital Assets navigation': 'Navegación de activos digitales',
+  'Hidden amount': 'Importe oculto',
+  amount: 'importe',
+  Home: 'Inicio',
+  Payments: 'Pagos',
+  Accounts: 'Cuentas',
+  'Cards and Currency': 'Tarjetas y moneda',
+  Loans: 'Créditos',
+  Investments: 'Inversiones',
+  Insurance: 'Seguros',
+  'Digital Assets': 'Activos digitales',
+  Documents: 'Documentos',
+  'Online Services': 'Servicios en línea',
+  'New payment': 'Nuevo pago',
+  'Approve payments': 'Aprobar pagos',
+  'International payment': 'Pago internacional',
+  Recipients: 'Destinatarios',
+  'Payment limits': 'Límites de pago',
+  'Digital asset payments': 'Pagos con activos digitales',
+  'Digital asset payment': 'Pago con activo digital',
+  'Supported business recipients': 'Destinatarios comerciales admitidos',
+  'Payment asset settings': 'Configuración de activos de pago',
+  'Payment reporting': 'Informes de pagos',
+  'E-invoices and agreements': 'Facturas electrónicas y acuerdos',
+  'Create e-invoice agreement': 'Crear acuerdo de factura electrónica',
+  'Recurring payment': 'Pago recurrente',
+  'View and edit payment agreements': 'Ver y editar acuerdos de pago',
+  'See also': 'Ver también',
+  'E-invoice archive': 'Archivo de facturas electrónicas',
+  'Message and notification settings':
+    'Configuración de mensajes y notificaciones',
+  'Balances and transactions': 'Saldos y movimientos',
+  Balances: 'Saldos',
+  Transactions: 'Movimientos',
+  'Open account': 'Abrir cuenta',
+  'Current account': 'Cuenta corriente',
+  'Savings and deposit accounts': 'Cuentas de ahorro y depósito',
+  'Account for a child': 'Cuenta para un menor',
+  'Frequently asked': 'Preguntas frecuentes',
+  'Account FAQ': 'Preguntas frecuentes sobre cuentas',
+  'Account statements and bank mail': 'Extractos de cuenta y correo bancario',
+  Cards: 'Tarjetas',
+  'Card overview': 'Resumen de tarjetas',
+  'Apply for a card': 'Solicitar tarjeta',
+  'Card settings': 'Configuración de tarjeta',
+  'Card limits': 'Límites de tarjeta',
+  Currency: 'Moneda',
+  'Currency accounts': 'Cuentas en divisa',
+  'Exchange rates': 'Tipos de cambio',
+  'Travel money': 'Dinero para viajes',
+  'Card FAQ': 'Preguntas frecuentes sobre tarjetas',
+  'Card statements': 'Extractos de tarjeta',
+  'Security settings': 'Configuración de seguridad',
+  'Investment overview': 'Resumen de inversiones',
+  Funds: 'Fondos',
+  Stocks: 'Acciones',
+  'Investment accounts': 'Cuentas de inversión',
+  'Trading and custody': 'Negociación y custodia',
+  Trading: 'Negociación',
+  'Custody accounts': 'Cuentas de custodia',
+  Prices: 'Precios',
+  'News and analysis': 'Noticias y análisis',
+  'Market news': 'Noticias de mercado',
+  Research: 'Análisis',
+  'Help with investing': 'Ayuda con inversiones',
+  'Investment FAQ': 'Preguntas frecuentes sobre inversiones',
+  'Risk information': 'Información de riesgo',
+  'Balances and activity': 'Saldos y actividad',
+  Overview: 'Resumen',
+  'Wallet balances': 'Saldos de billetera',
+  'Transaction history': 'Historial de movimientos',
+  'Manage digital assets': 'Gestionar activos digitales',
+  'Buy / Sell': 'Comprar / vender',
+  'External withdrawals': 'Retiros externos',
+  'Custody model': 'Modelo de custodia',
+  Reporting: 'Informes',
+  'Tax reports': 'Informes fiscales',
+  'Export documents': 'Exportar documentos',
+  'Audit trail': 'Trazabilidad de auditoría',
+  'What is custody?': '¿Qué es la custodia?',
+  'Are digital assets deposits?': '¿Los activos digitales son depósitos?',
+  'What happens during withdrawal?': '¿Qué ocurre durante un retiro?',
+  'Online banking': 'Banca en línea',
+  'Online banking settings': 'Configuración de banca en línea',
+  'Mobile banking': 'Banca móvil',
+  'Strong authentication': 'Autenticación fuerte',
+  Messages: 'Mensajes',
+  'Message settings': 'Configuración de mensajes',
+  'Email notifications': 'Notificaciones por correo electrónico',
+  'SMS notifications': 'Notificaciones SMS',
+  Security: 'Seguridad',
+  'Login security': 'Seguridad de acceso',
+  'Device management': 'Gestión de dispositivos',
+  'Security alerts': 'Alertas de seguridad',
+  Help: 'Ayuda',
+  'Online services FAQ': 'Preguntas frecuentes sobre servicios en línea',
+  'Contact support': 'Contactar soporte',
+  Wallet: 'Billetera',
+  Custody: 'Custodia',
+  Withdrawals: 'Retiros',
+  Reports: 'Informes',
+  'Simulated loans section for the Aurora Bank online banking prototype.':
+    'Sección simulada de créditos para el prototipo de banca en línea de Aurora Bank.',
+  'Simulated investments section. The prototype separates traditional investments from Digital Assets.':
+    'Sección simulada de inversiones. El prototipo separa las inversiones tradicionales de los activos digitales.',
+  'Simulated insurance section for the Aurora Bank online banking prototype.':
+    'Sección simulada de seguros para el prototipo de banca en línea de Aurora Bank.',
+  'Simulated online and mobile services section for the Aurora Bank online banking prototype.':
+    'Sección simulada de servicios en línea y móviles para el prototipo de banca en línea de Aurora Bank.',
+  'Demo section': 'Sección demo',
+  'Module placeholder': 'Marcador de módulo',
+  'Coming later': 'Próximamente',
+  'Prototype note': 'Nota del prototipo',
+  Scope: 'Alcance',
+  'This section is included to make the online banking prototype feel complete. The main focus of this project remains the bank-integrated Digital Assets module.':
+    'Esta sección se incluye para que el prototipo de banca en línea resulte completo. El foco principal del proyecto sigue siendo el módulo de Digital Assets integrado en banca.',
+  'This page uses simulated content only. No real bank APIs, payments, cards, loans, or investment services are connected.':
+    'Esta página usa solo contenido simulado. No hay APIs bancarias, pagos, tarjetas, créditos ni servicios de inversión reales conectados.',
+  Ready: 'Listo',
+  'Not ready': 'No listo',
+  Draft: 'Borrador',
+  Submitted: 'Enviado',
+  Recorded: 'Registrado',
+  Completed: 'Completado',
+  Active: 'Activo',
+  Monitoring: 'Monitoreo',
+  Controlled: 'Controlado',
+  Denied: 'Denegado',
+  Created: 'Creado',
+  Paused: 'Pausado',
+  Blocked: 'Bloqueado',
+  Required: 'Requerido',
+  Escalated: 'Escalado',
+  Confirmed: 'Confirmado',
+  Visible: 'Visible',
+  Enabled: 'Habilitado',
+  Disabled: 'Deshabilitado',
+  Conditional: 'Condicional',
+  'Under review': 'En revisión',
+  'Pending review': 'Pendiente de revisión',
+  'Pending local review': 'Pendiente de revisión local',
+  'Pending local prototype review':
+    'Pendiente de revisión en prototipo local',
+  'Local fallback': 'Alternativa local',
+  'Backend model': 'Modelo backend',
+  'Backend evaluation': 'Evaluación backend',
+  'Prototype estimate': 'Estimación del prototipo',
+  'Backend audit concept': 'Concepto de auditoría backend',
+  'Local draft': 'Borrador local',
+  Evaluated: 'Evaluado',
+  Evaluating: 'Evaluando',
+  'Evaluating...': 'Evaluando...',
+  'Ready for review': 'Listo para revisión',
+  'Ready for evaluation': 'Listo para evaluación',
+  'Needs correction': 'Requiere corrección',
+  'Address mismatch': 'Dirección no coincide',
+  'Unavailable externally': 'No disponible externamente',
+  'Case created': 'Caso creado',
+  'Review case created': 'Caso de revisión creado',
+  'Audit event recorded': 'Evento de auditoría registrado',
+  'Backend decision returned': 'Decisión backend recibida',
+  'Evaluation submitted': 'Evaluación enviada',
+  'Buy/sell evaluation submitted': 'Evaluación de compra/venta enviada',
+  'Trade form opened': 'Formulario de operación abierto',
+  'Local estimate prepared': 'Estimación local preparada',
+  'Withdrawal form opened': 'Formulario de retiro abierto',
+  'Asset and network selected': 'Activo y red seleccionados',
+  'Destination address entered': 'Dirección de destino introducida',
+  'Protection review prepared': 'Revisión de protección preparada',
+  'Submitting...': 'Enviando...',
+  'Submit payment': 'Enviar pago',
+  'Not selected': 'No seleccionado',
+  'Not provided': 'No proporcionado',
+  Yes: 'Sí',
+  No: 'No',
+  'Control status': 'Estado del control',
+  'Static demo evidence': 'Evidencia demo estática',
+  'Local deterministic prototype': 'Prototipo local determinístico',
+  'Local deterministic prototype only': 'Solo prototipo local determinístico',
+  'Local prototype only': 'Solo prototipo local',
+  'No live execution': 'Sin ejecución real',
+  'No real assets': 'Sin activos reales',
+  'No real agent execution': 'Sin ejecución real de agentes',
+  'No real custodian access': 'Sin acceso real a custodios',
+  'No real bank integration': 'Sin integración bancaria real',
+  'No real custodian integration': 'Sin integración real con custodios',
+  'No real custody': 'Sin custodia real',
+  'No real blockchain execution': 'Sin ejecución blockchain real',
+  'No real cloud deployment': 'Sin despliegue cloud real',
+  'No real employee monitoring': 'Sin monitoreo real de empleados',
+  'No legal accusation or criminal finding':
+    'Sin acusación legal ni determinación penal',
+  'No private keys or secrets': 'Sin llaves privadas ni secretos',
+  'No secrets': 'Sin secretos',
+  'No real onboarding': 'Sin incorporación real',
+  'No credential creation': 'Sin creación de credenciales',
+  'No identity verification': 'Sin verificación de identidad',
+  'No production strong authentication':
+    'Sin autenticación fuerte de producción',
+  'No real customer data': 'Sin datos reales de clientes',
+  'No real legal report is generated': 'No se genera informe legal real',
+  'Governance modules': 'Módulos de gobernanza',
+  'Controlled agent operating model': 'Modelo operativo controlado de agentes',
+  'Agent governance': 'Gobernanza de agentes',
+  'Agent governance console': 'Consola de gobernanza de agentes',
+  'Bank staff control': 'Control del personal bancario',
+  'Institutional control view for simulated agent identity, policy, permissions, revocation, abuse detection, and audit evidence.':
+    'Vista de control institucional para identidad simulada de agentes, políticas, permisos, revocación, detección de abuso y evidencia de auditoría.',
+  'Operating principle': 'Principio operativo',
+  'No blind trust': 'Sin confianza ciega',
+  'Aurora does not blindly trust AI, agents, partners, custodians, or human reviewers. Sensitive decisions are controlled, scored, evidenced, reviewable, and auditable before operation state can change.':
+    'Aurora no confía ciegamente en IA, agentes, socios, custodios ni revisores humanos. Las decisiones sensibles se controlan, puntúan, evidencian, revisan y auditan antes de que cambie el estado operativo.',
+  'Decision control chain': 'Cadena de control de decisión',
+  'Before sensitive action': 'Antes de una acción sensible',
+  'Control step': 'Paso de control',
+  'Risk signal captured': 'Señal de riesgo capturada',
+  'Guardrail evaluated': 'Control preventivo evaluado',
+  'Evidence package prepared': 'Paquete de evidencia preparado',
+  'Review case routed': 'Caso de revisión enrutado',
+  'Agent and human integrity checked':
+    'Integridad de agente y humana comprobada',
+  'Decision recorded': 'Decisión registrada',
+  'Safety boundary': 'Límite de seguridad',
+  'Prototype constraints': 'Restricciones del prototipo',
+  'Related staff modules': 'Módulos internos relacionados',
+  'Review paths': 'Rutas de revisión',
+  'Open risk operations': 'Abrir operaciones de riesgo',
+  'Open human approval integrity':
+    'Abrir integridad de aprobación humana',
+  'Aurora Digital Assets is a local deterministic prototype. No real agents, custodians, bank systems, secrets, or customer records are connected.':
+    'Aurora Digital Assets es un prototipo local determinístico. No hay agentes, custodios, sistemas bancarios, secretos ni registros de clientes reales conectados.',
+  'Agent Registry': 'Agent Registry',
+  'Agent Passport': 'Agent Passport',
+  'Agent Permissions': 'Agent Permissions',
+  'Agent Action Audit': 'Agent Action Audit',
+  'Agent Revocation': 'Agent Revocation',
+  'Agent Policy Engine': 'Agent Policy Engine',
+  'Agent Abuse Detection': 'Agent Abuse Detection',
+  'Agent Identity Governance': 'Agent Identity Governance',
+  'Inventory of simulated agent identities, ownership, permitted operating zones, and current lifecycle status.':
+    'Inventario de identidades de agentes simuladas, titularidad, zonas operativas permitidas y estado actual del ciclo de vida.',
+  'Structured profile for declared purpose, control evidence, model boundaries, and institutional review readiness.':
+    'Perfil estructurado para propósito declarado, evidencia de control, límites del modelo y preparación para revisión institucional.',
+  'Deterministic permission model for what an agent may request, recommend, prepare, or never execute.':
+    'Modelo determinístico de permisos para lo que un agente puede solicitar, recomendar, preparar o nunca ejecutar.',
+  'Audit trail view for simulated agent recommendations, evidence creation, routing decisions, and blocked actions.':
+    'Vista de trazabilidad de auditoría para recomendaciones simuladas de agentes, creación de evidencia, decisiones de enrutamiento y acciones bloqueadas.',
+  'Control path for suspending or revoking an agent identity when evidence, policy, or operating context changes.':
+    'Ruta de control para suspender o revocar una identidad de agente cuando cambia la evidencia, la política o el contexto operativo.',
+  'Policy checks for permitted actions, sensitive operation boundaries, escalation routing, and required evidence.':
+    'Controles de política para acciones permitidas, límites de operaciones sensibles, enrutamiento de escalamiento y evidencia requerida.',
+  'Static risk indicators for prompt abuse, policy bypass attempts, excessive access requests, and suspicious routing.':
+    'Indicadores estáticos de riesgo por abuso de prompts, intentos de eludir políticas, solicitudes excesivas de acceso y enrutamiento sospechoso.',
+  'Governance record for identity ownership, scope, segregation, approval chain, and revocation readiness.':
+    'Registro de gobernanza para titularidad de identidad, alcance, segregación, cadena de aprobación y preparación de revocación.',
+  'Bank operations integrity': 'Integridad operativa bancaria',
+  'Human approval integrity console':
+    'Consola de integridad de aprobación humana',
+  'Critical override protected': 'Anulación crítica protegida',
+  'Approval controls': 'Controles de aprobación',
+  'Reviewer integrity safeguards': 'Salvaguardas de integridad del revisor',
+  'Static deterministic control used to prevent human approval from becoming an uncontrolled bypass path.':
+    'Control determinístico estático usado para impedir que la aprobación humana se convierta en una vía de elusión no controlada.',
+  'Static demo case': 'Caso demo estático',
+  'External wallet withdrawal blocked': 'Retiro a billetera externa bloqueado',
+  'Core principle': 'Principio central',
+  'Controlled risk event': 'Evento de riesgo controlado',
+  'A human reviewer can add context, request evidence, or approve low-risk steps within policy. A human reviewer cannot override a critical system block alone.':
+    'Un revisor humano puede añadir contexto, solicitar evidencia o aprobar pasos de bajo riesgo dentro de la política. Un revisor humano no puede anular por sí solo un bloqueo crítico del sistema.',
+  'Required evidence': 'Evidencia requerida',
+  'Before approval can proceed': 'Antes de que la aprobación pueda continuar',
+  'Evidence item': 'Elemento de evidencia',
+  'Open agent governance': 'Abrir gobernanza de agentes',
+  'Open evidence packages': 'Abrir paquetes de evidencia',
+  'Aurora Digital Assets is a local deterministic prototype. No real employee monitoring, legal accusation, criminal finding, custody, blockchain execution, cloud deployment, or secrets are present.':
+    'Aurora Digital Assets es un prototipo local determinístico. No hay monitoreo real de empleados, acusación legal, determinación penal, custodia, ejecución blockchain, despliegue cloud ni secretos.',
+  'No single human can override a critical system block':
+    'Ninguna persona puede anular por sí sola un bloqueo crítico del sistema',
+  'Dual control / four-eyes approval':
+    'Doble control / aprobación de cuatro ojos',
+  'Segregation of duties': 'Segregación de funciones',
+  'Reviewer conflict detection': 'Detección de conflicto del revisor',
+  'Emergency override control': 'Control de anulación de emergencia',
+  'Post-approval audit': 'Auditoría posterior a la aprobación',
+  'Critical system block active': 'Bloqueo crítico del sistema activo',
+  'Emergency override requested': 'Anulación de emergencia solicitada',
+  'Human approval blocked': 'Aprobación humana bloqueada',
+  'Second reviewer required': 'Segundo revisor requerido',
+  'Compliance escalation required': 'Escalamiento de cumplimiento requerido',
+  'Evidence package created': 'Paquete de evidencia creado',
+  'Operation paused': 'Operación pausada',
+  'System block reason': 'Motivo del bloqueo del sistema',
+  'Requester identity and role': 'Identidad y rol del solicitante',
+  'Second reviewer requirement': 'Requisito de segundo revisor',
+  'Conflict check result': 'Resultado de comprobación de conflicto',
+  'Compliance escalation record': 'Registro de escalamiento de cumplimiento',
+  'Post-approval audit event': 'Evento de auditoría posterior a la aprobación',
+  'Bank staff customer onboarding model':
+    'Modelo de incorporación de clientes por personal bancario',
+  'Identity and document review': 'Revisión de identidad y documentos',
+  'Private PIN / secret credential setup':
+    'Configuración privada de PIN / credencial secreta',
+  'Digital Assets eligibility check':
+    'Comprobación de elegibilidad para activos digitales',
+  'Bank staff': 'Personal bancario',
+  Customer: 'Cliente',
+  'Bank system / Compliance': 'Sistema bancario / Cumplimiento',
+  'Private customer action': 'Acción privada del cliente',
+  'Passport or national identity document':
+    'Pasaporte o documento nacional de identidad',
+  'Personal identity information': 'Información de identidad personal',
+  'Contact information': 'Información de contacto',
+  'Customer enters PIN privately': 'El cliente introduce el PIN en privado',
+  'Staff must not see the secret credential':
+    'El personal no debe ver la credencial secreta',
+  'Credential is not displayed back to staff':
+    'La credencial no se muestra al personal',
+  'Active banking relationship': 'Relación bancaria activa',
+  'Identity verification completed': 'Verificación de identidad completada',
+  'Source-of-funds reviewed': 'Origen de fondos revisado',
+  'Strong authentication enabled': 'Autenticación fuerte habilitada',
+  'Completed by bank': 'Completado por el banco',
+  'Finland resident': 'Residente en Finlandia',
+  'Reviewed by bank': 'Revisado por el banco',
+  'Customer relationship created through bank-managed onboarding.':
+    'Relación de cliente creada mediante incorporación gestionada por el banco.',
+  'Online banking credentials issued by the bank.':
+    'Credenciales de banca en línea emitidas por el banco.',
+  'PIN setup is treated as a private customer action.':
+    'La configuración del PIN se trata como acción privada del cliente.',
+  'Digital Assets access remains subject to eligibility and review controls.':
+    'El acceso a Digital Assets sigue sujeto a controles de elegibilidad y revisión.',
+  'Backend bank staff model unavailable. Showing local prototype fallback.':
+    'Modelo backend de personal bancario no disponible. Se muestra alternativa del prototipo local.',
+  'Simulated bank login service is unavailable. No session was created.':
+    'El servicio simulado de inicio bancario no está disponible. No se creó ninguna sesión.',
+  'Login approval request is unavailable. Please start again.':
+    'La solicitud de aprobación de inicio no está disponible. Empiece de nuevo.',
+  'Simulated mobile key approval is unavailable. No session was created.':
+    'La aprobación simulada con clave móvil no está disponible. No se creó ninguna sesión.',
+  'Go to Aurora Bank home': 'Ir al inicio de Aurora Bank',
+  'Checking banking session...': 'Comprobando sesión bancaria...',
+}
+
+type PaymentDemoPageTranslation = {
+  eyebrow: string
+  title: string
+  subtitle: string
+  badge: string
+  primaryPanelTitle: string
+  primaryPanelEyebrow: string
+  fields: { label: string; value: string; note: string }[]
+  secondaryPanelTitle: string
+  secondaryPanelEyebrow: string
+  rows: { title: string; detail: string; status: string }[]
+  summaryTitle: string
+  summaryItems: { label: string; value: string }[]
+  actionLabel: string
+  actionNote: string
+  safetyTitle: string
+  safetyNotice: string
+}
+
+type PaymentDemoTranslations = {
+  common: {
+    reviewSummary: string
+    simulatedAction: string
+    localPrototype: string
+    noRealPaymentExecution: string
+  }
+  pages: Record<
+    | 'newPayment'
+    | 'approvePayments'
+    | 'internationalPayment'
+    | 'recipients'
+    | 'paymentLimits'
+    | 'digitalAssetPayment'
+    | 'supportedBusinessRecipients'
+    | 'paymentAssetSettings'
+    | 'eInvoiceAgreement'
+    | 'recurringPayment'
+    | 'paymentAgreements',
+    PaymentDemoPageTranslation
+  >
+}
+
+const paymentDemoEn: PaymentDemoTranslations = {
+  common: {
+    reviewSummary: 'Review summary',
+    simulatedAction: 'Simulated action',
+    localPrototype: 'Local deterministic prototype',
+    noRealPaymentExecution: 'No real payment execution',
+  },
+  pages: {
+    newPayment: {
+      eyebrow: 'Payments',
+      title: 'New payment',
+      subtitle:
+        'Simulated new payment form for reviewing recipient, amount, reference, and execution date before a local prototype submission.',
+      badge: 'Draft payment',
+      primaryPanelEyebrow: 'Payment details',
+      primaryPanelTitle: 'Simulated payment form',
+      fields: [
+        {
+          label: 'Recipient account',
+          value: 'Aurora Telecom Oyj · FI98 0000 0000 5678 90',
+          note: 'Saved recipient selected for this local prototype.',
+        },
+        {
+          label: 'Amount',
+          value: '120.45 EUR',
+          note: 'Visual amount field only.',
+        },
+        {
+          label: 'Message / reference',
+          value: 'Reference 80 60206 95479',
+          note: 'Reference is preserved for review.',
+        },
+        {
+          label: 'Execution date',
+          value: '19.05.2026',
+          note: 'No scheduling instruction is sent.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Review',
+      secondaryPanelTitle: 'Payment readiness',
+      rows: [
+        {
+          title: 'Recipient format checked',
+          detail: 'IBAN-style recipient information is present.',
+          status: 'Ready',
+        },
+        {
+          title: 'Amount reviewed',
+          detail: 'Amount is positive and shown in EUR.',
+          status: 'Ready',
+        },
+        {
+          title: 'Execution blocked',
+          detail: 'Submit remains a simulation and creates no payment.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Review summary',
+      summaryItems: [
+        { label: 'Recipient', value: 'Aurora Telecom Oyj' },
+        { label: 'Payment method', value: 'EUR bank transfer concept' },
+        { label: 'Execution', value: 'Simulation only' },
+      ],
+      actionLabel: 'Submit simulation',
+      actionNote: 'Button is disabled because no real payment is created.',
+      safetyTitle: 'Safety note',
+      safetyNotice:
+        'No real payment is created. Local deterministic prototype only.',
+    },
+    approvePayments: {
+      eyebrow: 'Payments',
+      title: 'Approve payments',
+      subtitle:
+        'Simulated approval queue for pending payments, review-required payments, and risk-blocked payments.',
+      badge: 'Approval queue',
+      primaryPanelEyebrow: 'Pending payments',
+      primaryPanelTitle: 'Approval queue',
+      fields: [
+        {
+          label: 'Queue owner',
+          value: 'Customer approval simulation',
+          note: 'No real customer approval is requested.',
+        },
+        {
+          label: 'Queue date',
+          value: '23.06.2026',
+          note: 'Static deterministic queue snapshot.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Queue items',
+      secondaryPanelTitle: 'Pending payment list',
+      rows: [
+        {
+          title: 'Aurora Telecom Oyj · 120.45 EUR',
+          detail: 'Invoice payment awaiting customer approval.',
+          status: 'Pending approval',
+        },
+        {
+          title: 'Nordic Office Supplies · 870.00 EUR',
+          detail: 'New recipient requires manual review.',
+          status: 'Requires review',
+        },
+        {
+          title: 'External high-risk recipient · 2,400.00 EUR',
+          detail: 'Risk controls block approval in this prototype.',
+          status: 'Blocked by risk',
+        },
+      ],
+      summaryTitle: 'Available actions',
+      summaryItems: [
+        { label: 'Primary action', value: 'Review' },
+        { label: 'Simulation action', value: 'Approve simulation' },
+        { label: 'Fallback action', value: 'Reject simulation' },
+      ],
+      actionLabel: 'Approve simulation',
+      actionNote: 'No real approval occurs.',
+      safetyTitle: 'Approval boundary',
+      safetyNotice:
+        'This queue is deterministic demo data. No real payment approval occurs.',
+    },
+    internationalPayment: {
+      eyebrow: 'Payments',
+      title: 'International payment',
+      subtitle:
+        'Simulated international payment workflow with destination, recipient bank, currency, compliance screening, and fee placeholders.',
+      badge: 'International workflow',
+      primaryPanelEyebrow: 'International details',
+      primaryPanelTitle: 'Destination and recipient bank',
+      fields: [
+        {
+          label: 'Destination country',
+          value: 'Spain',
+          note: 'Country selector visual only.',
+        },
+        {
+          label: 'Recipient bank',
+          value: 'Aurora Correspondent Bank Madrid',
+          note: 'Fictional recipient bank.',
+        },
+        {
+          label: 'Currency',
+          value: 'EUR',
+          note: 'No FX quote is requested.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Compliance screening',
+      secondaryPanelTitle: 'Screening controls',
+      rows: [
+        {
+          title: 'Sanctions screening',
+          detail: 'Recipient and bank would be screened before execution.',
+          status: 'Required',
+        },
+        {
+          title: 'Purpose of payment',
+          detail: 'Payment purpose evidence is required for review.',
+          status: 'Requires review',
+        },
+        {
+          title: 'Fees and exchange information',
+          detail: 'Placeholder fee and exchange information only.',
+          status: 'Draft',
+        },
+      ],
+      summaryTitle: 'International payment summary',
+      summaryItems: [
+        { label: 'Destination', value: 'Spain' },
+        { label: 'Currency', value: 'EUR' },
+        { label: 'Execution', value: 'No real international payment' },
+      ],
+      actionLabel: 'Review simulation',
+      actionNote: 'No international payment or FX execution is performed.',
+      safetyTitle: 'Safety note',
+      safetyNotice:
+        'No real international payment or FX execution occurs.',
+    },
+    recipients: {
+      eyebrow: 'Payments',
+      title: 'Recipients',
+      subtitle:
+        'Simulated saved recipients view showing trusted recipients, business recipients, and new recipients pending verification.',
+      badge: 'Recipient controls',
+      primaryPanelEyebrow: 'Saved recipients',
+      primaryPanelTitle: 'Trusted recipient list',
+      fields: [
+        {
+          label: 'Trusted recipient',
+          value: 'Aurora Telecom Oyj',
+          note: 'Verified business invoice recipient.',
+        },
+        {
+          label: 'Business recipient',
+          value: 'Nordic Office Supplies',
+          note: 'Business recipient with payment history.',
+        },
+        {
+          label: 'Pending recipient',
+          value: 'New recipient pending verification',
+          note: 'Sensitive operations require review.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Recipient review',
+      secondaryPanelTitle: 'Verification status',
+      rows: [
+        {
+          title: 'Aurora Telecom Oyj',
+          detail: 'Trusted recipient with existing invoice reference.',
+          status: 'Verified',
+        },
+        {
+          title: 'Nordic Office Supplies',
+          detail: 'Business recipient available for standard EUR payments.',
+          status: 'Verified',
+        },
+        {
+          title: 'New external recipient',
+          detail: 'New recipient requires review before sensitive operations.',
+          status: 'Pending review',
+        },
+      ],
+      summaryTitle: 'Recipient summary',
+      summaryItems: [
+        { label: 'Trusted recipients', value: '2' },
+        { label: 'Pending verification', value: '1' },
+        { label: 'Sensitive operations', value: 'Review required' },
+      ],
+      actionLabel: 'Add recipient simulation',
+      actionNote: 'No recipient is created in a real bank system.',
+      safetyTitle: 'Recipient safety',
+      safetyNotice:
+        'New recipients require review for sensitive operations. No real recipient is created.',
+    },
+    paymentLimits: {
+      eyebrow: 'Payments',
+      title: 'Payment limits',
+      subtitle:
+        'Simulated payment limits for daily transfers, single payments, digital asset payment concepts, and separate withdrawal review.',
+      badge: 'Limit controls',
+      primaryPanelEyebrow: 'Customer limits',
+      primaryPanelTitle: 'Configured payment limits',
+      fields: [
+        {
+          label: 'Daily transfer limit',
+          value: '5,000.00 EUR',
+          note: 'Visual limit only.',
+        },
+        {
+          label: 'Single payment limit',
+          value: '2,500.00 EUR',
+          note: 'Static deterministic value.',
+        },
+        {
+          label: 'Digital asset payment limit',
+          value: '500.00 EUR equivalent',
+          note: 'Conceptual payment limit.',
+        },
+        {
+          label: 'External withdrawal',
+          value: 'Separate review required',
+          note: 'Not controlled by payment limits.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Limit changes',
+      secondaryPanelTitle: 'Review requirements',
+      rows: [
+        {
+          title: 'Strong authentication',
+          detail: 'Limit changes require strong authentication.',
+          status: 'Required',
+        },
+        {
+          title: 'Manual review',
+          detail: 'Higher limits require review before activation.',
+          status: 'Requires review',
+        },
+        {
+          title: 'External withdrawal boundary',
+          detail: 'External wallet withdrawals follow a separate review path.',
+          status: 'Separate review',
+        },
+      ],
+      summaryTitle: 'Limit summary',
+      summaryItems: [
+        { label: 'Daily transfer limit', value: '5,000.00 EUR' },
+        { label: 'Single payment limit', value: '2,500.00 EUR' },
+        { label: 'Change execution', value: 'Simulation only' },
+      ],
+      actionLabel: 'Request limit change simulation',
+      actionNote: 'No real limit change is submitted.',
+      safetyTitle: 'Limit boundary',
+      safetyNotice:
+        'Limit changes require strong authentication and review. No real limit is changed.',
+    },
+    digitalAssetPayment: {
+      eyebrow: 'Digital asset payments',
+      title: 'Digital asset payment',
+      subtitle:
+        'Simulated control screen for asset selection, supported business recipient, compliance pre-check, sensitive approval, and evidence readiness.',
+      badge: 'Sensitive payment concept',
+      primaryPanelEyebrow: 'Asset payment details',
+      primaryPanelTitle: 'Digital asset payment controls',
+      fields: [
+        {
+          label: 'Asset selection',
+          value: 'EURD · EUR digital asset concept',
+          note: 'Allowed asset for internal settlement concept.',
+        },
+        {
+          label: 'Supported business recipient',
+          value: 'Aurora Telecom Oyj',
+          note: 'Recipient must be supported before payment review.',
+        },
+        {
+          label: 'Compliance pre-check',
+          value: 'Required before approval',
+          note: 'Static deterministic compliance control.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Sensitive approval',
+      secondaryPanelTitle: 'Control requirements',
+      rows: [
+        {
+          title: 'Compliance pre-check',
+          detail: 'Payment context is screened before approval.',
+          status: 'Required',
+        },
+        {
+          title: 'Sensitive approval requirement',
+          detail: 'Human approval integrity controls apply.',
+          status: 'Required',
+        },
+        {
+          title: 'Evidence package notice',
+          detail: 'Evidence can be prepared for compliance review.',
+          status: 'Ready',
+        },
+      ],
+      summaryTitle: 'Digital asset payment summary',
+      summaryItems: [
+        { label: 'Asset', value: 'EURD' },
+        { label: 'Recipient', value: 'Aurora Telecom Oyj' },
+        { label: 'Execution', value: 'No blockchain transaction' },
+      ],
+      actionLabel: 'Run pre-check simulation',
+      actionNote: 'No custody execution or wallet transfer occurs.',
+      safetyTitle: 'Execution boundary',
+      safetyNotice:
+        'No blockchain transaction. No custody execution. No wallet transfer.',
+    },
+    supportedBusinessRecipients: {
+      eyebrow: 'Digital asset payments',
+      title: 'Supported business recipients',
+      subtitle:
+        'Simulated list of merchant and business recipients with support status, asset support, and compliance status.',
+      badge: 'Recipient directory',
+      primaryPanelEyebrow: 'Business recipients',
+      primaryPanelTitle: 'Supported recipient list',
+      fields: [
+        {
+          label: 'Merchant',
+          value: 'Aurora Telecom Oyj',
+          note: 'Verified for EUR settlement concept.',
+        },
+        {
+          label: 'Business',
+          value: 'Nordic Office Supplies',
+          note: 'Pending digital asset payment review.',
+        },
+        {
+          label: 'Restricted recipient',
+          value: 'External High-Risk Services Ltd',
+          note: 'Restricted in this prototype.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Compliance status',
+      secondaryPanelTitle: 'Recipient eligibility',
+      rows: [
+        {
+          title: 'Aurora Telecom Oyj',
+          detail: 'EUR settlement and digital asset payment concept supported.',
+          status: 'Verified',
+        },
+        {
+          title: 'Nordic Office Supplies',
+          detail: 'EUR settlement supported; digital asset concept pending.',
+          status: 'Pending review',
+        },
+        {
+          title: 'External High-Risk Services Ltd',
+          detail: 'Restricted by deterministic compliance status.',
+          status: 'Restricted',
+        },
+      ],
+      summaryTitle: 'Support summary',
+      summaryItems: [
+        { label: 'Verified', value: '1' },
+        { label: 'Pending review', value: '1' },
+        { label: 'Restricted', value: '1' },
+      ],
+      actionLabel: 'Review recipient simulation',
+      actionNote: 'No merchant or business recipient is changed.',
+      safetyTitle: 'Recipient boundary',
+      safetyNotice:
+        'Recipient support is simulated. No real merchant enablement occurs.',
+    },
+    paymentAssetSettings: {
+      eyebrow: 'Digital asset payments',
+      title: 'Payment asset settings',
+      subtitle:
+        'Simulated asset settings for allowed assets, eligibility, risk level, custody boundary, and private key protection.',
+      badge: 'Asset settings',
+      primaryPanelEyebrow: 'Allowed assets',
+      primaryPanelTitle: 'Payment asset eligibility',
+      fields: [
+        {
+          label: 'EURD',
+          value: 'Allowed for internal settlement concept',
+          note: 'No real token or settlement asset exists.',
+        },
+        {
+          label: 'USDC',
+          value: 'Review required',
+          note: 'External digital asset concept.',
+        },
+        {
+          label: 'BTC',
+          value: 'Restricted for payments',
+          note: 'Volatility and payment suitability controls apply.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Custody boundary',
+      secondaryPanelTitle: 'Asset control model',
+      rows: [
+        {
+          title: 'Payment eligibility',
+          detail: 'Eligibility is determined by simulated policy controls.',
+          status: 'Required',
+        },
+        {
+          title: 'Risk level',
+          detail: 'Risk varies by asset and recipient support.',
+          status: 'Medium',
+        },
+        {
+          title: 'Private key boundary',
+          detail: 'No private keys are present in the frontend.',
+          status: 'No secrets',
+        },
+      ],
+      summaryTitle: 'Settings summary',
+      summaryItems: [
+        { label: 'Allowed assets', value: 'EURD concept' },
+        { label: 'Risk review', value: 'Required for external assets' },
+        { label: 'Custody', value: 'No real custody' },
+      ],
+      actionLabel: 'Save settings simulation',
+      actionNote: 'No real asset setting is changed.',
+      safetyTitle: 'Asset boundary',
+      safetyNotice:
+        'No private keys. No custody execution. No real asset payment settings are changed.',
+    },
+    eInvoiceAgreement: {
+      eyebrow: 'E-invoices and agreements',
+      title: 'Create e-invoice agreement',
+      subtitle:
+        'Simulated e-invoice agreement creation flow with biller search, agreement reference, recurring payment option, and approval notice.',
+      badge: 'Agreement draft',
+      primaryPanelEyebrow: 'Agreement details',
+      primaryPanelTitle: 'E-invoice agreement form',
+      fields: [
+        {
+          label: 'Biller search',
+          value: 'Aurora Energy Services',
+          note: 'Fictional biller search result.',
+        },
+        {
+          label: 'Agreement reference',
+          value: 'EINV-2026-0042',
+          note: 'Static agreement reference.',
+        },
+        {
+          label: 'Recurring payment option',
+          value: 'Ask before every payment',
+          note: 'No automatic payment is created.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Approval notice',
+      secondaryPanelTitle: 'Agreement review',
+      rows: [
+        {
+          title: 'Biller verified',
+          detail: 'Biller status is simulated as verified.',
+          status: 'Verified',
+        },
+        {
+          title: 'Customer approval',
+          detail: 'Agreement would require customer approval.',
+          status: 'Required',
+        },
+        {
+          title: 'Recurring option',
+          detail: 'Recurring payment option remains disabled by default.',
+          status: 'Draft',
+        },
+      ],
+      summaryTitle: 'Agreement summary',
+      summaryItems: [
+        { label: 'Biller', value: 'Aurora Energy Services' },
+        { label: 'Reference', value: 'EINV-2026-0042' },
+        { label: 'Execution', value: 'Simulation only' },
+      ],
+      actionLabel: 'Create agreement simulation',
+      actionNote: 'No real e-invoice agreement is created.',
+      safetyTitle: 'Agreement boundary',
+      safetyNotice:
+        'No real e-invoice agreement or payment instruction is created.',
+    },
+    recurringPayment: {
+      eyebrow: 'E-invoices and agreements',
+      title: 'Recurring payment',
+      subtitle:
+        'Simulated recurring payment setup with recipient, amount, frequency, start date, next execution, and review panel.',
+      badge: 'Recurring draft',
+      primaryPanelEyebrow: 'Recurring payment details',
+      primaryPanelTitle: 'Recurring setup',
+      fields: [
+        {
+          label: 'Recipient',
+          value: 'Aurora Housing Association',
+          note: 'Saved recipient for this deterministic demo.',
+        },
+        {
+          label: 'Amount',
+          value: '850.00 EUR',
+          note: 'Visual amount field only.',
+        },
+        {
+          label: 'Frequency',
+          value: 'Monthly',
+          note: 'No schedule is sent.',
+        },
+        {
+          label: 'Start date',
+          value: '01.07.2026',
+          note: 'Static start date.',
+        },
+        {
+          label: 'Next execution',
+          value: '01.08.2026',
+          note: 'Preview only.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Review panel',
+      secondaryPanelTitle: 'Recurring payment controls',
+      rows: [
+        {
+          title: 'Recipient reviewed',
+          detail: 'Saved recipient is present.',
+          status: 'Ready',
+        },
+        {
+          title: 'Schedule reviewed',
+          detail: 'Frequency and dates are visible for review.',
+          status: 'Ready',
+        },
+        {
+          title: 'Execution disabled',
+          detail: 'No recurring payment is activated.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Recurring summary',
+      summaryItems: [
+        { label: 'Recipient', value: 'Aurora Housing Association' },
+        { label: 'Frequency', value: 'Monthly' },
+        { label: 'Execution', value: 'No real schedule' },
+      ],
+      actionLabel: 'Save recurring simulation',
+      actionNote: 'No recurring payment is created.',
+      safetyTitle: 'Recurring boundary',
+      safetyNotice:
+        'No real recurring payment or future execution instruction is created.',
+    },
+    paymentAgreements: {
+      eyebrow: 'E-invoices and agreements',
+      title: 'View and edit payment agreements',
+      subtitle:
+        'Simulated list of active agreements, e-invoice agreements, recurring payments, status, and last review.',
+      badge: 'Agreement list',
+      primaryPanelEyebrow: 'Payment agreements',
+      primaryPanelTitle: 'Active agreements',
+      fields: [
+        {
+          label: 'E-invoice agreement',
+          value: 'Aurora Energy Services',
+          note: 'Active agreement with ask-before-payment setting.',
+        },
+        {
+          label: 'Recurring payment',
+          value: 'Aurora Housing Association',
+          note: 'Monthly recurring payment concept.',
+        },
+        {
+          label: 'Agreement pending review',
+          value: 'Nordic Insurance Concept',
+          note: 'Pending review before activation.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Agreement status',
+      secondaryPanelTitle: 'Last review',
+      rows: [
+        {
+          title: 'Aurora Energy Services',
+          detail: 'Last reviewed 12.06.2026.',
+          status: 'Active',
+        },
+        {
+          title: 'Aurora Housing Association',
+          detail: 'Last reviewed 01.06.2026.',
+          status: 'Active',
+        },
+        {
+          title: 'Nordic Insurance Concept',
+          detail: 'Requires customer approval before activation.',
+          status: 'Pending review',
+        },
+      ],
+      summaryTitle: 'Agreement summary',
+      summaryItems: [
+        { label: 'Active agreements', value: '2' },
+        { label: 'Pending review', value: '1' },
+        { label: 'Real execution', value: 'None' },
+      ],
+      actionLabel: 'Edit agreement simulation',
+      actionNote: 'No agreement is changed in a real bank system.',
+      safetyTitle: 'Agreement boundary',
+      safetyNotice:
+        'Agreement data is simulated. No real agreement is created, edited, or executed.',
+    },
+  },
+}
+
+const paymentDemoEs: PaymentDemoTranslations = {
+  common: {
+    reviewSummary: 'Resumen de revisión',
+    simulatedAction: 'Acción simulada',
+    localPrototype: 'Prototipo local determinístico',
+    noRealPaymentExecution: 'Sin ejecución real de pagos',
+  },
+  pages: {
+    newPayment: {
+      eyebrow: 'Pagos',
+      title: 'Nuevo pago',
+      subtitle:
+        'Formulario simulado de nuevo pago para revisar destinatario, importe, referencia y fecha de ejecución antes de una presentación local del prototipo.',
+      badge: 'Pago en borrador',
+      primaryPanelEyebrow: 'Detalles del pago',
+      primaryPanelTitle: 'Formulario de pago simulado',
+      fields: [
+        {
+          label: 'Cuenta destinataria',
+          value: 'Aurora Telecom Oyj · FI98 0000 0000 5678 90',
+          note: 'Destinatario guardado seleccionado para este prototipo local.',
+        },
+        {
+          label: 'Importe',
+          value: '120,45 EUR',
+          note: 'Campo de importe solo visual.',
+        },
+        {
+          label: 'Mensaje / referencia',
+          value: 'Referencia 80 60206 95479',
+          note: 'La referencia se conserva para revisión.',
+        },
+        {
+          label: 'Fecha de ejecución',
+          value: '19.05.2026',
+          note: 'No se envía ninguna instrucción de programación.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Revisión',
+      secondaryPanelTitle: 'Preparación del pago',
+      rows: [
+        {
+          title: 'Formato de destinatario comprobado',
+          detail: 'La información del destinatario con formato IBAN está presente.',
+          status: 'Listo',
+        },
+        {
+          title: 'Importe revisado',
+          detail: 'El importe es positivo y se muestra en EUR.',
+          status: 'Listo',
+        },
+        {
+          title: 'Ejecución bloqueada',
+          detail: 'El envío sigue siendo una simulación y no crea ningún pago.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen de revisión',
+      summaryItems: [
+        { label: 'Destinatario', value: 'Aurora Telecom Oyj' },
+        { label: 'Método de pago', value: 'Concepto de transferencia bancaria EUR' },
+        { label: 'Ejecución', value: 'Solo simulación' },
+      ],
+      actionLabel: 'Enviar simulación',
+      actionNote: 'El botón está deshabilitado porque no se crea ningún pago real.',
+      safetyTitle: 'Nota de seguridad',
+      safetyNotice:
+        'No se crea ningún pago real. Solo prototipo local determinístico.',
+    },
+    approvePayments: {
+      eyebrow: 'Pagos',
+      title: 'Aprobar pagos',
+      subtitle:
+        'Cola de aprobación simulada para pagos pendientes, pagos que requieren revisión y pagos bloqueados por riesgo.',
+      badge: 'Cola de aprobación',
+      primaryPanelEyebrow: 'Pagos pendientes',
+      primaryPanelTitle: 'Cola de aprobación',
+      fields: [
+        {
+          label: 'Responsable de cola',
+          value: 'Simulación de aprobación del cliente',
+          note: 'No se solicita aprobación real del cliente.',
+        },
+        {
+          label: 'Fecha de cola',
+          value: '23.06.2026',
+          note: 'Instantánea estática determinística de la cola.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Elementos de la cola',
+      secondaryPanelTitle: 'Lista de pagos pendientes',
+      rows: [
+        {
+          title: 'Aurora Telecom Oyj · 120,45 EUR',
+          detail: 'Pago de factura pendiente de aprobación del cliente.',
+          status: 'Pendiente de aprobación',
+        },
+        {
+          title: 'Nordic Office Supplies · 870,00 EUR',
+          detail: 'El nuevo destinatario requiere revisión manual.',
+          status: 'Requiere revisión',
+        },
+        {
+          title: 'Destinatario externo de alto riesgo · 2.400,00 EUR',
+          detail: 'Los controles de riesgo bloquean la aprobación en este prototipo.',
+          status: 'Bloqueado por riesgo',
+        },
+      ],
+      summaryTitle: 'Acciones disponibles',
+      summaryItems: [
+        { label: 'Acción principal', value: 'Revisar' },
+        { label: 'Acción simulada', value: 'Aprobar simulación' },
+        { label: 'Acción alternativa', value: 'Rechazar simulación' },
+      ],
+      actionLabel: 'Aprobar simulación',
+      actionNote: 'No se produce ninguna aprobación real.',
+      safetyTitle: 'Límite de aprobación',
+      safetyNotice:
+        'Esta cola contiene datos demo determinísticos. No se produce ninguna aprobación real de pagos.',
+    },
+    internationalPayment: {
+      eyebrow: 'Pagos',
+      title: 'Pago internacional',
+      subtitle:
+        'Flujo simulado de pago internacional con destino, banco destinatario, moneda, revisión de cumplimiento y marcadores de comisiones.',
+      badge: 'Flujo internacional',
+      primaryPanelEyebrow: 'Detalles internacionales',
+      primaryPanelTitle: 'Destino y banco destinatario',
+      fields: [
+        {
+          label: 'País de destino',
+          value: 'España',
+          note: 'Selector de país solo visual.',
+        },
+        {
+          label: 'Banco destinatario',
+          value: 'Aurora Correspondent Bank Madrid',
+          note: 'Banco destinatario ficticio.',
+        },
+        {
+          label: 'Moneda',
+          value: 'EUR',
+          note: 'No se solicita cotización de divisa.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Revisión de cumplimiento',
+      secondaryPanelTitle: 'Controles de revisión',
+      rows: [
+        {
+          title: 'Revisión de sanciones',
+          detail: 'El destinatario y el banco se revisarían antes de la ejecución.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Finalidad del pago',
+          detail: 'Se requiere evidencia de finalidad del pago para revisión.',
+          status: 'Requiere revisión',
+        },
+        {
+          title: 'Información de comisiones y cambio',
+          detail: 'Información de comisiones y cambio solo como marcador.',
+          status: 'Borrador',
+        },
+      ],
+      summaryTitle: 'Resumen del pago internacional',
+      summaryItems: [
+        { label: 'Destino', value: 'España' },
+        { label: 'Moneda', value: 'EUR' },
+        { label: 'Ejecución', value: 'Sin pago internacional real' },
+      ],
+      actionLabel: 'Revisar simulación',
+      actionNote: 'No se realiza ningún pago internacional ni ejecución FX.',
+      safetyTitle: 'Nota de seguridad',
+      safetyNotice:
+        'No se produce ningún pago internacional real ni ejecución FX.',
+    },
+    recipients: {
+      eyebrow: 'Pagos',
+      title: 'Destinatarios',
+      subtitle:
+        'Vista simulada de destinatarios guardados con destinatarios de confianza, destinatarios comerciales y nuevos destinatarios pendientes de verificación.',
+      badge: 'Controles de destinatarios',
+      primaryPanelEyebrow: 'Destinatarios guardados',
+      primaryPanelTitle: 'Lista de destinatarios de confianza',
+      fields: [
+        {
+          label: 'Destinatario de confianza',
+          value: 'Aurora Telecom Oyj',
+          note: 'Destinatario comercial verificado para facturas.',
+        },
+        {
+          label: 'Destinatario comercial',
+          value: 'Nordic Office Supplies',
+          note: 'Destinatario comercial con historial de pagos.',
+        },
+        {
+          label: 'Destinatario pendiente',
+          value: 'Nuevo destinatario pendiente de verificación',
+          note: 'Las operaciones sensibles requieren revisión.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Revisión de destinatario',
+      secondaryPanelTitle: 'Estado de verificación',
+      rows: [
+        {
+          title: 'Aurora Telecom Oyj',
+          detail: 'Destinatario de confianza con referencia de factura existente.',
+          status: 'Verificado',
+        },
+        {
+          title: 'Nordic Office Supplies',
+          detail: 'Destinatario comercial disponible para pagos EUR estándar.',
+          status: 'Verificado',
+        },
+        {
+          title: 'Nuevo destinatario externo',
+          detail: 'El nuevo destinatario requiere revisión antes de operaciones sensibles.',
+          status: 'Pendiente de revisión',
+        },
+      ],
+      summaryTitle: 'Resumen de destinatarios',
+      summaryItems: [
+        { label: 'Destinatarios de confianza', value: '2' },
+        { label: 'Pendientes de verificación', value: '1' },
+        { label: 'Operaciones sensibles', value: 'Revisión requerida' },
+      ],
+      actionLabel: 'Añadir destinatario simulado',
+      actionNote: 'No se crea ningún destinatario en un sistema bancario real.',
+      safetyTitle: 'Seguridad de destinatario',
+      safetyNotice:
+        'Los nuevos destinatarios requieren revisión para operaciones sensibles. No se crea ningún destinatario real.',
+    },
+    paymentLimits: {
+      eyebrow: 'Pagos',
+      title: 'Límites de pago',
+      subtitle:
+        'Límites de pago simulados para transferencias diarias, pagos individuales, conceptos de pago con activos digitales y revisión separada de retiros.',
+      badge: 'Controles de límites',
+      primaryPanelEyebrow: 'Límites del cliente',
+      primaryPanelTitle: 'Límites de pago configurados',
+      fields: [
+        {
+          label: 'Límite diario de transferencias',
+          value: '5.000,00 EUR',
+          note: 'Límite solo visual.',
+        },
+        {
+          label: 'Límite por pago individual',
+          value: '2.500,00 EUR',
+          note: 'Valor estático determinístico.',
+        },
+        {
+          label: 'Límite de pago con activos digitales',
+          value: '500,00 EUR equivalente',
+          note: 'Límite conceptual de pago.',
+        },
+        {
+          label: 'Retiro externo',
+          value: 'Requiere revisión separada',
+          note: 'No se controla mediante límites de pago.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Cambios de límite',
+      secondaryPanelTitle: 'Requisitos de revisión',
+      rows: [
+        {
+          title: 'Autenticación fuerte',
+          detail: 'Los cambios de límite requieren autenticación fuerte.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Revisión manual',
+          detail: 'Los límites superiores requieren revisión antes de activarse.',
+          status: 'Requiere revisión',
+        },
+        {
+          title: 'Límite de retiro externo',
+          detail: 'Los retiros a billetera externa siguen una ruta de revisión separada.',
+          status: 'Revisión separada',
+        },
+      ],
+      summaryTitle: 'Resumen de límites',
+      summaryItems: [
+        { label: 'Límite diario', value: '5.000,00 EUR' },
+        { label: 'Límite individual', value: '2.500,00 EUR' },
+        { label: 'Ejecución del cambio', value: 'Solo simulación' },
+      ],
+      actionLabel: 'Solicitar cambio de límite simulado',
+      actionNote: 'No se envía ningún cambio real de límite.',
+      safetyTitle: 'Límite operativo',
+      safetyNotice:
+        'Los cambios de límite requieren autenticación fuerte y revisión. No se cambia ningún límite real.',
+    },
+    digitalAssetPayment: {
+      eyebrow: 'Pagos con activos digitales',
+      title: 'Pago con activos digitales',
+      subtitle:
+        'Pantalla de control simulada para selección de activo, destinatario comercial admitido, comprobación previa de cumplimiento, aprobación sensible y preparación de evidencia.',
+      badge: 'Concepto de pago sensible',
+      primaryPanelEyebrow: 'Detalles de pago con activos',
+      primaryPanelTitle: 'Controles de pago con activos digitales',
+      fields: [
+        {
+          label: 'Selección de activo',
+          value: 'EURD · concepto de activo digital EUR',
+          note: 'Activo permitido para concepto de liquidación interna.',
+        },
+        {
+          label: 'Destinatario comercial admitido',
+          value: 'Aurora Telecom Oyj',
+          note: 'El destinatario debe estar admitido antes de revisar el pago.',
+        },
+        {
+          label: 'Comprobación previa de cumplimiento',
+          value: 'Requerida antes de la aprobación',
+          note: 'Control estático determinístico de cumplimiento.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Aprobación sensible',
+      secondaryPanelTitle: 'Requisitos de control',
+      rows: [
+        {
+          title: 'Comprobación previa de cumplimiento',
+          detail: 'El contexto del pago se revisa antes de la aprobación.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Requisito de aprobación sensible',
+          detail: 'Aplican controles de integridad de aprobación humana.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Aviso de paquete de evidencia',
+          detail: 'La evidencia puede prepararse para revisión de cumplimiento.',
+          status: 'Listo',
+        },
+      ],
+      summaryTitle: 'Resumen del pago con activos digitales',
+      summaryItems: [
+        { label: 'Activo', value: 'EURD' },
+        { label: 'Destinatario', value: 'Aurora Telecom Oyj' },
+        { label: 'Ejecución', value: 'Sin transacción blockchain' },
+      ],
+      actionLabel: 'Ejecutar comprobación simulada',
+      actionNote: 'No ocurre custodia ni transferencia de billetera.',
+      safetyTitle: 'Límite de ejecución',
+      safetyNotice:
+        'Sin transacción blockchain. Sin ejecución de custodia. Sin transferencia de billetera.',
+    },
+    supportedBusinessRecipients: {
+      eyebrow: 'Pagos con activos digitales',
+      title: 'Destinatarios comerciales admitidos',
+      subtitle:
+        'Lista simulada de comercios y destinatarios comerciales con estado de soporte, activos admitidos y estado de cumplimiento.',
+      badge: 'Directorio de destinatarios',
+      primaryPanelEyebrow: 'Destinatarios comerciales',
+      primaryPanelTitle: 'Lista de destinatarios admitidos',
+      fields: [
+        {
+          label: 'Comercio',
+          value: 'Aurora Telecom Oyj',
+          note: 'Verificado para concepto de liquidación EUR.',
+        },
+        {
+          label: 'Empresa',
+          value: 'Nordic Office Supplies',
+          note: 'Pago con activos digitales pendiente de revisión.',
+        },
+        {
+          label: 'Destinatario restringido',
+          value: 'External High-Risk Services Ltd',
+          note: 'Restringido en este prototipo.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Estado de cumplimiento',
+      secondaryPanelTitle: 'Elegibilidad del destinatario',
+      rows: [
+        {
+          title: 'Aurora Telecom Oyj',
+          detail: 'Liquidación EUR y concepto de pago con activos digitales admitidos.',
+          status: 'Verificado',
+        },
+        {
+          title: 'Nordic Office Supplies',
+          detail: 'Liquidación EUR admitida; concepto de activos digitales pendiente.',
+          status: 'Pendiente de revisión',
+        },
+        {
+          title: 'External High-Risk Services Ltd',
+          detail: 'Restringido por estado determinístico de cumplimiento.',
+          status: 'Restringido',
+        },
+      ],
+      summaryTitle: 'Resumen de soporte',
+      summaryItems: [
+        { label: 'Verificado', value: '1' },
+        { label: 'Pendiente de revisión', value: '1' },
+        { label: 'Restringido', value: '1' },
+      ],
+      actionLabel: 'Revisar destinatario simulado',
+      actionNote: 'No se modifica ningún comercio ni destinatario comercial.',
+      safetyTitle: 'Límite de destinatario',
+      safetyNotice:
+        'El soporte de destinatarios es simulado. No se habilita ningún comercio real.',
+    },
+    paymentAssetSettings: {
+      eyebrow: 'Pagos con activos digitales',
+      title: 'Configuración de activos de pago',
+      subtitle:
+        'Configuración simulada de activos permitidos, elegibilidad de pago, nivel de riesgo, límite de custodia y protección de llaves privadas.',
+      badge: 'Configuración de activos',
+      primaryPanelEyebrow: 'Activos permitidos',
+      primaryPanelTitle: 'Elegibilidad de activos de pago',
+      fields: [
+        {
+          label: 'EURD',
+          value: 'Permitido para concepto de liquidación interna',
+          note: 'No existe token ni activo de liquidación real.',
+        },
+        {
+          label: 'USDC',
+          value: 'Revisión requerida',
+          note: 'Concepto de activo digital externo.',
+        },
+        {
+          label: 'BTC',
+          value: 'Restringido para pagos',
+          note: 'Aplican controles de volatilidad e idoneidad de pago.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Límite de custodia',
+      secondaryPanelTitle: 'Modelo de control de activos',
+      rows: [
+        {
+          title: 'Elegibilidad de pago',
+          detail: 'La elegibilidad se determina mediante controles de política simulados.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Nivel de riesgo',
+          detail: 'El riesgo varía por activo y soporte del destinatario.',
+          status: 'Medio',
+        },
+        {
+          title: 'Límite de llave privada',
+          detail: 'No hay llaves privadas en el frontend.',
+          status: 'Sin secretos',
+        },
+      ],
+      summaryTitle: 'Resumen de configuración',
+      summaryItems: [
+        { label: 'Activos permitidos', value: 'Concepto EURD' },
+        { label: 'Revisión de riesgo', value: 'Requerida para activos externos' },
+        { label: 'Custodia', value: 'Sin custodia real' },
+      ],
+      actionLabel: 'Guardar configuración simulada',
+      actionNote: 'No se cambia ninguna configuración real de activos.',
+      safetyTitle: 'Límite de activos',
+      safetyNotice:
+        'Sin llaves privadas. Sin ejecución de custodia. No se cambia ninguna configuración real de pago con activos.',
+    },
+    eInvoiceAgreement: {
+      eyebrow: 'Facturas electrónicas y acuerdos',
+      title: 'Crear acuerdo de factura electrónica',
+      subtitle:
+        'Flujo simulado de creación de acuerdo de factura electrónica con búsqueda de facturador, referencia de acuerdo, opción de pago recurrente y aviso de aprobación.',
+      badge: 'Borrador de acuerdo',
+      primaryPanelEyebrow: 'Detalles del acuerdo',
+      primaryPanelTitle: 'Formulario de acuerdo de factura electrónica',
+      fields: [
+        {
+          label: 'Búsqueda de facturador',
+          value: 'Aurora Energy Services',
+          note: 'Resultado ficticio de búsqueda de facturador.',
+        },
+        {
+          label: 'Referencia del acuerdo',
+          value: 'EINV-2026-0042',
+          note: 'Referencia estática del acuerdo.',
+        },
+        {
+          label: 'Opción de pago recurrente',
+          value: 'Preguntar antes de cada pago',
+          note: 'No se crea ningún pago automático.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Aviso de aprobación',
+      secondaryPanelTitle: 'Revisión del acuerdo',
+      rows: [
+        {
+          title: 'Facturador verificado',
+          detail: 'El estado del facturador se simula como verificado.',
+          status: 'Verificado',
+        },
+        {
+          title: 'Aprobación del cliente',
+          detail: 'El acuerdo requeriría aprobación del cliente.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Opción recurrente',
+          detail: 'La opción de pago recurrente permanece deshabilitada por defecto.',
+          status: 'Borrador',
+        },
+      ],
+      summaryTitle: 'Resumen del acuerdo',
+      summaryItems: [
+        { label: 'Facturador', value: 'Aurora Energy Services' },
+        { label: 'Referencia', value: 'EINV-2026-0042' },
+        { label: 'Ejecución', value: 'Solo simulación' },
+      ],
+      actionLabel: 'Crear acuerdo simulado',
+      actionNote: 'No se crea ningún acuerdo real de factura electrónica.',
+      safetyTitle: 'Límite del acuerdo',
+      safetyNotice:
+        'No se crea ningún acuerdo real de factura electrónica ni instrucción de pago.',
+    },
+    recurringPayment: {
+      eyebrow: 'Facturas electrónicas y acuerdos',
+      title: 'Pago recurrente',
+      subtitle:
+        'Configuración simulada de pago recurrente con destinatario, importe, frecuencia, fecha de inicio, próxima ejecución y panel de revisión.',
+      badge: 'Borrador recurrente',
+      primaryPanelEyebrow: 'Detalles de pago recurrente',
+      primaryPanelTitle: 'Configuración recurrente',
+      fields: [
+        {
+          label: 'Destinatario',
+          value: 'Aurora Housing Association',
+          note: 'Destinatario guardado para esta demo determinística.',
+        },
+        {
+          label: 'Importe',
+          value: '850,00 EUR',
+          note: 'Campo de importe solo visual.',
+        },
+        {
+          label: 'Frecuencia',
+          value: 'Mensual',
+          note: 'No se envía ninguna programación.',
+        },
+        {
+          label: 'Fecha de inicio',
+          value: '01.07.2026',
+          note: 'Fecha de inicio estática.',
+        },
+        {
+          label: 'Próxima ejecución',
+          value: '01.08.2026',
+          note: 'Solo vista previa.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Panel de revisión',
+      secondaryPanelTitle: 'Controles de pago recurrente',
+      rows: [
+        {
+          title: 'Destinatario revisado',
+          detail: 'El destinatario guardado está presente.',
+          status: 'Listo',
+        },
+        {
+          title: 'Programación revisada',
+          detail: 'La frecuencia y las fechas están visibles para revisión.',
+          status: 'Listo',
+        },
+        {
+          title: 'Ejecución deshabilitada',
+          detail: 'No se activa ningún pago recurrente.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen recurrente',
+      summaryItems: [
+        { label: 'Destinatario', value: 'Aurora Housing Association' },
+        { label: 'Frecuencia', value: 'Mensual' },
+        { label: 'Ejecución', value: 'Sin programación real' },
+      ],
+      actionLabel: 'Guardar pago recurrente simulado',
+      actionNote: 'No se crea ningún pago recurrente.',
+      safetyTitle: 'Límite recurrente',
+      safetyNotice:
+        'No se crea ningún pago recurrente real ni instrucción de ejecución futura.',
+    },
+    paymentAgreements: {
+      eyebrow: 'Facturas electrónicas y acuerdos',
+      title: 'Ver y editar acuerdos de pago',
+      subtitle:
+        'Lista simulada de acuerdos activos, acuerdos de factura electrónica, pagos recurrentes, estado y última revisión.',
+      badge: 'Lista de acuerdos',
+      primaryPanelEyebrow: 'Acuerdos de pago',
+      primaryPanelTitle: 'Acuerdos activos',
+      fields: [
+        {
+          label: 'Acuerdo de factura electrónica',
+          value: 'Aurora Energy Services',
+          note: 'Acuerdo activo con ajuste de preguntar antes de pagar.',
+        },
+        {
+          label: 'Pago recurrente',
+          value: 'Aurora Housing Association',
+          note: 'Concepto de pago recurrente mensual.',
+        },
+        {
+          label: 'Acuerdo pendiente de revisión',
+          value: 'Nordic Insurance Concept',
+          note: 'Pendiente de revisión antes de activación.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Estado de acuerdos',
+      secondaryPanelTitle: 'Última revisión',
+      rows: [
+        {
+          title: 'Aurora Energy Services',
+          detail: 'Última revisión 12.06.2026.',
+          status: 'Activo',
+        },
+        {
+          title: 'Aurora Housing Association',
+          detail: 'Última revisión 01.06.2026.',
+          status: 'Activo',
+        },
+        {
+          title: 'Nordic Insurance Concept',
+          detail: 'Requiere aprobación del cliente antes de activación.',
+          status: 'Pendiente de revisión',
+        },
+      ],
+      summaryTitle: 'Resumen de acuerdos',
+      summaryItems: [
+        { label: 'Acuerdos activos', value: '2' },
+        { label: 'Pendiente de revisión', value: '1' },
+        { label: 'Ejecución real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Editar acuerdo simulado',
+      actionNote: 'No se cambia ningún acuerdo en un sistema bancario real.',
+      safetyTitle: 'Límite del acuerdo',
+      safetyNotice:
+        'Los datos de acuerdos son simulados. No se crea, edita ni ejecuta ningún acuerdo real.',
+    },
+  },
+}
+
+type AccountDemoPageTranslation = {
+  eyebrow: string
+  title: string
+  subtitle: string
+  badge: string
+  primaryPanelTitle: string
+  primaryPanelEyebrow: string
+  items: { label: string; value: string; note: string }[]
+  secondaryPanelTitle: string
+  secondaryPanelEyebrow: string
+  rows: { title: string; detail: string; status: string }[]
+  summaryTitle: string
+  summaryItems: { label: string; value: string }[]
+  actionLabel: string
+  actionNote: string
+  safetyTitle: string
+  safetyNotice: string
+}
+
+type AccountDemoTranslations = {
+  common: {
+    reviewSummary: string
+    simulatedAction: string
+    localPrototype: string
+    noRealAccountOperation: string
+  }
+  pages: Record<
+    | 'balances'
+    | 'transactions'
+    | 'currentAccount'
+    | 'savingsDeposits'
+    | 'childAccount'
+    | 'accountFaq',
+    AccountDemoPageTranslation
+  >
+}
+
+const accountDemoEn: AccountDemoTranslations = {
+  common: {
+    reviewSummary: 'Review summary',
+    simulatedAction: 'Simulated action',
+    localPrototype: 'Local deterministic prototype',
+    noRealAccountOperation: 'No real account operation',
+  },
+  pages: {
+    balances: {
+      eyebrow: 'Accounts',
+      title: 'Balances',
+      subtitle:
+        'Simulated balances overview for current account, savings account, reserved funds, available balance, and account status.',
+      badge: 'Simulated balances',
+      primaryPanelEyebrow: 'Balance overview',
+      primaryPanelTitle: 'Account balances',
+      items: [
+        {
+          label: 'Current account balance',
+          value: '4,250.80 EUR',
+          note: 'Static current account balance.',
+        },
+        {
+          label: 'Savings account balance',
+          value: '12,400.00 EUR',
+          note: 'Static savings balance.',
+        },
+        {
+          label: 'Reserved funds',
+          value: '325.40 EUR',
+          note: 'Reserved card payments and pending items.',
+        },
+        {
+          label: 'Available balance',
+          value: '3,925.40 EUR',
+          note: 'Available balance after simulated reservations.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Account status',
+      secondaryPanelTitle: 'Status controls',
+      rows: [
+        {
+          title: 'Current account',
+          detail: 'Primary account is active in this deterministic demo.',
+          status: 'Active',
+        },
+        {
+          title: 'Savings account',
+          detail: 'Savings account is visible but not connected to a real core banking system.',
+          status: 'Active',
+        },
+        {
+          title: 'Reserved funds',
+          detail: 'Reserved funds are shown for UI review only.',
+          status: 'Simulated',
+        },
+      ],
+      summaryTitle: 'Balance summary',
+      summaryItems: [
+        { label: 'Available balance', value: '3,925.40 EUR' },
+        { label: 'Reserved funds', value: '325.40 EUR' },
+        { label: 'Real account data', value: 'None' },
+      ],
+      actionLabel: 'Refresh simulation',
+      actionNote: 'No real balance refresh or account query is performed.',
+      safetyTitle: 'Balance boundary',
+      safetyNotice:
+        'Local deterministic prototype only. Simulated balances only, no real account data, no personal data, no payment, deposit, or banking operation.',
+    },
+    transactions: {
+      eyebrow: 'Accounts',
+      title: 'Transactions',
+      subtitle:
+        'Simulated transaction history with visual filters for date range, account, and transaction type.',
+      badge: 'Transaction history',
+      primaryPanelEyebrow: 'Filters',
+      primaryPanelTitle: 'Transaction filters',
+      items: [
+        {
+          label: 'Date range',
+          value: '01.06.2026 - 23.06.2026',
+          note: 'Visual date range only.',
+        },
+        {
+          label: 'Account',
+          value: 'Aurora Current Account',
+          note: 'Static account selector.',
+        },
+        {
+          label: 'Type',
+          value: 'All transaction types',
+          note: 'No query is submitted.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Transaction list',
+      secondaryPanelTitle: 'Recent transactions',
+      rows: [
+        {
+          title: '12.06.2026 · Salary payment',
+          detail: '+3,240.00 EUR · Completed',
+          status: 'Completed',
+        },
+        {
+          title: '14.06.2026 · Card reservation',
+          detail: '-86.40 EUR · Reserved funds',
+          status: 'Reserved',
+        },
+        {
+          title: '18.06.2026 · New recipient transfer',
+          detail: '-940.00 EUR · Blocked for review',
+          status: 'Blocked by review',
+        },
+      ],
+      summaryTitle: 'Transaction summary',
+      summaryItems: [
+        { label: 'Completed', value: '1' },
+        { label: 'Reserved', value: '1' },
+        { label: 'Blocked/review', value: '1' },
+      ],
+      actionLabel: 'Export simulation',
+      actionNote: 'No real transaction export is generated.',
+      safetyTitle: 'Transaction boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real transactions, account data, personal data, payment, deposit, or banking operation.',
+    },
+    currentAccount: {
+      eyebrow: 'Accounts',
+      title: 'Current account',
+      subtitle:
+        'Simulated current account information with account features, monthly fee placeholder, eligibility checklist, and onboarding review.',
+      badge: 'Opening simulation',
+      primaryPanelEyebrow: 'Account features',
+      primaryPanelTitle: 'Current account information',
+      items: [
+        {
+          label: 'Everyday banking',
+          value: 'Payments, cards, and account statements',
+          note: 'Feature overview only.',
+        },
+        {
+          label: 'Monthly fee',
+          value: 'Placeholder fee information',
+          note: 'No price or fee quote is issued.',
+        },
+        {
+          label: 'Online banking access',
+          value: 'Strong authentication required',
+          note: 'Prototype access model only.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Eligibility checklist',
+      secondaryPanelTitle: 'Onboarding review',
+      rows: [
+        {
+          title: 'Identity verification',
+          detail: 'Identity would be verified by the bank before account opening.',
+          status: 'Required',
+        },
+        {
+          title: 'Customer relationship review',
+          detail: 'Formal onboarding review is required.',
+          status: 'Required',
+        },
+        {
+          title: 'Account opening execution',
+          detail: 'Account opening is disabled in this prototype.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Opening summary',
+      summaryItems: [
+        { label: 'Account type', value: 'Current account' },
+        { label: 'Onboarding', value: 'Review required' },
+        { label: 'Real opening', value: 'None' },
+      ],
+      actionLabel: 'Open account simulation',
+      actionNote: 'Button is disabled because no real account is opened.',
+      safetyTitle: 'Opening boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real account is opened and no real account, transaction, personal data, payment, deposit, or banking operation is created or executed.',
+    },
+    savingsDeposits: {
+      eyebrow: 'Accounts',
+      title: 'Savings and deposit accounts',
+      subtitle:
+        'Simulated savings and deposit account information with interest placeholders, risk notes, and availability notes.',
+      badge: 'Deposit concept',
+      primaryPanelEyebrow: 'Savings products',
+      primaryPanelTitle: 'Savings and deposit options',
+      items: [
+        {
+          label: 'Savings account',
+          value: 'Flexible savings concept',
+          note: 'No product is created.',
+        },
+        {
+          label: 'Fixed-term deposit',
+          value: 'Fixed availability concept',
+          note: 'No deposit contract is created.',
+        },
+        {
+          label: 'Interest information',
+          value: 'Placeholder interest information',
+          note: 'No real rate quote is provided.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Risk and availability',
+      secondaryPanelTitle: 'Deposit review',
+      rows: [
+        {
+          title: 'Availability note',
+          detail: 'Fixed-term deposits may have availability restrictions in a real product.',
+          status: 'Notice',
+        },
+        {
+          title: 'Risk note',
+          detail: 'This prototype does not provide deposit advice or product terms.',
+          status: 'Required',
+        },
+        {
+          title: 'Product creation',
+          detail: 'No savings or deposit product is created.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Deposit summary',
+      summaryItems: [
+        { label: 'Savings account', value: 'Simulated' },
+        { label: 'Fixed-term deposit', value: 'Simulated' },
+        { label: 'Real product', value: 'None' },
+      ],
+      actionLabel: 'Continue simulation',
+      actionNote: 'No real deposit product is created.',
+      safetyTitle: 'Deposit boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real deposit product, account, transaction, personal data, payment, deposit, or banking operation is created or executed.',
+    },
+    childAccount: {
+      eyebrow: 'Accounts',
+      title: 'Account for a child',
+      subtitle:
+        'Simulated child account information with guardian approval, identity verification placeholder, spending limits, and card/payment restrictions.',
+      badge: 'Guardian review',
+      primaryPanelEyebrow: 'Child account controls',
+      primaryPanelTitle: 'Guardian and restriction model',
+      items: [
+        {
+          label: 'Guardian approval',
+          value: 'Required before account setup',
+          note: 'No approval is requested.',
+        },
+        {
+          label: 'Identity verification',
+          value: 'Placeholder verification',
+          note: 'No identity data is collected.',
+        },
+        {
+          label: 'Spending limits',
+          value: 'Low daily spending concept',
+          note: 'No limit is configured.',
+        },
+        {
+          label: 'Card/payment restrictions',
+          value: 'Restricted by default',
+          note: 'Restriction model is simulated.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Protection controls',
+      secondaryPanelTitle: 'Review requirements',
+      rows: [
+        {
+          title: 'Guardian approval',
+          detail: 'A real product would require guardian consent.',
+          status: 'Required',
+        },
+        {
+          title: 'Personal data boundary',
+          detail: 'No child personal data is stored in this prototype.',
+          status: 'No real data',
+        },
+        {
+          title: 'Account creation',
+          detail: 'No child account is opened.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Child account summary',
+      summaryItems: [
+        { label: 'Guardian approval', value: 'Required' },
+        { label: 'Restrictions', value: 'Enabled concept' },
+        { label: 'Real account', value: 'None' },
+      ],
+      actionLabel: 'Start simulation',
+      actionNote: 'No real child account or personal data is created.',
+      safetyTitle: 'Child account boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real child account, personal data, account, transaction, payment, deposit, or banking operation is created or executed.',
+    },
+    accountFaq: {
+      eyebrow: 'Accounts',
+      title: 'Account FAQ',
+      subtitle:
+        'Account FAQ covering account access, account statements, payment limits, and digital asset separation from deposits.',
+      badge: 'FAQ',
+      primaryPanelEyebrow: 'Common account questions',
+      primaryPanelTitle: 'Account information',
+      items: [
+        {
+          label: 'Account access',
+          value: 'Access requires authenticated online banking.',
+          note: 'Prototype session only.',
+        },
+        {
+          label: 'Account statements',
+          value: 'Statements are available in reports concept pages.',
+          note: 'No real statement is generated.',
+        },
+        {
+          label: 'Payment limits',
+          value: 'Payment limits are simulated controls.',
+          note: 'No real limit is changed.',
+        },
+        {
+          label: 'Digital assets and deposits',
+          value: 'Digital assets are separate from deposits.',
+          note: 'Custody and risk boundaries are explicit.',
+        },
+      ],
+      secondaryPanelEyebrow: 'FAQ topics',
+      secondaryPanelTitle: 'Account guidance',
+      rows: [
+        {
+          title: 'How do I access accounts?',
+          detail: 'Use the simulated authenticated online banking session.',
+          status: 'Information',
+        },
+        {
+          title: 'Where are account statements?',
+          detail: 'Open Reports for simulated statements and bank mail.',
+          status: 'Information',
+        },
+        {
+          title: 'Are digital assets deposits?',
+          detail: 'No. Digital assets are separate from bank deposits.',
+          status: 'Risk notice',
+        },
+      ],
+      summaryTitle: 'FAQ summary',
+      summaryItems: [
+        { label: 'Account access', value: 'Authenticated prototype' },
+        { label: 'Statements', value: 'Reports concept' },
+        { label: 'Digital assets', value: 'Separate from deposits' },
+      ],
+      actionLabel: 'Open reports',
+      actionNote: 'This is an informational prototype page.',
+      safetyTitle: 'Prototype boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real account, transaction, personal data, payment, deposit, or banking operation is created or executed.',
+    },
+  },
+}
+
+const accountDemoEs: AccountDemoTranslations = {
+  common: {
+    reviewSummary: 'Resumen de revisión',
+    simulatedAction: 'Acción simulada',
+    localPrototype: 'Prototipo local determinístico',
+    noRealAccountOperation: 'Sin operación bancaria real',
+  },
+  pages: {
+    balances: {
+      eyebrow: 'Cuentas',
+      title: 'Saldos',
+      subtitle:
+        'Resumen simulado de saldos de cuenta corriente, cuenta de ahorro, fondos reservados, saldo disponible y estado de cuenta.',
+      badge: 'Saldos simulados',
+      primaryPanelEyebrow: 'Resumen de saldos',
+      primaryPanelTitle: 'Saldos de cuenta',
+      items: [
+        {
+          label: 'Saldo de cuenta corriente',
+          value: '4.250,80 EUR',
+          note: 'Saldo estático de cuenta corriente.',
+        },
+        {
+          label: 'Saldo de cuenta de ahorro',
+          value: '12.400,00 EUR',
+          note: 'Saldo estático de ahorro.',
+        },
+        {
+          label: 'Fondos reservados',
+          value: '325,40 EUR',
+          note: 'Pagos con tarjeta reservados y partidas pendientes.',
+        },
+        {
+          label: 'Saldo disponible',
+          value: '3.925,40 EUR',
+          note: 'Saldo disponible tras reservas simuladas.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Estado de cuenta',
+      secondaryPanelTitle: 'Controles de estado',
+      rows: [
+        {
+          title: 'Cuenta corriente',
+          detail: 'La cuenta principal está activa en esta demo determinística.',
+          status: 'Activo',
+        },
+        {
+          title: 'Cuenta de ahorro',
+          detail: 'La cuenta de ahorro es visible, pero no está conectada a un sistema bancario real.',
+          status: 'Activo',
+        },
+        {
+          title: 'Fondos reservados',
+          detail: 'Los fondos reservados se muestran solo para revisión de interfaz.',
+          status: 'Simulado',
+        },
+      ],
+      summaryTitle: 'Resumen de saldos',
+      summaryItems: [
+        { label: 'Saldo disponible', value: '3.925,40 EUR' },
+        { label: 'Fondos reservados', value: '325,40 EUR' },
+        { label: 'Datos bancarios reales', value: 'Ninguno' },
+      ],
+      actionLabel: 'Actualizar simulación',
+      actionNote: 'No se realiza ninguna consulta ni actualización real de saldos.',
+      safetyTitle: 'Límite de saldos',
+      safetyNotice:
+        'Solo prototipo local determinístico. Saldos simulados, sin datos bancarios reales, sin datos personales y sin creación ni ejecución de cuenta, transacción, pago, depósito u operación bancaria.',
+    },
+    transactions: {
+      eyebrow: 'Cuentas',
+      title: 'Transacciones',
+      subtitle:
+        'Historial simulado de transacciones con filtros visuales de rango de fechas, cuenta y tipo de transacción.',
+      badge: 'Historial de transacciones',
+      primaryPanelEyebrow: 'Filtros',
+      primaryPanelTitle: 'Filtros de transacciones',
+      items: [
+        {
+          label: 'Rango de fechas',
+          value: '01.06.2026 - 23.06.2026',
+          note: 'Rango de fechas solo visual.',
+        },
+        {
+          label: 'Cuenta',
+          value: 'Aurora Current Account',
+          note: 'Selector de cuenta estático.',
+        },
+        {
+          label: 'Tipo',
+          value: 'Todos los tipos de transacción',
+          note: 'No se envía ninguna consulta.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Lista de transacciones',
+      secondaryPanelTitle: 'Transacciones recientes',
+      rows: [
+        {
+          title: '12.06.2026 · Abono de nómina',
+          detail: '+3.240,00 EUR · Completada',
+          status: 'Completada',
+        },
+        {
+          title: '14.06.2026 · Reserva de tarjeta',
+          detail: '-86,40 EUR · Fondos reservados',
+          status: 'Reservado',
+        },
+        {
+          title: '18.06.2026 · Transferencia a nuevo destinatario',
+          detail: '-940,00 EUR · Bloqueada para revisión',
+          status: 'Bloqueada por revisión',
+        },
+      ],
+      summaryTitle: 'Resumen de transacciones',
+      summaryItems: [
+        { label: 'Completadas', value: '1' },
+        { label: 'Reservadas', value: '1' },
+        { label: 'Bloqueadas/revisión', value: '1' },
+      ],
+      actionLabel: 'Exportar simulación',
+      actionNote: 'No se genera ninguna exportación real de transacciones.',
+      safetyTitle: 'Límite de transacciones',
+      safetyNotice:
+        'Solo prototipo local determinístico. Sin transacciones reales, datos bancarios reales, datos personales ni creación o ejecución de cuenta, pago, depósito u operación bancaria.',
+    },
+    currentAccount: {
+      eyebrow: 'Cuentas',
+      title: 'Cuenta corriente',
+      subtitle:
+        'Información simulada de apertura de cuenta corriente con características, marcador de comisiones mensuales, checklist de elegibilidad y revisión de incorporación.',
+      badge: 'Simulación de apertura',
+      primaryPanelEyebrow: 'Características de cuenta',
+      primaryPanelTitle: 'Información de cuenta corriente',
+      items: [
+        {
+          label: 'Banca diaria',
+          value: 'Pagos, tarjetas y extractos de cuenta',
+          note: 'Resumen de características solamente.',
+        },
+        {
+          label: 'Comisión mensual',
+          value: 'Información de comisión como marcador',
+          note: 'No se emite precio ni cotización de comisiones.',
+        },
+        {
+          label: 'Acceso a banca en línea',
+          value: 'Requiere autenticación fuerte',
+          note: 'Modelo de acceso del prototipo.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Checklist de elegibilidad',
+      secondaryPanelTitle: 'Revisión de incorporación',
+      rows: [
+        {
+          title: 'Verificación de identidad',
+          detail: 'El banco verificaría la identidad antes de abrir la cuenta.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Revisión de relación con el cliente',
+          detail: 'Se requiere revisión formal de incorporación.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Ejecución de apertura de cuenta',
+          detail: 'La apertura de cuenta está deshabilitada en este prototipo.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen de apertura',
+      summaryItems: [
+        { label: 'Tipo de cuenta', value: 'Cuenta corriente' },
+        { label: 'Incorporación', value: 'Revisión requerida' },
+        { label: 'Apertura real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Simular apertura de cuenta',
+      actionNote: 'El botón está deshabilitado porque no se abre ninguna cuenta real.',
+      safetyTitle: 'Límite de apertura',
+      safetyNotice:
+        'Solo prototipo local determinístico. Sin apertura real de cuentas y sin creación ni ejecución de cuenta, transacción, datos personales, pago, depósito u operación bancaria.',
+    },
+    savingsDeposits: {
+      eyebrow: 'Cuentas',
+      title: 'Cuentas de ahorro y depósito',
+      subtitle:
+        'Información simulada de cuentas de ahorro y depósito con marcadores de intereses, notas de riesgo y disponibilidad.',
+      badge: 'Concepto de depósito',
+      primaryPanelEyebrow: 'Productos de ahorro',
+      primaryPanelTitle: 'Opciones de ahorro y depósito',
+      items: [
+        {
+          label: 'Cuenta de ahorro',
+          value: 'Concepto de ahorro flexible',
+          note: 'No se crea ningún producto.',
+        },
+        {
+          label: 'Depósito a plazo fijo',
+          value: 'Concepto de disponibilidad fija',
+          note: 'No se crea ningún contrato de depósito.',
+        },
+        {
+          label: 'Información de intereses',
+          value: 'Información de intereses como marcador',
+          note: 'No se proporciona tipo de interés real.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Riesgo y disponibilidad',
+      secondaryPanelTitle: 'Revisión de depósito',
+      rows: [
+        {
+          title: 'Nota de disponibilidad',
+          detail: 'Los depósitos a plazo fijo pueden tener restricciones de disponibilidad en un producto real.',
+          status: 'Aviso',
+        },
+        {
+          title: 'Nota de riesgo',
+          detail: 'Este prototipo no proporciona asesoramiento ni condiciones de producto.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Creación de producto',
+          detail: 'No se crea ningún producto de ahorro o depósito.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen de depósito',
+      summaryItems: [
+        { label: 'Cuenta de ahorro', value: 'Simulada' },
+        { label: 'Depósito a plazo fijo', value: 'Simulado' },
+        { label: 'Producto real', value: 'Ninguno' },
+      ],
+      actionLabel: 'Continuar simulación',
+      actionNote: 'No se crea ningún producto real de depósito.',
+      safetyTitle: 'Límite de depósito',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ningún producto real de depósito, cuenta, transacción, dato personal, pago ni operación bancaria.',
+    },
+    childAccount: {
+      eyebrow: 'Cuentas',
+      title: 'Cuenta para menor de edad',
+      subtitle:
+        'Información simulada de cuenta para menor con aprobación de tutor, marcador de verificación de identidad, límites de gasto y restricciones de tarjeta/pagos.',
+      badge: 'Revisión de tutor',
+      primaryPanelEyebrow: 'Controles de cuenta para menor',
+      primaryPanelTitle: 'Modelo de tutor y restricciones',
+      items: [
+        {
+          label: 'Aprobación de tutor',
+          value: 'Requerida antes de configurar la cuenta',
+          note: 'No se solicita ninguna aprobación.',
+        },
+        {
+          label: 'Verificación de identidad',
+          value: 'Verificación como marcador',
+          note: 'No se recopilan datos de identidad.',
+        },
+        {
+          label: 'Límites de gasto',
+          value: 'Concepto de gasto diario bajo',
+          note: 'No se configura ningún límite.',
+        },
+        {
+          label: 'Restricciones de tarjeta/pagos',
+          value: 'Restringido por defecto',
+          note: 'El modelo de restricciones es simulado.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Controles de protección',
+      secondaryPanelTitle: 'Requisitos de revisión',
+      rows: [
+        {
+          title: 'Aprobación de tutor',
+          detail: 'Un producto real requeriría consentimiento del tutor.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Límite de datos personales',
+          detail: 'No se almacena ningún dato personal de menores en este prototipo.',
+          status: 'Sin datos reales',
+        },
+        {
+          title: 'Creación de cuenta',
+          detail: 'No se abre ninguna cuenta para menor.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen de cuenta para menor',
+      summaryItems: [
+        { label: 'Aprobación de tutor', value: 'Requerida' },
+        { label: 'Restricciones', value: 'Concepto habilitado' },
+        { label: 'Cuenta real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Iniciar simulación',
+      actionNote: 'No se crea ninguna cuenta real para menor ni datos personales.',
+      safetyTitle: 'Límite de cuenta para menor',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ninguna cuenta real para menor, dato personal, cuenta, transacción, pago, depósito u operación bancaria.',
+    },
+    accountFaq: {
+      eyebrow: 'Cuentas',
+      title: 'Preguntas frecuentes de cuentas',
+      subtitle:
+        'Preguntas frecuentes sobre acceso a cuentas, extractos, límites de pago y separación de activos digitales frente a depósitos.',
+      badge: 'Preguntas frecuentes',
+      primaryPanelEyebrow: 'Preguntas comunes de cuentas',
+      primaryPanelTitle: 'Información de cuentas',
+      items: [
+        {
+          label: 'Acceso a cuentas',
+          value: 'El acceso requiere banca en línea autenticada.',
+          note: 'Solo sesión de prototipo.',
+        },
+        {
+          label: 'Extractos de cuenta',
+          value: 'Los extractos están disponibles en páginas conceptuales de informes.',
+          note: 'No se genera ningún extracto real.',
+        },
+        {
+          label: 'Límites de pago',
+          value: 'Los límites de pago son controles simulados.',
+          note: 'No se cambia ningún límite real.',
+        },
+        {
+          label: 'Activos digitales y depósitos',
+          value: 'Los activos digitales están separados de los depósitos.',
+          note: 'Los límites de custodia y riesgo son explícitos.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Temas de FAQ',
+      secondaryPanelTitle: 'Orientación de cuentas',
+      rows: [
+        {
+          title: '¿Cómo accedo a mis cuentas?',
+          detail: 'Use la sesión simulada autenticada de banca en línea.',
+          status: 'Información',
+        },
+        {
+          title: '¿Dónde están los extractos de cuenta?',
+          detail: 'Abra Informes para extractos y correo bancario simulados.',
+          status: 'Información',
+        },
+        {
+          title: '¿Los activos digitales son depósitos?',
+          detail: 'No. Los activos digitales están separados de los depósitos bancarios.',
+          status: 'Aviso de riesgo',
+        },
+      ],
+      summaryTitle: 'Resumen de FAQ',
+      summaryItems: [
+        { label: 'Acceso a cuentas', value: 'Prototipo autenticado' },
+        { label: 'Extractos', value: 'Concepto de informes' },
+        { label: 'Activos digitales', value: 'Separados de depósitos' },
+      ],
+      actionLabel: 'Abrir informes',
+      actionNote: 'Esta es una página informativa del prototipo.',
+      safetyTitle: 'Límite del prototipo',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ni ejecuta ninguna cuenta real, transacción, dato personal, pago, depósito u operación bancaria.',
+    },
+  },
+}
+
+type CardDemoPageTranslation = {
+  eyebrow: string
+  title: string
+  subtitle: string
+  badge: string
+  primaryPanelTitle: string
+  primaryPanelEyebrow: string
+  items: { label: string; value: string; note: string }[]
+  secondaryPanelTitle: string
+  secondaryPanelEyebrow: string
+  rows: { title: string; detail: string; status: string }[]
+  summaryTitle: string
+  summaryItems: { label: string; value: string }[]
+  actionLabel: string
+  actionNote: string
+  safetyTitle: string
+  safetyNotice: string
+}
+
+type CardDemoTranslations = {
+  common: {
+    reviewSummary: string
+    simulatedAction: string
+    localPrototype: string
+    noRealCardOrFxOperation: string
+  }
+  pages: Record<
+    | 'overview'
+    | 'apply'
+    | 'settings'
+    | 'limits'
+    | 'currencyAccounts'
+    | 'exchangeRates'
+    | 'travelMoney'
+    | 'cardFaq',
+    CardDemoPageTranslation
+  >
+}
+
+const cardDemoEn: CardDemoTranslations = {
+  common: {
+    reviewSummary: 'Review summary',
+    simulatedAction: 'Simulated action',
+    localPrototype: 'Local deterministic prototype',
+    noRealCardOrFxOperation: 'No real card or FX operation',
+  },
+  pages: {
+    overview: {
+      eyebrow: 'Cards and Currency',
+      title: 'Card overview',
+      subtitle:
+        'Simulated card overview for debit card, credit card, card status, recent activity, and card security status.',
+      badge: 'Card security active',
+      primaryPanelEyebrow: 'Cards',
+      primaryPanelTitle: 'Card overview',
+      items: [
+        {
+          label: 'Debit card overview',
+          value: 'Aurora Debit Online · Active',
+          note: 'Fictional debit card for the local prototype.',
+        },
+        {
+          label: 'Credit card overview',
+          value: 'Aurora Gold · Review required',
+          note: 'Credit card concept with no real credit facility.',
+        },
+        {
+          label: 'Card security status',
+          value: 'Online purchases monitored',
+          note: 'Static security state only.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Recent simulated card activity',
+      secondaryPanelTitle: 'Card activity',
+      rows: [
+        {
+          title: '12.06.2026 · Grocery purchase',
+          detail: '-42.80 EUR · Aurora Debit Online',
+          status: 'Completed',
+        },
+        {
+          title: '15.06.2026 · Online purchase attempt',
+          detail: '-129.00 EUR · Step-up review required',
+          status: 'Requires review',
+        },
+        {
+          title: '18.06.2026 · Foreign card authorization',
+          detail: '-76.10 EUR · Blocked by travel controls',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Card summary',
+      summaryItems: [
+        { label: 'Debit card', value: 'Active' },
+        { label: 'Credit card', value: 'Review concept' },
+        { label: 'Real transactions', value: 'None' },
+      ],
+      actionLabel: 'Refresh simulation',
+      actionNote: 'No real card data or transaction query is performed.',
+      safetyTitle: 'Card boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real card, card application, card transaction, currency account, FX operation, travel money order, or banking operation is created or executed.',
+    },
+    apply: {
+      eyebrow: 'Cards and Currency',
+      title: 'Apply for a card',
+      subtitle:
+        'Simulated card application flow with card type selection, eligibility checklist, verification placeholders, and application review status.',
+      badge: 'Application draft',
+      primaryPanelEyebrow: 'Application details',
+      primaryPanelTitle: 'Card type selection',
+      items: [
+        {
+          label: 'Selected card type',
+          value: 'Aurora Debit Online',
+          note: 'Static card type selection.',
+        },
+        {
+          label: 'Identity verification',
+          value: 'Placeholder review',
+          note: 'No identity data is collected.',
+        },
+        {
+          label: 'Income verification',
+          value: 'Placeholder review',
+          note: 'No income data is requested.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Eligibility checklist',
+      secondaryPanelTitle: 'Application review status',
+      rows: [
+        {
+          title: 'Customer relationship',
+          detail: 'A real application would require an active bank relationship.',
+          status: 'Required',
+        },
+        {
+          title: 'Identity and income verification',
+          detail: 'Verification is represented as a placeholder only.',
+          status: 'Required',
+        },
+        {
+          title: 'Application submission',
+          detail: 'Submission is disabled in this prototype.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Application summary',
+      summaryItems: [
+        { label: 'Card type', value: 'Aurora Debit Online' },
+        { label: 'Review', value: 'Required' },
+        { label: 'Real application', value: 'None' },
+      ],
+      actionLabel: 'Submit application simulation',
+      actionNote: 'Button is disabled because no real card application is submitted.',
+      safetyTitle: 'Application boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real card application, card issuing, card transaction, currency account, FX operation, travel money order, or banking operation is created or executed.',
+    },
+    settings: {
+      eyebrow: 'Cards and Currency',
+      title: 'Card settings',
+      subtitle:
+        'Simulated card settings for online payments, contactless payments, ATM withdrawals, geographic usage, and spending notifications.',
+      badge: 'Settings simulation',
+      primaryPanelEyebrow: 'Card settings',
+      primaryPanelTitle: 'Usage controls',
+      items: [
+        {
+          label: 'Online payments',
+          value: 'Enabled concept',
+          note: 'No real setting is changed.',
+        },
+        {
+          label: 'Contactless payments',
+          value: 'Enabled concept',
+          note: 'No real card configuration exists.',
+        },
+        {
+          label: 'ATM withdrawals',
+          value: 'Restricted concept',
+          note: 'Withdrawal controls are simulated.',
+        },
+        {
+          label: 'Geographic usage',
+          value: 'Nordic region concept',
+          note: 'Travel controls are static.',
+        },
+        {
+          label: 'Spending notifications',
+          value: 'Enabled concept',
+          note: 'No notification service is connected.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Setting changes',
+      secondaryPanelTitle: 'Simulated controls',
+      rows: [
+        {
+          title: 'Online purchases',
+          detail: 'Would require strong authentication for high-risk changes.',
+          status: 'Requires review',
+        },
+        {
+          title: 'Contactless usage',
+          detail: 'Setting button is simulated only.',
+          status: 'Simulated',
+        },
+        {
+          title: 'Geographic usage',
+          detail: 'No real card network controls are changed.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Settings summary',
+      summaryItems: [
+        { label: 'Online payments', value: 'Enabled concept' },
+        { label: 'Contactless', value: 'Enabled concept' },
+        { label: 'Real setting changes', value: 'None' },
+      ],
+      actionLabel: 'Save settings simulation',
+      actionNote: 'Buttons are simulated only and do not update real card settings.',
+      safetyTitle: 'Settings boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real card, card setting, card transaction, currency account, FX operation, travel money order, or banking operation is created or executed.',
+    },
+    limits: {
+      eyebrow: 'Cards and Currency',
+      title: 'Card limits',
+      subtitle:
+        'Simulated card limits for daily purchases, ATM withdrawals, online purchases, and temporary limit changes.',
+      badge: 'Limit controls',
+      primaryPanelEyebrow: 'Limit overview',
+      primaryPanelTitle: 'Configured card limits',
+      items: [
+        {
+          label: 'Daily purchase limit',
+          value: '1,500.00 EUR',
+          note: 'Static purchase limit.',
+        },
+        {
+          label: 'ATM withdrawal limit',
+          value: '300.00 EUR',
+          note: 'Static ATM limit.',
+        },
+        {
+          label: 'Online purchase limit',
+          value: '750.00 EUR',
+          note: 'Static online limit.',
+        },
+        {
+          label: 'Temporary limit change',
+          value: 'Review required',
+          note: 'No real limit change is sent.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Limit changes',
+      secondaryPanelTitle: 'Authentication and review',
+      rows: [
+        {
+          title: 'Strong authentication',
+          detail: 'Limit changes require strong authentication.',
+          status: 'Required',
+        },
+        {
+          title: 'Manual review',
+          detail: 'Temporary increases require review before activation.',
+          status: 'Requires review',
+        },
+        {
+          title: 'Execution disabled',
+          detail: 'No real card limit is changed.',
+          status: 'Blocked',
+        },
+      ],
+      summaryTitle: 'Limit summary',
+      summaryItems: [
+        { label: 'Daily purchase', value: '1,500.00 EUR' },
+        { label: 'ATM withdrawal', value: '300.00 EUR' },
+        { label: 'Real limit change', value: 'None' },
+      ],
+      actionLabel: 'Request limit simulation',
+      actionNote: 'No real card limit change is submitted.',
+      safetyTitle: 'Limit boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real card limit, card transaction, card application, currency account, FX operation, travel money order, or banking operation is created or executed.',
+    },
+    currencyAccounts: {
+      eyebrow: 'Currency',
+      title: 'Currency accounts',
+      subtitle:
+        'Simulated currency accounts overview with EUR, USD, SEK, and GBP available balances and currency risk notice.',
+      badge: 'Currency overview',
+      primaryPanelEyebrow: 'Currency accounts',
+      primaryPanelTitle: 'Available balances',
+      items: [
+        {
+          label: 'EUR account',
+          value: '3,925.40 EUR',
+          note: 'Primary simulated account.',
+        },
+        {
+          label: 'USD account',
+          value: '1,250.00 USD',
+          note: 'Static currency balance.',
+        },
+        {
+          label: 'SEK account',
+          value: '8,400.00 SEK',
+          note: 'Static currency balance.',
+        },
+        {
+          label: 'GBP account',
+          value: '620.00 GBP',
+          note: 'Static currency balance.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Currency risk',
+      secondaryPanelTitle: 'Currency account controls',
+      rows: [
+        {
+          title: 'FX risk notice',
+          detail: 'Currency values may fluctuate in real services.',
+          status: 'Notice',
+        },
+        {
+          title: 'Currency account opening',
+          detail: 'No real currency account is opened.',
+          status: 'Blocked',
+        },
+        {
+          title: 'Balance source',
+          detail: 'Balances are deterministic demo values.',
+          status: 'Simulated',
+        },
+      ],
+      summaryTitle: 'Currency summary',
+      summaryItems: [
+        { label: 'Currency accounts', value: '4 simulated' },
+        { label: 'FX execution', value: 'None' },
+        { label: 'Real account opening', value: 'None' },
+      ],
+      actionLabel: 'Open currency account simulation',
+      actionNote: 'No real currency account is opened.',
+      safetyTitle: 'Currency account boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real currency account, card, card transaction, FX operation, travel money order, or banking operation is created or executed.',
+    },
+    exchangeRates: {
+      eyebrow: 'Currency',
+      title: 'Exchange rates',
+      subtitle:
+        'Simulated exchange rates page with static EUR exchange rates and a simulated timestamp.',
+      badge: 'Static rates',
+      primaryPanelEyebrow: 'Exchange rate table',
+      primaryPanelTitle: 'Indicative rates',
+      items: [
+        {
+          label: 'EUR/USD',
+          value: '1.0875',
+          note: 'Static demo rate.',
+        },
+        {
+          label: 'EUR/SEK',
+          value: '11.2140',
+          note: 'Static demo rate.',
+        },
+        {
+          label: 'EUR/GBP',
+          value: '0.8425',
+          note: 'Static demo rate.',
+        },
+        {
+          label: 'EUR/CHF',
+          value: '0.9630',
+          note: 'Static demo rate.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Rate timestamp',
+      secondaryPanelTitle: 'Rate controls',
+      rows: [
+        {
+          title: 'Simulated timestamp',
+          detail: 'Rates shown as of 23.06.2026 12:00 EET.',
+          status: 'Simulated',
+        },
+        {
+          title: 'FX execution',
+          detail: 'No real FX quote or execution is available.',
+          status: 'Blocked',
+        },
+        {
+          title: 'Currency risk',
+          detail: 'Rates are illustrative and not customer pricing.',
+          status: 'Notice',
+        },
+      ],
+      summaryTitle: 'Exchange rate summary',
+      summaryItems: [
+        { label: 'Rate source', value: 'Static demo table' },
+        { label: 'Timestamp', value: '23.06.2026 12:00 EET' },
+        { label: 'Real FX execution', value: 'None' },
+      ],
+      actionLabel: 'Refresh rates simulation',
+      actionNote: 'No real market data or FX execution is requested.',
+      safetyTitle: 'FX boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real FX execution, currency account, card transaction, travel money order, or banking operation is created or executed.',
+    },
+    travelMoney: {
+      eyebrow: 'Currency',
+      title: 'Travel money',
+      subtitle:
+        'Simulated travel money page with destination currency selector, travel card usage notice, cash withdrawal limits, and travel notification panel.',
+      badge: 'Travel settings',
+      primaryPanelEyebrow: 'Travel money details',
+      primaryPanelTitle: 'Destination and travel usage',
+      items: [
+        {
+          label: 'Destination currency',
+          value: 'USD',
+          note: 'Visual selector only.',
+        },
+        {
+          label: 'Travel card usage',
+          value: 'International card usage notice',
+          note: 'No card setting is changed.',
+        },
+        {
+          label: 'Cash withdrawal limits',
+          value: '300.00 EUR equivalent',
+          note: 'Static travel limit.',
+        },
+        {
+          label: 'Travel notification',
+          value: 'Destination notice prepared',
+          note: 'No real notification is sent.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Travel controls',
+      secondaryPanelTitle: 'Travel notification panel',
+      rows: [
+        {
+          title: 'Destination review',
+          detail: 'Destination currency is selected for visual review.',
+          status: 'Ready',
+        },
+        {
+          title: 'Cash order',
+          detail: 'No cash or travel money order is placed.',
+          status: 'Blocked',
+        },
+        {
+          title: 'Card usage notice',
+          detail: 'Travel card usage notice is informational only.',
+          status: 'Notice',
+        },
+      ],
+      summaryTitle: 'Travel summary',
+      summaryItems: [
+        { label: 'Destination currency', value: 'USD' },
+        { label: 'Cash withdrawal limit', value: '300.00 EUR equivalent' },
+        { label: 'Real travel money order', value: 'None' },
+      ],
+      actionLabel: 'Create travel notice simulation',
+      actionNote: 'No real travel money order or card change is submitted.',
+      safetyTitle: 'Travel money boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real travel money order, card transaction, currency account, FX operation, or banking operation is created or executed.',
+    },
+    cardFaq: {
+      eyebrow: 'Cards and Currency',
+      title: 'Card FAQ',
+      subtitle:
+        'Card FAQ covering lost or stolen cards, online payments, contactless payments, card limits, currency conversion, and digital asset separation.',
+      badge: 'FAQ',
+      primaryPanelEyebrow: 'Common card questions',
+      primaryPanelTitle: 'Card guidance',
+      items: [
+        {
+          label: 'Lost or stolen card',
+          value: 'Contact official bank channels immediately.',
+          note: 'Prototype guidance only.',
+        },
+        {
+          label: 'Online payments',
+          value: 'May require strong authentication.',
+          note: 'No payment is executed here.',
+        },
+        {
+          label: 'Contactless payments',
+          value: 'Controlled by card settings concept.',
+          note: 'No real setting is changed.',
+        },
+        {
+          label: 'Currency conversion',
+          value: 'FX rates may vary in real services.',
+          note: 'No real FX operation is performed.',
+        },
+        {
+          label: 'Digital assets',
+          value: 'Separate from card and deposit products.',
+          note: 'Digital assets are not card balances.',
+        },
+      ],
+      secondaryPanelEyebrow: 'FAQ topics',
+      secondaryPanelTitle: 'Support topics',
+      rows: [
+        {
+          title: 'Card limits',
+          detail: 'Limit changes require review and strong authentication in a real service.',
+          status: 'Information',
+        },
+        {
+          title: 'Currency conversion',
+          detail: 'Exchange rates are illustrative in this prototype.',
+          status: 'Notice',
+        },
+        {
+          title: 'Digital asset separation',
+          detail: 'Digital assets are separate from card and deposit products.',
+          status: 'Risk notice',
+        },
+      ],
+      summaryTitle: 'FAQ summary',
+      summaryItems: [
+        { label: 'Card support', value: 'Informational' },
+        { label: 'Currency conversion', value: 'No real FX' },
+        { label: 'Digital assets', value: 'Separate products' },
+      ],
+      actionLabel: 'Open security settings',
+      actionNote: 'This is an informational prototype page.',
+      safetyTitle: 'Prototype boundary',
+      safetyNotice:
+        'Local deterministic prototype only. No real card, card application, card transaction, currency account, FX operation, travel money order, or banking operation is created or executed.',
+    },
+  },
+}
+
+const cardDemoEs: CardDemoTranslations = {
+  common: {
+    reviewSummary: 'Resumen de revisión',
+    simulatedAction: 'Acción simulada',
+    localPrototype: 'Prototipo local determinístico',
+    noRealCardOrFxOperation: 'Sin operación real de tarjeta o divisas',
+  },
+  pages: {
+    overview: {
+      eyebrow: 'Tarjetas y moneda',
+      title: 'Resumen de tarjetas',
+      subtitle:
+        'Resumen simulado de tarjeta de débito, tarjeta de crédito, estado de tarjeta, actividad reciente y seguridad de tarjeta.',
+      badge: 'Seguridad de tarjeta activa',
+      primaryPanelEyebrow: 'Tarjetas',
+      primaryPanelTitle: 'Resumen de tarjetas',
+      items: [
+        {
+          label: 'Resumen de tarjeta de débito',
+          value: 'Aurora Debit Online · Activa',
+          note: 'Tarjeta de débito ficticia para el prototipo local.',
+        },
+        {
+          label: 'Resumen de tarjeta de crédito',
+          value: 'Aurora Gold · Revisión requerida',
+          note: 'Concepto de tarjeta de crédito sin línea de crédito real.',
+        },
+        {
+          label: 'Estado de seguridad de tarjeta',
+          value: 'Compras en línea monitorizadas',
+          note: 'Estado de seguridad estático solamente.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Actividad simulada reciente',
+      secondaryPanelTitle: 'Actividad de tarjeta',
+      rows: [
+        {
+          title: '12.06.2026 · Compra de alimentación',
+          detail: '-42,80 EUR · Aurora Debit Online',
+          status: 'Completada',
+        },
+        {
+          title: '15.06.2026 · Intento de compra en línea',
+          detail: '-129,00 EUR · Requiere revisión reforzada',
+          status: 'Requiere revisión',
+        },
+        {
+          title: '18.06.2026 · Autorización de tarjeta en extranjero',
+          detail: '-76,10 EUR · Bloqueada por controles de viaje',
+          status: 'Bloqueada',
+        },
+      ],
+      summaryTitle: 'Resumen de tarjeta',
+      summaryItems: [
+        { label: 'Tarjeta de débito', value: 'Activa' },
+        { label: 'Tarjeta de crédito', value: 'Concepto en revisión' },
+        { label: 'Transacciones reales', value: 'Ninguna' },
+      ],
+      actionLabel: 'Actualizar simulación',
+      actionNote: 'No se realiza ninguna consulta real de datos de tarjeta o transacciones.',
+      safetyTitle: 'Límite de tarjeta',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ni ejecuta ninguna tarjeta real, solicitud de tarjeta, transacción de tarjeta, cuenta en divisa, operación FX, pedido de dinero para viaje u operación bancaria.',
+    },
+    apply: {
+      eyebrow: 'Tarjetas y moneda',
+      title: 'Solicitar tarjeta',
+      subtitle:
+        'Flujo simulado de solicitud de tarjeta con selección de tipo, checklist de elegibilidad, marcadores de verificación y estado de revisión.',
+      badge: 'Borrador de solicitud',
+      primaryPanelEyebrow: 'Detalles de solicitud',
+      primaryPanelTitle: 'Selección de tipo de tarjeta',
+      items: [
+        {
+          label: 'Tipo de tarjeta seleccionado',
+          value: 'Aurora Debit Online',
+          note: 'Selección estática de tipo de tarjeta.',
+        },
+        {
+          label: 'Verificación de identidad',
+          value: 'Revisión como marcador',
+          note: 'No se recopilan datos de identidad.',
+        },
+        {
+          label: 'Verificación de ingresos',
+          value: 'Revisión como marcador',
+          note: 'No se solicitan datos de ingresos.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Checklist de elegibilidad',
+      secondaryPanelTitle: 'Estado de revisión de solicitud',
+      rows: [
+        {
+          title: 'Relación con el cliente',
+          detail: 'Una solicitud real requeriría relación bancaria activa.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Verificación de identidad e ingresos',
+          detail: 'La verificación se representa solo como marcador.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Envío de solicitud',
+          detail: 'El envío está deshabilitado en este prototipo.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen de solicitud',
+      summaryItems: [
+        { label: 'Tipo de tarjeta', value: 'Aurora Debit Online' },
+        { label: 'Revisión', value: 'Requerida' },
+        { label: 'Solicitud real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Enviar solicitud simulada',
+      actionNote: 'El botón está deshabilitado porque no se envía ninguna solicitud real de tarjeta.',
+      safetyTitle: 'Límite de solicitud',
+      safetyNotice:
+        'Solo prototipo local determinístico. Sin emisión real de tarjetas y sin creación ni ejecución de solicitud de tarjeta, transacción de tarjeta, cuenta en divisa, operación FX, pedido de dinero para viaje u operación bancaria.',
+    },
+    settings: {
+      eyebrow: 'Tarjetas y moneda',
+      title: 'Configuración de tarjeta',
+      subtitle:
+        'Configuración simulada de tarjeta para pagos en línea, pagos contactless, retiradas en cajero, uso geográfico y notificaciones de gasto.',
+      badge: 'Simulación de configuración',
+      primaryPanelEyebrow: 'Configuración de tarjeta',
+      primaryPanelTitle: 'Controles de uso',
+      items: [
+        {
+          label: 'Pagos en línea',
+          value: 'Concepto habilitado',
+          note: 'No se cambia ninguna configuración real.',
+        },
+        {
+          label: 'Pagos contactless',
+          value: 'Concepto habilitado',
+          note: 'No existe configuración real de tarjeta.',
+        },
+        {
+          label: 'Retiradas en cajero',
+          value: 'Concepto restringido',
+          note: 'Los controles de retirada son simulados.',
+        },
+        {
+          label: 'Uso geográfico',
+          value: 'Concepto de región nórdica',
+          note: 'Los controles de viaje son estáticos.',
+        },
+        {
+          label: 'Notificaciones de gasto',
+          value: 'Concepto habilitado',
+          note: 'No hay servicio de notificaciones conectado.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Cambios de configuración',
+      secondaryPanelTitle: 'Controles simulados',
+      rows: [
+        {
+          title: 'Compras en línea',
+          detail: 'Los cambios de alto riesgo requerirían autenticación fuerte.',
+          status: 'Requiere revisión',
+        },
+        {
+          title: 'Uso contactless',
+          detail: 'El botón de configuración es solo simulado.',
+          status: 'Simulado',
+        },
+        {
+          title: 'Uso geográfico',
+          detail: 'No se cambia ningún control real de red de tarjetas.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen de configuración',
+      summaryItems: [
+        { label: 'Pagos en línea', value: 'Concepto habilitado' },
+        { label: 'Contactless', value: 'Concepto habilitado' },
+        { label: 'Cambios reales', value: 'Ninguno' },
+      ],
+      actionLabel: 'Guardar configuración simulada',
+      actionNote: 'Los botones son solo simulados y no actualizan configuraciones reales de tarjeta.',
+      safetyTitle: 'Límite de configuración',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ni ejecuta ninguna tarjeta real, configuración de tarjeta, transacción de tarjeta, cuenta en divisa, operación FX, pedido de dinero para viaje u operación bancaria.',
+    },
+    limits: {
+      eyebrow: 'Tarjetas y moneda',
+      title: 'Límites de tarjeta',
+      subtitle:
+        'Límites simulados de tarjeta para compras diarias, retiradas en cajero, compras en línea y cambios temporales de límite.',
+      badge: 'Controles de límite',
+      primaryPanelEyebrow: 'Resumen de límites',
+      primaryPanelTitle: 'Límites de tarjeta configurados',
+      items: [
+        {
+          label: 'Límite diario de compras',
+          value: '1.500,00 EUR',
+          note: 'Límite de compra estático.',
+        },
+        {
+          label: 'Límite de retirada en cajero',
+          value: '300,00 EUR',
+          note: 'Límite de cajero estático.',
+        },
+        {
+          label: 'Límite de compra en línea',
+          value: '750,00 EUR',
+          note: 'Límite en línea estático.',
+        },
+        {
+          label: 'Cambio temporal de límite',
+          value: 'Revisión requerida',
+          note: 'No se envía ningún cambio real de límite.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Cambios de límite',
+      secondaryPanelTitle: 'Autenticación y revisión',
+      rows: [
+        {
+          title: 'Autenticación fuerte',
+          detail: 'Los cambios de límite requieren autenticación fuerte.',
+          status: 'Requerido',
+        },
+        {
+          title: 'Revisión manual',
+          detail: 'Los incrementos temporales requieren revisión antes de activarse.',
+          status: 'Requiere revisión',
+        },
+        {
+          title: 'Ejecución deshabilitada',
+          detail: 'No se cambia ningún límite real de tarjeta.',
+          status: 'Bloqueado',
+        },
+      ],
+      summaryTitle: 'Resumen de límites',
+      summaryItems: [
+        { label: 'Compra diaria', value: '1.500,00 EUR' },
+        { label: 'Retirada en cajero', value: '300,00 EUR' },
+        { label: 'Cambio real de límite', value: 'Ninguno' },
+      ],
+      actionLabel: 'Solicitar simulación de límite',
+      actionNote: 'No se envía ningún cambio real de límite de tarjeta.',
+      safetyTitle: 'Límite operativo',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ni ejecuta ningún límite real de tarjeta, transacción de tarjeta, solicitud de tarjeta, cuenta en divisa, operación FX, pedido de dinero para viaje u operación bancaria.',
+    },
+    currencyAccounts: {
+      eyebrow: 'Moneda',
+      title: 'Cuentas en divisas',
+      subtitle:
+        'Resumen simulado de cuentas en divisas con saldos disponibles en EUR, USD, SEK y GBP, y nota de riesgo de divisa.',
+      badge: 'Resumen de divisas',
+      primaryPanelEyebrow: 'Cuentas en divisas',
+      primaryPanelTitle: 'Saldos disponibles',
+      items: [
+        {
+          label: 'Cuenta EUR',
+          value: '3.925,40 EUR',
+          note: 'Cuenta principal simulada.',
+        },
+        {
+          label: 'Cuenta USD',
+          value: '1.250,00 USD',
+          note: 'Saldo estático en divisa.',
+        },
+        {
+          label: 'Cuenta SEK',
+          value: '8.400,00 SEK',
+          note: 'Saldo estático en divisa.',
+        },
+        {
+          label: 'Cuenta GBP',
+          value: '620,00 GBP',
+          note: 'Saldo estático en divisa.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Riesgo de divisa',
+      secondaryPanelTitle: 'Controles de cuenta en divisa',
+      rows: [
+        {
+          title: 'Aviso de riesgo FX',
+          detail: 'Los valores de divisa pueden fluctuar en servicios reales.',
+          status: 'Aviso',
+        },
+        {
+          title: 'Apertura de cuenta en divisa',
+          detail: 'No se abre ninguna cuenta real en divisa.',
+          status: 'Bloqueado',
+        },
+        {
+          title: 'Origen del saldo',
+          detail: 'Los saldos son valores demo determinísticos.',
+          status: 'Simulado',
+        },
+      ],
+      summaryTitle: 'Resumen de divisas',
+      summaryItems: [
+        { label: 'Cuentas en divisas', value: '4 simuladas' },
+        { label: 'Ejecución FX', value: 'Ninguna' },
+        { label: 'Apertura real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Simular apertura de cuenta en divisa',
+      actionNote: 'No se abre ninguna cuenta real en divisa.',
+      safetyTitle: 'Límite de cuenta en divisa',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ni ejecuta ninguna cuenta real en divisa, tarjeta, transacción de tarjeta, operación FX, pedido de dinero para viaje u operación bancaria.',
+    },
+    exchangeRates: {
+      eyebrow: 'Moneda',
+      title: 'Tipos de cambio',
+      subtitle:
+        'Página simulada de tipos de cambio con tipos EUR estáticos y marca temporal simulada.',
+      badge: 'Tipos estáticos',
+      primaryPanelEyebrow: 'Tabla de tipos de cambio',
+      primaryPanelTitle: 'Tipos indicativos',
+      items: [
+        {
+          label: 'EUR/USD',
+          value: '1,0875',
+          note: 'Tipo demo estático.',
+        },
+        {
+          label: 'EUR/SEK',
+          value: '11,2140',
+          note: 'Tipo demo estático.',
+        },
+        {
+          label: 'EUR/GBP',
+          value: '0,8425',
+          note: 'Tipo demo estático.',
+        },
+        {
+          label: 'EUR/CHF',
+          value: '0,9630',
+          note: 'Tipo demo estático.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Marca temporal de tipos',
+      secondaryPanelTitle: 'Controles de tipos',
+      rows: [
+        {
+          title: 'Marca temporal simulada',
+          detail: 'Tipos mostrados a fecha 23.06.2026 12:00 EET.',
+          status: 'Simulado',
+        },
+        {
+          title: 'Ejecución FX',
+          detail: 'No hay cotización ni ejecución FX real disponible.',
+          status: 'Bloqueado',
+        },
+        {
+          title: 'Riesgo de divisa',
+          detail: 'Los tipos son ilustrativos y no son precios para clientes.',
+          status: 'Aviso',
+        },
+      ],
+      summaryTitle: 'Resumen de tipos de cambio',
+      summaryItems: [
+        { label: 'Origen de tipos', value: 'Tabla demo estática' },
+        { label: 'Marca temporal', value: '23.06.2026 12:00 EET' },
+        { label: 'Ejecución real FX', value: 'Ninguna' },
+      ],
+      actionLabel: 'Actualizar tipos simulados',
+      actionNote: 'No se solicita ningún dato real de mercado ni ejecución FX.',
+      safetyTitle: 'Límite FX',
+      safetyNotice:
+        'Solo prototipo local determinístico. Sin ejecución real de divisas y sin creación ni ejecución de cuenta en divisa, transacción de tarjeta, pedido de dinero para viaje u operación bancaria.',
+    },
+    travelMoney: {
+      eyebrow: 'Moneda',
+      title: 'Dinero para viaje',
+      subtitle:
+        'Página simulada de dinero para viaje con selector visual de divisa de destino, aviso de uso de tarjeta, límites de retirada y panel de notificación de viaje.',
+      badge: 'Configuración de viaje',
+      primaryPanelEyebrow: 'Detalles de viaje',
+      primaryPanelTitle: 'Destino y uso en viaje',
+      items: [
+        {
+          label: 'Divisa de destino',
+          value: 'USD',
+          note: 'Selector solo visual.',
+        },
+        {
+          label: 'Uso de tarjeta en viaje',
+          value: 'Aviso de uso internacional de tarjeta',
+          note: 'No se cambia ninguna configuración de tarjeta.',
+        },
+        {
+          label: 'Límites de retirada de efectivo',
+          value: '300,00 EUR equivalente',
+          note: 'Límite de viaje estático.',
+        },
+        {
+          label: 'Notificación de viaje',
+          value: 'Aviso de destino preparado',
+          note: 'No se envía ninguna notificación real.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Controles de viaje',
+      secondaryPanelTitle: 'Panel de notificación de viaje',
+      rows: [
+        {
+          title: 'Revisión de destino',
+          detail: 'La divisa de destino se selecciona para revisión visual.',
+          status: 'Listo',
+        },
+        {
+          title: 'Pedido de efectivo',
+          detail: 'No se realiza ningún pedido de efectivo o dinero para viaje.',
+          status: 'Bloqueado',
+        },
+        {
+          title: 'Aviso de uso de tarjeta',
+          detail: 'El aviso de uso de tarjeta en viaje es solo informativo.',
+          status: 'Aviso',
+        },
+      ],
+      summaryTitle: 'Resumen de viaje',
+      summaryItems: [
+        { label: 'Divisa de destino', value: 'USD' },
+        { label: 'Límite de retirada', value: '300,00 EUR equivalente' },
+        { label: 'Pedido real de dinero para viaje', value: 'Ninguno' },
+      ],
+      actionLabel: 'Crear aviso de viaje simulado',
+      actionNote: 'No se envía ningún pedido real de dinero para viaje ni cambio de tarjeta.',
+      safetyTitle: 'Límite de dinero para viaje',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ni ejecuta ningún pedido real de dinero para viaje, transacción de tarjeta, cuenta en divisa, operación FX u operación bancaria.',
+    },
+    cardFaq: {
+      eyebrow: 'Tarjetas y moneda',
+      title: 'Preguntas frecuentes de tarjetas',
+      subtitle:
+        'Preguntas frecuentes sobre tarjeta perdida o robada, pagos en línea, pagos contactless, límites de tarjeta, conversión de moneda y separación de activos digitales.',
+      badge: 'Preguntas frecuentes',
+      primaryPanelEyebrow: 'Preguntas comunes de tarjetas',
+      primaryPanelTitle: 'Orientación sobre tarjetas',
+      items: [
+        {
+          label: 'Tarjeta perdida o robada',
+          value: 'Contacte inmediatamente con canales bancarios oficiales.',
+          note: 'Orientación de prototipo solamente.',
+        },
+        {
+          label: 'Pagos en línea',
+          value: 'Pueden requerir autenticación fuerte.',
+          note: 'Aquí no se ejecuta ningún pago.',
+        },
+        {
+          label: 'Pagos contactless',
+          value: 'Controlados por el concepto de configuración de tarjeta.',
+          note: 'No se cambia ninguna configuración real.',
+        },
+        {
+          label: 'Conversión de moneda',
+          value: 'Los tipos FX pueden variar en servicios reales.',
+          note: 'No se realiza ninguna operación FX real.',
+        },
+        {
+          label: 'Activos digitales',
+          value: 'Separados de productos de tarjeta y depósito.',
+          note: 'Los activos digitales no son saldos de tarjeta.',
+        },
+      ],
+      secondaryPanelEyebrow: 'Temas de FAQ',
+      secondaryPanelTitle: 'Temas de soporte',
+      rows: [
+        {
+          title: 'Límites de tarjeta',
+          detail: 'Los cambios de límite requerirían revisión y autenticación fuerte en un servicio real.',
+          status: 'Información',
+        },
+        {
+          title: 'Conversión de moneda',
+          detail: 'Los tipos de cambio son ilustrativos en este prototipo.',
+          status: 'Aviso',
+        },
+        {
+          title: 'Separación de activos digitales',
+          detail: 'Los activos digitales están separados de productos de tarjeta y depósito.',
+          status: 'Aviso de riesgo',
+        },
+      ],
+      summaryTitle: 'Resumen de FAQ',
+      summaryItems: [
+        { label: 'Soporte de tarjeta', value: 'Informativo' },
+        { label: 'Conversión de moneda', value: 'Sin FX real' },
+        { label: 'Activos digitales', value: 'Productos separados' },
+      ],
+      actionLabel: 'Abrir configuración de seguridad',
+      actionNote: 'Esta es una página informativa del prototipo.',
+      safetyTitle: 'Límite del prototipo',
+      safetyNotice:
+        'Solo prototipo local determinístico. No se crea ni ejecuta ninguna tarjeta real, solicitud de tarjeta, transacción de tarjeta, cuenta en divisa, operación FX, pedido de dinero para viaje u operación bancaria.',
+    },
+  },
+}
+
+type InvestmentDemoPageTranslation = {
+  eyebrow: string
+  title: string
+  subtitle: string
+  badge: string
+  primaryPanelTitle: string
+  primaryPanelEyebrow: string
+  items: { label: string; value: string; note: string }[]
+  secondaryPanelTitle: string
+  secondaryPanelEyebrow: string
+  rows: { title: string; detail: string; status: string }[]
+  summaryTitle: string
+  summaryItems: { label: string; value: string }[]
+  actionLabel: string
+  actionNote: string
+  riskTitle: string
+  riskNotice: string
+  safetyTitle: string
+  safetyNotice: string
+}
+
+type InvestmentDemoTranslations = {
+  common: {
+    reviewSummary: string
+    simulatedAction: string
+    localPrototype: string
+    noRealInvestmentExecution: string
+  }
+  pages: Record<
+    | 'overview'
+    | 'funds'
+    | 'stocks'
+    | 'accounts'
+    | 'trading'
+    | 'custodyAccounts'
+    | 'prices'
+    | 'marketNews'
+    | 'research'
+    | 'investmentFaq'
+    | 'riskInformation',
+    InvestmentDemoPageTranslation
+  >
+}
+
+const investmentBoundaryEn =
+  'Local deterministic prototype only. No real investment account, trading order, custody service, market data feed, investment advice, or banking operation is created or executed.'
+
+const investmentBoundaryEs =
+  'Solo prototipo local determinístico. No se crea ni ejecuta ninguna cuenta de inversión real, orden de trading, servicio de custodia, feed de datos de mercado, asesoría de inversión u operación bancaria.'
+
+const investmentDemoEn: InvestmentDemoTranslations = {
+  common: {
+    reviewSummary: 'Review summary',
+    simulatedAction: 'Simulated action',
+    localPrototype: 'Local deterministic prototype',
+    noRealInvestmentExecution: 'No real investment execution',
+  },
+  pages: {
+    overview: {
+      eyebrow: 'Investments',
+      title: 'Investment overview',
+      subtitle:
+        'Simulated investment overview with portfolio summary, allocation placeholder, account status, recent activity, and risk notice.',
+      badge: 'Portfolio concept',
+      primaryPanelEyebrow: 'Portfolio summary',
+      primaryPanelTitle: 'Investment portfolio',
+      items: [
+        { label: 'Portfolio value', value: '24,680.00 EUR', note: 'Static demo value, not portfolio data.' },
+        { label: 'Asset allocation', value: 'Funds 60% · Stocks 30% · Cash 10%', note: 'Allocation placeholder only.' },
+        { label: 'Investment account status', value: 'Active concept', note: 'No real account connection.' },
+      ],
+      secondaryPanelEyebrow: 'Recent simulated activity',
+      secondaryPanelTitle: 'Activity and controls',
+      rows: [
+        { title: 'Monthly fund saving prepared', detail: 'Visual activity row, no subscription placed.', status: 'Simulated' },
+        { title: 'Portfolio review reminder', detail: 'Risk review reminder for demonstration only.', status: 'Notice' },
+        { title: 'Digital asset boundary confirmed', detail: 'Digital assets remain separate from deposits and investment products.', status: 'Risk notice' },
+      ],
+      summaryTitle: 'Overview summary',
+      summaryItems: [
+        { label: 'Portfolio data', value: 'Simulated' },
+        { label: 'Investment advice', value: 'None' },
+        { label: 'Execution', value: 'None' },
+      ],
+      actionLabel: 'Refresh overview simulation',
+      actionNote: 'No real portfolio data or market data is requested.',
+      riskTitle: 'Risk notice',
+      riskNotice:
+        'Investments can lose value. This page does not provide investment advice, recommendations, or real portfolio information.',
+      safetyTitle: 'Investment boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    funds: {
+      eyebrow: 'Investments',
+      title: 'Funds',
+      subtitle:
+        'Simulated funds page with fund list, risk level, monthly saving option visual, and sustainability/profile placeholders.',
+      badge: 'Fund concept',
+      primaryPanelEyebrow: 'Fund list',
+      primaryPanelTitle: 'Available fund concepts',
+      items: [
+        { label: 'Aurora Nordic Balanced Fund', value: 'Risk level 3/7', note: 'Fund concept, not a recommendation.' },
+        { label: 'Aurora Global Index Fund', value: 'Risk level 4/7', note: 'Static fund row.' },
+        { label: 'Monthly saving option', value: '100.00 EUR visual amount', note: 'No monthly saving order is created.' },
+        { label: 'Sustainability/profile', value: 'Placeholder profile', note: 'No suitability assessment is performed.' },
+      ],
+      secondaryPanelEyebrow: 'Fund controls',
+      secondaryPanelTitle: 'Subscription boundary',
+      rows: [
+        { title: 'Risk level visible', detail: 'Risk labels are static educational placeholders.', status: 'Notice' },
+        { title: 'Monthly saving visual', detail: 'Monthly saving is shown but not activated.', status: 'Simulated' },
+        { title: 'Fund subscription', detail: 'No real fund subscription is submitted.', status: 'Blocked' },
+      ],
+      summaryTitle: 'Fund summary',
+      summaryItems: [
+        { label: 'Fund rows', value: '2 simulated' },
+        { label: 'Advice', value: 'None' },
+        { label: 'Subscription', value: 'None' },
+      ],
+      actionLabel: 'Subscribe simulation',
+      actionNote: 'Button is disabled because no real fund subscription is submitted.',
+      riskTitle: 'Fund risk notice',
+      riskNotice:
+        'Fund values can rise or fall. This prototype does not assess suitability or recommend any fund.',
+      safetyTitle: 'Fund boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    stocks: {
+      eyebrow: 'Investments',
+      title: 'Stocks',
+      subtitle:
+        'Simulated stocks page with watchlist, market status, static price rows, and disabled buy/sell simulation buttons.',
+      badge: 'Watchlist concept',
+      primaryPanelEyebrow: 'Stock watchlist',
+      primaryPanelTitle: 'Simulated price rows',
+      items: [
+        { label: 'Aurora Industrial Oyj', value: '42.10 EUR', note: 'Static simulated price.' },
+        { label: 'Nordic Utilities Plc', value: '18.45 EUR', note: 'Static simulated price.' },
+        { label: 'Market status', value: 'Open concept', note: 'No real market status feed.' },
+      ],
+      secondaryPanelEyebrow: 'Trading controls',
+      secondaryPanelTitle: 'Disabled trade actions',
+      rows: [
+        { title: 'Buy button', detail: 'Shown as simulation only.', status: 'Disabled' },
+        { title: 'Sell button', detail: 'Shown as simulation only.', status: 'Disabled' },
+        { title: 'Market prices', detail: 'No real market data is loaded.', status: 'Simulated' },
+      ],
+      summaryTitle: 'Stock summary',
+      summaryItems: [
+        { label: 'Watchlist', value: '2 instruments' },
+        { label: 'Market data', value: 'Static' },
+        { label: 'Trading', value: 'None' },
+      ],
+      actionLabel: 'Open trade simulation',
+      actionNote: 'No real buy or sell order can be placed.',
+      riskTitle: 'Market risk notice',
+      riskNotice:
+        'Stock prices can fluctuate and losses are possible. Static rows are not real market prices.',
+      safetyTitle: 'Trading boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    accounts: {
+      eyebrow: 'Investments',
+      title: 'Investment accounts',
+      subtitle:
+        'Simulated investment accounts with investment account, custody account, tax wrapper placeholder, and account status.',
+      badge: 'Account concept',
+      primaryPanelEyebrow: 'Investment account',
+      primaryPanelTitle: 'Account structure',
+      items: [
+        { label: 'Investment account', value: 'Aurora Investment Account', note: 'Static account concept.' },
+        { label: 'Custody account', value: 'Securities custody concept', note: 'No custody execution.' },
+        { label: 'Tax wrapper/account type', value: 'Placeholder account type', note: 'No tax advice.' },
+      ],
+      secondaryPanelEyebrow: 'Account status',
+      secondaryPanelTitle: 'Opening boundary',
+      rows: [
+        { title: 'Account status', detail: 'Account shown as active concept only.', status: 'Simulated' },
+        { title: 'Opening workflow', detail: 'No real investment account opening exists.', status: 'Blocked' },
+        { title: 'Customer data', detail: 'No real customer data is used.', status: 'No real data' },
+      ],
+      summaryTitle: 'Account summary',
+      summaryItems: [
+        { label: 'Investment account', value: 'Simulated' },
+        { label: 'Custody account', value: 'Simulated' },
+        { label: 'Real opening', value: 'None' },
+      ],
+      actionLabel: 'Open account simulation',
+      actionNote: 'No real investment account is opened.',
+      riskTitle: 'Account risk notice',
+      riskNotice:
+        'Investment accounts can involve market and custody risks. This page is informational only.',
+      safetyTitle: 'Account boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    trading: {
+      eyebrow: 'Trading and custody',
+      title: 'Trading',
+      subtitle:
+        'Simulated trading page with order ticket visual, instrument search placeholder, order type, estimated cost, and compliance/risk pre-check.',
+      badge: 'Order ticket concept',
+      primaryPanelEyebrow: 'Order ticket',
+      primaryPanelTitle: 'Trade simulation',
+      items: [
+        { label: 'Instrument search', value: 'Aurora Industrial Oyj', note: 'Search placeholder only.' },
+        { label: 'Order type', value: 'Limit order concept', note: 'No order is submitted.' },
+        { label: 'Estimated cost', value: '421.00 EUR', note: 'Static estimate, not a quote.' },
+      ],
+      secondaryPanelEyebrow: 'Pre-check',
+      secondaryPanelTitle: 'Compliance and risk controls',
+      rows: [
+        { title: 'Compliance pre-check', detail: 'Pre-check is represented as deterministic UI state.', status: 'Required' },
+        { title: 'Risk acknowledgement', detail: 'Risk notice would be required before a real order.', status: 'Required' },
+        { title: 'Order execution', detail: 'Order submission is disabled.', status: 'Blocked' },
+      ],
+      summaryTitle: 'Order summary',
+      summaryItems: [
+        { label: 'Instrument', value: 'Aurora Industrial Oyj' },
+        { label: 'Order type', value: 'Limit concept' },
+        { label: 'Real order', value: 'None' },
+      ],
+      actionLabel: 'Submit order simulation',
+      actionNote: 'Button is disabled because no real order execution occurs.',
+      riskTitle: 'Trading risk notice',
+      riskNotice:
+        'Trading can result in loss. This order ticket is not a recommendation, quote, or execution path.',
+      safetyTitle: 'Order boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    custodyAccounts: {
+      eyebrow: 'Trading and custody',
+      title: 'Custody accounts',
+      subtitle:
+        'Simulated custody accounts page with securities custody account, digital asset custody boundary, status, and reconciliation placeholder.',
+      badge: 'Custody concept',
+      primaryPanelEyebrow: 'Custody accounts',
+      primaryPanelTitle: 'Custody structure',
+      items: [
+        { label: 'Securities custody account', value: 'Aurora Securities Custody', note: 'Static custody concept.' },
+        { label: 'Digital asset custody boundary', value: 'Separate from securities custody', note: 'No custodian integration.' },
+        { label: 'Account status', value: 'Active concept', note: 'No real custody service.' },
+      ],
+      secondaryPanelEyebrow: 'Audit and reconciliation',
+      secondaryPanelTitle: 'Control placeholders',
+      rows: [
+        { title: 'Reconciliation placeholder', detail: 'Reconciliation evidence is visual only.', status: 'Simulated' },
+        { title: 'Audit placeholder', detail: 'Audit trail rows are deterministic copy.', status: 'Ready' },
+        { title: 'Custody execution', detail: 'No real custody operation is executed.', status: 'Blocked' },
+      ],
+      summaryTitle: 'Custody summary',
+      summaryItems: [
+        { label: 'Securities custody', value: 'Simulated' },
+        { label: 'Digital asset custody', value: 'Separate boundary' },
+        { label: 'Real execution', value: 'None' },
+      ],
+      actionLabel: 'Review custody simulation',
+      actionNote: 'No custody service or reconciliation job is executed.',
+      riskTitle: 'Custody risk notice',
+      riskNotice:
+        'Custody services involve operational and legal risks. This page does not represent a real custodian integration.',
+      safetyTitle: 'Custody boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    prices: {
+      eyebrow: 'Trading and custody',
+      title: 'Prices',
+      subtitle:
+        'Simulated prices page with fee placeholders for funds, stocks, custody, and trading, without real pricing contract or market data.',
+      badge: 'Price concept',
+      primaryPanelEyebrow: 'Price table',
+      primaryPanelTitle: 'Indicative placeholders',
+      items: [
+        { label: 'Funds', value: 'Subscription fee placeholder', note: 'No contract price.' },
+        { label: 'Stocks', value: 'Trading fee placeholder', note: 'No execution fee.' },
+        { label: 'Custody', value: 'Custody fee placeholder', note: 'No custody contract.' },
+        { label: 'Trading', value: 'Order fee placeholder', note: 'No real order route.' },
+      ],
+      secondaryPanelEyebrow: 'Pricing controls',
+      secondaryPanelTitle: 'No real pricing',
+      rows: [
+        { title: 'Pricing contract', detail: 'No real customer pricing contract exists.', status: 'Blocked' },
+        { title: 'Market data', detail: 'No real market data feed is loaded.', status: 'Blocked' },
+        { title: 'Fee rows', detail: 'Fees are placeholders for UI structure.', status: 'Simulated' },
+      ],
+      summaryTitle: 'Price summary',
+      summaryItems: [
+        { label: 'Fee table', value: 'Placeholder' },
+        { label: 'Market data', value: 'None' },
+        { label: 'Real contract', value: 'None' },
+      ],
+      actionLabel: 'Download price list simulation',
+      actionNote: 'No real pricing document is generated.',
+      riskTitle: 'Pricing notice',
+      riskNotice:
+        'Prices, fees, and market data shown here are placeholders and not customer terms.',
+      safetyTitle: 'Pricing boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    marketNews: {
+      eyebrow: 'News and analysis',
+      title: 'Market news',
+      subtitle:
+        'Simulated market news page with market update cards, macro note, digital asset market risk note, and no-advice disclaimer.',
+      badge: 'News concept',
+      primaryPanelEyebrow: 'Market update cards',
+      primaryPanelTitle: 'Simulated updates',
+      items: [
+        { label: 'Market update', value: 'European markets mixed', note: 'Fictional headline.' },
+        { label: 'Macro note', value: 'Inflation data watched by investors', note: 'General placeholder.' },
+        { label: 'Digital asset market risk', value: 'Volatility remains high', note: 'Risk note, not advice.' },
+      ],
+      secondaryPanelEyebrow: 'News controls',
+      secondaryPanelTitle: 'Information boundary',
+      rows: [
+        { title: 'No investment advice', detail: 'Updates are fictional and informational.', status: 'Notice' },
+        { title: 'No recommendation', detail: 'No instrument is recommended.', status: 'Notice' },
+        { title: 'No market feed', detail: 'No real news or market data API is connected.', status: 'Blocked' },
+      ],
+      summaryTitle: 'News summary',
+      summaryItems: [
+        { label: 'News cards', value: 'Simulated' },
+        { label: 'Advice', value: 'None' },
+        { label: 'Market feed', value: 'None' },
+      ],
+      actionLabel: 'Refresh news simulation',
+      actionNote: 'No real news feed or market data source is requested.',
+      riskTitle: 'No advice disclaimer',
+      riskNotice:
+        'Market news can influence decisions, but this page provides no investment advice or recommendation.',
+      safetyTitle: 'News boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    research: {
+      eyebrow: 'News and analysis',
+      title: 'Research',
+      subtitle:
+        'Simulated research page with categories, analyst note placeholder, risk analysis placeholder, and digital asset research boundary.',
+      badge: 'Research concept',
+      primaryPanelEyebrow: 'Research categories',
+      primaryPanelTitle: 'Research library',
+      items: [
+        { label: 'Funds research', value: 'Profile placeholder', note: 'No recommendation.' },
+        { label: 'Equity research', value: 'Analyst note placeholder', note: 'No analyst opinion.' },
+        { label: 'Risk analysis', value: 'Scenario placeholder', note: 'No suitability assessment.' },
+        { label: 'Digital asset research boundary', value: 'Separate risk category', note: 'No crypto recommendation.' },
+      ],
+      secondaryPanelEyebrow: 'Research controls',
+      secondaryPanelTitle: 'Advice boundary',
+      rows: [
+        { title: 'Analyst note placeholder', detail: 'Text is static and not analyst research.', status: 'Simulated' },
+        { title: 'Risk analysis placeholder', detail: 'Risk analysis is educational only.', status: 'Notice' },
+        { title: 'Investment advice', detail: 'No advice is provided.', status: 'Blocked' },
+      ],
+      summaryTitle: 'Research summary',
+      summaryItems: [
+        { label: 'Categories', value: '4 simulated' },
+        { label: 'Advice', value: 'None' },
+        { label: 'Recommendations', value: 'None' },
+      ],
+      actionLabel: 'Open research simulation',
+      actionNote: 'No research subscription or advice workflow is opened.',
+      riskTitle: 'Research boundary',
+      riskNotice:
+        'Research placeholders are not investment recommendations, advice, or real analyst publications.',
+      safetyTitle: 'Research boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    investmentFaq: {
+      eyebrow: 'Help with investing',
+      title: 'Investment FAQ',
+      subtitle:
+        'Investment FAQ covering how investing works, risk of loss, custody accounts, trading hours, and digital asset separation from deposits.',
+      badge: 'FAQ',
+      primaryPanelEyebrow: 'Common investment questions',
+      primaryPanelTitle: 'Investment guidance',
+      items: [
+        { label: 'How investing works', value: 'Investing involves risk and possible loss.', note: 'General information only.' },
+        { label: 'Custody accounts', value: 'Custody account concept', note: 'No custody execution.' },
+        { label: 'Trading hours', value: 'Market hours placeholder', note: 'No real market status.' },
+        { label: 'Digital assets', value: 'Separate from deposits', note: 'No deposit protection for digital assets.' },
+      ],
+      secondaryPanelEyebrow: 'FAQ topics',
+      secondaryPanelTitle: 'Information topics',
+      rows: [
+        { title: 'Risk of loss', detail: 'Investments can lose value.', status: 'Risk notice' },
+        { title: 'Trading hours', detail: 'Trading hours shown here are not live.', status: 'Information' },
+        { title: 'Digital asset separation', detail: 'Digital assets are separate from deposits.', status: 'Risk notice' },
+      ],
+      summaryTitle: 'FAQ summary',
+      summaryItems: [
+        { label: 'Advice', value: 'None' },
+        { label: 'Trading', value: 'None' },
+        { label: 'Digital assets', value: 'Separate from deposits' },
+      ],
+      actionLabel: 'Review risk information',
+      actionNote: 'This is an informational prototype page.',
+      riskTitle: 'No investment advice',
+      riskNotice:
+        'This FAQ is informational and does not provide investment advice, tax advice, or recommendations.',
+      safetyTitle: 'FAQ boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+    riskInformation: {
+      eyebrow: 'Help with investing',
+      title: 'Risk information',
+      subtitle:
+        'Investment risk information covering market risk, liquidity risk, custody risk, digital asset risk, volatility, and deposit protection boundaries.',
+      badge: 'Risk information',
+      primaryPanelEyebrow: 'Risk categories',
+      primaryPanelTitle: 'Investment risks',
+      items: [
+        { label: 'Market risk', value: 'Prices can rise or fall', note: 'Loss is possible.' },
+        { label: 'Liquidity risk', value: 'Selling may be delayed or costly', note: 'General risk statement.' },
+        { label: 'Custody risk', value: 'Custody depends on operational controls', note: 'No real custody service.' },
+        { label: 'Digital asset risk', value: 'High volatility and no deposit protection', note: 'Separate from deposits.' },
+      ],
+      secondaryPanelEyebrow: 'Risk notices',
+      secondaryPanelTitle: 'No advice controls',
+      rows: [
+        { title: 'Volatility', detail: 'Investment and digital asset values can move sharply.', status: 'High risk' },
+        { title: 'No deposit protection for digital assets', detail: 'Digital assets are not bank deposits.', status: 'Risk notice' },
+        { title: 'No investment advice', detail: 'This page does not recommend any product or action.', status: 'Notice' },
+      ],
+      summaryTitle: 'Risk summary',
+      summaryItems: [
+        { label: 'Market risk', value: 'Present' },
+        { label: 'Liquidity risk', value: 'Present' },
+        { label: 'Advice', value: 'None' },
+      ],
+      actionLabel: 'Acknowledge simulation',
+      actionNote: 'No acknowledgement is recorded in a real system.',
+      riskTitle: 'Risk information',
+      riskNotice:
+        'Investing involves risk of loss. Digital assets are volatile and are not protected as bank deposits.',
+      safetyTitle: 'Risk boundary',
+      safetyNotice: investmentBoundaryEn,
+    },
+  },
+}
+
+const investmentDemoEs: InvestmentDemoTranslations = {
+  common: {
+    reviewSummary: 'Resumen de revisión',
+    simulatedAction: 'Acción simulada',
+    localPrototype: 'Prototipo local determinístico',
+    noRealInvestmentExecution: 'Sin ejecución real de operaciones',
+  },
+  pages: {
+    overview: {
+      eyebrow: 'Inversiones',
+      title: 'Resumen de inversiones',
+      subtitle:
+        'Resumen simulado de inversiones con cartera, asignación de activos, estado de cuenta, actividad reciente y aviso de riesgo.',
+      badge: 'Concepto de cartera',
+      primaryPanelEyebrow: 'Resumen de cartera',
+      primaryPanelTitle: 'Cartera de inversión',
+      items: [
+        { label: 'Valor de cartera', value: '24.680,00 EUR', note: 'Valor demo estático, no datos de cartera.' },
+        { label: 'Asignación de activos', value: 'Fondos 60% · Acciones 30% · Efectivo 10%', note: 'Marcador de asignación solamente.' },
+        { label: 'Estado de cuenta de inversión', value: 'Concepto activo', note: 'Sin conexión a cuenta real.' },
+      ],
+      secondaryPanelEyebrow: 'Actividad simulada reciente',
+      secondaryPanelTitle: 'Actividad y controles',
+      rows: [
+        { title: 'Ahorro mensual en fondo preparado', detail: 'Fila visual de actividad, sin suscripción.', status: 'Simulado' },
+        { title: 'Recordatorio de revisión de cartera', detail: 'Recordatorio de riesgo solo para demostración.', status: 'Aviso' },
+        { title: 'Límite de activos digitales confirmado', detail: 'Activos digitales separados de depósitos y productos de inversión.', status: 'Aviso de riesgo' },
+      ],
+      summaryTitle: 'Resumen general',
+      summaryItems: [
+        { label: 'Datos de cartera', value: 'Simulados' },
+        { label: 'Asesoría de inversión', value: 'Ninguna' },
+        { label: 'Ejecución', value: 'Ninguna' },
+      ],
+      actionLabel: 'Actualizar simulación',
+      actionNote: 'No se solicita ningún dato real de cartera o mercado.',
+      riskTitle: 'Aviso de riesgo',
+      riskNotice:
+        'Las inversiones pueden perder valor. Esta página no proporciona asesoría, recomendaciones ni información real de cartera.',
+      safetyTitle: 'Límite de inversión',
+      safetyNotice: investmentBoundaryEs,
+    },
+    funds: {
+      eyebrow: 'Inversiones',
+      title: 'Fondos',
+      subtitle:
+        'Página simulada de fondos con lista de fondos, nivel de riesgo, opción visual de ahorro mensual y marcadores de sostenibilidad/perfil.',
+      badge: 'Concepto de fondos',
+      primaryPanelEyebrow: 'Lista de fondos',
+      primaryPanelTitle: 'Conceptos de fondos disponibles',
+      items: [
+        { label: 'Aurora Nordic Balanced Fund', value: 'Nivel de riesgo 3/7', note: 'Concepto de fondo, no recomendación.' },
+        { label: 'Aurora Global Index Fund', value: 'Nivel de riesgo 4/7', note: 'Fila estática de fondo.' },
+        { label: 'Opción de ahorro mensual', value: 'Importe visual 100,00 EUR', note: 'No se crea ninguna orden de ahorro mensual.' },
+        { label: 'Sostenibilidad/perfil', value: 'Perfil como marcador', note: 'No se realiza evaluación de idoneidad.' },
+      ],
+      secondaryPanelEyebrow: 'Controles de fondos',
+      secondaryPanelTitle: 'Límite de suscripción',
+      rows: [
+        { title: 'Nivel de riesgo visible', detail: 'Las etiquetas de riesgo son marcadores educativos estáticos.', status: 'Aviso' },
+        { title: 'Ahorro mensual visual', detail: 'El ahorro mensual se muestra pero no se activa.', status: 'Simulado' },
+        { title: 'Suscripción de fondo', detail: 'No se envía ninguna suscripción real de fondo.', status: 'Bloqueado' },
+      ],
+      summaryTitle: 'Resumen de fondos',
+      summaryItems: [
+        { label: 'Fondos', value: '2 simulados' },
+        { label: 'Asesoría', value: 'Ninguna' },
+        { label: 'Suscripción', value: 'Ninguna' },
+      ],
+      actionLabel: 'Simular suscripción',
+      actionNote: 'El botón está deshabilitado porque no se envía ninguna suscripción real.',
+      riskTitle: 'Aviso de riesgo de fondos',
+      riskNotice:
+        'El valor de los fondos puede subir o bajar. Este prototipo no evalúa idoneidad ni recomienda fondos.',
+      safetyTitle: 'Límite de fondos',
+      safetyNotice: investmentBoundaryEs,
+    },
+    stocks: {
+      eyebrow: 'Inversiones',
+      title: 'Acciones',
+      subtitle:
+        'Página simulada de acciones con lista de seguimiento, estado de mercado, precios estáticos y botones de compra/venta deshabilitados.',
+      badge: 'Concepto de seguimiento',
+      primaryPanelEyebrow: 'Lista de seguimiento',
+      primaryPanelTitle: 'Filas de precio simuladas',
+      items: [
+        { label: 'Aurora Industrial Oyj', value: '42,10 EUR', note: 'Precio simulado estático.' },
+        { label: 'Nordic Utilities Plc', value: '18,45 EUR', note: 'Precio simulado estático.' },
+        { label: 'Estado de mercado', value: 'Concepto abierto', note: 'Sin feed real de estado de mercado.' },
+      ],
+      secondaryPanelEyebrow: 'Controles de trading',
+      secondaryPanelTitle: 'Acciones de operación deshabilitadas',
+      rows: [
+        { title: 'Botón comprar', detail: 'Se muestra solo como simulación.', status: 'Deshabilitado' },
+        { title: 'Botón vender', detail: 'Se muestra solo como simulación.', status: 'Deshabilitado' },
+        { title: 'Precios de mercado', detail: 'No se cargan datos reales de mercado.', status: 'Simulado' },
+      ],
+      summaryTitle: 'Resumen de acciones',
+      summaryItems: [
+        { label: 'Lista de seguimiento', value: '2 instrumentos' },
+        { label: 'Datos de mercado', value: 'Estáticos' },
+        { label: 'Trading', value: 'Ninguno' },
+      ],
+      actionLabel: 'Abrir simulación de operación',
+      actionNote: 'No se puede colocar ninguna orden real de compra o venta.',
+      riskTitle: 'Aviso de riesgo de mercado',
+      riskNotice:
+        'Los precios de acciones pueden fluctuar y causar pérdidas. Las filas estáticas no son precios reales de mercado.',
+      safetyTitle: 'Límite de trading',
+      safetyNotice: investmentBoundaryEs,
+    },
+    accounts: {
+      eyebrow: 'Inversiones',
+      title: 'Cuentas de inversión',
+      subtitle:
+        'Cuentas de inversión simuladas con cuenta de inversión, cuenta de custodia, marcador de tipo fiscal/cuenta y estado.',
+      badge: 'Concepto de cuenta',
+      primaryPanelEyebrow: 'Cuenta de inversión',
+      primaryPanelTitle: 'Estructura de cuenta',
+      items: [
+        { label: 'Cuenta de inversión', value: 'Aurora Investment Account', note: 'Concepto estático de cuenta.' },
+        { label: 'Cuenta de custodia', value: 'Concepto de custodia de valores', note: 'Sin ejecución de custodia.' },
+        { label: 'Tipo fiscal/cuenta', value: 'Tipo de cuenta como marcador', note: 'Sin asesoría fiscal.' },
+      ],
+      secondaryPanelEyebrow: 'Estado de cuenta',
+      secondaryPanelTitle: 'Límite de apertura',
+      rows: [
+        { title: 'Estado de cuenta', detail: 'Cuenta mostrada solo como concepto activo.', status: 'Simulado' },
+        { title: 'Flujo de apertura', detail: 'No existe apertura real de cuenta de inversión.', status: 'Bloqueado' },
+        { title: 'Datos de cliente', detail: 'No se usan datos reales de clientes.', status: 'Sin datos reales' },
+      ],
+      summaryTitle: 'Resumen de cuenta',
+      summaryItems: [
+        { label: 'Cuenta de inversión', value: 'Simulada' },
+        { label: 'Cuenta de custodia', value: 'Simulada' },
+        { label: 'Apertura real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Simular apertura de cuenta',
+      actionNote: 'No se abre ninguna cuenta real de inversión.',
+      riskTitle: 'Aviso de riesgo de cuenta',
+      riskNotice:
+        'Las cuentas de inversión pueden implicar riesgos de mercado y custodia. Esta página es solo informativa.',
+      safetyTitle: 'Límite de cuenta',
+      safetyNotice: investmentBoundaryEs,
+    },
+    trading: {
+      eyebrow: 'Trading y custodia',
+      title: 'Trading',
+      subtitle:
+        'Página simulada de trading con ticket de orden visual, búsqueda de instrumento, tipo de orden, coste estimado y comprobación previa de cumplimiento/riesgo.',
+      badge: 'Concepto de orden',
+      primaryPanelEyebrow: 'Ticket de orden',
+      primaryPanelTitle: 'Simulación de operación',
+      items: [
+        { label: 'Búsqueda de instrumento', value: 'Aurora Industrial Oyj', note: 'Búsqueda como marcador.' },
+        { label: 'Tipo de orden', value: 'Concepto de orden limitada', note: 'No se envía ninguna orden.' },
+        { label: 'Coste estimado', value: '421,00 EUR', note: 'Estimación estática, no cotización.' },
+      ],
+      secondaryPanelEyebrow: 'Comprobación previa',
+      secondaryPanelTitle: 'Controles de cumplimiento y riesgo',
+      rows: [
+        { title: 'Comprobación de cumplimiento', detail: 'La comprobación se representa como estado UI determinístico.', status: 'Requerido' },
+        { title: 'Reconocimiento de riesgo', detail: 'Un aviso de riesgo sería requerido antes de una orden real.', status: 'Requerido' },
+        { title: 'Ejecución de orden', detail: 'El envío de órdenes está deshabilitado.', status: 'Bloqueado' },
+      ],
+      summaryTitle: 'Resumen de orden',
+      summaryItems: [
+        { label: 'Instrumento', value: 'Aurora Industrial Oyj' },
+        { label: 'Tipo de orden', value: 'Concepto limitada' },
+        { label: 'Orden real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Enviar orden simulada',
+      actionNote: 'El botón está deshabilitado porque no se produce ejecución real de órdenes.',
+      riskTitle: 'Aviso de riesgo de trading',
+      riskNotice:
+        'El trading puede causar pérdidas. Este ticket no es recomendación, cotización ni ruta de ejecución.',
+      safetyTitle: 'Límite de orden',
+      safetyNotice: investmentBoundaryEs,
+    },
+    custodyAccounts: {
+      eyebrow: 'Trading y custodia',
+      title: 'Cuentas de custodia',
+      subtitle:
+        'Página simulada de cuentas de custodia con cuenta de custodia de valores, límite de custodia de activos digitales, estado y marcador de reconciliación.',
+      badge: 'Concepto de custodia',
+      primaryPanelEyebrow: 'Cuentas de custodia',
+      primaryPanelTitle: 'Estructura de custodia',
+      items: [
+        { label: 'Cuenta de custodia de valores', value: 'Aurora Securities Custody', note: 'Concepto estático de custodia.' },
+        { label: 'Límite de custodia de activos digitales', value: 'Separada de custodia de valores', note: 'Sin integración real con custodios.' },
+        { label: 'Estado de cuenta', value: 'Concepto activo', note: 'Sin servicio real de custodia.' },
+      ],
+      secondaryPanelEyebrow: 'Auditoría y reconciliación',
+      secondaryPanelTitle: 'Marcadores de control',
+      rows: [
+        { title: 'Marcador de reconciliación', detail: 'La evidencia de reconciliación es solo visual.', status: 'Simulado' },
+        { title: 'Marcador de auditoría', detail: 'Las filas de auditoría son texto determinístico.', status: 'Listo' },
+        { title: 'Ejecución de custodia', detail: 'No se ejecuta ninguna operación real de custodia.', status: 'Bloqueado' },
+      ],
+      summaryTitle: 'Resumen de custodia',
+      summaryItems: [
+        { label: 'Custodia de valores', value: 'Simulada' },
+        { label: 'Custodia de activos digitales', value: 'Límite separado' },
+        { label: 'Ejecución real', value: 'Ninguna' },
+      ],
+      actionLabel: 'Revisar simulación de custodia',
+      actionNote: 'No se ejecuta ningún servicio de custodia ni proceso de reconciliación.',
+      riskTitle: 'Aviso de riesgo de custodia',
+      riskNotice:
+        'Los servicios de custodia implican riesgos operativos y legales. Esta página no representa una integración real con custodios.',
+      safetyTitle: 'Límite de custodia',
+      safetyNotice: investmentBoundaryEs,
+    },
+    prices: {
+      eyebrow: 'Trading y custodia',
+      title: 'Precios',
+      subtitle:
+        'Página simulada de precios con marcadores de comisiones de fondos, acciones, custodia y trading, sin contrato real de precios ni datos de mercado.',
+      badge: 'Concepto de precios',
+      primaryPanelEyebrow: 'Tabla de precios',
+      primaryPanelTitle: 'Marcadores indicativos',
+      items: [
+        { label: 'Fondos', value: 'Marcador de comisión de suscripción', note: 'Sin precio contractual.' },
+        { label: 'Acciones', value: 'Marcador de comisión de trading', note: 'Sin comisión de ejecución.' },
+        { label: 'Custodia', value: 'Marcador de comisión de custodia', note: 'Sin contrato de custodia.' },
+        { label: 'Trading', value: 'Marcador de comisión de orden', note: 'Sin ruta real de orden.' },
+      ],
+      secondaryPanelEyebrow: 'Controles de precios',
+      secondaryPanelTitle: 'Sin precios reales',
+      rows: [
+        { title: 'Contrato de precios', detail: 'No existe contrato real de precios para cliente.', status: 'Bloqueado' },
+        { title: 'Datos de mercado', detail: 'No se carga ningún feed real de datos de mercado.', status: 'Bloqueado' },
+        { title: 'Filas de comisiones', detail: 'Las comisiones son marcadores de estructura UI.', status: 'Simulado' },
+      ],
+      summaryTitle: 'Resumen de precios',
+      summaryItems: [
+        { label: 'Tabla de comisiones', value: 'Marcador' },
+        { label: 'Datos de mercado', value: 'Ninguno' },
+        { label: 'Contrato real', value: 'Ninguno' },
+      ],
+      actionLabel: 'Descargar lista simulada',
+      actionNote: 'No se genera ningún documento real de precios.',
+      riskTitle: 'Aviso de precios',
+      riskNotice:
+        'Los precios, comisiones y datos de mercado mostrados son marcadores y no condiciones para clientes.',
+      safetyTitle: 'Límite de precios',
+      safetyNotice: investmentBoundaryEs,
+    },
+    marketNews: {
+      eyebrow: 'Noticias y análisis',
+      title: 'Noticias de mercado',
+      subtitle:
+        'Página simulada de noticias de mercado con tarjetas de actualización, nota macro, aviso de riesgo de activos digitales y descargo de no asesoría.',
+      badge: 'Concepto de noticias',
+      primaryPanelEyebrow: 'Tarjetas de mercado',
+      primaryPanelTitle: 'Actualizaciones simuladas',
+      items: [
+        { label: 'Actualización de mercado', value: 'Mercados europeos mixtos', note: 'Titular ficticio.' },
+        { label: 'Nota macro', value: 'Datos de inflación observados por inversores', note: 'Marcador general.' },
+        { label: 'Riesgo de mercado de activos digitales', value: 'La volatilidad sigue elevada', note: 'Aviso de riesgo, no asesoría.' },
+      ],
+      secondaryPanelEyebrow: 'Controles de noticias',
+      secondaryPanelTitle: 'Límite informativo',
+      rows: [
+        { title: 'Sin asesoría de inversión', detail: 'Las actualizaciones son ficticias e informativas.', status: 'Aviso' },
+        { title: 'Sin recomendación', detail: 'No se recomienda ningún instrumento.', status: 'Aviso' },
+        { title: 'Sin feed de mercado', detail: 'No hay API real de noticias o mercado conectada.', status: 'Bloqueado' },
+      ],
+      summaryTitle: 'Resumen de noticias',
+      summaryItems: [
+        { label: 'Noticias', value: 'Simuladas' },
+        { label: 'Asesoría', value: 'Ninguna' },
+        { label: 'Feed de mercado', value: 'Ninguno' },
+      ],
+      actionLabel: 'Actualizar noticias simuladas',
+      actionNote: 'No se solicita ningún feed real de noticias o mercado.',
+      riskTitle: 'Descargo de no asesoría',
+      riskNotice:
+        'Las noticias de mercado pueden influir en decisiones, pero esta página no ofrece asesoría ni recomendación de inversión.',
+      safetyTitle: 'Límite de noticias',
+      safetyNotice: investmentBoundaryEs,
+    },
+    research: {
+      eyebrow: 'Noticias y análisis',
+      title: 'Investigación',
+      subtitle:
+        'Página simulada de investigación con categorías, marcador de nota de analista, análisis de riesgo y límite de investigación de activos digitales.',
+      badge: 'Concepto de investigación',
+      primaryPanelEyebrow: 'Categorías de investigación',
+      primaryPanelTitle: 'Biblioteca de investigación',
+      items: [
+        { label: 'Investigación de fondos', value: 'Perfil como marcador', note: 'Sin recomendación.' },
+        { label: 'Investigación de acciones', value: 'Nota de analista como marcador', note: 'Sin opinión de analista.' },
+        { label: 'Análisis de riesgo', value: 'Escenario como marcador', note: 'Sin evaluación de idoneidad.' },
+        { label: 'Límite de investigación de activos digitales', value: 'Categoría de riesgo separada', note: 'Sin recomendación cripto.' },
+      ],
+      secondaryPanelEyebrow: 'Controles de investigación',
+      secondaryPanelTitle: 'Límite de asesoría',
+      rows: [
+        { title: 'Nota de analista como marcador', detail: 'El texto es estático y no investigación de analista.', status: 'Simulado' },
+        { title: 'Análisis de riesgo como marcador', detail: 'El análisis de riesgo es solo educativo.', status: 'Aviso' },
+        { title: 'Asesoría de inversión', detail: 'No se proporciona asesoría.', status: 'Bloqueado' },
+      ],
+      summaryTitle: 'Resumen de investigación',
+      summaryItems: [
+        { label: 'Categorías', value: '4 simuladas' },
+        { label: 'Asesoría', value: 'Ninguna' },
+        { label: 'Recomendaciones', value: 'Ninguna' },
+      ],
+      actionLabel: 'Abrir investigación simulada',
+      actionNote: 'No se abre ninguna suscripción de investigación ni flujo de asesoría.',
+      riskTitle: 'Límite de investigación',
+      riskNotice:
+        'Los marcadores de investigación no son recomendaciones, asesoría ni publicaciones reales de analistas.',
+      safetyTitle: 'Límite de investigación',
+      safetyNotice: investmentBoundaryEs,
+    },
+    investmentFaq: {
+      eyebrow: 'Ayuda con inversiones',
+      title: 'Preguntas frecuentes de inversión',
+      subtitle:
+        'FAQ de inversión sobre funcionamiento, riesgo de pérdida, cuentas de custodia, horarios de trading y separación de activos digitales frente a depósitos.',
+      badge: 'FAQ',
+      primaryPanelEyebrow: 'Preguntas comunes de inversión',
+      primaryPanelTitle: 'Orientación de inversión',
+      items: [
+        { label: 'Cómo funciona invertir', value: 'Invertir implica riesgo y posible pérdida.', note: 'Información general solamente.' },
+        { label: 'Cuentas de custodia', value: 'Concepto de cuenta de custodia', note: 'Sin ejecución de custodia.' },
+        { label: 'Horarios de trading', value: 'Horario de mercado como marcador', note: 'Sin estado real de mercado.' },
+        { label: 'Activos digitales', value: 'Separados de depósitos', note: 'Sin protección de depósito para activos digitales.' },
+      ],
+      secondaryPanelEyebrow: 'Temas de FAQ',
+      secondaryPanelTitle: 'Temas informativos',
+      rows: [
+        { title: 'Riesgo de pérdida', detail: 'Las inversiones pueden perder valor.', status: 'Aviso de riesgo' },
+        { title: 'Horarios de trading', detail: 'Los horarios mostrados no son en vivo.', status: 'Información' },
+        { title: 'Separación de activos digitales', detail: 'Los activos digitales están separados de depósitos.', status: 'Aviso de riesgo' },
+      ],
+      summaryTitle: 'Resumen de FAQ',
+      summaryItems: [
+        { label: 'Asesoría', value: 'Ninguna' },
+        { label: 'Trading', value: 'Ninguno' },
+        { label: 'Activos digitales', value: 'Separados de depósitos' },
+      ],
+      actionLabel: 'Revisar información de riesgo',
+      actionNote: 'Esta es una página informativa del prototipo.',
+      riskTitle: 'Sin asesoría de inversión',
+      riskNotice:
+        'Esta FAQ es informativa y no ofrece asesoría de inversión, asesoría fiscal ni recomendaciones.',
+      safetyTitle: 'Límite de FAQ',
+      safetyNotice: investmentBoundaryEs,
+    },
+    riskInformation: {
+      eyebrow: 'Ayuda con inversiones',
+      title: 'Información de riesgo',
+      subtitle:
+        'Información de riesgo de inversión sobre riesgo de mercado, riesgo de liquidez, riesgo de custodia, riesgo de activos digitales, volatilidad y protección de depósitos.',
+      badge: 'Información de riesgo',
+      primaryPanelEyebrow: 'Categorías de riesgo',
+      primaryPanelTitle: 'Riesgos de inversión',
+      items: [
+        { label: 'Riesgo de mercado', value: 'Los precios pueden subir o bajar', note: 'La pérdida es posible.' },
+        { label: 'Riesgo de liquidez', value: 'Vender puede demorarse o tener coste', note: 'Declaración general de riesgo.' },
+        { label: 'Riesgo de custodia', value: 'La custodia depende de controles operativos', note: 'Sin servicio real de custodia.' },
+        { label: 'Riesgo de activos digitales', value: 'Alta volatilidad y sin protección de depósitos', note: 'Separados de depósitos.' },
+      ],
+      secondaryPanelEyebrow: 'Avisos de riesgo',
+      secondaryPanelTitle: 'Controles de no asesoría',
+      rows: [
+        { title: 'Volatilidad', detail: 'Los valores de inversiones y activos digitales pueden moverse bruscamente.', status: 'Riesgo alto' },
+        { title: 'Sin protección de depósitos para activos digitales', detail: 'Los activos digitales no son depósitos bancarios.', status: 'Aviso de riesgo' },
+        { title: 'Sin asesoría de inversión', detail: 'Esta página no recomienda productos ni acciones.', status: 'Aviso' },
+      ],
+      summaryTitle: 'Resumen de riesgo',
+      summaryItems: [
+        { label: 'Riesgo de mercado', value: 'Presente' },
+        { label: 'Riesgo de liquidez', value: 'Presente' },
+        { label: 'Asesoría', value: 'Ninguna' },
+      ],
+      actionLabel: 'Reconocer simulación',
+      actionNote: 'No se registra ningún reconocimiento en un sistema real.',
+      riskTitle: 'Información de riesgo',
+      riskNotice:
+        'Invertir implica riesgo de pérdida. Los activos digitales son volátiles y no están protegidos como depósitos bancarios.',
+      safetyTitle: 'Límite de riesgo',
+      safetyNotice: investmentBoundaryEs,
+    },
+  },
+}
+
 export const translations = {
   en: {
     common: {
@@ -38,7 +4688,14 @@ export const translations = {
       correlationId: 'Correlation ID',
       traceabilityRecord: 'Traceability record',
       sensitiveActionRecorded: 'Sensitive action recorded',
+      safetyBoundaryText:
+        'Local deterministic prototype only. No real assets, no real custody, no real bank integration, no real custodian integration, no real blockchain execution, no real cloud deployment, and no private keys or secrets.',
+      humanApprovalIntegrityPrinciple:
+        'Human review is not a trust anchor. It is a controlled risk event.',
+      agentGovernancePrinciple:
+        'Every agent must be identifiable, permission-bound, revocable, and auditable.',
     },
+    phrases: enPhrases,
     navigation: {
       home: 'Home',
       payments: 'Payments',
@@ -56,6 +4713,10 @@ export const translations = {
       onlineBankingDemo: 'Online Banking Demo',
       mainNavigation: 'Main navigation',
     },
+    paymentDemo: paymentDemoEn,
+    accountDemo: accountDemoEn,
+    cardDemo: cardDemoEn,
+    investmentDemo: investmentDemoEn,
     bankHome: {
       publicConcept: 'Public banking website concept',
       logIn: 'Log in',
@@ -824,7 +5485,14 @@ export const translations = {
       correlationId: 'ID de correlación',
       traceabilityRecord: 'Registro de trazabilidad',
       sensitiveActionRecorded: 'Acción sensible registrada',
+      safetyBoundaryText:
+        'Prototipo local y determinístico. Sin activos reales, sin custodia real, sin integración bancaria real, sin integración real con custodios, sin ejecución blockchain real, sin despliegue cloud real y sin llaves privadas ni secretos.',
+      humanApprovalIntegrityPrinciple:
+        'La revisión humana no es un ancla de confianza. Es un evento de riesgo controlado.',
+      agentGovernancePrinciple:
+        'Todo agente debe ser identificable, limitado por permisos, revocable y auditable.',
     },
+    phrases: esPhrases,
     navigation: {
       home: 'Inicio',
       payments: 'Pagos',
@@ -842,6 +5510,10 @@ export const translations = {
       onlineBankingDemo: 'Demo de banca en línea',
       mainNavigation: 'Navegación principal',
     },
+    paymentDemo: paymentDemoEs,
+    accountDemo: accountDemoEs,
+    cardDemo: cardDemoEs,
+    investmentDemo: investmentDemoEs,
     bankHome: {
       publicConcept: 'Concepto de sitio bancario público',
       logIn: 'Iniciar sesión',

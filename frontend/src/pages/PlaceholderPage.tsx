@@ -1,5 +1,6 @@
 import { TopBar } from '../components/TopBar'
 import { Panel } from '../components/Panel'
+import { useLanguage } from '../context/LanguageContext'
 
 type PlaceholderPageProps = {
   eyebrow: string
@@ -12,6 +13,10 @@ export function PlaceholderPage({
   title,
   description,
 }: PlaceholderPageProps) {
+  const { t } = useLanguage()
+  const phrases = t.phrases as Record<string, string>
+  const phrase = (value: string) => phrases[value] ?? value
+
   return (
     <div className="bank-shell">
       <TopBar userName="Claudio Demo" />
@@ -19,14 +24,14 @@ export function PlaceholderPage({
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">{eyebrow}</p>
-            <h1>{title}</h1>
-            <p>{description}</p>
+            <p className="eyebrow">{phrase(eyebrow)}</p>
+            <h1>{phrase(title)}</h1>
+            <p>{phrase(description)}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            Demo section
+            {phrase('Demo section')}
           </div>
         </section>
 
@@ -35,27 +40,28 @@ export function PlaceholderPage({
             <Panel>
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Module placeholder</p>
-                  <h2>{title}</h2>
+                  <p className="eyebrow">{phrase('Module placeholder')}</p>
+                  <h2>{phrase(title)}</h2>
                 </div>
-                <span className="module-tag">Coming later</span>
+                <span className="module-tag">{phrase('Coming later')}</span>
               </div>
 
               <p>
-                This section is included to make the online banking prototype
-                feel complete. The main focus of this project remains the
-                bank-integrated Digital Assets module.
+                {phrase(
+                  'This section is included to make the online banking prototype feel complete. The main focus of this project remains the bank-integrated Digital Assets module.',
+                )}
               </p>
             </Panel>
           </div>
 
           <aside className="right-column">
             <Panel>
-              <p className="eyebrow">Prototype note</p>
-              <h2>Scope</h2>
+              <p className="eyebrow">{phrase('Prototype note')}</p>
+              <h2>{phrase('Scope')}</h2>
               <p>
-                This page uses simulated content only. No real bank APIs,
-                payments, cards, loans, or investment services are connected.
+                {phrase(
+                  'This page uses simulated content only. No real bank APIs, payments, cards, loans, or investment services are connected.',
+                )}
               </p>
             </Panel>
           </aside>

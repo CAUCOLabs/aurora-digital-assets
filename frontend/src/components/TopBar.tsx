@@ -32,28 +32,37 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'Payments',
         links: [
-          { label: 'New payment', to: '/payments' },
-          { label: 'Approve payments', to: '/payments' },
-          { label: 'International payment', to: '/payments' },
-          { label: 'Recipients', to: '/payments' },
-          { label: 'Payment limits', to: '/payments' },
+          { label: 'New payment', to: '/payments/new' },
+          { label: 'Approve payments', to: '/payments/approve' },
+          { label: 'International payment', to: '/payments/international' },
+          { label: 'Recipients', to: '/payments/recipients' },
+          { label: 'Payment limits', to: '/payments/limits' },
         ],
       },
       {
         title: 'Digital asset payments',
         links: [
-          { label: 'Digital asset payment', to: '/payments' },
-          { label: 'Supported business recipients', to: '/payments' },
-          { label: 'Payment asset settings', to: '/payments' },
+          { label: 'Digital asset payment', to: '/payments/digital-asset-payment' },
+          {
+            label: 'Supported business recipients',
+            to: '/payments/supported-business-recipients',
+          },
+          { label: 'Payment asset settings', to: '/payments/asset-settings' },
           { label: 'Payment reporting', to: '/reports' },
         ],
       },
       {
         title: 'E-invoices and agreements',
         links: [
-          { label: 'Create e-invoice agreement', to: '/payments' },
-          { label: 'Recurring payment', to: '/payments' },
-          { label: 'View and edit payment agreements', to: '/payments' },
+          {
+            label: 'Create e-invoice agreement',
+            to: '/payments/e-invoice-agreement',
+          },
+          { label: 'Recurring payment', to: '/payments/recurring' },
+          {
+            label: 'View and edit payment agreements',
+            to: '/payments/payment-agreements',
+          },
         ],
       },
       {
@@ -72,21 +81,24 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'Balances and transactions',
         links: [
-          { label: 'Balances', to: '/accounts' },
-          { label: 'Transactions', to: '/accounts' },
+          { label: 'Balances', to: '/accounts/balances' },
+          { label: 'Transactions', to: '/accounts/transactions' },
         ],
       },
       {
         title: 'Open account',
         links: [
-          { label: 'Current account', to: '/accounts' },
-          { label: 'Savings and deposit accounts', to: '/accounts' },
-          { label: 'Account for a child', to: '/accounts' },
+          { label: 'Current account', to: '/accounts/current-account' },
+          {
+            label: 'Savings and deposit accounts',
+            to: '/accounts/savings-deposits',
+          },
+          { label: 'Account for a child', to: '/accounts/child-account' },
         ],
       },
       {
         title: 'Frequently asked',
-        links: [{ label: 'Account FAQ', to: '/accounts' }],
+        links: [{ label: 'Account FAQ', to: '/accounts/faq' }],
       },
       {
         title: 'See also',
@@ -104,23 +116,23 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'Cards',
         links: [
-          { label: 'Card overview', to: '/cards' },
-          { label: 'Apply for a card', to: '/cards' },
-          { label: 'Card settings', to: '/cards' },
-          { label: 'Card limits', to: '/cards' },
+          { label: 'Card overview', to: '/cards/overview' },
+          { label: 'Apply for a card', to: '/cards/apply' },
+          { label: 'Card settings', to: '/cards/settings' },
+          { label: 'Card limits', to: '/cards/limits' },
         ],
       },
       {
         title: 'Currency',
         links: [
-          { label: 'Currency accounts', to: '/cards' },
-          { label: 'Exchange rates', to: '/cards' },
-          { label: 'Travel money', to: '/cards' },
+          { label: 'Currency accounts', to: '/cards/currency-accounts' },
+          { label: 'Exchange rates', to: '/cards/exchange-rates' },
+          { label: 'Travel money', to: '/cards/travel-money' },
         ],
       },
       {
         title: 'Frequently asked',
-        links: [{ label: 'Card FAQ', to: '/cards' }],
+        links: [{ label: 'Card FAQ', to: '/cards/faq' }],
       },
       {
         title: 'See also',
@@ -139,32 +151,32 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'Investments',
         links: [
-          { label: 'Investment overview', to: '/investments' },
-          { label: 'Funds', to: '/investments' },
-          { label: 'Stocks', to: '/investments' },
-          { label: 'Investment accounts', to: '/investments' },
+          { label: 'Investment overview', to: '/investments/overview' },
+          { label: 'Funds', to: '/investments/funds' },
+          { label: 'Stocks', to: '/investments/stocks' },
+          { label: 'Investment accounts', to: '/investments/accounts' },
         ],
       },
       {
         title: 'Trading and custody',
         links: [
-          { label: 'Trading', to: '/investments' },
-          { label: 'Custody accounts', to: '/investments' },
-          { label: 'Prices', to: '/investments' },
+          { label: 'Trading', to: '/investments/trading' },
+          { label: 'Custody accounts', to: '/investments/custody-accounts' },
+          { label: 'Prices', to: '/investments/prices' },
         ],
       },
       {
         title: 'News and analysis',
         links: [
-          { label: 'Market news', to: '/investments' },
-          { label: 'Research', to: '/investments' },
+          { label: 'Market news', to: '/investments/market-news' },
+          { label: 'Research', to: '/investments/research' },
         ],
       },
       {
         title: 'Help with investing',
         links: [
-          { label: 'Investment FAQ', to: '/investments' },
-          { label: 'Risk information', to: '/investments' },
+          { label: 'Investment FAQ', to: '/investments/faq' },
+          { label: 'Risk information', to: '/investments/risk-information' },
         ],
       },
     ],
@@ -254,6 +266,8 @@ export function TopBar({ userName }: TopBarProps) {
   const navigate = useNavigate()
   const { amountsVisible, toggleAmountsVisible } = usePrivacyMode()
   const { t } = useLanguage()
+  const phrases = t.phrases as Record<string, string>
+  const phrase = (value: string) => phrases[value] ?? value
 
   const navigationLabels: Record<string, string> = {
     Home: t.navigation.home,
@@ -286,7 +300,7 @@ export function TopBar({ userName }: TopBarProps) {
       <NavLink
         className="brand"
         to="/dashboard"
-        aria-label="Go to online banking dashboard"
+        aria-label={phrase('Go to online banking dashboard')}
       >
         <div className="brand-mark">A</div>
         <div>
@@ -317,14 +331,14 @@ export function TopBar({ userName }: TopBarProps) {
               </NavLink>
 
               {item.menu ? (
-                <div className="mega-menu" aria-label={`${item.label} menu`}>
+                <div className="mega-menu" aria-label={`${phrase(item.label)} menu`}>
                   {item.menu.map((column) => (
                     <section className="mega-menu-column" key={column.title}>
-                      <h2>{column.title}</h2>
+                      <h2>{phrase(column.title)}</h2>
                       <div className="mega-menu-links">
                         {column.links.map((link) => (
                           <NavLink key={`${column.title}-${link.label}`} to={link.to}>
-                            {link.label}
+                            {phrase(link.label)}
                           </NavLink>
                         ))}
                       </div>

@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import { getSession } from '../services/authApi'
 import { Panel } from './Panel'
+import { useLanguage } from '../context/LanguageContext'
 
 type ProtectedRouteProps = {
   children: ReactNode
@@ -10,6 +11,9 @@ type ProtectedRouteProps = {
 type SessionCheckState = 'checking' | 'authenticated' | 'unauthenticated'
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const { t } = useLanguage()
+  const phrases = t.phrases as Record<string, string>
+  const phrase = (value: string) => phrases[value] ?? value
   const [sessionState, setSessionState] = useState<SessionCheckState>(() =>
     localStorage.getItem('aurora_bank_session_id')
       ? 'checking'
@@ -62,7 +66,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
         <main className="page">
           <Panel>
             <p className="eyebrow">Aurora eBanking</p>
-            <h2>Checking banking session...</h2>
+            <h2>{phrase('Checking banking session...')}</h2>
           </Panel>
         </main>
       </div>

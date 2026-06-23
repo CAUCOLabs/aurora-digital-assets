@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 
 const digitalAssetsItems = [
   { label: 'Overview', to: '/digital-assets' },
@@ -10,8 +11,15 @@ const digitalAssetsItems = [
 ]
 
 export function DigitalAssetsSubnav() {
+  const { t } = useLanguage()
+  const phrases = t.phrases as Record<string, string>
+  const phrase = (value: string) => phrases[value] ?? value
+
   return (
-    <nav className="module-subnav" aria-label="Digital Assets navigation">
+    <nav
+      className="module-subnav"
+      aria-label={phrase('Digital Assets navigation')}
+    >
       {digitalAssetsItems.map((item) => (
         <NavLink
           key={item.label}
@@ -20,7 +28,7 @@ export function DigitalAssetsSubnav() {
             props.isActive ? 'active' : undefined
           }
         >
-          {item.label}
+          {phrase(item.label)}
         </NavLink>
       ))}
     </nav>
