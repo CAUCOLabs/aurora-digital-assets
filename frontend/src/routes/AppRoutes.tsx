@@ -48,6 +48,16 @@ import { MarketNewsPage } from '../pages/MarketNewsPage'
 import { InvestmentResearchPage } from '../pages/InvestmentResearchPage'
 import { InvestmentFAQPage } from '../pages/InvestmentFAQPage'
 import { InvestmentRiskInformationPage } from '../pages/InvestmentRiskInformationPage'
+import { LoansPage } from '../pages/LoansPage'
+import { LoansOverviewPage } from '../pages/LoansOverviewPage'
+import { LoanApplicationPage } from '../pages/LoanApplicationPage'
+import { MortgagePage } from '../pages/MortgagePage'
+import { ConsumerLoanPage } from '../pages/ConsumerLoanPage'
+import { StudentLoanPage } from '../pages/StudentLoanPage'
+import { LoanCalculatorPage } from '../pages/LoanCalculatorPage'
+import { RepaymentPlanPage } from '../pages/RepaymentPlanPage'
+import { LoanDocumentsPage } from '../pages/LoanDocumentsPage'
+import { LoanFAQPage } from '../pages/LoanFAQPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
 import { CryptoAgilityPage } from '../pages/CryptoAgilityPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
@@ -310,11 +320,81 @@ export function AppRoutes() {
       <Route
         path="/loans"
         element={
-          <PlaceholderPage
-            eyebrow="Loans"
-            title="Loans"
-            description="Simulated loans section for the Aurora Bank online banking prototype."
-          />
+          <ProtectedRoute>
+            <LoansPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/overview"
+        element={
+          <ProtectedRoute>
+            <LoansOverviewPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/apply"
+        element={
+          <ProtectedRoute>
+            <LoanApplicationPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/mortgage"
+        element={
+          <ProtectedRoute>
+            <MortgagePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/consumer-loan"
+        element={
+          <ProtectedRoute>
+            <ConsumerLoanPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/student-loan"
+        element={
+          <ProtectedRoute>
+            <StudentLoanPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/loan-calculator"
+        element={
+          <ProtectedRoute>
+            <LoanCalculatorPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/repayment-plan"
+        element={
+          <ProtectedRoute>
+            <RepaymentPlanPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/documents"
+        element={
+          <ProtectedRoute>
+            <LoanDocumentsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/loans/faq"
+        element={
+          <ProtectedRoute>
+            <LoanFAQPage />
+          </ProtectedRoute>
         }
       />
 

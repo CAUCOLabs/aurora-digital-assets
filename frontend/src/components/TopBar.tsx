@@ -143,7 +143,44 @@ const navigationItems: NavigationItem[] = [
       },
     ],
   },
-  { label: 'Loans', to: '/loans' },
+  {
+    label: 'Loans',
+    to: '/loans',
+    menu: [
+      {
+        title: 'Loans',
+        links: [
+          { label: 'Loan overview', to: '/loans/overview' },
+          { label: 'Apply for a loan', to: '/loans/apply' },
+          { label: 'Mortgage', to: '/loans/mortgage' },
+          { label: 'Consumer loan', to: '/loans/consumer-loan' },
+          { label: 'Student loan', to: '/loans/student-loan' },
+        ],
+      },
+      {
+        title: 'Manage loans',
+        links: [
+          { label: 'Loan calculator', to: '/loans/loan-calculator' },
+          { label: 'Repayment plan', to: '/loans/repayment-plan' },
+          { label: 'Loan documents', to: '/loans/documents' },
+        ],
+      },
+      {
+        title: 'Frequently asked',
+        links: [
+          { label: 'Loan FAQ', to: '/loans/faq' },
+          { label: 'Risk information', to: '/investments/risk-information' },
+        ],
+      },
+      {
+        title: 'See also',
+        links: [
+          { label: 'Account statements and bank mail', to: '/reports' },
+          { label: 'Message and notification settings', to: '/online-services' },
+        ],
+      },
+    ],
+  },
   {
     label: 'Investments',
     to: '/investments',

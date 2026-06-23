@@ -18,6 +18,16 @@ const enPhrases = {
   Accounts: 'Accounts',
   'Cards and Currency': 'Cards and Currency',
   Loans: 'Loans',
+  'Loan overview': 'Loan overview',
+  'Apply for a loan': 'Apply for a loan',
+  Mortgage: 'Mortgage',
+  'Consumer loan': 'Consumer loan',
+  'Student loan': 'Student loan',
+  'Manage loans': 'Manage loans',
+  'Loan calculator': 'Loan calculator',
+  'Repayment plan': 'Repayment plan',
+  'Loan documents': 'Loan documents',
+  'Loan FAQ': 'Loan FAQ',
   Investments: 'Investments',
   Insurance: 'Insurance',
   'Digital Assets': 'Digital Assets',
@@ -362,6 +372,16 @@ const esPhrases: Record<keyof typeof enPhrases, string> = {
   Accounts: 'Cuentas',
   'Cards and Currency': 'Tarjetas y moneda',
   Loans: 'Créditos',
+  'Loan overview': 'Resumen de préstamos',
+  'Apply for a loan': 'Solicitar préstamo',
+  Mortgage: 'Préstamo hipotecario',
+  'Consumer loan': 'Crédito de consumo',
+  'Student loan': 'Préstamo estudiantil',
+  'Manage loans': 'Gestionar préstamos',
+  'Loan calculator': 'Calculadora de préstamo',
+  'Repayment plan': 'Plan de pago',
+  'Loan documents': 'Documentos del préstamo',
+  'Loan FAQ': 'Preguntas frecuentes de préstamos',
   Investments: 'Inversiones',
   Insurance: 'Seguros',
   'Digital Assets': 'Activos digitales',
@@ -3843,6 +3863,740 @@ type InvestmentDemoPageTranslation = {
   safetyNotice: string
 }
 
+type LoanDemoPageTranslation = {
+  eyebrow: string
+  title: string
+  subtitle: string
+  badge: string
+  primaryPanelTitle: string
+  primaryPanelEyebrow: string
+  items: { label: string; value: string; note: string }[]
+  secondaryPanelTitle: string
+  secondaryPanelEyebrow: string
+  rows: { title: string; detail: string; status: string }[]
+  summaryTitle: string
+  summaryItems: { label: string; value: string }[]
+  actionLabel: string
+  actionNote: string
+  riskTitle: string
+  riskNotice: string
+  safetyTitle: string
+  safetyNotice: string
+}
+
+type LoanDemoTranslations = {
+  common: {
+    reviewSummary: string
+    simulatedAction: string
+    localPrototype: string
+    noRealLoanOperation: string
+    noRealCreditDecision: string
+  }
+  pages: Record<
+    | 'loans'
+    | 'overview'
+    | 'application'
+    | 'mortgage'
+    | 'consumerLoan'
+    | 'studentLoan'
+    | 'loanCalculator'
+    | 'repaymentPlan'
+    | 'documents'
+    | 'loanFaq',
+    LoanDemoPageTranslation
+  >
+}
+
+const loanBoundaryEn =
+  'Local deterministic prototype only. No real loan, credit decision, application, repayment change, personal data, collateral evaluation, or banking operation is created or executed. Digital assets are not accepted as collateral in this prototype.'
+
+const loanBoundaryEs =
+  'Solo prototipo local determinístico. No se crea ni ejecuta ningún préstamo real, decisión crediticia, solicitud, cambio de pago, dato personal, evaluación de garantía u operación bancaria. Los activos digitales no se aceptan como garantía en este prototipo.'
+
+const loanDemoEn: LoanDemoTranslations = {
+  common: {
+    reviewSummary: 'Review summary',
+    simulatedAction: 'Simulated action',
+    localPrototype: 'Local deterministic prototype',
+    noRealLoanOperation: 'No real loan operation',
+    noRealCreditDecision: 'No real credit decision',
+  },
+  pages: {
+    loans: {
+      eyebrow: 'Loans',
+      title: 'Loans',
+      subtitle:
+        'Banking-style overview of simulated loan services, active loan status, application status, repayment information, and safety boundaries.',
+      badge: 'Loans concept',
+      primaryPanelEyebrow: 'Loan summary',
+      primaryPanelTitle: 'Simulated loan position',
+      items: [
+        { label: 'Total outstanding simulated amount', value: '185,240.00 EUR', note: 'Static demo amount only.' },
+        { label: 'Active simulated loan', value: 'Home loan concept', note: 'No real credit account exists.' },
+        { label: 'Next payment placeholder', value: '15.07.2026', note: 'Repayment date is illustrative.' },
+      ],
+      secondaryPanelEyebrow: 'Available loan services',
+      secondaryPanelTitle: 'Services and status',
+      rows: [
+        { title: 'Loan overview', detail: 'Review simulated home, consumer, and student loan balances.', status: 'Simulated' },
+        { title: 'Application status placeholder', detail: 'No application is active or submitted.', status: 'No real application' },
+        { title: 'Repayment overview', detail: 'Upcoming installment information is static.', status: 'Prototype estimate' },
+      ],
+      summaryTitle: 'Loan summary',
+      summaryItems: [
+        { label: 'Active loans', value: '1 simulated' },
+        { label: 'Application status', value: 'Placeholder' },
+        { label: 'Credit decision', value: 'None' },
+      ],
+      actionLabel: 'Open loan services',
+      actionNote: 'This disabled control represents navigation only. No loan service is executed.',
+      riskTitle: 'Safety note',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Prototype boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    overview: {
+      eyebrow: 'Loans',
+      title: 'Loan overview',
+      subtitle:
+        'Simulated overview of home loan, consumer loan, student loan, repayment status, next payment, and total outstanding amount.',
+      badge: 'Overview concept',
+      primaryPanelEyebrow: 'Outstanding balance',
+      primaryPanelTitle: 'Loan portfolio view',
+      items: [
+        { label: 'Home loan / mortgage', value: '178,500.00 EUR', note: 'Static mortgage balance.' },
+        { label: 'Consumer loan', value: '0.00 EUR', note: 'No active consumer credit in the demo.' },
+        { label: 'Student loan', value: '6,740.00 EUR', note: 'Static student loan balance.' },
+      ],
+      secondaryPanelEyebrow: 'Repayment status',
+      secondaryPanelTitle: 'Status overview',
+      rows: [
+        { title: 'Mortgage installment', detail: 'Next payment placeholder 15.07.2026.', status: 'Scheduled' },
+        { title: 'Student loan installment', detail: 'Repayment plan shown for demonstration.', status: 'Simulated' },
+        { title: 'Total outstanding simulated amount', detail: '185,240.00 EUR across demo loan rows.', status: 'Prototype estimate' },
+      ],
+      summaryTitle: 'Overview summary',
+      summaryItems: [
+        { label: 'Total outstanding', value: '185,240.00 EUR' },
+        { label: 'Next payment', value: '15.07.2026' },
+        { label: 'Repayment status', value: 'Simulated' },
+      ],
+      actionLabel: 'Review overview simulation',
+      actionNote: 'No real balance inquiry or loan account operation is made.',
+      riskTitle: 'No real loan data',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Data boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    application: {
+      eyebrow: 'Loans',
+      title: 'Apply for a loan',
+      subtitle:
+        'Simulated loan application flow for loan type, amount, repayment period, income and expense review, and application status.',
+      badge: 'Application draft',
+      primaryPanelEyebrow: 'Application details',
+      primaryPanelTitle: 'Loan application form',
+      items: [
+        { label: 'Loan type', value: 'Consumer loan concept', note: 'Visual selection only.' },
+        { label: 'Amount', value: '10,000.00 EUR', note: 'Static requested amount.' },
+        { label: 'Repayment period', value: '48 months', note: 'No repayment term is saved.' },
+      ],
+      secondaryPanelEyebrow: 'Income and expense review',
+      secondaryPanelTitle: 'Application review status',
+      rows: [
+        { title: 'Income review placeholder', detail: 'No income data is collected or assessed.', status: 'Not submitted' },
+        { title: 'Expense review placeholder', detail: 'Affordability is not calculated by a real model.', status: 'No credit scoring' },
+        { title: 'Application review status', detail: 'Application remains local and disabled.', status: 'Draft' },
+      ],
+      summaryTitle: 'Application summary',
+      summaryItems: [
+        { label: 'Loan type', value: 'Consumer loan' },
+        { label: 'Submission', value: 'Disabled' },
+        { label: 'Credit decision', value: 'None' },
+      ],
+      actionLabel: 'Submit simulated application',
+      actionNote: 'The submit control is disabled. No real loan application is submitted.',
+      riskTitle: 'No real loan application',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Application boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    mortgage: {
+      eyebrow: 'Loans',
+      title: 'Mortgage',
+      subtitle:
+        'Simulated home loan page with loan overview, collateral placeholder, interest type placeholder, repayment period, and affordability review.',
+      badge: 'Mortgage concept',
+      primaryPanelEyebrow: 'Home loan overview',
+      primaryPanelTitle: 'Mortgage details',
+      items: [
+        { label: 'Home loan overview', value: '178,500.00 EUR', note: 'Static outstanding balance.' },
+        { label: 'Interest type placeholder', value: 'Variable concept', note: 'No real pricing or reference rate.' },
+        { label: 'Repayment period', value: '22 years remaining', note: 'Illustrative term only.' },
+      ],
+      secondaryPanelEyebrow: 'Collateral and affordability',
+      secondaryPanelTitle: 'Review placeholders',
+      rows: [
+        { title: 'Collateral placeholder', detail: 'No property or collateral valuation is performed.', status: 'Placeholder' },
+        { title: 'Affordability review', detail: 'Payment capacity is not assessed by a real model.', status: 'Simulated' },
+        { title: 'Mortgage decision', detail: 'No real mortgage decision is issued.', status: 'No real decision' },
+      ],
+      summaryTitle: 'Mortgage summary',
+      summaryItems: [
+        { label: 'Outstanding balance', value: '178,500.00 EUR' },
+        { label: 'Interest type', value: 'Placeholder' },
+        { label: 'Collateral evaluation', value: 'None' },
+      ],
+      actionLabel: 'Review mortgage simulation',
+      actionNote: 'No mortgage terms, collateral values, or repayment plans are changed.',
+      riskTitle: 'No real mortgage decision',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Mortgage boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    consumerLoan: {
+      eyebrow: 'Loans',
+      title: 'Consumer loan',
+      subtitle:
+        'Simulated consumer loan page with amount, repayment period, monthly installment placeholder, and risk and affordability notice.',
+      badge: 'Credit concept',
+      primaryPanelEyebrow: 'Consumer loan details',
+      primaryPanelTitle: 'Loan amount and term',
+      items: [
+        { label: 'Loan amount', value: '10,000.00 EUR', note: 'Static example amount.' },
+        { label: 'Repayment period', value: '48 months', note: 'Visual repayment period.' },
+        { label: 'Monthly installment placeholder', value: '230.00 EUR', note: 'Estimate only, not an offer.' },
+      ],
+      secondaryPanelEyebrow: 'Risk and affordability notice',
+      secondaryPanelTitle: 'Review controls',
+      rows: [
+        { title: 'Affordability notice', detail: 'No income, expenses, or credit data are processed.', status: 'Required' },
+        { title: 'Risk notice', detail: 'Borrowing may increase financial risk.', status: 'Notice' },
+        { title: 'Credit execution', detail: 'No real consumer credit is granted.', status: 'No real credit' },
+      ],
+      summaryTitle: 'Consumer loan summary',
+      summaryItems: [
+        { label: 'Monthly installment', value: '230.00 EUR' },
+        { label: 'Affordability review', value: 'Placeholder' },
+        { label: 'Credit status', value: 'No real credit' },
+      ],
+      actionLabel: 'Calculate consumer loan simulation',
+      actionNote: 'No real consumer credit application or credit scoring is executed.',
+      riskTitle: 'No real consumer credit',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Consumer credit boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    studentLoan: {
+      eyebrow: 'Loans',
+      title: 'Student loan',
+      subtitle:
+        'Simulated student loan page with balance, guarantee and eligibility placeholder, next installment, and repayment plan.',
+      badge: 'Student loan concept',
+      primaryPanelEyebrow: 'Student loan balance',
+      primaryPanelTitle: 'Balance and installment',
+      items: [
+        { label: 'Student loan balance', value: '6,740.00 EUR', note: 'Static demo balance.' },
+        { label: 'Guarantee / eligibility placeholder', value: 'Not evaluated', note: 'No real guarantee data is used.' },
+        { label: 'Next installment', value: '125.00 EUR', note: 'Illustrative payment only.' },
+      ],
+      secondaryPanelEyebrow: 'Repayment plan',
+      secondaryPanelTitle: 'Plan status',
+      rows: [
+        { title: 'Repayment plan', detail: 'Repayment schedule shown as simulated rows.', status: 'Simulated' },
+        { title: 'Eligibility placeholder', detail: 'No eligibility check is performed.', status: 'Placeholder' },
+        { title: 'Student loan data', detail: 'No real student loan registry data is connected.', status: 'No real data' },
+      ],
+      summaryTitle: 'Student loan summary',
+      summaryItems: [
+        { label: 'Balance', value: '6,740.00 EUR' },
+        { label: 'Next installment', value: '125.00 EUR' },
+        { label: 'Eligibility', value: 'Placeholder' },
+      ],
+      actionLabel: 'Review student loan simulation',
+      actionNote: 'No real student loan data, guarantee, or repayment change is created.',
+      riskTitle: 'No real student loan data',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Student loan boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    loanCalculator: {
+      eyebrow: 'Loans',
+      title: 'Loan calculator',
+      subtitle:
+        'Simulated loan calculator with amount input visual, repayment period visual, interest placeholder, and estimated monthly payment.',
+      badge: 'Calculator concept',
+      primaryPanelEyebrow: 'Calculator inputs',
+      primaryPanelTitle: 'Loan estimate',
+      items: [
+        { label: 'Amount input visual', value: '25,000.00 EUR', note: 'Static input display.' },
+        { label: 'Repayment period visual', value: '60 months', note: 'Static term display.' },
+        { label: 'Interest placeholder', value: '4.50%', note: 'Not a real rate or offer.' },
+      ],
+      secondaryPanelEyebrow: 'Estimated monthly payment',
+      secondaryPanelTitle: 'Simulated result',
+      rows: [
+        { title: 'Estimated monthly payment', detail: '466.00 EUR, simulated and rounded.', status: 'Prototype estimate' },
+        { title: 'Financial advice', detail: 'This calculator does not provide financial advice.', status: 'No advice' },
+        { title: 'Credit offer', detail: 'No binding rate, offer, or decision is produced.', status: 'No offer' },
+      ],
+      summaryTitle: 'Calculator summary',
+      summaryItems: [
+        { label: 'Amount', value: '25,000.00 EUR' },
+        { label: 'Period', value: '60 months' },
+        { label: 'Monthly estimate', value: '466.00 EUR' },
+      ],
+      actionLabel: 'Run simulated calculation',
+      actionNote: 'No real loan calculation, affordability assessment, or advice is executed.',
+      riskTitle: 'No financial advice',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Calculator boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    repaymentPlan: {
+      eyebrow: 'Loans',
+      title: 'Repayment plan',
+      subtitle:
+        'Simulated repayment plan showing upcoming installments, payment date, principal, interest, and remaining balance.',
+      badge: 'Repayment concept',
+      primaryPanelEyebrow: 'Upcoming installments',
+      primaryPanelTitle: 'Repayment schedule',
+      items: [
+        { label: 'Payment date', value: '15.07.2026', note: 'Static upcoming installment.' },
+        { label: 'Principal', value: '520.00 EUR', note: 'Illustrative amount.' },
+        { label: 'Interest', value: '185.00 EUR', note: 'Illustrative interest amount.' },
+      ],
+      secondaryPanelEyebrow: 'Remaining balance',
+      secondaryPanelTitle: 'Installment rows',
+      rows: [
+        { title: '15.07.2026 installment', detail: 'Principal 520.00 EUR, interest 185.00 EUR, balance 184,720.00 EUR.', status: 'Scheduled' },
+        { title: '15.08.2026 installment', detail: 'Principal 522.00 EUR, interest 183.00 EUR, balance 184,198.00 EUR.', status: 'Simulated' },
+        { title: 'Repayment changes', detail: 'No real repayment changes are created.', status: 'No real change' },
+      ],
+      summaryTitle: 'Plan summary',
+      summaryItems: [
+        { label: 'Upcoming installments', value: '2 shown' },
+        { label: 'Remaining balance', value: '184,720.00 EUR' },
+        { label: 'Changes', value: 'None' },
+      ],
+      actionLabel: 'Request repayment change simulation',
+      actionNote: 'No repayment change request is sent or recorded.',
+      riskTitle: 'No real repayment changes',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Repayment boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    documents: {
+      eyebrow: 'Loans',
+      title: 'Loan documents',
+      subtitle:
+        'Simulated loan documents area for loan agreement, repayment schedule, interest certificate, and annual statement.',
+      badge: 'Documents concept',
+      primaryPanelEyebrow: 'Document list',
+      primaryPanelTitle: 'Available simulated documents',
+      items: [
+        { label: 'Loan agreement', value: 'PDF concept', note: 'Simulated document entry.' },
+        { label: 'Repayment schedule', value: 'PDF concept', note: 'Simulated repayment schedule.' },
+        { label: 'Interest certificate', value: 'PDF concept', note: 'Simulated certificate.' },
+      ],
+      secondaryPanelEyebrow: 'Document status',
+      secondaryPanelTitle: 'Document archive',
+      rows: [
+        { title: 'Annual statement', detail: 'Fictional statement for prototype display.', status: 'Simulated' },
+        { title: 'Loan agreement', detail: 'Document metadata only, no real contract.', status: 'No real document' },
+        { title: 'Repayment schedule', detail: 'Schedule is illustrative and not bank-generated.', status: 'Prototype estimate' },
+      ],
+      summaryTitle: 'Document summary',
+      summaryItems: [
+        { label: 'Documents', value: '4 simulated' },
+        { label: 'Real contracts', value: 'None' },
+        { label: 'Download execution', value: 'Disabled' },
+      ],
+      actionLabel: 'Open simulated document',
+      actionNote: 'No real document is opened, generated, or downloaded.',
+      riskTitle: 'Documents marked as simulated',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'Document boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+    loanFaq: {
+      eyebrow: 'Loans',
+      title: 'Loan FAQ',
+      subtitle:
+        'Loan frequently asked questions for applying, decision factors, repayment changes, interest rate, and collateral boundaries.',
+      badge: 'FAQ concept',
+      primaryPanelEyebrow: 'Frequently asked questions',
+      primaryPanelTitle: 'Loan guidance',
+      items: [
+        { label: 'How to apply for a loan', value: 'Use a bank-approved channel', note: 'This prototype does not submit applications.' },
+        { label: 'What affects loan decision', value: 'Income, expenses, credit history', note: 'No real decision model is used.' },
+        { label: 'Interest rate', value: 'Bank-specific and customer-specific', note: 'No real rate is quoted.' },
+      ],
+      secondaryPanelEyebrow: 'Responsible lending boundary',
+      secondaryPanelTitle: 'Key notices',
+      rows: [
+        { title: 'Repayment changes', detail: 'Real changes require bank review and approval.', status: 'Information' },
+        { title: 'Digital assets as collateral', detail: 'Digital assets are not collateral in this prototype.', status: 'Not accepted' },
+        { title: 'No real lending', detail: 'No loan, offer, or decision is created.', status: 'No real lending' },
+      ],
+      summaryTitle: 'FAQ summary',
+      summaryItems: [
+        { label: 'Collateral', value: 'Digital assets not accepted' },
+        { label: 'Credit decision', value: 'None' },
+        { label: 'Lending', value: 'No real lending' },
+      ],
+      actionLabel: 'Contact support simulation',
+      actionNote: 'No support request or banking message is sent.',
+      riskTitle: 'No real lending',
+      riskNotice: loanBoundaryEn,
+      safetyTitle: 'FAQ boundary',
+      safetyNotice: loanBoundaryEn,
+    },
+  },
+}
+
+const loanDemoEs: LoanDemoTranslations = {
+  common: {
+    reviewSummary: 'Resumen de revisión',
+    simulatedAction: 'Acción simulada',
+    localPrototype: 'Prototipo local determinístico',
+    noRealLoanOperation: 'Sin operación real de préstamo',
+    noRealCreditDecision: 'Sin decisión crediticia real',
+  },
+  pages: {
+    loans: {
+      eyebrow: 'Préstamos',
+      title: 'Préstamos',
+      subtitle:
+        'Resumen bancario de servicios de préstamo simulados, estado de préstamo activo, estado de solicitud, información de pago y límites de seguridad.',
+      badge: 'Concepto de préstamos',
+      primaryPanelEyebrow: 'Resumen de préstamos',
+      primaryPanelTitle: 'Posición de préstamo simulada',
+      items: [
+        { label: 'Saldo pendiente total simulado', value: '185.240,00 EUR', note: 'Importe demo estático.' },
+        { label: 'Préstamo simulado activo', value: 'Concepto de préstamo hipotecario', note: 'No existe una cuenta de crédito real.' },
+        { label: 'Próximo pago placeholder', value: '15.07.2026', note: 'Fecha de pago ilustrativa.' },
+      ],
+      secondaryPanelEyebrow: 'Servicios de préstamo disponibles',
+      secondaryPanelTitle: 'Servicios y estado',
+      rows: [
+        { title: 'Resumen de préstamos', detail: 'Revisar saldos simulados de préstamo hipotecario, consumo y estudiantil.', status: 'Simulado' },
+        { title: 'Estado de solicitud placeholder', detail: 'No hay una solicitud activa ni enviada.', status: 'Sin solicitud real' },
+        { title: 'Resumen de pago', detail: 'La información de cuotas próximas es estática.', status: 'Estimación de prototipo' },
+      ],
+      summaryTitle: 'Resumen de préstamos',
+      summaryItems: [
+        { label: 'Préstamos activos', value: '1 simulado' },
+        { label: 'Estado de solicitud', value: 'Placeholder' },
+        { label: 'Decisión crediticia', value: 'Ninguna' },
+      ],
+      actionLabel: 'Abrir servicios de préstamo',
+      actionNote: 'Este control deshabilitado representa navegación. No se ejecuta ningún servicio de préstamo.',
+      riskTitle: 'Nota de seguridad',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite del prototipo',
+      safetyNotice: loanBoundaryEs,
+    },
+    overview: {
+      eyebrow: 'Préstamos',
+      title: 'Resumen de préstamos',
+      subtitle:
+        'Resumen simulado de préstamo hipotecario, crédito de consumo, préstamo estudiantil, estado de pago, próximo pago e importe pendiente total.',
+      badge: 'Concepto de resumen',
+      primaryPanelEyebrow: 'Saldo pendiente',
+      primaryPanelTitle: 'Vista de cartera de préstamos',
+      items: [
+        { label: 'Préstamo hipotecario', value: '178.500,00 EUR', note: 'Saldo hipotecario estático.' },
+        { label: 'Crédito de consumo', value: '0,00 EUR', note: 'Sin crédito de consumo activo en la demo.' },
+        { label: 'Préstamo estudiantil', value: '6.740,00 EUR', note: 'Saldo estudiantil estático.' },
+      ],
+      secondaryPanelEyebrow: 'Estado de pago',
+      secondaryPanelTitle: 'Resumen de estado',
+      rows: [
+        { title: 'Cuota hipotecaria', detail: 'Próximo pago placeholder 15.07.2026.', status: 'Programado' },
+        { title: 'Cuota de préstamo estudiantil', detail: 'Plan de pago mostrado solo para demostración.', status: 'Simulado' },
+        { title: 'Saldo pendiente total simulado', detail: '185.240,00 EUR en filas demo de préstamos.', status: 'Estimación de prototipo' },
+      ],
+      summaryTitle: 'Resumen general',
+      summaryItems: [
+        { label: 'Saldo pendiente total', value: '185.240,00 EUR' },
+        { label: 'Próximo pago', value: '15.07.2026' },
+        { label: 'Estado de pago', value: 'Simulado' },
+      ],
+      actionLabel: 'Revisar resumen simulado',
+      actionNote: 'No se realiza ninguna consulta real de saldo u operación de cuenta de préstamo.',
+      riskTitle: 'Sin datos reales de préstamo',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite de datos',
+      safetyNotice: loanBoundaryEs,
+    },
+    application: {
+      eyebrow: 'Préstamos',
+      title: 'Solicitar préstamo',
+      subtitle:
+        'Flujo simulado de solicitud con tipo de préstamo, importe, plazo de pago, revisión de ingresos y gastos, y estado de revisión.',
+      badge: 'Borrador de solicitud',
+      primaryPanelEyebrow: 'Detalles de solicitud',
+      primaryPanelTitle: 'Formulario de solicitud',
+      items: [
+        { label: 'Tipo de préstamo', value: 'Concepto de crédito de consumo', note: 'Selección visual únicamente.' },
+        { label: 'Importe', value: '10.000,00 EUR', note: 'Importe solicitado estático.' },
+        { label: 'Plazo de pago', value: '48 meses', note: 'No se guarda ningún plazo.' },
+      ],
+      secondaryPanelEyebrow: 'Revisión de ingresos y gastos',
+      secondaryPanelTitle: 'Estado de revisión de solicitud',
+      rows: [
+        { title: 'Placeholder de ingresos', detail: 'No se recopilan ni evalúan datos de ingresos.', status: 'No enviado' },
+        { title: 'Placeholder de gastos', detail: 'La capacidad de pago no se calcula con un modelo real.', status: 'Sin scoring real' },
+        { title: 'Estado de revisión', detail: 'La solicitud permanece local y deshabilitada.', status: 'Borrador' },
+      ],
+      summaryTitle: 'Resumen de solicitud',
+      summaryItems: [
+        { label: 'Tipo de préstamo', value: 'Crédito de consumo' },
+        { label: 'Envío', value: 'Deshabilitado' },
+        { label: 'Decisión crediticia', value: 'Ninguna' },
+      ],
+      actionLabel: 'Enviar solicitud simulada',
+      actionNote: 'El control de envío está deshabilitado. No se envía ninguna solicitud real de préstamo.',
+      riskTitle: 'Sin solicitud real de préstamo',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite de solicitud',
+      safetyNotice: loanBoundaryEs,
+    },
+    mortgage: {
+      eyebrow: 'Préstamos',
+      title: 'Préstamo hipotecario',
+      subtitle:
+        'Página hipotecaria simulada con resumen de préstamo, garantía placeholder, tipo de interés placeholder, plazo y revisión de capacidad de pago.',
+      badge: 'Concepto hipotecario',
+      primaryPanelEyebrow: 'Resumen de préstamo hipotecario',
+      primaryPanelTitle: 'Detalles hipotecarios',
+      items: [
+        { label: 'Resumen de préstamo hipotecario', value: '178.500,00 EUR', note: 'Saldo pendiente estático.' },
+        { label: 'Tipo de interés placeholder', value: 'Concepto variable', note: 'Sin precio ni tasa de referencia real.' },
+        { label: 'Plazo de pago', value: '22 años restantes', note: 'Plazo ilustrativo.' },
+      ],
+      secondaryPanelEyebrow: 'Garantía y capacidad de pago',
+      secondaryPanelTitle: 'Placeholders de revisión',
+      rows: [
+        { title: 'Garantía placeholder', detail: 'No se realiza valoración de inmueble o garantía.', status: 'Placeholder' },
+        { title: 'Revisión de capacidad de pago', detail: 'La capacidad de pago no se evalúa con un modelo real.', status: 'Simulado' },
+        { title: 'Decisión hipotecaria', detail: 'No se emite ninguna decisión hipotecaria real.', status: 'Sin decisión real' },
+      ],
+      summaryTitle: 'Resumen hipotecario',
+      summaryItems: [
+        { label: 'Saldo pendiente', value: '178.500,00 EUR' },
+        { label: 'Tipo de interés', value: 'Placeholder' },
+        { label: 'Evaluación de garantía', value: 'Ninguna' },
+      ],
+      actionLabel: 'Revisar simulación hipotecaria',
+      actionNote: 'No se cambian condiciones hipotecarias, garantías ni planes de pago.',
+      riskTitle: 'Sin decisión hipotecaria real',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite hipotecario',
+      safetyNotice: loanBoundaryEs,
+    },
+    consumerLoan: {
+      eyebrow: 'Préstamos',
+      title: 'Crédito de consumo',
+      subtitle:
+        'Página simulada de crédito de consumo con importe, plazo de pago, cuota mensual placeholder y aviso de riesgo y capacidad de pago.',
+      badge: 'Concepto de crédito',
+      primaryPanelEyebrow: 'Detalles de crédito de consumo',
+      primaryPanelTitle: 'Importe y plazo',
+      items: [
+        { label: 'Importe del préstamo', value: '10.000,00 EUR', note: 'Importe ejemplo estático.' },
+        { label: 'Plazo de pago', value: '48 meses', note: 'Plazo visual.' },
+        { label: 'Cuota mensual', value: '230,00 EUR', note: 'Estimación, no oferta.' },
+      ],
+      secondaryPanelEyebrow: 'Aviso de riesgo y capacidad de pago',
+      secondaryPanelTitle: 'Controles de revisión',
+      rows: [
+        { title: 'Aviso de capacidad de pago', detail: 'No se procesan ingresos, gastos ni datos crediticios.', status: 'Requerido' },
+        { title: 'Aviso de riesgo', detail: 'El endeudamiento puede aumentar el riesgo financiero.', status: 'Aviso' },
+        { title: 'Ejecución crediticia', detail: 'No se concede crédito de consumo real.', status: 'Sin crédito real' },
+      ],
+      summaryTitle: 'Resumen de crédito de consumo',
+      summaryItems: [
+        { label: 'Cuota mensual', value: '230,00 EUR' },
+        { label: 'Revisión de capacidad de pago', value: 'Placeholder' },
+        { label: 'Estado crediticio', value: 'Sin crédito real' },
+      ],
+      actionLabel: 'Calcular simulación de consumo',
+      actionNote: 'No se ejecuta ninguna solicitud real de crédito de consumo ni scoring crediticio.',
+      riskTitle: 'Sin crédito de consumo real',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite de crédito de consumo',
+      safetyNotice: loanBoundaryEs,
+    },
+    studentLoan: {
+      eyebrow: 'Préstamos',
+      title: 'Préstamo estudiantil',
+      subtitle:
+        'Página simulada de préstamo estudiantil con saldo, placeholder de garantía/elegibilidad, próxima cuota y plan de pago.',
+      badge: 'Concepto de préstamo estudiantil',
+      primaryPanelEyebrow: 'Saldo de préstamo estudiantil',
+      primaryPanelTitle: 'Saldo y cuota',
+      items: [
+        { label: 'Saldo de préstamo estudiantil', value: '6.740,00 EUR', note: 'Saldo demo estático.' },
+        { label: 'Garantía/elegibilidad placeholder', value: 'No evaluada', note: 'No se usan datos reales de garantía.' },
+        { label: 'Próxima cuota', value: '125,00 EUR', note: 'Pago ilustrativo.' },
+      ],
+      secondaryPanelEyebrow: 'Plan de pago',
+      secondaryPanelTitle: 'Estado del plan',
+      rows: [
+        { title: 'Plan de pago', detail: 'Calendario mostrado como filas simuladas.', status: 'Simulado' },
+        { title: 'Elegibilidad placeholder', detail: 'No se realiza comprobación de elegibilidad.', status: 'Placeholder' },
+        { title: 'Datos de préstamo estudiantil', detail: 'No se conecta ningún registro real.', status: 'Sin datos reales' },
+      ],
+      summaryTitle: 'Resumen de préstamo estudiantil',
+      summaryItems: [
+        { label: 'Saldo', value: '6.740,00 EUR' },
+        { label: 'Próxima cuota', value: '125,00 EUR' },
+        { label: 'Elegibilidad', value: 'Placeholder' },
+      ],
+      actionLabel: 'Revisar simulación estudiantil',
+      actionNote: 'No se crea ningún dato real, garantía o cambio de pago de préstamo estudiantil.',
+      riskTitle: 'Sin datos reales de préstamo estudiantil',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite de préstamo estudiantil',
+      safetyNotice: loanBoundaryEs,
+    },
+    loanCalculator: {
+      eyebrow: 'Préstamos',
+      title: 'Calculadora de préstamo',
+      subtitle:
+        'Calculadora simulada con visual de importe, visual de plazo de pago, interés placeholder y cuota mensual estimada.',
+      badge: 'Concepto de calculadora',
+      primaryPanelEyebrow: 'Entradas de calculadora',
+      primaryPanelTitle: 'Estimación de préstamo',
+      items: [
+        { label: 'Importe visual', value: '25.000,00 EUR', note: 'Entrada estática.' },
+        { label: 'Plazo de pago visual', value: '60 meses', note: 'Plazo estático.' },
+        { label: 'Interés placeholder', value: '4,50%', note: 'No es una tasa u oferta real.' },
+      ],
+      secondaryPanelEyebrow: 'Cuota mensual estimada',
+      secondaryPanelTitle: 'Resultado simulado',
+      rows: [
+        { title: 'Cuota mensual estimada', detail: '466,00 EUR, simulada y redondeada.', status: 'Estimación de prototipo' },
+        { title: 'Asesoría financiera', detail: 'Esta calculadora no proporciona asesoría financiera.', status: 'Sin asesoría' },
+        { title: 'Oferta crediticia', detail: 'No se produce tasa, oferta o decisión vinculante.', status: 'Sin oferta' },
+      ],
+      summaryTitle: 'Resumen de calculadora',
+      summaryItems: [
+        { label: 'Importe', value: '25.000,00 EUR' },
+        { label: 'Plazo', value: '60 meses' },
+        { label: 'Cuota mensual', value: '466,00 EUR' },
+      ],
+      actionLabel: 'Ejecutar cálculo simulado',
+      actionNote: 'No se ejecuta ningún cálculo real, evaluación de capacidad de pago o asesoría.',
+      riskTitle: 'Sin asesoría financiera',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite de calculadora',
+      safetyNotice: loanBoundaryEs,
+    },
+    repaymentPlan: {
+      eyebrow: 'Préstamos',
+      title: 'Plan de pago',
+      subtitle:
+        'Plan de pago simulado con próximas cuotas, fecha de pago, principal, interés y saldo pendiente.',
+      badge: 'Concepto de pago',
+      primaryPanelEyebrow: 'Próximas cuotas',
+      primaryPanelTitle: 'Calendario de pagos',
+      items: [
+        { label: 'Fecha de pago', value: '15.07.2026', note: 'Cuota próxima estática.' },
+        { label: 'Principal', value: '520,00 EUR', note: 'Importe ilustrativo.' },
+        { label: 'Interés', value: '185,00 EUR', note: 'Importe de interés ilustrativo.' },
+      ],
+      secondaryPanelEyebrow: 'Saldo pendiente',
+      secondaryPanelTitle: 'Filas de cuotas',
+      rows: [
+        { title: 'Cuota 15.07.2026', detail: 'Principal 520,00 EUR, interés 185,00 EUR, saldo 184.720,00 EUR.', status: 'Programado' },
+        { title: 'Cuota 15.08.2026', detail: 'Principal 522,00 EUR, interés 183,00 EUR, saldo 184.198,00 EUR.', status: 'Simulado' },
+        { title: 'Cambios de pago', detail: 'No se crean cambios reales de pago.', status: 'Sin cambio real' },
+      ],
+      summaryTitle: 'Resumen del plan',
+      summaryItems: [
+        { label: 'Próximas cuotas', value: '2 mostradas' },
+        { label: 'Saldo pendiente', value: '184.720,00 EUR' },
+        { label: 'Cambios', value: 'Ninguno' },
+      ],
+      actionLabel: 'Solicitar cambio de pago simulado',
+      actionNote: 'No se envía ni registra ninguna solicitud de cambio de pago.',
+      riskTitle: 'Sin cambios reales de pago',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite de pago',
+      safetyNotice: loanBoundaryEs,
+    },
+    documents: {
+      eyebrow: 'Préstamos',
+      title: 'Documentos del préstamo',
+      subtitle:
+        'Área simulada para acuerdo de préstamo, calendario de pagos, certificado de intereses y extracto anual.',
+      badge: 'Concepto de documentos',
+      primaryPanelEyebrow: 'Lista de documentos',
+      primaryPanelTitle: 'Documentos simulados disponibles',
+      items: [
+        { label: 'Acuerdo de préstamo', value: 'Concepto PDF', note: 'Entrada de documento simulada.' },
+        { label: 'Calendario de pagos', value: 'Concepto PDF', note: 'Calendario de pago simulado.' },
+        { label: 'Certificado de intereses', value: 'Concepto PDF', note: 'Certificado simulado.' },
+      ],
+      secondaryPanelEyebrow: 'Estado de documentos',
+      secondaryPanelTitle: 'Archivo documental',
+      rows: [
+        { title: 'Extracto anual', detail: 'Extracto ficticio para visualización de prototipo.', status: 'Simulado' },
+        { title: 'Acuerdo de préstamo', detail: 'Solo metadatos, sin contrato real.', status: 'Sin documento real' },
+        { title: 'Calendario de pagos', detail: 'Calendario ilustrativo, no generado por un banco.', status: 'Estimación de prototipo' },
+      ],
+      summaryTitle: 'Resumen documental',
+      summaryItems: [
+        { label: 'Documentos', value: '4 simulados' },
+        { label: 'Contratos reales', value: 'Ninguno' },
+        { label: 'Descarga', value: 'Deshabilitada' },
+      ],
+      actionLabel: 'Abrir documento simulado',
+      actionNote: 'No se abre, genera ni descarga ningún documento real.',
+      riskTitle: 'Documentos marcados como simulados',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite documental',
+      safetyNotice: loanBoundaryEs,
+    },
+    loanFaq: {
+      eyebrow: 'Préstamos',
+      title: 'Preguntas frecuentes de préstamos',
+      subtitle:
+        'Preguntas frecuentes sobre cómo solicitar, factores de decisión, cambios de pago, tasa de interés y límites de garantía.',
+      badge: 'Concepto FAQ',
+      primaryPanelEyebrow: 'Preguntas frecuentes',
+      primaryPanelTitle: 'Guía de préstamos',
+      items: [
+        { label: 'Cómo solicitar un préstamo', value: 'Usar un canal aprobado por el banco', note: 'Este prototipo no envía solicitudes.' },
+        { label: 'Qué afecta una decisión de préstamo', value: 'Ingresos, gastos e historial crediticio', note: 'No se usa un modelo real de decisión.' },
+        { label: 'Tasa de interés', value: 'Específica del banco y del cliente', note: 'No se cotiza ninguna tasa real.' },
+      ],
+      secondaryPanelEyebrow: 'Límite de préstamo responsable',
+      secondaryPanelTitle: 'Avisos clave',
+      rows: [
+        { title: 'Cambios de pago', detail: 'Los cambios reales requieren revisión y aprobación bancaria.', status: 'Información' },
+        { title: 'Activos digitales como garantía', detail: 'Los activos digitales no son garantía en este prototipo.', status: 'No aceptados' },
+        { title: 'Sin préstamo real', detail: 'No se crea préstamo, oferta o decisión.', status: 'Sin préstamo real' },
+      ],
+      summaryTitle: 'Resumen FAQ',
+      summaryItems: [
+        { label: 'Garantía', value: 'Activos digitales no aceptados' },
+        { label: 'Decisión crediticia', value: 'Ninguna' },
+        { label: 'Préstamo', value: 'Sin préstamo real' },
+      ],
+      actionLabel: 'Simular contacto con soporte',
+      actionNote: 'No se envía una solicitud de soporte ni mensaje bancario.',
+      riskTitle: 'Sin préstamo real',
+      riskNotice: loanBoundaryEs,
+      safetyTitle: 'Límite FAQ',
+      safetyNotice: loanBoundaryEs,
+    },
+  },
+}
+
 type InvestmentDemoTranslations = {
   common: {
     reviewSummary: string
@@ -4716,6 +5470,7 @@ export const translations = {
     paymentDemo: paymentDemoEn,
     accountDemo: accountDemoEn,
     cardDemo: cardDemoEn,
+    loanDemo: loanDemoEn,
     investmentDemo: investmentDemoEn,
     bankHome: {
       publicConcept: 'Public banking website concept',
@@ -5513,6 +6268,7 @@ export const translations = {
     paymentDemo: paymentDemoEs,
     accountDemo: accountDemoEs,
     cardDemo: cardDemoEs,
+    loanDemo: loanDemoEs,
     investmentDemo: investmentDemoEs,
     bankHome: {
       publicConcept: 'Concepto de sitio bancario público',
