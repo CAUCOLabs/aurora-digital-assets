@@ -58,6 +58,15 @@ import { LoanCalculatorPage } from '../pages/LoanCalculatorPage'
 import { RepaymentPlanPage } from '../pages/RepaymentPlanPage'
 import { LoanDocumentsPage } from '../pages/LoanDocumentsPage'
 import { LoanFAQPage } from '../pages/LoanFAQPage'
+import { InsurancePage } from '../pages/InsurancePage'
+import { InsuranceOverviewPage } from '../pages/InsuranceOverviewPage'
+import { HomeInsurancePage } from '../pages/HomeInsurancePage'
+import { TravelInsurancePage } from '../pages/TravelInsurancePage'
+import { LifeInsurancePage } from '../pages/LifeInsurancePage'
+import { HealthInsurancePage } from '../pages/HealthInsurancePage'
+import { InsuranceClaimsPage } from '../pages/InsuranceClaimsPage'
+import { InsuranceDocumentsPage } from '../pages/InsuranceDocumentsPage'
+import { InsuranceFAQPage } from '../pages/InsuranceFAQPage'
 import { ComplianceReviewPage } from '../pages/ComplianceReviewPage'
 import { CryptoAgilityPage } from '../pages/CryptoAgilityPage'
 import { DemoAdminPage } from '../pages/DemoAdminPage'
@@ -502,11 +511,73 @@ export function AppRoutes() {
       <Route
         path="/insurance"
         element={
-          <PlaceholderPage
-            eyebrow="Insurance"
-            title="Insurance"
-            description="Simulated insurance section for the Aurora Bank online banking prototype."
-          />
+          <ProtectedRoute>
+            <InsurancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/overview"
+        element={
+          <ProtectedRoute>
+            <InsuranceOverviewPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/home"
+        element={
+          <ProtectedRoute>
+            <HomeInsurancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/travel"
+        element={
+          <ProtectedRoute>
+            <TravelInsurancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/life"
+        element={
+          <ProtectedRoute>
+            <LifeInsurancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/health"
+        element={
+          <ProtectedRoute>
+            <HealthInsurancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/claims"
+        element={
+          <ProtectedRoute>
+            <InsuranceClaimsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/documents"
+        element={
+          <ProtectedRoute>
+            <InsuranceDocumentsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/insurance/faq"
+        element={
+          <ProtectedRoute>
+            <InsuranceFAQPage />
+          </ProtectedRoute>
         }
       />
 

@@ -218,7 +218,46 @@ const navigationItems: NavigationItem[] = [
       },
     ],
   },
-  { label: 'Insurance', to: '/insurance' },
+  {
+    label: 'Insurance',
+    to: '/insurance',
+    menu: [
+      {
+        title: 'Insurance',
+        links: [
+          { label: 'Insurance overview', to: '/insurance/overview' },
+          { label: 'Home insurance', to: '/insurance/home' },
+          { label: 'Travel insurance', to: '/insurance/travel' },
+          { label: 'Life insurance', to: '/insurance/life' },
+          { label: 'Health insurance', to: '/insurance/health' },
+        ],
+      },
+      {
+        title: 'Claims',
+        links: [
+          { label: 'Claims overview', to: '/insurance/claims' },
+          { label: 'Report a claim', to: '/insurance/claims' },
+          { label: 'Claim documents', to: '/insurance/documents' },
+        ],
+      },
+      {
+        title: 'Documents and support',
+        links: [
+          { label: 'Insurance documents', to: '/insurance/documents' },
+          { label: 'Insurance FAQ', to: '/insurance/faq' },
+          { label: 'Coverage information', to: '/insurance/faq' },
+        ],
+      },
+      {
+        title: 'See also',
+        links: [
+          { label: 'Account statements and bank mail', to: '/reports' },
+          { label: 'Message and notification settings', to: '/online-services' },
+          { label: 'Security settings', to: '/online-services' },
+        ],
+      },
+    ],
+  },
   {
     label: 'Digital Assets',
     to: '/digital-assets',
