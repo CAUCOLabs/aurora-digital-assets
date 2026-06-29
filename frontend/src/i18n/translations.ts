@@ -366,6 +366,267 @@ const enPhrases = {
   'Simulated mobile key approval is unavailable. No session was created.':
     'Simulated mobile key approval is unavailable. No session was created.',
   'Go to Aurora Bank home': 'Go to Aurora Bank home',
+  Statements: 'Statements',
+  'Reports overview': 'Reports overview',
+  'Account statements': 'Account statements',
+  'Bank mail': 'Bank mail',
+  'Tax and exports': 'Tax and exports',
+  'Payment receipts': 'Payment receipts',
+  'Audit and evidence': 'Audit and evidence',
+  'Evidence records': 'Evidence records',
+  'Compliance records': 'Compliance records',
+  'Evidence packages': 'Evidence packages',
+  'Compliance review': 'Compliance review',
+  'Related records': 'Related records',
+  'Simulated action': 'Simulated action',
+  Available: 'Available',
+  Concept: 'Concept',
+  'Not generated': 'Not generated',
+  'Not sent': 'Not sent',
+  Simulated: 'Simulated',
+  None: 'None',
+  Source: 'Source',
+  Delivery: 'Delivery',
+  Certification: 'Certification',
+  'Tax advice': 'Tax advice',
+  'Tax filing': 'Tax filing',
+  'Customer data': 'Customer data',
+  'No real bank statements': 'No real bank statements',
+  'No real card statements': 'No real card statements',
+  'No tax advice': 'No tax advice',
+  'No export generated': 'No export generated',
+  'Deterministic audit rows': 'Deterministic audit rows',
+  'No real messages': 'No real messages',
+  'No evidence exported': 'No evidence exported',
+  'No regulatory certification': 'No regulatory certification',
+  'Account documents': 'Account documents',
+  'Available statement concepts': 'Available statement concepts',
+  'Statement controls': 'Statement controls',
+  'Document status': 'Document status',
+  'View statement': 'View statement',
+  'View document': 'View document',
+  'Card documents': 'Card documents',
+  'Card statement concepts': 'Card statement concepts',
+  'No card transactions': 'No card transactions',
+  'Card status': 'Card status',
+  'Statement safeguards': 'Statement safeguards',
+  'No real card data': 'No real card data',
+  'Open card statement': 'Open card statement',
+  'Open statement': 'Open statement',
+  'Tax documents': 'Tax documents',
+  'Report placeholders': 'Report placeholders',
+  'No real tax document': 'No real tax document',
+  'Tax boundary': 'Tax boundary',
+  'Tax safeguards': 'Tax safeguards',
+  'Not submitted': 'Not submitted',
+  'Download tax report': 'Download tax report',
+  'Download report': 'Download report',
+  'Export options': 'Export options',
+  'Document export concepts': 'Document export concepts',
+  'PDF CSV JSON placeholders': 'PDF CSV JSON placeholders',
+  'Export status': 'Export status',
+  'Format placeholders': 'Format placeholders',
+  'Placeholder only': 'Placeholder only',
+  'Export selected records': 'Export selected records',
+  Export: 'Export',
+  'Audit events': 'Audit events',
+  'Simulated audit trail': 'Simulated audit trail',
+  Traceability: 'Traceability',
+  'Audit safeguards': 'Audit safeguards',
+  Execution: 'Execution',
+  'Audit data': 'Audit data',
+  'Open audit entry': 'Open audit entry',
+  'Open entry': 'Open entry',
+  'Secure messages': 'Secure messages',
+  'Bank mail inbox': 'Bank mail inbox',
+  'No customer communication': 'No customer communication',
+  'Message status': 'Message status',
+  'Communication safeguards': 'Communication safeguards',
+  'Open secure message': 'Open secure message',
+  'Open message': 'Open message',
+  'Evidence record concepts': 'Evidence record concepts',
+  'Evidence status': 'Evidence status',
+  'Record states': 'Record states',
+  'Open evidence record': 'Open evidence record',
+  'Open record': 'Open record',
+  'Compliance cases': 'Compliance cases',
+  'Compliance record concepts': 'Compliance record concepts',
+  'No legal certification': 'No legal certification',
+  'Compliance boundary': 'Compliance boundary',
+  'Record safeguards': 'Record safeguards',
+  'Legal report': 'Legal report',
+  'Open compliance case': 'Open compliance case',
+  'Open case': 'Open case',
+  'Current account statement': 'Current account statement',
+  'Monthly statement concept for the everyday current account.':
+    'Monthly statement concept for the everyday current account.',
+  'Statement period: April 2026': 'Statement period: April 2026',
+  'Savings account statement': 'Savings account statement',
+  'Savings and deposit account statement placeholder.':
+    'Savings and deposit account statement placeholder.',
+  'Monthly statement': 'Monthly statement',
+  'Consolidated monthly account document concept.':
+    'Consolidated monthly account document concept.',
+  'Document status: simulated': 'Document status: simulated',
+  'Annual summary': 'Annual summary',
+  'Year-end banking summary placeholder for customer review.':
+    'Year-end banking summary placeholder for customer review.',
+  'Document status: not generated': 'Document status: not generated',
+  'Mock banking records': 'Mock banking records',
+  'The button is disabled because no real bank statement is opened or generated in this prototype.':
+    'The button is disabled because no real bank statement is opened or generated in this prototype.',
+  'Card monthly statement': 'Card monthly statement',
+  'Monthly card statement placeholder for a simulated Aurora Bank card.':
+    'Monthly card statement placeholder for a simulated Aurora Bank card.',
+  'Card transaction summary': 'Card transaction summary',
+  'Summary row for card activity in the local demo only.':
+    'Summary row for card activity in the local demo only.',
+  'Currency conversion notice': 'Currency conversion notice',
+  'Notice concept for card purchases in another currency.':
+    'Notice concept for card purchases in another currency.',
+  'No conversion is calculated': 'No conversion is calculated',
+  'Card security notice': 'Card security notice',
+  'Security information placeholder for safe card usage.':
+    'Security information placeholder for safe card usage.',
+  'No PDF, card account record, card statement, or card transaction file is opened in this prototype.':
+    'No PDF, card account record, card statement, or card transaction file is opened in this prototype.',
+  'Annual tax summary': 'Annual tax summary',
+  'Yearly tax summary placeholder for the local prototype.':
+    'Yearly tax summary placeholder for the local prototype.',
+  'Tax year: 2026': 'Tax year: 2026',
+  'Digital asset tax report concept': 'Digital asset tax report concept',
+  'Concept report for digital asset activity and reporting traceability.':
+    'Concept report for digital asset activity and reporting traceability.',
+  'No official filing data': 'No official filing data',
+  'Investment tax report concept': 'Investment tax report concept',
+  'Traditional investment reporting placeholder kept separate from digital assets.':
+    'Traditional investment reporting placeholder kept separate from digital assets.',
+  'No investment advice': 'No investment advice',
+  'Downloadable report placeholders': 'Downloadable report placeholders',
+  'Static labels for PDF, CSV, and JSON report formats.':
+    'Static labels for PDF, CSV, and JSON report formats.',
+  'No file is created': 'No file is created',
+  'The action is disabled because no real tax report, tax filing, or tax advice is generated.':
+    'The action is disabled because no real tax report, tax filing, or tax advice is generated.',
+  'Export account documents': 'Export account documents',
+  'Account document export placeholder for PDF format.':
+    'Account document export placeholder for PDF format.',
+  'Format: PDF': 'Format: PDF',
+  'Export payment receipts': 'Export payment receipts',
+  'Payment receipt bundle placeholder for banking records.':
+    'Payment receipt bundle placeholder for banking records.',
+  'Export digital asset audit trail': 'Export digital asset audit trail',
+  'Digital asset audit trail placeholder for CSV and JSON records.':
+    'Digital asset audit trail placeholder for CSV and JSON records.',
+  'Formats: CSV, JSON': 'Formats: CSV, JSON',
+  'Export compliance evidence package': 'Export compliance evidence package',
+  'Evidence package export concept for controlled review workflows.':
+    'Evidence package export concept for controlled review workflows.',
+  'Formats: PDF, JSON': 'Formats: PDF, JSON',
+  'No real document, archive, bank statement, evidence package, CSV, JSON, or PDF is generated.':
+    'No real document, archive, bank statement, evidence package, CSV, JSON, or PDF is generated.',
+  'Risk decision recorded': 'Risk decision recorded',
+  'Risk operation decision row for a simulated digital asset workflow.':
+    'Risk operation decision row for a simulated digital asset workflow.',
+  'Correlation ID: CORR-AUDIT-001': 'Correlation ID: CORR-AUDIT-001',
+  'Evidence package creation event for an internal review concept.':
+    'Evidence package creation event for an internal review concept.',
+  'Package ID: EPK-DEMO-001': 'Package ID: EPK-DEMO-001',
+  'Review case opened': 'Review case opened',
+  'Compliance review case placeholder opened from a simulated alert.':
+    'Compliance review case placeholder opened from a simulated alert.',
+  'Case ID: CASE-DEMO-001': 'Case ID: CASE-DEMO-001',
+  'Sensitive approval blocked': 'Sensitive approval blocked',
+  'Sensitive approval control blocked a simulated high-risk action.':
+    'Sensitive approval control blocked a simulated high-risk action.',
+  'Guardrail: sensitive approval': 'Guardrail: sensitive approval',
+  'Human approval integrity guard event':
+    'Human approval integrity guard event',
+  'Integrity guard event showing reviewer control checks.':
+    'Integrity guard event showing reviewer control checks.',
+  'Control: human approval integrity': 'Control: human approval integrity',
+  'Agent governance event': 'Agent governance event',
+  'Agent identity and permission event for governance traceability.':
+    'Agent identity and permission event for governance traceability.',
+  'Control: agent governance': 'Control: agent governance',
+  'Audit rows are deterministic demo records. No real operation, approval, or system event is executed.':
+    'Audit rows are deterministic demo records. No real operation, approval, or system event is executed.',
+  'Secure message inbox': 'Secure message inbox',
+  'Inbox container for local demo notices only.':
+    'Inbox container for local demo notices only.',
+  'No messages are delivered': 'No messages are delivered',
+  'Bank notice': 'Bank notice',
+  'General banking notice placeholder for online banking documents.':
+    'General banking notice placeholder for online banking documents.',
+  'Compliance notification': 'Compliance notification',
+  'Compliance notification concept for review and evidence workflows.':
+    'Compliance notification concept for review and evidence workflows.',
+  'Statement delivery notice': 'Statement delivery notice',
+  'Statement delivery notification placeholder.':
+    'Statement delivery notification placeholder.',
+  'No document delivery': 'No document delivery',
+  'No real secure message, notification, email, SMS, or customer communication is opened or sent.':
+    'No real secure message, notification, email, SMS, or customer communication is opened or sent.',
+  'Evidence package list': 'Evidence package list',
+  'Evidence package placeholder for internal review and audit readiness.':
+    'Evidence package placeholder for internal review and audit readiness.',
+  'Source audit event': 'Source audit event',
+  'Audit source reference attached to a simulated evidence package.':
+    'Audit source reference attached to a simulated evidence package.',
+  'Audit event ID: AUD-DEMO-001': 'Audit event ID: AUD-DEMO-001',
+  'Correlation ID placeholder': 'Correlation ID placeholder',
+  'Correlation identifier used to connect deterministic demo records.':
+    'Correlation identifier used to connect deterministic demo records.',
+  'Correlation ID: CORR-DEMO-001': 'Correlation ID: CORR-DEMO-001',
+  'Review case link placeholder': 'Review case link placeholder',
+  'Review case reference for compliance review navigation.':
+    'Review case reference for compliance review navigation.',
+  'Closed evidence record': 'Closed evidence record',
+  'Closed evidence record concept for completed internal review.':
+    'Closed evidence record concept for completed internal review.',
+  'Status: closed': 'Status: closed',
+  'No evidence package, archive, document, or export is generated from this page.':
+    'No evidence package, archive, document, or export is generated from this page.',
+  'Compliance case': 'Compliance case',
+  'Compliance review case placeholder for document traceability.':
+    'Compliance review case placeholder for document traceability.',
+  'Case ID: COMP-DEMO-001': 'Case ID: COMP-DEMO-001',
+  'Risk operations case': 'Risk operations case',
+  'Risk operations record linked to simulated monitoring signals.':
+    'Risk operations record linked to simulated monitoring signals.',
+  'Case ID: RISK-DEMO-001': 'Case ID: RISK-DEMO-001',
+  'Financial crime monitoring case': 'Financial crime monitoring case',
+  'Financial crime monitoring concept for alert review workflows.':
+    'Financial crime monitoring concept for alert review workflows.',
+  'Case ID: FC-DEMO-001': 'Case ID: FC-DEMO-001',
+  'Sensitive approval case': 'Sensitive approval case',
+  'Sensitive approval record for controlled operation review.':
+    'Sensitive approval record for controlled operation review.',
+  'Case ID: SAP-DEMO-001': 'Case ID: SAP-DEMO-001',
+  'Custodian readiness case': 'Custodian readiness case',
+  'Custodian readiness and operational review placeholder.':
+    'Custodian readiness and operational review placeholder.',
+  'Case ID: CUST-DEMO-001': 'Case ID: CUST-DEMO-001',
+  'No legal report, regulatory filing, certification, or customer record is opened or generated.':
+    'No legal report, regulatory filing, certification, or customer record is opened or generated.',
+  'Local deterministic prototype only. No real document, bank statement, card statement, tax report, secure message, audit trail, evidence package, compliance record, customer data, banking operation, export, or legal certification is created or executed.':
+    'Local deterministic prototype only. No real document, bank statement, card statement, tax report, secure message, audit trail, evidence package, compliance record, customer data, banking operation, export, or legal certification is created or executed.',
+  'Local deterministic prototype only. No real bank statements, account records, customer data, banking operation, export, or customer communication is created or executed.':
+    'Local deterministic prototype only. No real bank statements, account records, customer data, banking operation, export, or customer communication is created or executed.',
+  'Local deterministic prototype only. No real card statements, card transactions, cardholder data, banking operation, export, or customer communication is created or executed.':
+    'Local deterministic prototype only. No real card statements, card transactions, cardholder data, banking operation, export, or customer communication is created or executed.',
+  'Local deterministic prototype only. No real tax document, tax filing, tax advice, customer data, banking operation, export, or legal certification is created or executed.':
+    'Local deterministic prototype only. No real tax document, tax filing, tax advice, customer data, banking operation, export, or legal certification is created or executed.',
+  'Local deterministic prototype only. No real export, bank statement, tax report, evidence package, customer data, banking operation, or secure message is created or executed.':
+    'Local deterministic prototype only. No real export, bank statement, tax report, evidence package, customer data, banking operation, or secure message is created or executed.',
+  'Local deterministic prototype only. No real audit trail, customer record, approval, agent execution, banking operation, evidence package, export, or legal certification is created or executed.':
+    'Local deterministic prototype only. No real audit trail, customer record, approval, agent execution, banking operation, evidence package, export, or legal certification is created or executed.',
+  'Local deterministic prototype only. No real secure message, bank mail, customer communication, customer data, document delivery, export, or banking operation is created or executed.':
+    'Local deterministic prototype only. No real secure message, bank mail, customer communication, customer data, document delivery, export, or banking operation is created or executed.',
+  'Local deterministic prototype only. No real evidence package, export, audit file, customer data, banking operation, or legal certification is created or executed.':
+    'Local deterministic prototype only. No real evidence package, export, audit file, customer data, banking operation, or legal certification is created or executed.',
+  'Local deterministic prototype only. No real compliance record, legal report, regulatory certification, customer data, banking operation, evidence export, or secure message is created or executed.':
+    'Local deterministic prototype only. No real compliance record, legal report, regulatory certification, customer data, banking operation, evidence export, or secure message is created or executed.',
   'Checking banking session...': 'Checking banking session...',
 } satisfies Record<string, string>
 
@@ -741,6 +1002,273 @@ const esPhrases: Record<keyof typeof enPhrases, string> = {
   'Simulated mobile key approval is unavailable. No session was created.':
     'La aprobación simulada con clave móvil no está disponible. No se creó ninguna sesión.',
   'Go to Aurora Bank home': 'Ir al inicio de Aurora Bank',
+  Statements: 'Extractos',
+  'Reports overview': 'Resumen de informes',
+  'Account statements': 'Extractos de cuenta',
+  'Bank mail': 'Correo bancario',
+  'Tax and exports': 'Fiscalidad y exportaciones',
+  'Payment receipts': 'Recibos de pago',
+  'Audit and evidence': 'Auditoría y evidencia',
+  'Evidence records': 'Registros de evidencia',
+  'Compliance records': 'Registros de cumplimiento',
+  'Evidence packages': 'Paquetes de evidencia',
+  'Compliance review': 'Revisión de cumplimiento',
+  'Related records': 'Registros relacionados',
+  'Simulated action': 'Acción simulada',
+  Available: 'Disponible',
+  Concept: 'Concepto',
+  'Not generated': 'No generado',
+  'Not sent': 'No enviado',
+  Simulated: 'Simulado',
+  None: 'Ninguna',
+  Source: 'Fuente',
+  Delivery: 'Entrega',
+  Certification: 'Certificación',
+  'Tax advice': 'Asesoría fiscal',
+  'Tax filing': 'Declaración fiscal',
+  'Customer data': 'Datos de cliente',
+  'No real bank statements': 'Sin extractos bancarios reales',
+  'No real card statements': 'Sin extractos de tarjeta reales',
+  'No tax advice': 'Sin asesoría fiscal',
+  'No export generated': 'Sin exportación generada',
+  'Deterministic audit rows': 'Filas de auditoría determinísticas',
+  'No real messages': 'Sin mensajes reales',
+  'No evidence exported': 'Sin evidencia exportada',
+  'No regulatory certification': 'Sin certificación regulatoria',
+  'Account documents': 'Documentos de cuenta',
+  'Available statement concepts': 'Conceptos de extractos disponibles',
+  'Statement controls': 'Controles de extractos',
+  'Document status': 'Estado del documento',
+  'View statement': 'Ver extracto',
+  'View document': 'Ver documento',
+  'Card documents': 'Documentos de tarjeta',
+  'Card statement concepts': 'Conceptos de extractos de tarjeta',
+  'No card transactions': 'Sin transacciones de tarjeta',
+  'Card status': 'Estado de tarjeta',
+  'Statement safeguards': 'Salvaguardas de extractos',
+  'No real card data': 'Sin datos reales de tarjeta',
+  'Open card statement': 'Abrir extracto de tarjeta',
+  'Open statement': 'Abrir extracto',
+  'Tax documents': 'Documentos fiscales',
+  'Report placeholders': 'Marcadores de informes',
+  'No real tax document': 'Sin documento fiscal real',
+  'Tax boundary': 'Límite fiscal',
+  'Tax safeguards': 'Salvaguardas fiscales',
+  'Not submitted': 'No presentado',
+  'Download tax report': 'Descargar informe fiscal',
+  'Download report': 'Descargar informe',
+  'Export options': 'Opciones de exportación',
+  'Document export concepts': 'Conceptos de exportación de documentos',
+  'PDF CSV JSON placeholders': 'Marcadores PDF CSV JSON',
+  'Export status': 'Estado de exportación',
+  'Format placeholders': 'Marcadores de formato',
+  'Placeholder only': 'Solo marcador',
+  'Export selected records': 'Exportar registros seleccionados',
+  Export: 'Exportar',
+  'Audit events': 'Eventos de auditoría',
+  'Simulated audit trail': 'Trazabilidad de auditoría simulada',
+  Traceability: 'Trazabilidad',
+  'Audit safeguards': 'Salvaguardas de auditoría',
+  Execution: 'Ejecución',
+  'Audit data': 'Datos de auditoría',
+  'Open audit entry': 'Abrir entrada de auditoría',
+  'Open entry': 'Abrir entrada',
+  'Secure messages': 'Mensajes seguros',
+  'Bank mail inbox': 'Bandeja de correo bancario',
+  'No customer communication': 'Sin comunicación real con clientes',
+  'Message status': 'Estado de mensaje',
+  'Communication safeguards': 'Salvaguardas de comunicación',
+  'Open secure message': 'Abrir mensaje seguro',
+  'Open message': 'Abrir mensaje',
+  'Evidence record concepts': 'Conceptos de registros de evidencia',
+  'Evidence status': 'Estado de evidencia',
+  'Record states': 'Estados de registro',
+  'Open evidence record': 'Abrir registro de evidencia',
+  'Open record': 'Abrir registro',
+  'Compliance cases': 'Casos de cumplimiento',
+  'Compliance record concepts': 'Conceptos de registros de cumplimiento',
+  'No legal certification': 'Sin certificación legal',
+  'Compliance boundary': 'Límite de cumplimiento',
+  'Record safeguards': 'Salvaguardas de registros',
+  'Legal report': 'Informe legal',
+  'Open compliance case': 'Abrir caso de cumplimiento',
+  'Open case': 'Abrir caso',
+  'Current account statement': 'Extracto de cuenta corriente',
+  'Monthly statement concept for the everyday current account.':
+    'Concepto de extracto mensual para la cuenta corriente diaria.',
+  'Statement period: April 2026': 'Período del extracto: abril de 2026',
+  'Savings account statement': 'Extracto de cuenta de ahorro',
+  'Savings and deposit account statement placeholder.':
+    'Marcador de extracto de cuenta de ahorro y depósito.',
+  'Monthly statement': 'Extracto mensual',
+  'Consolidated monthly account document concept.':
+    'Concepto de documento mensual consolidado de cuentas.',
+  'Document status: simulated': 'Estado del documento: simulado',
+  'Annual summary': 'Resumen anual',
+  'Year-end banking summary placeholder for customer review.':
+    'Marcador de resumen bancario anual para revisión del cliente.',
+  'Document status: not generated': 'Estado del documento: no generado',
+  'Mock banking records': 'Registros bancarios simulados',
+  'The button is disabled because no real bank statement is opened or generated in this prototype.':
+    'El botón está deshabilitado porque este prototipo no abre ni genera ningún extracto bancario real.',
+  'Card monthly statement': 'Extracto mensual de tarjeta',
+  'Monthly card statement placeholder for a simulated Aurora Bank card.':
+    'Marcador de extracto mensual para una tarjeta simulada de Aurora Bank.',
+  'Card transaction summary': 'Resumen de transacciones de tarjeta',
+  'Summary row for card activity in the local demo only.':
+    'Fila de resumen para actividad de tarjeta solo en la demo local.',
+  'Currency conversion notice': 'Aviso de conversión de moneda',
+  'Notice concept for card purchases in another currency.':
+    'Concepto de aviso para compras con tarjeta en otra moneda.',
+  'No conversion is calculated': 'No se calcula ninguna conversión',
+  'Card security notice': 'Aviso de seguridad de tarjeta',
+  'Security information placeholder for safe card usage.':
+    'Marcador de información de seguridad para uso seguro de tarjeta.',
+  'No PDF, card account record, card statement, or card transaction file is opened in this prototype.':
+    'Este prototipo no abre ningún PDF, registro de cuenta de tarjeta, extracto de tarjeta ni archivo de transacciones de tarjeta.',
+  'Annual tax summary': 'Resumen fiscal anual',
+  'Yearly tax summary placeholder for the local prototype.':
+    'Marcador de resumen fiscal anual para el prototipo local.',
+  'Tax year: 2026': 'Ejercicio fiscal: 2026',
+  'Digital asset tax report concept':
+    'Concepto de informe fiscal de activos digitales',
+  'Concept report for digital asset activity and reporting traceability.':
+    'Concepto de informe para actividad de activos digitales y trazabilidad de reporting.',
+  'No official filing data': 'Sin datos oficiales de presentación',
+  'Investment tax report concept':
+    'Concepto de informe fiscal de inversiones',
+  'Traditional investment reporting placeholder kept separate from digital assets.':
+    'Marcador de reporting de inversiones tradicionales separado de activos digitales.',
+  'No investment advice': 'Sin asesoría de inversión',
+  'Downloadable report placeholders': 'Marcadores de informes descargables',
+  'Static labels for PDF, CSV, and JSON report formats.':
+    'Etiquetas estáticas para formatos de informe PDF, CSV y JSON.',
+  'No file is created': 'No se crea ningún archivo',
+  'The action is disabled because no real tax report, tax filing, or tax advice is generated.':
+    'La acción está deshabilitada porque no se genera ningún informe fiscal, declaración fiscal ni asesoría fiscal real.',
+  'Export account documents': 'Exportar documentos de cuenta',
+  'Account document export placeholder for PDF format.':
+    'Marcador de exportación de documentos de cuenta en formato PDF.',
+  'Format: PDF': 'Formato: PDF',
+  'Export payment receipts': 'Exportar recibos de pago',
+  'Payment receipt bundle placeholder for banking records.':
+    'Marcador de paquete de recibos de pago para registros bancarios.',
+  'Export digital asset audit trail':
+    'Exportar trazabilidad de auditoría de activos digitales',
+  'Digital asset audit trail placeholder for CSV and JSON records.':
+    'Marcador de trazabilidad de auditoría de activos digitales para registros CSV y JSON.',
+  'Formats: CSV, JSON': 'Formatos: CSV, JSON',
+  'Export compliance evidence package':
+    'Exportar paquete de evidencia de cumplimiento',
+  'Evidence package export concept for controlled review workflows.':
+    'Concepto de exportación de paquete de evidencia para flujos de revisión controlados.',
+  'Formats: PDF, JSON': 'Formatos: PDF, JSON',
+  'No real document, archive, bank statement, evidence package, CSV, JSON, or PDF is generated.':
+    'No se genera ningún documento real, archivo, extracto bancario, paquete de evidencia, CSV, JSON ni PDF.',
+  'Risk decision recorded': 'Decisión de riesgo registrada',
+  'Risk operation decision row for a simulated digital asset workflow.':
+    'Fila de decisión de operaciones de riesgo para un flujo simulado de activos digitales.',
+  'Correlation ID: CORR-AUDIT-001': 'ID de correlación: CORR-AUDIT-001',
+  'Evidence package creation event for an internal review concept.':
+    'Evento de creación de paquete de evidencia para un concepto de revisión interna.',
+  'Package ID: EPK-DEMO-001': 'ID de paquete: EPK-DEMO-001',
+  'Review case opened': 'Caso de revisión abierto',
+  'Compliance review case placeholder opened from a simulated alert.':
+    'Marcador de caso de revisión de cumplimiento abierto desde una alerta simulada.',
+  'Case ID: CASE-DEMO-001': 'ID de caso: CASE-DEMO-001',
+  'Sensitive approval blocked': 'Aprobación sensible bloqueada',
+  'Sensitive approval control blocked a simulated high-risk action.':
+    'El control de aprobación sensible bloqueó una acción simulada de alto riesgo.',
+  'Guardrail: sensitive approval': 'Guardrail: aprobación sensible',
+  'Human approval integrity guard event':
+    'Evento de guardia de integridad de aprobación humana',
+  'Integrity guard event showing reviewer control checks.':
+    'Evento de guardia de integridad que muestra controles sobre el revisor.',
+  'Control: human approval integrity':
+    'Control: integridad de aprobación humana',
+  'Agent governance event': 'Evento de gobierno de agentes',
+  'Agent identity and permission event for governance traceability.':
+    'Evento de identidad y permisos de agente para trazabilidad de gobierno.',
+  'Control: agent governance': 'Control: gobierno de agentes',
+  'Audit rows are deterministic demo records. No real operation, approval, or system event is executed.':
+    'Las filas de auditoría son registros demo determinísticos. No se ejecuta ninguna operación, aprobación ni evento de sistema real.',
+  'Secure message inbox': 'Bandeja de mensajes seguros',
+  'Inbox container for local demo notices only.':
+    'Contenedor de bandeja solo para avisos de demo local.',
+  'No messages are delivered': 'No se entregan mensajes',
+  'Bank notice': 'Aviso bancario',
+  'General banking notice placeholder for online banking documents.':
+    'Marcador de aviso bancario general para documentos de banca en línea.',
+  'Compliance notification': 'Notificación de cumplimiento',
+  'Compliance notification concept for review and evidence workflows.':
+    'Concepto de notificación de cumplimiento para flujos de revisión y evidencia.',
+  'Statement delivery notice': 'Aviso de entrega de extracto',
+  'Statement delivery notification placeholder.':
+    'Marcador de notificación de entrega de extracto.',
+  'No document delivery': 'Sin entrega de documento',
+  'No real secure message, notification, email, SMS, or customer communication is opened or sent.':
+    'No se abre ni se envía ningún mensaje seguro real, notificación, correo electrónico, SMS ni comunicación con clientes.',
+  'Evidence package list': 'Lista de paquetes de evidencia',
+  'Evidence package placeholder for internal review and audit readiness.':
+    'Marcador de paquete de evidencia para revisión interna y preparación de auditoría.',
+  'Source audit event': 'Evento de auditoría fuente',
+  'Audit source reference attached to a simulated evidence package.':
+    'Referencia de auditoría fuente adjunta a un paquete de evidencia simulado.',
+  'Audit event ID: AUD-DEMO-001': 'ID de evento de auditoría: AUD-DEMO-001',
+  'Correlation ID placeholder': 'Marcador de ID de correlación',
+  'Correlation identifier used to connect deterministic demo records.':
+    'Identificador de correlación usado para conectar registros demo determinísticos.',
+  'Correlation ID: CORR-DEMO-001': 'ID de correlación: CORR-DEMO-001',
+  'Review case link placeholder': 'Marcador de enlace a caso de revisión',
+  'Review case reference for compliance review navigation.':
+    'Referencia de caso de revisión para navegación de revisión de cumplimiento.',
+  'Closed evidence record': 'Registro de evidencia cerrado',
+  'Closed evidence record concept for completed internal review.':
+    'Concepto de registro de evidencia cerrado para revisión interna completada.',
+  'Status: closed': 'Estado: cerrado',
+  'No evidence package, archive, document, or export is generated from this page.':
+    'Esta página no genera ningún paquete de evidencia, archivo, documento ni exportación.',
+  'Compliance case': 'Caso de cumplimiento',
+  'Compliance review case placeholder for document traceability.':
+    'Marcador de caso de revisión de cumplimiento para trazabilidad documental.',
+  'Case ID: COMP-DEMO-001': 'ID de caso: COMP-DEMO-001',
+  'Risk operations case': 'Caso de operaciones de riesgo',
+  'Risk operations record linked to simulated monitoring signals.':
+    'Registro de operaciones de riesgo vinculado a señales de monitoreo simuladas.',
+  'Case ID: RISK-DEMO-001': 'ID de caso: RISK-DEMO-001',
+  'Financial crime monitoring case':
+    'Caso de monitoreo de delito financiero',
+  'Financial crime monitoring concept for alert review workflows.':
+    'Concepto de monitoreo de delito financiero para flujos de revisión de alertas.',
+  'Case ID: FC-DEMO-001': 'ID de caso: FC-DEMO-001',
+  'Sensitive approval case': 'Caso de aprobación sensible',
+  'Sensitive approval record for controlled operation review.':
+    'Registro de aprobación sensible para revisión de operación controlada.',
+  'Case ID: SAP-DEMO-001': 'ID de caso: SAP-DEMO-001',
+  'Custodian readiness case': 'Caso de preparación de custodio',
+  'Custodian readiness and operational review placeholder.':
+    'Marcador de preparación de custodio y revisión operacional.',
+  'Case ID: CUST-DEMO-001': 'ID de caso: CUST-DEMO-001',
+  'No legal report, regulatory filing, certification, or customer record is opened or generated.':
+    'No se abre ni se genera ningún informe legal, presentación regulatoria, certificación ni registro de cliente.',
+  'Local deterministic prototype only. No real document, bank statement, card statement, tax report, secure message, audit trail, evidence package, compliance record, customer data, banking operation, export, or legal certification is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ningún documento real, extracto bancario, extracto de tarjeta, informe fiscal, mensaje seguro, trazabilidad de auditoría, paquete de evidencia, registro de cumplimiento, dato de cliente, operación bancaria, exportación ni certificación legal.',
+  'Local deterministic prototype only. No real bank statements, account records, customer data, banking operation, export, or customer communication is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ningún extracto bancario real, registro de cuenta, dato de cliente, operación bancaria, exportación ni comunicación con clientes.',
+  'Local deterministic prototype only. No real card statements, card transactions, cardholder data, banking operation, export, or customer communication is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ningún extracto de tarjeta real, transacción de tarjeta, dato de titular, operación bancaria, exportación ni comunicación con clientes.',
+  'Local deterministic prototype only. No real tax document, tax filing, tax advice, customer data, banking operation, export, or legal certification is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ningún documento fiscal real, declaración fiscal, asesoría fiscal, dato de cliente, operación bancaria, exportación ni certificación legal.',
+  'Local deterministic prototype only. No real export, bank statement, tax report, evidence package, customer data, banking operation, or secure message is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ninguna exportación real, extracto bancario, informe fiscal, paquete de evidencia, dato de cliente, operación bancaria ni mensaje seguro.',
+  'Local deterministic prototype only. No real audit trail, customer record, approval, agent execution, banking operation, evidence package, export, or legal certification is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ninguna trazabilidad de auditoría real, registro de cliente, aprobación, ejecución de agente, operación bancaria, paquete de evidencia, exportación ni certificación legal.',
+  'Local deterministic prototype only. No real secure message, bank mail, customer communication, customer data, document delivery, export, or banking operation is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ningún mensaje seguro real, correo bancario, comunicación con clientes, dato de cliente, entrega de documento, exportación ni operación bancaria.',
+  'Local deterministic prototype only. No real evidence package, export, audit file, customer data, banking operation, or legal certification is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ningún paquete de evidencia real, exportación, archivo de auditoría, dato de cliente, operación bancaria ni certificación legal.',
+  'Local deterministic prototype only. No real compliance record, legal report, regulatory certification, customer data, banking operation, evidence export, or secure message is created or executed.':
+    'Prototipo local determinístico. No se crea ni ejecuta ningún registro de cumplimiento real, informe legal, certificación regulatoria, dato de cliente, operación bancaria, exportación de evidencia ni mensaje seguro.',
   'Checking banking session...': 'Comprobando sesión bancaria...',
 }
 

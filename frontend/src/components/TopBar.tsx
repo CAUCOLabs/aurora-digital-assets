@@ -103,7 +103,10 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'See also',
         links: [
-          { label: 'Account statements and bank mail', to: '/reports' },
+          {
+            label: 'Account statements and bank mail',
+            to: '/reports/account-statements',
+          },
           { label: 'Message and notification settings', to: '/online-services' },
         ],
       },
@@ -137,7 +140,7 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'See also',
         links: [
-          { label: 'Card statements', to: '/reports' },
+          { label: 'Card statements', to: '/reports/card-statements' },
           { label: 'Security settings', to: '/online-services' },
         ],
       },
@@ -175,7 +178,10 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'See also',
         links: [
-          { label: 'Account statements and bank mail', to: '/reports' },
+          {
+            label: 'Account statements and bank mail',
+            to: '/reports/account-statements',
+          },
           { label: 'Message and notification settings', to: '/online-services' },
         ],
       },
@@ -251,7 +257,10 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'See also',
         links: [
-          { label: 'Account statements and bank mail', to: '/reports' },
+          {
+            label: 'Account statements and bank mail',
+            to: '/reports/account-statements',
+          },
           { label: 'Message and notification settings', to: '/online-services' },
           { label: 'Security settings', to: '/online-services' },
         ],
@@ -282,9 +291,9 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'Reporting',
         links: [
-          { label: 'Tax reports', to: '/reports' },
-          { label: 'Export documents', to: '/reports' },
-          { label: 'Audit trail', to: '/reports' },
+          { label: 'Tax reports', to: '/reports/tax-reports' },
+          { label: 'Export documents', to: '/reports/export-documents' },
+          { label: 'Audit trail', to: '/reports/audit-trail' },
         ],
       },
       {
@@ -297,7 +306,58 @@ const navigationItems: NavigationItem[] = [
       },
     ],
   },
-  { label: 'Documents', to: '/reports' },
+  {
+    label: 'Documents',
+    to: '/reports',
+    activePaths: [
+      '/reports/account-statements',
+      '/reports/card-statements',
+      '/reports/tax-reports',
+      '/reports/export-documents',
+      '/reports/audit-trail',
+      '/reports/bank-mail',
+      '/reports/evidence-records',
+      '/reports/compliance-records',
+    ],
+    menu: [
+      {
+        title: 'Statements',
+        links: [
+          { label: 'Reports overview', to: '/reports' },
+          { label: 'Account statements', to: '/reports/account-statements' },
+          { label: 'Card statements', to: '/reports/card-statements' },
+          { label: 'Bank mail', to: '/reports/bank-mail' },
+        ],
+      },
+      {
+        title: 'Tax and exports',
+        links: [
+          { label: 'Tax reports', to: '/reports/tax-reports' },
+          { label: 'Export documents', to: '/reports/export-documents' },
+          { label: 'Payment receipts', to: '/reports/export-documents' },
+        ],
+      },
+      {
+        title: 'Audit and evidence',
+        links: [
+          { label: 'Audit trail', to: '/reports/audit-trail' },
+          { label: 'Evidence records', to: '/reports/evidence-records' },
+          { label: 'Compliance records', to: '/reports/compliance-records' },
+        ],
+      },
+      {
+        title: 'See also',
+        links: [
+          { label: 'Evidence packages', to: '/bank-staff/evidence-packages' },
+          { label: 'Compliance review', to: '/compliance-review' },
+          {
+            label: 'Message and notification settings',
+            to: '/online-services',
+          },
+        ],
+      },
+    ],
+  },
   {
     label: 'Online Services',
     to: '/online-services',

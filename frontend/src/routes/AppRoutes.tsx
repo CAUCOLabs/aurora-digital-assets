@@ -4,6 +4,14 @@ import { DigitalAssetsPage } from '../pages/DigitalAssetsPage'
 import { WalletPage } from '../pages/WalletPage'
 import { WithdrawalsPage } from '../pages/WithdrawalsPage'
 import { ReportsPage } from '../pages/ReportsPage'
+import { AccountStatementsPage } from '../pages/AccountStatementsPage'
+import { CardStatementsPage } from '../pages/CardStatementsPage'
+import { TaxReportsPage } from '../pages/TaxReportsPage'
+import { ExportDocumentsPage } from '../pages/ExportDocumentsPage'
+import { AuditTrailPage } from '../pages/AuditTrailPage'
+import { BankMailPage } from '../pages/BankMailPage'
+import { EvidenceRecordsPage } from '../pages/EvidenceRecordsPage'
+import { ComplianceRecordsPage } from '../pages/ComplianceRecordsPage'
 import { PlaceholderPage } from '../pages/PlaceholderPage'
 import { BuySellPage } from '../pages/BuySellPage'
 import { CustodyPage } from '../pages/CustodyPage'
@@ -618,6 +626,70 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <ReportsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/account-statements"
+        element={
+          <ProtectedRoute>
+            <AccountStatementsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/card-statements"
+        element={
+          <ProtectedRoute>
+            <CardStatementsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/tax-reports"
+        element={
+          <ProtectedRoute>
+            <TaxReportsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/export-documents"
+        element={
+          <ProtectedRoute>
+            <ExportDocumentsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/audit-trail"
+        element={
+          <ProtectedRoute>
+            <AuditTrailPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/bank-mail"
+        element={
+          <ProtectedRoute>
+            <BankMailPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/evidence-records"
+        element={
+          <ProtectedRoute>
+            <EvidenceRecordsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports/compliance-records"
+        element={
+          <ProtectedRoute>
+            <ComplianceRecordsPage />
           </ProtectedRoute>
         }
       />
