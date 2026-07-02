@@ -21,6 +21,9 @@ from app.api.routes.agent_sensitive_action_guard import (
     router as agent_sensitive_action_guard_router,
 )
 from app.api.routes.api_security import router as api_security_router
+from app.api.routes.asset_rail_governance import (
+    router as asset_rail_governance_router,
+)
 from app.api.routes.audit_events import router as audit_events_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.bank_access import router as bank_access_router
@@ -129,6 +132,7 @@ def create_app() -> FastAPI:
     app.include_router(agent_actions_router, prefix=settings.api_prefix)
     app.include_router(agent_revocation_router, prefix=settings.api_prefix)
     app.include_router(agent_identity_governance_router, prefix=settings.api_prefix)
+    app.include_router(asset_rail_governance_router, prefix=settings.api_prefix)
     app.include_router(human_approval_integrity_router, prefix=settings.api_prefix)
     app.include_router(
         agent_sensitive_action_guard_router,
