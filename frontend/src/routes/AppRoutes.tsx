@@ -94,6 +94,15 @@ import { StaffCustomerAccessPage } from '../pages/StaffCustomerAccessPage'
 import { BankLoginPage } from '../pages/BankLoginPage'
 import { ProtectedRoute } from '../components/ProtectedRoute'
 import { BankHomePage } from '../pages/BankHomePage'
+import { OnlineServicesPage } from '../pages/OnlineServicesPage'
+import { OnlineBankingSettingsPage } from '../pages/OnlineBankingSettingsPage'
+import { MobileBankingPage } from '../pages/MobileBankingPage'
+import { StrongAuthenticationPage } from '../pages/StrongAuthenticationPage'
+import { MessageSettingsPage } from '../pages/MessageSettingsPage'
+import { NotificationSettingsPage } from '../pages/NotificationSettingsPage'
+import { DeviceManagementPage } from '../pages/DeviceManagementPage'
+import { SecurityAlertsPage } from '../pages/SecurityAlertsPage'
+import { OnlineServicesFAQPage } from '../pages/OnlineServicesFAQPage'
 
 export function AppRoutes() {
   return (
@@ -843,11 +852,73 @@ export function AppRoutes() {
       <Route
         path="/online-services"
         element={
-          <PlaceholderPage
-            eyebrow="Online Services"
-            title="Online Services"
-            description="Simulated online and mobile services section for the Aurora Bank online banking prototype."
-          />
+          <ProtectedRoute>
+            <OnlineServicesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/settings"
+        element={
+          <ProtectedRoute>
+            <OnlineBankingSettingsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/mobile-banking"
+        element={
+          <ProtectedRoute>
+            <MobileBankingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/strong-authentication"
+        element={
+          <ProtectedRoute>
+            <StrongAuthenticationPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/messages"
+        element={
+          <ProtectedRoute>
+            <MessageSettingsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/notifications"
+        element={
+          <ProtectedRoute>
+            <NotificationSettingsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/device-management"
+        element={
+          <ProtectedRoute>
+            <DeviceManagementPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/security-alerts"
+        element={
+          <ProtectedRoute>
+            <SecurityAlertsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/online-services/faq"
+        element={
+          <ProtectedRoute>
+            <OnlineServicesFAQPage />
+          </ProtectedRoute>
         }
       />
 

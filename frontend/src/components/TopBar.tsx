@@ -365,32 +365,45 @@ const navigationItems: NavigationItem[] = [
       {
         title: 'Online banking',
         links: [
-          { label: 'Online banking settings', to: '/online-services' },
-          { label: 'Mobile banking', to: '/online-services' },
-          { label: 'Strong authentication', to: '/online-services' },
+          { label: 'Online services overview', to: '/online-services' },
+          { label: 'Online banking settings', to: '/online-services/settings' },
+          { label: 'Mobile banking', to: '/online-services/mobile-banking' },
+          {
+            label: 'Strong authentication',
+            to: '/online-services/strong-authentication',
+          },
         ],
       },
       {
-        title: 'Messages',
+        title: 'Messages and notifications',
         links: [
-          { label: 'Message settings', to: '/online-services' },
-          { label: 'Email notifications', to: '/online-services' },
-          { label: 'SMS notifications', to: '/online-services' },
+          { label: 'Message settings', to: '/online-services/messages' },
+          { label: 'Email notifications', to: '/online-services/notifications' },
+          { label: 'SMS notifications', to: '/online-services/notifications' },
+          { label: 'Push notifications', to: '/online-services/notifications' },
         ],
       },
       {
         title: 'Security',
         links: [
-          { label: 'Login security', to: '/online-services' },
-          { label: 'Device management', to: '/online-services' },
-          { label: 'Security alerts', to: '/online-services' },
+          {
+            label: 'Login security',
+            to: '/online-services/strong-authentication',
+          },
+          {
+            label: 'Device management',
+            to: '/online-services/device-management',
+          },
+          { label: 'Security alerts', to: '/online-services/security-alerts' },
         ],
       },
       {
-        title: 'Help',
+        title: 'Support',
         links: [
-          { label: 'Online services FAQ', to: '/online-services' },
-          { label: 'Contact support', to: '/online-services' },
+          { label: 'Online services FAQ', to: '/online-services/faq' },
+          { label: 'Contact support', to: '/online-services/faq' },
+          { label: 'Documents', to: '/reports' },
+          { label: 'Bank mail', to: '/reports/bank-mail' },
         ],
       },
     ],
