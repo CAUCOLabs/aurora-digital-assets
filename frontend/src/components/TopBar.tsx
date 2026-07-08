@@ -352,6 +352,10 @@ const navigationItems: NavigationItem[] = [
             to: '/bank-staff/control-engine',
           },
           {
+            label: 'Policy Engine',
+            to: '/bank-staff/policy-engine',
+          },
+          {
             label: 'Regulation Engine',
             to: '/bank-staff/regulation-engine',
           },

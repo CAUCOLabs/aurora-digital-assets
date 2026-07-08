@@ -40,6 +40,13 @@ const workspaceModules = [
     to: '/bank-staff/control-engine',
   },
   {
+    title: 'Policy Engine',
+    description:
+      'Converts internal governance policies into deterministic control requirements before sensitive operations can proceed.',
+    status: 'Policy layer',
+    to: '/bank-staff/policy-engine',
+  },
+  {
     title: 'Regulation Engine',
     description:
       'Maps asset rails and regulatory concepts into deterministic control requirements, evidence needs and review paths.',
