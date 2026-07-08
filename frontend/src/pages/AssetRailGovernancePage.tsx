@@ -59,7 +59,7 @@ export function AssetRailGovernancePage() {
         <section className="metric-grid">
           {statusCards.map((card) => (
             <Panel key={card.label} className="metric-card">
-              <span>{card.label}</span>
+              <span>{card.label}:</span>
               <strong>{card.value}</strong>
             </Panel>
           ))}
