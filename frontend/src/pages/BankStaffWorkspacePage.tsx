@@ -54,6 +54,13 @@ const workspaceModules = [
     to: '/bank-staff/assessment-engine',
   },
   {
+    title: 'Knowledge Engine',
+    description:
+      'Preserves institutional control logic, regulatory concepts, policy mappings, evidence context and explainable review memory.',
+    status: 'Explainability layer',
+    to: '/bank-staff/knowledge-engine',
+  },
+  {
     title: 'Regulation Engine',
     description:
       'Maps asset rails and regulatory concepts into deterministic control requirements, evidence needs and review paths.',

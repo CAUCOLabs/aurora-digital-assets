@@ -97,6 +97,7 @@ import { TrustEnginePage } from '../pages/TrustEnginePage'
 import { ControlEnginePage } from '../pages/ControlEnginePage'
 import { PolicyEnginePage } from '../pages/PolicyEnginePage'
 import { AssessmentEnginePage } from '../pages/AssessmentEnginePage'
+import { KnowledgeEnginePage } from '../pages/KnowledgeEnginePage'
 import { BankLoginPage } from '../pages/BankLoginPage'
 import { ProtectedRoute } from '../components/ProtectedRoute'
 import { BankHomePage } from '../pages/BankHomePage'
@@ -802,6 +803,14 @@ export function AppRoutes() {
           element={
             <ProtectedRoute>
               <AssessmentEnginePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bank-staff/knowledge-engine"
+          element={
+            <ProtectedRoute>
+              <KnowledgeEnginePage />
             </ProtectedRoute>
           }
         />
