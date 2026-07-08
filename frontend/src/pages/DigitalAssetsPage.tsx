@@ -5,6 +5,7 @@ import { Panel } from '../components/Panel'
 import { DigitalAssetRow } from '../components/DigitalAssetRow'
 import { DigitalAssetsSubnav } from '../components/DigitalAssetsSubnav'
 import { PrivacyAmount } from '../components/PrivacyAmount'
+import { useLanguage } from '../context/LanguageContext'
 import { digitalAssets } from '../data/dashboardData'
 import {
   getCustodyStatus,
@@ -24,7 +25,8 @@ const fallbackSupportedAssets: SupportedDigitalAsset[] = [
     category: 'Investment / holding asset',
     supported_actions: ['buy', 'sell', 'hold', 'external_withdrawal'],
     status: 'Active',
-    risk_note: 'Volatile digital asset. External withdrawals require review.',
+    risk_note:
+      'Volatile cryptoasset rail example. External withdrawals require review.',
   },
   {
     symbol: 'ETH',
@@ -32,7 +34,8 @@ const fallbackSupportedAssets: SupportedDigitalAsset[] = [
     category: 'Investment / holding asset',
     supported_actions: ['buy', 'sell', 'hold', 'external_withdrawal'],
     status: 'Active',
-    risk_note: 'Volatile digital asset. External withdrawals require review.',
+    risk_note:
+      'Volatile cryptoasset rail example. External withdrawals require review.',
   },
 ]
 
@@ -122,6 +125,8 @@ function mapWalletBalanceToRow(asset: WalletBalance) {
 }
 
 export function DigitalAssetsPage() {
+  const { t } = useLanguage()
+  const labels = t.digitalAssetsPage
   const [supportedAssets, setSupportedAssets] = useState<
     SupportedDigitalAsset[]
   >([])
@@ -179,12 +184,9 @@ export function DigitalAssetsPage() {
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">Digital Assets</p>
+            <p className="eyebrow">{labels.eyebrow}</p>
             <h1>Aurora Digital Assets</h1>
-            <p>
-              View your digital asset balances, custody status, recent activity,
-              and available actions from inside your online banking environment.
-            </p>
+            <p>{labels.heroSubtitle}</p>
           </div>
 
           <div className="security-badge">
@@ -238,10 +240,53 @@ export function DigitalAssetsPage() {
                   <p>Custody model</p>
                   <strong>{visibleCustodyStatus.custodyMode}</strong>
                   <span>
-                    Digital assets are separate from bank deposits and may lose
-                    value.
+                    Custody and control model depend on asset rail
+                    classification. Digital assets may lose value.
                   </span>
                 </div>
+              </div>
+            </Panel>
+
+            <Panel>
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">{labels.assetRailPhase}</p>
+                  <h2>{labels.assetRailGovernance}</h2>
+                </div>
+                <span className="module-tag">{labels.controlModelFirst}</span>
+              </div>
+              <p>{labels.assetRailBody}</p>
+
+              <div className="account-list">
+                {labels.assetRailRows.map((rail) => (
+                  <article className="account-row" key={rail.name}>
+                    <div>
+                      <h3>{rail.name}</h3>
+                      <p>
+                        <strong>{labels.rail}</strong> {rail.rail}
+                      </p>
+                      <span>
+                        {labels.controlModel}: {rail.controlModel}
+                      </span>
+                    </div>
+                    <strong>{labels.governanceExample}</strong>
+                  </article>
+                ))}
+              </div>
+
+              <div className="action-row">
+                <Link
+                  className="button-link"
+                  to="/bank-staff/asset-rail-governance"
+                >
+                  {labels.openStaffGovernanceView}
+                </Link>
+                <Link
+                  className="button-link secondary-button"
+                  to="/reports/audit-trail"
+                >
+                  {labels.viewAuditTrail}
+                </Link>
               </div>
             </Panel>
 
@@ -339,6 +384,18 @@ export function DigitalAssetsPage() {
             </Panel>
 
             <Panel>
+              <p className="eyebrow">{labels.assetRailPhase}</p>
+              <h2>{labels.digitalEuroNotBtc}</h2>
+              <p>{labels.digitalEuroNotBtcBody}</p>
+            </Panel>
+
+            <Panel>
+              <p className="eyebrow">{labels.cryptoassetControlPath}</p>
+              <h2>{labels.cryptoassetsDifferentPath}</h2>
+              <p>{labels.cryptoassetsDifferentPathBody}</p>
+            </Panel>
+
+            <Panel>
               <p className="eyebrow">Available assets</p>
               <h2>Supported assets</h2>
 
@@ -375,8 +432,7 @@ export function DigitalAssetsPage() {
         </section>
 
         <section className="disclaimer">
-          Independent concept prototype. No real bank APIs, no real crypto
-          custody, no private keys, and no real customer data.
+          {labels.safetyNotice}
         </section>
       </main>
     </div>

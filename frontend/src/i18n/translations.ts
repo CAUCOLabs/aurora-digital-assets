@@ -7485,6 +7485,59 @@ export const translations = {
       protectionStatus: 'Protection status',
       protection: 'Digital assets protection',
     },
+    digitalAssetsPage: {
+      eyebrow: 'Digital Assets',
+      heroSubtitle:
+        'View digital asset balances, custody status, recent activity, and asset rail governance controls from inside a simulated online banking environment.',
+      assetRailPhase: 'Phase 27',
+      assetRailGovernance: 'Asset Rail Governance',
+      assetRailBody:
+        'Aurora classifies the asset rail before applying custody, settlement, compliance, evidence, and approval controls.',
+      controlModelFirst: 'Control model first',
+      rail: 'Rail:',
+      controlModel: 'Control model',
+      governanceExample: 'Governance example',
+      openStaffGovernanceView: 'Open staff governance view',
+      viewAuditTrail: 'View audit trail',
+      digitalEuroNotBtc: 'Digital euro is not modeled as BTC',
+      digitalEuroNotBtcBody:
+        'Digital euro / CBDC is modeled as central bank money distributed or intermediated by banks or supervised payment service providers. Aurora does not apply external crypto custodian controls by default to digital euro rails.',
+      cryptoassetControlPath: 'Cryptoasset control path',
+      cryptoassetsDifferentPath:
+        'Cryptoassets use a different control path',
+      cryptoassetsDifferentPathBody:
+        'BTC / ETH style assets may require custodian readiness, wallet boundary, private key boundary, blockchain execution boundary, human approval integrity, and agent governance controls before sensitive operations are considered.',
+      safetyNotice:
+        'Local deterministic prototype only. No real digital euro, CBDC, stablecoin, cryptoasset, custody, PSP, banking, blockchain, payment, settlement, redemption, transfer, customer data, private key, credential, or secret is used or executed. This is not legal advice or regulatory certification.',
+      assetRailRows: [
+        {
+          name: 'Digital Euro / CBDC',
+          rail: 'PSP-intermediated central bank money rail',
+          controlModel: 'No external crypto custodian by default',
+        },
+        {
+          name: 'Tokenized Deposit',
+          rail: 'Internal bank ledger rail',
+          controlModel: 'Bank liability and internal banking controls',
+        },
+        {
+          name: 'Regulated Stablecoin / EMT',
+          rail: 'Regulated issuer rail',
+          controlModel: 'Issuer, reserve and redemption governance',
+        },
+        {
+          name: 'Cryptoasset',
+          rail: 'External crypto custody or blockchain execution rail',
+          controlModel:
+            'Custodian readiness, wallet boundary, private key boundary and blockchain execution controls',
+        },
+        {
+          name: 'Security Token',
+          rail: 'Securities settlement rail',
+          controlModel: 'Securities controls and settlement governance',
+        },
+      ],
+    },
     bankStaffWorkspace: {
       protectedArea: 'Protected bank staff area',
       title: 'Bank Staff Workspace',
@@ -8394,6 +8447,59 @@ export const translations = {
       readRiskInformation: 'Leer información de riesgo',
       protectionStatus: 'Estado de protección',
       protection: 'Protección de activos digitales',
+    },
+    digitalAssetsPage: {
+      eyebrow: 'Activos digitales',
+      heroSubtitle:
+        'Ver saldos de activos digitales, estado de custodia, actividad reciente y controles de gobernanza de rails de activos desde un entorno simulado de banca en línea.',
+      assetRailPhase: 'Fase 27',
+      assetRailGovernance: 'Gobernanza de rails de activos',
+      assetRailBody:
+        'Aurora clasifica el rail del activo antes de aplicar controles de custodia, liquidación, cumplimiento, evidencia y aprobación.',
+      controlModelFirst: 'Modelo de control primero',
+      rail: 'Rail:',
+      controlModel: 'Modelo de control',
+      governanceExample: 'Ejemplo de gobernanza',
+      openStaffGovernanceView: 'Abrir vista de gobernanza staff',
+      viewAuditTrail: 'Ver trazabilidad de auditoría',
+      digitalEuroNotBtc: 'El euro digital no se modela como BTC',
+      digitalEuroNotBtcBody:
+        'El euro digital / CBDC se modela como dinero de banco central distribuido o intermediado por bancos o proveedores de servicios de pago supervisados. Aurora no aplica controles de custodio cripto externo por defecto a rails de euro digital.',
+      cryptoassetControlPath: 'Ruta de control de criptoactivos',
+      cryptoassetsDifferentPath:
+        'Los criptoactivos usan una ruta de control distinta',
+      cryptoassetsDifferentPathBody:
+        'Los activos tipo BTC / ETH pueden requerir preparación de custodio, límites de billetera, límites de llaves privadas, límites de ejecución blockchain, integridad de aprobación humana y controles de gobernanza de agentes antes de considerar operaciones sensibles.',
+      safetyNotice:
+        'Prototipo local determinístico solamente. No se usa ni ejecuta euro digital, CBDC, stablecoin, criptoactivo, custodia, PSP, banca, blockchain, pago, liquidación, redención, transferencia, datos de cliente, llave privada, credencial o secreto real. No es asesoría legal ni certificación regulatoria.',
+      assetRailRows: [
+        {
+          name: 'Euro digital / CBDC',
+          rail: 'Rail de dinero de banco central intermediado por PSP',
+          controlModel: 'Sin custodio cripto externo por defecto',
+        },
+        {
+          name: 'Depósito tokenizado',
+          rail: 'Rail de libro interno bancario',
+          controlModel: 'Pasivo bancario y controles internos bancarios',
+        },
+        {
+          name: 'Stablecoin regulada / EMT',
+          rail: 'Rail de emisor regulado',
+          controlModel: 'Controles de emisor, reservas y redención',
+        },
+        {
+          name: 'Criptoactivo',
+          rail: 'Rail de custodia cripto externa o ejecución blockchain',
+          controlModel:
+            'Controles de custodia, billetera, llaves privadas y ejecución blockchain',
+        },
+        {
+          name: 'Token valor',
+          rail: 'Rail de liquidación de valores',
+          controlModel: 'Controles de valores y gobernanza de liquidación',
+        },
+      ],
     },
     bankStaffWorkspace: {
       protectedArea: 'Área interna protegida del banco',
