@@ -344,6 +344,10 @@ const navigationItems: NavigationItem[] = [
           { label: 'Evidence records', to: '/reports/evidence-records' },
           { label: 'Compliance records', to: '/reports/compliance-records' },
           {
+            label: 'Aurora Trust Engine',
+            to: '/bank-staff/trust-engine',
+          },
+          {
             label: 'Asset rail governance',
             to: '/bank-staff/asset-rail-governance',
           },

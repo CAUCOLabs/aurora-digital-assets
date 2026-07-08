@@ -92,6 +92,7 @@ import { OperationalResiliencePage } from '../pages/OperationalResiliencePage'
 import { RiskOperationsPage } from '../pages/RiskOperationsPage'
 import { SensitiveApprovalPage } from '../pages/SensitiveApprovalPage'
 import { StaffCustomerAccessPage } from '../pages/StaffCustomerAccessPage'
+import { TrustEnginePage } from '../pages/TrustEnginePage'
 import { BankLoginPage } from '../pages/BankLoginPage'
 import { ProtectedRoute } from '../components/ProtectedRoute'
 import { BankHomePage } from '../pages/BankHomePage'
@@ -765,6 +766,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <RiskOperationsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/trust-engine"
+        element={
+          <ProtectedRoute>
+            <TrustEnginePage />
           </ProtectedRoute>
         }
       />

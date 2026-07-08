@@ -26,6 +26,13 @@ const workspaceModules = [
     to: '/bank-staff/risk-operations',
   },
   {
+    title: 'Aurora Trust Engine',
+    description:
+      'Shared orchestration layer for risk, policy, evidence, assessment, control, regulation and knowledge modules.',
+    status: 'Shared orchestration',
+    to: '/bank-staff/trust-engine',
+  },
+  {
     title: 'API security control center',
     description:
       'Monitor sensitive backend actions, resolver authorization, business rate limits, schema exposure, step-up authentication, and audit logging.',
@@ -138,6 +145,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.onboarding,
     t.bankStaffWorkspace.modules.customerAccess,
     t.bankStaffWorkspace.modules.riskOperations,
+    t.bankStaffWorkspace.modules.trustEngine,
     t.bankStaffWorkspace.modules.apiSecurity,
     t.bankStaffWorkspace.modules.infrastructureSecurity,
     t.bankStaffWorkspace.modules.cryptoAgility,
@@ -157,6 +165,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.bankStaffControl,
     t.bankStaffWorkspace.statuses.customerAuthorization,
     t.bankStaffWorkspace.statuses.orchestrationLayer,
+    t.bankStaffWorkspace.statuses.sharedOrchestration,
     t.bankStaffWorkspace.statuses.backendSecurityLayer,
     t.bankStaffWorkspace.statuses.crossLayerSecurity,
     t.bankStaffWorkspace.statuses.cryptoAgility,
@@ -176,6 +185,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.moduleDescriptions.onboarding,
     t.bankStaffWorkspace.moduleDescriptions.customerAccess,
     t.bankStaffWorkspace.moduleDescriptions.riskOperations,
+    t.bankStaffWorkspace.moduleDescriptions.trustEngine,
     t.bankStaffWorkspace.moduleDescriptions.apiSecurity,
     t.bankStaffWorkspace.moduleDescriptions.infrastructureSecurity,
     t.bankStaffWorkspace.moduleDescriptions.cryptoAgility,

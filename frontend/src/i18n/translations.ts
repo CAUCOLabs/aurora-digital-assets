@@ -379,6 +379,7 @@ const enPhrases = {
   'Audit and evidence': 'Audit and evidence',
   'Evidence records': 'Evidence records',
   'Compliance records': 'Compliance records',
+  'Aurora Trust Engine': 'Aurora Trust Engine',
   'Asset rail governance': 'Asset rail governance',
   'Evidence packages': 'Evidence packages',
   'Compliance review': 'Compliance review',
@@ -1020,6 +1021,7 @@ const esPhrases: Record<keyof typeof enPhrases, string> = {
   'Audit and evidence': 'Auditoría y evidencia',
   'Evidence records': 'Registros de evidencia',
   'Compliance records': 'Registros de cumplimiento',
+  'Aurora Trust Engine': 'Motor de Confianza Aurora',
   'Asset rail governance': 'Gobernanza de rails de activos',
   'Evidence packages': 'Paquetes de evidencia',
   'Compliance review': 'Revisión de cumplimiento',
@@ -7556,6 +7558,7 @@ export const translations = {
         onboarding: 'Customer onboarding',
         customerAccess: 'Customer access authorization',
         riskOperations: 'Risk operations console',
+        trustEngine: 'Aurora Trust Engine',
         apiSecurity: 'API security control center',
         infrastructureSecurity: 'Infrastructure security control center',
         cryptoAgility: 'Cryptographic agility control center',
@@ -7576,6 +7579,8 @@ export const translations = {
           'Look up a demo customer and request temporary customer-authorized staff access.',
         riskOperations:
           'Unified command view for alerts, incidents, evidence readiness, escalations, paused operations, and staff priorities.',
+        trustEngine:
+          'Shared orchestration layer for risk, policy, evidence, assessment, control, regulation and knowledge modules.',
         apiSecurity:
           'Monitor sensitive backend actions, resolver authorization, business rate limits, schema exposure, step-up authentication, and audit logging.',
         infrastructureSecurity:
@@ -7605,6 +7610,7 @@ export const translations = {
         bankStaffControl: 'Bank staff control',
         customerAuthorization: 'Customer authorization',
         orchestrationLayer: 'Orchestration layer',
+        sharedOrchestration: 'Shared orchestration',
         backendSecurityLayer: 'Backend security layer',
         crossLayerSecurity: 'Cross-layer security',
         cryptoAgility: 'Crypto-agility',
@@ -7724,6 +7730,97 @@ export const translations = {
         cryptoAgility: 'Crypto agility',
         auditTrail: 'Audit trail',
       },
+    },
+    trustEngine: {
+      eyebrow: 'Aurora Trust Engine',
+      title: 'Shared Intelligence & Orchestration Layer',
+      subtitle:
+        'Coordinates risk, policy, evidence, assessment, regulation, control and knowledge layers across regulated digital asset operations.',
+      mode: 'Mode',
+      localDeterministicPrototype: 'Local deterministic prototype',
+      realIntegrations: 'Real integrations',
+      realAssets: 'Real assets',
+      externalExecution: 'External execution',
+      disabled: 'Disabled',
+      evidence: 'Evidence',
+      reviewable: 'Reviewable',
+      controlModel: 'Control model',
+      layered: 'Layered',
+      orchestrationMap: 'Orchestration map',
+      trustEngineMap: 'Trust Engine map',
+      sharedLayer: 'Shared layer',
+      coreMessage:
+        'Aurora Trust Engine coordinates risk, policy, evidence, assessment, control, regulation and knowledge layers before sensitive banking or digital asset decisions can proceed.',
+      coordinated: 'Coordinated',
+      connectedAurora: 'Connected Aurora',
+      connectedModules: 'Connected Aurora modules',
+      reviewLinks: 'Review links',
+      open: 'Open',
+      corePrinciple: 'Core principle',
+      beforeSensitiveDecision: 'Before sensitive decisions',
+      deterministicFlow: 'Deterministic flow',
+      trustFlow: 'Trust flow',
+      step: 'Step',
+      safetyBoundary: 'Safety boundary',
+      prototypeBoundary: 'Prototype boundary',
+      safetyBoundaryText:
+        'Local deterministic trust engine interface only. No real banking, custody, PSP, digital euro, CBDC, stablecoin, cryptoasset, blockchain, cloud, payment, settlement, transfer, customer data, private key, credential or secret is used or executed. This is not legal advice or regulatory certification.',
+      engineRows: [
+        {
+          name: 'Risk Engine',
+          description:
+            'Evaluates operational, custody, payment, asset rail and approval risk',
+        },
+        {
+          name: 'Policy Engine',
+          description:
+            'Applies deterministic control policies before state changes',
+        },
+        {
+          name: 'Evidence Engine',
+          description:
+            'Creates audit-ready evidence packages and review links',
+        },
+        {
+          name: 'Assessment Engine',
+          description:
+            'Classifies scenarios, gaps, controls and readiness',
+        },
+        {
+          name: 'Control Engine',
+          description: 'Blocks or routes sensitive operations',
+        },
+        {
+          name: 'Regulation Engine',
+          description:
+            'Maps regulatory concepts into control requirements',
+        },
+        {
+          name: 'Knowledge Engine',
+          description:
+            'Preserves institutional control logic and explainability',
+        },
+      ],
+      connectedLinks: {
+        assetRailGovernance: 'Asset Rail Governance',
+        riskOperations: 'Risk Operations',
+        evidencePackages: 'Evidence Packages',
+        complianceIntelligence: 'Compliance Intelligence',
+        humanApprovalIntegrity: 'Human Approval Integrity',
+        agentGovernance: 'Agent Governance',
+        cryptoAgility: 'Crypto Agility',
+        auditTrail: 'Audit Trail',
+      },
+      trustFlowSteps: [
+        'Signal',
+        'Classification',
+        'Policy',
+        'Risk score',
+        'Evidence',
+        'Review',
+        'Approval integrity',
+        'Controlled decision',
+      ],
     },
     financialCrimeMonitoring: {
       title: 'Financial Crime Monitoring',
@@ -8519,6 +8616,7 @@ export const translations = {
         onboarding: 'Incorporación de clientes',
         customerAccess: 'Autorización de acceso a clientes',
         riskOperations: 'Consola de operaciones de riesgo',
+        trustEngine: 'Motor de Confianza Aurora',
         apiSecurity: 'Centro de control de seguridad API',
         infrastructureSecurity:
           'Centro de control de seguridad de infraestructura',
@@ -8541,6 +8639,8 @@ export const translations = {
           'Buscar un cliente demo y solicitar acceso temporal autorizado por el cliente.',
         riskOperations:
           'Vista de comando unificada para alertas, incidentes, preparación de evidencia, escalaciones, operaciones pausadas y prioridades del equipo.',
+        trustEngine:
+          'Capa compartida de orquestación para módulos de riesgo, políticas, evidencia, evaluación, control, regulación y conocimiento.',
         apiSecurity:
           'Monitorear acciones sensibles del backend, autorización por resolver, límites por acción de negocio, exposición de esquema, autenticación reforzada y auditoría.',
         infrastructureSecurity:
@@ -8570,6 +8670,7 @@ export const translations = {
         bankStaffControl: 'Control interno del banco',
         customerAuthorization: 'Autorización del cliente',
         orchestrationLayer: 'Capa de orquestación',
+        sharedOrchestration: 'Orquestación compartida',
         backendSecurityLayer: 'Capa de seguridad backend',
         crossLayerSecurity: 'Seguridad transversal',
         cryptoAgility: 'Agilidad criptográfica',
@@ -8689,6 +8790,97 @@ export const translations = {
         cryptoAgility: 'Agilidad criptográfica',
         auditTrail: 'Trazabilidad de auditoría',
       },
+    },
+    trustEngine: {
+      eyebrow: 'Motor de Confianza Aurora',
+      title: 'Capa compartida de inteligencia y orquestación',
+      subtitle:
+        'Coordina capas de riesgo, políticas, evidencia, evaluación, regulación, control y conocimiento en operaciones reguladas de activos digitales.',
+      mode: 'Modo',
+      localDeterministicPrototype: 'Prototipo local determinístico',
+      realIntegrations: 'Integraciones reales',
+      realAssets: 'Activos reales',
+      externalExecution: 'Ejecución externa',
+      disabled: 'deshabilitada',
+      evidence: 'Evidencia',
+      reviewable: 'Revisable',
+      controlModel: 'Modelo de control',
+      layered: 'En capas',
+      orchestrationMap: 'Mapa de orquestación',
+      trustEngineMap: 'Mapa del Motor de Confianza',
+      sharedLayer: 'Capa compartida',
+      coreMessage:
+        'El Motor de Confianza Aurora coordina capas de riesgo, políticas, evidencia, evaluación, control, regulación y conocimiento antes de que puedan proceder decisiones sensibles bancarias o de activos digitales.',
+      coordinated: 'Coordinado',
+      connectedAurora: 'Aurora conectado',
+      connectedModules: 'Módulos Aurora conectados',
+      reviewLinks: 'Enlaces de revisión',
+      open: 'Abrir',
+      corePrinciple: 'Principio central',
+      beforeSensitiveDecision: 'Antes de decisiones sensibles',
+      deterministicFlow: 'Flujo determinístico',
+      trustFlow: 'Flujo de confianza',
+      step: 'Paso',
+      safetyBoundary: 'Límite de seguridad',
+      prototypeBoundary: 'Límite del prototipo',
+      safetyBoundaryText:
+        'Interfaz local determinística del motor de confianza solamente. No se usa ni ejecuta banca, custodia, PSP, euro digital, CBDC, stablecoin, criptoactivo, blockchain, cloud, pago, liquidación, transferencia, datos de cliente, llave privada, credencial o secreto real. No es asesoría legal ni certificación regulatoria.',
+      engineRows: [
+        {
+          name: 'Motor de riesgo',
+          description:
+            'Evalúa riesgo operacional, de custodia, pago, rail de activo y aprobación',
+        },
+        {
+          name: 'Motor de políticas',
+          description:
+            'Aplica políticas de control determinísticas antes de cambios de estado',
+        },
+        {
+          name: 'Motor de evidencia',
+          description:
+            'Crea paquetes de evidencia listos para auditoría y enlaces de revisión',
+        },
+        {
+          name: 'Motor de evaluación',
+          description:
+            'Clasifica escenarios, brechas, controles y preparación',
+        },
+        {
+          name: 'Motor de control',
+          description: 'Bloquea o enruta operaciones sensibles',
+        },
+        {
+          name: 'Motor regulatorio',
+          description:
+            'Mapea conceptos regulatorios a requisitos de control',
+        },
+        {
+          name: 'Motor de conocimiento',
+          description:
+            'Preserva lógica institucional de control y explicabilidad',
+        },
+      ],
+      connectedLinks: {
+        assetRailGovernance: 'Gobernanza de rails de activos',
+        riskOperations: 'Operaciones de riesgo',
+        evidencePackages: 'Paquetes de evidencia',
+        complianceIntelligence: 'Inteligencia de cumplimiento',
+        humanApprovalIntegrity: 'Integridad de aprobación humana',
+        agentGovernance: 'Gobernanza de agentes',
+        cryptoAgility: 'Agilidad criptográfica',
+        auditTrail: 'Trazabilidad de auditoría',
+      },
+      trustFlowSteps: [
+        'Señal',
+        'Clasificación',
+        'Política',
+        'Puntaje de riesgo',
+        'Evidencia',
+        'Revisión',
+        'Integridad de aprobación',
+        'Decisión controlada',
+      ],
     },
     financialCrimeMonitoring: {
       title: 'Monitoreo de Delitos Financieros',
