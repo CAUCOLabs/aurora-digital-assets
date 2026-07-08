@@ -33,6 +33,13 @@ const workspaceModules = [
     to: '/bank-staff/trust-engine',
   },
   {
+    title: 'Control Engine',
+    description:
+      'Blocks, pauses, routes, evidences or allows internal review for sensitive operations before state can change.',
+    status: 'Controlled decision layer',
+    to: '/bank-staff/control-engine',
+  },
+  {
     title: 'Regulation Engine',
     description:
       'Maps asset rails and regulatory concepts into deterministic control requirements, evidence needs and review paths.',
