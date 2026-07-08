@@ -379,6 +379,7 @@ const enPhrases = {
   'Audit and evidence': 'Audit and evidence',
   'Evidence records': 'Evidence records',
   'Compliance records': 'Compliance records',
+  'Asset rail governance': 'Asset rail governance',
   'Evidence packages': 'Evidence packages',
   'Compliance review': 'Compliance review',
   'Related records': 'Related records',
@@ -1019,6 +1020,7 @@ const esPhrases: Record<keyof typeof enPhrases, string> = {
   'Audit and evidence': 'Auditoría y evidencia',
   'Evidence records': 'Registros de evidencia',
   'Compliance records': 'Registros de cumplimiento',
+  'Asset rail governance': 'Gobernanza de rails de activos',
   'Evidence packages': 'Paquetes de evidencia',
   'Compliance review': 'Revisión de cumplimiento',
   'Related records': 'Registros relacionados',
@@ -7504,6 +7506,7 @@ export const translations = {
         apiSecurity: 'API security control center',
         infrastructureSecurity: 'Infrastructure security control center',
         cryptoAgility: 'Cryptographic agility control center',
+        assetRailGovernance: 'Asset Rail Governance',
         sensitiveApproval: 'Sensitive operations approval engine',
         complianceReview: 'Compliance review',
         financialCrime: 'Financial crime monitoring',
@@ -7526,6 +7529,8 @@ export const translations = {
           'Monitor application-to-cloud chain reaction risks across backend authorization, Kubernetes RBAC, IAM, secrets, audit evidence, and risk operations.',
         cryptoAgility:
           'Track cryptographic inventory, algorithm versioning, key rotation, long-term confidentiality risk, and post-quantum migration readiness.',
+        assetRailGovernance:
+          'Classify digital euro, tokenized deposits, stablecoins, cryptoassets, and security tokens before applying the correct control path.',
         sensitiveApproval:
           'Model bank-style step-up approval, simulated mobile approval status, backend risk decisioning, audit evidence, and review routing.',
         complianceReview:
@@ -7550,6 +7555,7 @@ export const translations = {
         backendSecurityLayer: 'Backend security layer',
         crossLayerSecurity: 'Cross-layer security',
         cryptoAgility: 'Crypto-agility',
+        railClassification: 'Rail classification',
         stepUpApproval: 'Step-up approval',
         complianceReview: 'Compliance review',
         monitoringAlerts: 'Monitoring alerts',
@@ -7558,6 +7564,112 @@ export const translations = {
         resilienceCommand: 'Resilience command',
         auditEvidence: 'Audit evidence',
         prototypeOnly: 'Prototype only',
+      },
+    },
+    assetRailGovernance: {
+      eyebrow: 'Asset Rail Governance',
+      title: 'Asset Rail Governance Engine',
+      subtitle:
+        'Classify digital asset rails before applying custody, settlement, compliance, evidence, and approval controls.',
+      phase: 'Phase',
+      mode: 'Mode',
+      backendTests: 'Backend tests',
+      backendTestsPassing: '204 passing',
+      realIntegrations: 'Real integrations',
+      realAssets: 'Real assets',
+      externalExecution: 'External execution',
+      localDeterministicPrototype: 'Local deterministic prototype',
+      disabled: 'Disabled',
+      classificationEyebrow: 'Governance path',
+      classificationTitle: 'Asset rail classification',
+      classificationText:
+        'Aurora separates digital euro / CBDC, tokenized deposits, regulated stablecoins, cryptoassets, and security tokens into different governance paths.',
+      controlModelFirst: 'Control model first',
+      rail: 'Rail:',
+      custody: 'Custody',
+      controls: 'Controls',
+      classified: 'Classified',
+      decisionMatrixEyebrow: 'Deterministic controls',
+      decisionMatrixTitle: 'Decision matrix',
+      deterministic: 'Deterministic',
+      required: 'Required',
+      coreMessage: 'Core message',
+      firstClassify: 'Classify first, then control',
+      coreMessageText:
+        'Aurora must not assume that every digital asset requires the same custody or settlement architecture. Aurora first classifies the asset rail, then applies the correct control model.',
+      digitalEuroEyebrow: 'Central bank money rail',
+      digitalEuroTitle: 'Digital euro is not modeled as a cryptoasset',
+      cryptoassetEyebrow: 'External execution rail',
+      cryptoassetTitle: 'Cryptoassets require a different control path',
+      evidenceEyebrow: 'Evidence and review',
+      evidenceTitle: 'Review paths',
+      safetyNotice: 'Safety notice',
+      prototypeBoundary: 'Prototype boundary',
+      safetyNoticeText:
+        'Local deterministic asset rail governance interface only. No real digital euro, CBDC, stablecoin, cryptoasset, custody, PSP, banking, blockchain, cloud, payment, redemption, settlement, transfer, customer data, private key, credential, or secret is used or executed. This is not legal advice or regulatory certification.',
+      rails: [
+        {
+          name: 'Digital Euro / CBDC',
+          rail: 'PSP-intermediated central bank money rail',
+          custody: 'No external crypto custodian by default',
+          controls:
+            'PSP intermediation, privacy controls, holding limits, offline/online mode, AML, evidence review',
+        },
+        {
+          name: 'Tokenized Deposit',
+          rail: 'Internal bank ledger rail',
+          custody: 'Bank liability / internal banking infrastructure',
+          controls:
+            'Bank ledger controls, settlement controls, human approval integrity, operational resilience',
+        },
+        {
+          name: 'Regulated Stablecoin / EMT',
+          rail: 'Regulated issuer rail',
+          custody: 'Depends on service model',
+          controls:
+            'Issuer governance, reserve governance, redemption governance, AML, evidence review',
+        },
+        {
+          name: 'Asset-Referenced Token',
+          rail: 'Asset-referenced token issuer rail',
+          custody: 'Depends on issuer, reserve and service model',
+          controls:
+            'Issuer governance, reserve governance, redemption governance, compliance review',
+        },
+        {
+          name: 'Cryptoasset',
+          rail: 'External crypto custody or blockchain execution rail',
+          custody: 'External regulated custodian may be required',
+          controls:
+            'Custodian readiness, wallet boundary, private key boundary, blockchain execution boundary, agent governance',
+        },
+        {
+          name: 'Security Token',
+          rail: 'Securities settlement rail',
+          custody: 'Securities custody and settlement governance',
+          controls:
+            'Securities controls, settlement controls, compliance review, evidence review',
+        },
+      ],
+      digitalEuroPoints: [
+        'Digital euro / CBDC is modeled as central bank money distributed or intermediated by banks or supervised payment service providers.',
+        'It is not treated as BTC, ETH, or a generic externally custodied cryptoasset.',
+        'External crypto custodian controls are not applied by default.',
+        'Blockchain execution and private key controls are not assumed by default.',
+      ],
+      cryptoassetPoints: [
+        'BTC / ETH style assets may require custodian readiness controls.',
+        'Wallet boundary, private key boundary, and blockchain execution boundaries become relevant.',
+        'Human approval integrity and agent governance controls must be applied before any sensitive operation is considered.',
+        'No real custody or blockchain execution is performed in this prototype.',
+      ],
+      reviewLinks: {
+        evidencePackages: 'Evidence packages',
+        riskOperations: 'Risk operations',
+        humanApprovalIntegrity: 'Human approval integrity',
+        agentGovernance: 'Agent governance',
+        cryptoAgility: 'Crypto agility',
+        auditTrail: 'Audit trail',
       },
     },
     financialCrimeMonitoring: {
@@ -8305,6 +8417,7 @@ export const translations = {
         infrastructureSecurity:
           'Centro de control de seguridad de infraestructura',
         cryptoAgility: 'Centro de control de agilidad criptográfica',
+        assetRailGovernance: 'Gobernanza de rails de activos',
         sensitiveApproval:
           'Motor de Aprobación de Operaciones Sensibles',
         complianceReview: 'Revisión de cumplimiento',
@@ -8328,6 +8441,8 @@ export const translations = {
           'Monitorear riesgos de reacción en cadena desde aplicación hacia cloud, incluyendo autorización backend, RBAC de Kubernetes, IAM, secretos, evidencia de auditoría y operaciones de riesgo.',
         cryptoAgility:
           'Controlar inventario criptográfico, versionado de algoritmos, rotación de claves, riesgo de confidencialidad a largo plazo y preparación para migración post-cuántica.',
+        assetRailGovernance:
+          'Clasificar euro digital, depósitos tokenizados, stablecoins, criptoactivos y tokens valor antes de aplicar la ruta de control correcta.',
         sensitiveApproval:
           'Modelar aprobación reforzada de estilo bancario, aprobación móvil simulada, decisión de riesgo backend, evidencia de auditoría y enrutamiento a revisión.',
         complianceReview:
@@ -8352,6 +8467,7 @@ export const translations = {
         backendSecurityLayer: 'Capa de seguridad backend',
         crossLayerSecurity: 'Seguridad transversal',
         cryptoAgility: 'Agilidad criptográfica',
+        railClassification: 'Clasificación de rail',
         stepUpApproval: 'Aprobación reforzada',
         complianceReview: 'Revisión de cumplimiento',
         monitoringAlerts: 'Alertas de monitoreo',
@@ -8360,6 +8476,112 @@ export const translations = {
         resilienceCommand: 'Comando de resiliencia',
         auditEvidence: 'Evidencia de auditoría',
         prototypeOnly: 'Solo prototipo',
+      },
+    },
+    assetRailGovernance: {
+      eyebrow: 'Gobernanza de rails de activos',
+      title: 'Motor de gobernanza de rails de activos',
+      subtitle:
+        'Clasificar rails de activos digitales antes de aplicar controles de custodia, liquidación, cumplimiento, evidencia y aprobación.',
+      phase: 'Fase',
+      mode: 'Modo',
+      backendTests: 'Pruebas backend',
+      backendTestsPassing: '204 aprobadas',
+      realIntegrations: 'Integraciones reales',
+      realAssets: 'Activos reales',
+      externalExecution: 'Ejecución externa',
+      localDeterministicPrototype: 'Prototipo local determinístico',
+      disabled: 'Deshabilitada',
+      classificationEyebrow: 'Ruta de gobernanza',
+      classificationTitle: 'Clasificación de rails de activos',
+      classificationText:
+        'Aurora separa euro digital / CBDC, depósitos tokenizados, stablecoins reguladas, criptoactivos y tokens valor en diferentes rutas de gobernanza.',
+      controlModelFirst: 'Modelo de control primero',
+      rail: 'Rail:',
+      custody: 'Custodia',
+      controls: 'Controles',
+      classified: 'Clasificado',
+      decisionMatrixEyebrow: 'Controles determinísticos',
+      decisionMatrixTitle: 'Matriz de decisión',
+      deterministic: 'Determinístico',
+      required: 'Requerido',
+      coreMessage: 'Mensaje central',
+      firstClassify: 'Primero clasificar, luego controlar',
+      coreMessageText:
+        'Aurora no debe asumir que todos los activos digitales requieren la misma arquitectura de custodia o liquidación. Aurora primero clasifica el rail del activo y luego aplica el modelo de control correcto.',
+      digitalEuroEyebrow: 'Rail de dinero de banco central',
+      digitalEuroTitle: 'El euro digital no se modela como criptoactivo',
+      cryptoassetEyebrow: 'Rail de ejecución externa',
+      cryptoassetTitle: 'Los criptoactivos requieren una ruta de control distinta',
+      evidenceEyebrow: 'Evidencia y revisión',
+      evidenceTitle: 'Rutas de revisión',
+      safetyNotice: 'Aviso de seguridad',
+      prototypeBoundary: 'Límite del prototipo',
+      safetyNoticeText:
+        'Interfaz local determinística de gobernanza de rails de activos solamente. No se usa ni ejecuta euro digital, CBDC, stablecoin, criptoactivo, custodia, PSP, banca, blockchain, cloud, pago, redención, liquidación, transferencia, datos de cliente, llave privada, credencial o secreto real. No es asesoría legal ni certificación regulatoria.',
+      rails: [
+        {
+          name: 'Euro digital / CBDC',
+          rail: 'Rail de dinero de banco central intermediado por PSP',
+          custody: 'Sin custodio cripto externo por defecto',
+          controls:
+            'Intermediación PSP, controles de privacidad, límites de tenencia, modo offline/online, AML, revisión de evidencia',
+        },
+        {
+          name: 'Depósito tokenizado',
+          rail: 'Rail de libro interno bancario',
+          custody: 'Pasivo bancario / infraestructura bancaria interna',
+          controls:
+            'Controles de libro bancario, controles de liquidación, integridad de aprobación humana, resiliencia operacional',
+        },
+        {
+          name: 'Stablecoin regulada / EMT',
+          rail: 'Rail de emisor regulado',
+          custody: 'Depende del modelo de servicio',
+          controls:
+            'Gobernanza de emisor, gobernanza de reservas, gobernanza de redención, AML, revisión de evidencia',
+        },
+        {
+          name: 'Token referenciado a activos',
+          rail: 'Rail de emisor de token referenciado a activos',
+          custody: 'Depende del emisor, reservas y modelo de servicio',
+          controls:
+            'Gobernanza de emisor, gobernanza de reservas, gobernanza de redención, revisión de cumplimiento',
+        },
+        {
+          name: 'Criptoactivo',
+          rail: 'Rail de custodia cripto externa o ejecución blockchain',
+          custody: 'Puede requerir custodio externo regulado',
+          controls:
+            'Preparación del custodio, límite de billetera, límite de llave privada, límite de ejecución blockchain, gobernanza de agentes',
+        },
+        {
+          name: 'Token valor',
+          rail: 'Rail de liquidación de valores',
+          custody: 'Gobernanza de custodia y liquidación de valores',
+          controls:
+            'Controles de valores, controles de liquidación, revisión de cumplimiento, revisión de evidencia',
+        },
+      ],
+      digitalEuroPoints: [
+        'El euro digital / CBDC se modela como dinero de banco central distribuido o intermediado por bancos o proveedores de servicios de pago supervisados.',
+        'No se trata como BTC, ETH o un criptoactivo genérico con custodia externa.',
+        'Los controles de custodio cripto externo no se aplican por defecto.',
+        'La ejecución blockchain y los controles de llave privada no se asumen por defecto.',
+      ],
+      cryptoassetPoints: [
+        'Los activos tipo BTC / ETH pueden requerir controles de preparación del custodio.',
+        'Los límites de billetera, llave privada y ejecución blockchain se vuelven relevantes.',
+        'Los controles de integridad de aprobación humana y gobernanza de agentes deben aplicarse antes de considerar cualquier operación sensible.',
+        'No se realiza custodia real ni ejecución blockchain en este prototipo.',
+      ],
+      reviewLinks: {
+        evidencePackages: 'Paquetes de evidencia',
+        riskOperations: 'Operaciones de riesgo',
+        humanApprovalIntegrity: 'Integridad de aprobación humana',
+        agentGovernance: 'Gobernanza de agentes',
+        cryptoAgility: 'Agilidad criptográfica',
+        auditTrail: 'Trazabilidad de auditoría',
       },
     },
     financialCrimeMonitoring: {

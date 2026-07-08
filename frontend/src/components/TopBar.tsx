@@ -343,6 +343,10 @@ const navigationItems: NavigationItem[] = [
           { label: 'Audit trail', to: '/reports/audit-trail' },
           { label: 'Evidence records', to: '/reports/evidence-records' },
           { label: 'Compliance records', to: '/reports/compliance-records' },
+          {
+            label: 'Asset rail governance',
+            to: '/bank-staff/asset-rail-governance',
+          },
         ],
       },
       {

@@ -36,6 +36,7 @@ import { SavingsDepositAccountsPage } from '../pages/SavingsDepositAccountsPage'
 import { ChildAccountPage } from '../pages/ChildAccountPage'
 import { AccountFAQPage } from '../pages/AccountFAQPage'
 import { ApiSecurityPage } from '../pages/ApiSecurityPage'
+import { AssetRailGovernancePage } from '../pages/AssetRailGovernancePage'
 import { CardsPage } from '../pages/CardsPage'
 import { CardOverviewPage } from '../pages/CardOverviewPage'
 import { ApplyCardPage } from '../pages/ApplyCardPage'
@@ -836,6 +837,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <CryptoAgilityPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/asset-rail-governance"
+        element={
+          <ProtectedRoute>
+            <AssetRailGovernancePage />
           </ProtectedRoute>
         }
       />

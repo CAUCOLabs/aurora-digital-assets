@@ -47,6 +47,13 @@ const workspaceModules = [
     to: '/bank-staff/crypto-agility',
   },
   {
+    title: 'Asset Rail Governance',
+    description:
+      'Classify digital euro, tokenized deposits, stablecoins, cryptoassets, and security tokens before applying the correct control path.',
+    status: 'Rail classification',
+    to: '/bank-staff/asset-rail-governance',
+  },
+  {
     title: 'Sensitive operations approval engine',
     description:
       'Model bank-style step-up approval, simulated mobile approval status, backend risk decisioning, audit evidence, and review routing.',
@@ -134,6 +141,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.modules.apiSecurity,
     t.bankStaffWorkspace.modules.infrastructureSecurity,
     t.bankStaffWorkspace.modules.cryptoAgility,
+    t.bankStaffWorkspace.modules.assetRailGovernance,
     t.bankStaffWorkspace.modules.sensitiveApproval,
     'Agent governance',
     'Human approval integrity',
@@ -152,6 +160,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.statuses.backendSecurityLayer,
     t.bankStaffWorkspace.statuses.crossLayerSecurity,
     t.bankStaffWorkspace.statuses.cryptoAgility,
+    t.bankStaffWorkspace.statuses.railClassification,
     t.bankStaffWorkspace.statuses.stepUpApproval,
     'Agent control',
     'Approval integrity',
@@ -170,6 +179,7 @@ export function BankStaffWorkspacePage() {
     t.bankStaffWorkspace.moduleDescriptions.apiSecurity,
     t.bankStaffWorkspace.moduleDescriptions.infrastructureSecurity,
     t.bankStaffWorkspace.moduleDescriptions.cryptoAgility,
+    t.bankStaffWorkspace.moduleDescriptions.assetRailGovernance,
     t.bankStaffWorkspace.moduleDescriptions.sensitiveApproval,
     'Review simulated agent registry, passport, permissions, action audit, revocation, policy controls, abuse detection, and identity governance.',
     'Control human review as a risk event with dual control, segregation of duties, reviewer conflict checks, and post-approval audit evidence.',
