@@ -380,6 +380,7 @@ const enPhrases = {
   'Evidence records': 'Evidence records',
   'Compliance records': 'Compliance records',
   'Aurora Trust Engine': 'Aurora Trust Engine',
+  'Regulation Engine': 'Regulation Engine',
   'Asset rail governance': 'Asset rail governance',
   'Evidence packages': 'Evidence packages',
   'Compliance review': 'Compliance review',
@@ -1022,6 +1023,7 @@ const esPhrases: Record<keyof typeof enPhrases, string> = {
   'Evidence records': 'Registros de evidencia',
   'Compliance records': 'Registros de cumplimiento',
   'Aurora Trust Engine': 'Motor de Confianza Aurora',
+  'Regulation Engine': 'Motor regulatorio',
   'Asset rail governance': 'Gobernanza de rails de activos',
   'Evidence packages': 'Paquetes de evidencia',
   'Compliance review': 'Revisión de cumplimiento',
@@ -7559,6 +7561,7 @@ export const translations = {
         customerAccess: 'Customer access authorization',
         riskOperations: 'Risk operations console',
         trustEngine: 'Aurora Trust Engine',
+        regulationEngine: 'Regulation Engine',
         apiSecurity: 'API security control center',
         infrastructureSecurity: 'Infrastructure security control center',
         cryptoAgility: 'Cryptographic agility control center',
@@ -7581,6 +7584,8 @@ export const translations = {
           'Unified command view for alerts, incidents, evidence readiness, escalations, paused operations, and staff priorities.',
         trustEngine:
           'Shared orchestration layer for risk, policy, evidence, assessment, control, regulation and knowledge modules.',
+        regulationEngine:
+          'Maps asset rails and regulatory concepts into deterministic control requirements, evidence needs and review paths.',
         apiSecurity:
           'Monitor sensitive backend actions, resolver authorization, business rate limits, schema exposure, step-up authentication, and audit logging.',
         infrastructureSecurity:
@@ -7611,6 +7616,7 @@ export const translations = {
         customerAuthorization: 'Customer authorization',
         orchestrationLayer: 'Orchestration layer',
         sharedOrchestration: 'Shared orchestration',
+        controlMapping: 'Control mapping',
         backendSecurityLayer: 'Backend security layer',
         crossLayerSecurity: 'Cross-layer security',
         cryptoAgility: 'Crypto-agility',
@@ -7820,6 +7826,106 @@ export const translations = {
         'Review',
         'Approval integrity',
         'Controlled decision',
+      ],
+    },
+    regulationEngine: {
+      eyebrow: 'Regulation Engine',
+      title: 'Regulatory Control Mapping Layer',
+      subtitle:
+        'Maps digital asset rails, regulatory concepts and operating models into control requirements, evidence needs and review paths.',
+      mode: 'Mode',
+      localDeterministicPrototype: 'Local deterministic prototype',
+      legalAdvice: 'Legal advice',
+      regulatoryCertification: 'Regulatory certification',
+      disabled: 'Disabled',
+      notProvided: 'Not provided',
+      realIntegrations: 'Real integrations',
+      evidence: 'Evidence',
+      required: 'Required',
+      review: 'Review',
+      humanControlled: 'Human-controlled',
+      mappingEyebrow: 'Regulatory mapping',
+      mappingMatrix: 'Regulatory mapping matrix',
+      controlMapping: 'Control mapping',
+      coreMessage:
+        'Regulation Engine does not give legal advice or certify compliance. It translates regulatory concepts into internal control requirements that Aurora can evaluate, evidence and route for review.',
+      regulatoryConcept: 'Regulatory concept',
+      controlRequirements: 'Control requirements',
+      mapped: 'Mapped',
+      outputsEyebrow: 'Deterministic outputs',
+      controlRequirementOutputs: 'Control requirement outputs',
+      deterministic: 'Deterministic',
+      output: 'Output',
+      corePrinciple: 'Core principle',
+      noLegalAdvice: 'No legal advice or certification',
+      connectedModulesEyebrow: 'Connected modules',
+      connectedModules: 'Connected modules',
+      deterministicFlow: 'Deterministic flow',
+      regulationToControlFlow: 'Regulation-to-control flow',
+      step: 'Step',
+      safetyBoundary: 'Safety boundary',
+      prototypeBoundary: 'Prototype boundary',
+      safetyBoundaryText:
+        'Local deterministic regulation engine interface only. No real legal advice, regulatory certification, banking integration, PSP integration, custodian integration, digital euro, CBDC, stablecoin, cryptoasset, security token, blockchain, payment, settlement, transfer, customer data, private key, credential or secret is used or executed.',
+      mappingRows: [
+        {
+          name: 'Digital Euro / CBDC',
+          regulatoryConcept:
+            'Central bank money distributed/intermediated by banks or supervised PSPs',
+          controlRequirements:
+            'PSP intermediation, privacy controls, holding limits, offline/online mode, AML, evidence review',
+        },
+        {
+          name: 'Tokenized Deposit',
+          regulatoryConcept:
+            'Bank liability / internal regulated banking infrastructure',
+          controlRequirements:
+            'Bank ledger controls, settlement governance, approval integrity, operational resilience',
+        },
+        {
+          name: 'Regulated Stablecoin / EMT',
+          regulatoryConcept:
+            'Regulated issuer, e-money token, redemption rights and reserve governance',
+          controlRequirements:
+            'Issuer governance, reserve governance, redemption governance, AML, compliance review',
+        },
+        {
+          name: 'Asset-Referenced Token',
+          regulatoryConcept: 'Token referencing assets or baskets of assets',
+          controlRequirements:
+            'Issuer governance, reserve governance, redemption model, risk disclosures, evidence review',
+        },
+        {
+          name: 'Cryptoasset',
+          regulatoryConcept:
+            'Externally custodied or blockchain-executed digital asset',
+          controlRequirements:
+            'Custodian readiness, wallet boundary, private key boundary, blockchain execution boundary, transaction monitoring',
+        },
+        {
+          name: 'Security Token',
+          regulatoryConcept:
+            'Securities/investment instrument with settlement governance',
+          controlRequirements:
+            'Securities controls, investor protection, settlement review, compliance evidence',
+        },
+      ],
+      connectedLinks: {
+        assetRailGovernance: 'Asset Rail Governance',
+        trustEngine: 'Aurora Trust Engine',
+        complianceIntelligence: 'Compliance Intelligence',
+        evidencePackages: 'Evidence Packages',
+        riskOperations: 'Risk Operations',
+        humanApprovalIntegrity: 'Human Approval Integrity',
+        auditTrail: 'Audit Trail',
+      },
+      flowSteps: [
+        'Asset rail',
+        'Regulatory concept',
+        'Control requirement',
+        'Evidence need',
+        'Review path',
+        'Governance decision',
       ],
     },
     financialCrimeMonitoring: {
@@ -8617,6 +8723,7 @@ export const translations = {
         customerAccess: 'Autorización de acceso a clientes',
         riskOperations: 'Consola de operaciones de riesgo',
         trustEngine: 'Motor de Confianza Aurora',
+        regulationEngine: 'Motor regulatorio',
         apiSecurity: 'Centro de control de seguridad API',
         infrastructureSecurity:
           'Centro de control de seguridad de infraestructura',
@@ -8641,6 +8748,8 @@ export const translations = {
           'Vista de comando unificada para alertas, incidentes, preparación de evidencia, escalaciones, operaciones pausadas y prioridades del equipo.',
         trustEngine:
           'Capa compartida de orquestación para módulos de riesgo, políticas, evidencia, evaluación, control, regulación y conocimiento.',
+        regulationEngine:
+          'Mapea rails de activos y conceptos regulatorios a requisitos de control determinísticos, necesidades de evidencia y rutas de revisión.',
         apiSecurity:
           'Monitorear acciones sensibles del backend, autorización por resolver, límites por acción de negocio, exposición de esquema, autenticación reforzada y auditoría.',
         infrastructureSecurity:
@@ -8671,6 +8780,7 @@ export const translations = {
         customerAuthorization: 'Autorización del cliente',
         orchestrationLayer: 'Capa de orquestación',
         sharedOrchestration: 'Orquestación compartida',
+        controlMapping: 'Mapeo de controles',
         backendSecurityLayer: 'Capa de seguridad backend',
         crossLayerSecurity: 'Seguridad transversal',
         cryptoAgility: 'Agilidad criptográfica',
@@ -8880,6 +8990,107 @@ export const translations = {
         'Revisión',
         'Integridad de aprobación',
         'Decisión controlada',
+      ],
+    },
+    regulationEngine: {
+      eyebrow: 'Motor regulatorio',
+      title: 'Capa de mapeo de controles regulatorios',
+      subtitle:
+        'Mapea rails de activos digitales, conceptos regulatorios y modelos operativos a requisitos de control, necesidades de evidencia y rutas de revisión.',
+      mode: 'Modo',
+      localDeterministicPrototype: 'Prototipo local determinístico',
+      legalAdvice: 'Asesoría legal',
+      regulatoryCertification: 'Certificación regulatoria',
+      disabled: 'Deshabilitada',
+      notProvided: 'No provista',
+      realIntegrations: 'Integraciones reales',
+      evidence: 'Evidencia',
+      required: 'Requerida',
+      review: 'Revisión',
+      humanControlled: 'Controlada por humanos',
+      mappingEyebrow: 'Mapeo regulatorio',
+      mappingMatrix: 'Matriz de mapeo regulatorio',
+      controlMapping: 'Mapeo de controles',
+      coreMessage:
+        'El Motor regulatorio no da asesoría legal ni certifica cumplimiento. Traduce conceptos regulatorios a requisitos de control internos que Aurora puede evaluar, evidenciar y enrutar para revisión.',
+      regulatoryConcept: 'Concepto regulatorio',
+      controlRequirements: 'Requisitos de control',
+      mapped: 'Mapeado',
+      outputsEyebrow: 'Salidas determinísticas',
+      controlRequirementOutputs: 'Salidas de requisitos de control',
+      deterministic: 'Determinístico',
+      output: 'Salida',
+      corePrinciple: 'Principio central',
+      noLegalAdvice: 'Sin asesoría legal ni certificación',
+      connectedModulesEyebrow: 'Módulos conectados',
+      connectedModules: 'Módulos conectados',
+      deterministicFlow: 'Flujo determinístico',
+      regulationToControlFlow: 'Flujo de regulación a control',
+      step: 'Paso',
+      safetyBoundary: 'Límite de seguridad',
+      prototypeBoundary: 'Límite del prototipo',
+      safetyBoundaryText:
+        'Interfaz local determinística del motor regulatorio solamente. No se usa ni ejecuta asesoría legal real, certificación regulatoria, integración bancaria, integración PSP, integración de custodio, euro digital, CBDC, stablecoin, criptoactivo, token valor, blockchain, pago, liquidación, transferencia, datos de cliente, llave privada, credencial o secreto real.',
+      mappingRows: [
+        {
+          name: 'Euro digital / CBDC',
+          regulatoryConcept:
+            'Dinero de banco central distribuido/intermediado por bancos o PSP supervisados',
+          controlRequirements:
+            'Intermediación PSP, controles de privacidad, límites de tenencia, modo offline/online, AML, revisión de evidencia',
+        },
+        {
+          name: 'Depósito tokenizado',
+          regulatoryConcept:
+            'Pasivo bancario / infraestructura bancaria regulada interna',
+          controlRequirements:
+            'Controles de libro bancario, gobernanza de liquidación, integridad de aprobación, resiliencia operacional',
+        },
+        {
+          name: 'Stablecoin regulada / EMT',
+          regulatoryConcept:
+            'Emisor regulado, token de dinero electrónico, derechos de redención y gobernanza de reservas',
+          controlRequirements:
+            'Gobernanza de emisor, gobernanza de reservas, gobernanza de redención, AML, revisión de cumplimiento',
+        },
+        {
+          name: 'Token referenciado a activos',
+          regulatoryConcept:
+            'Token que referencia activos o cestas de activos',
+          controlRequirements:
+            'Gobernanza de emisor, gobernanza de reservas, modelo de redención, divulgaciones de riesgo, revisión de evidencia',
+        },
+        {
+          name: 'Criptoactivo',
+          regulatoryConcept:
+            'Activo digital con custodia externa o ejecución blockchain',
+          controlRequirements:
+            'Preparación de custodio, límite de billetera, límite de llave privada, límite de ejecución blockchain, monitoreo transaccional',
+        },
+        {
+          name: 'Token valor',
+          regulatoryConcept:
+            'Instrumento de valores/inversión con gobernanza de liquidación',
+          controlRequirements:
+            'Controles de valores, protección del inversionista, revisión de liquidación, evidencia de cumplimiento',
+        },
+      ],
+      connectedLinks: {
+        assetRailGovernance: 'Gobernanza de rails de activos',
+        trustEngine: 'Motor de Confianza Aurora',
+        complianceIntelligence: 'Inteligencia de cumplimiento',
+        evidencePackages: 'Paquetes de evidencia',
+        riskOperations: 'Operaciones de riesgo',
+        humanApprovalIntegrity: 'Integridad de aprobación humana',
+        auditTrail: 'Trazabilidad de auditoría',
+      },
+      flowSteps: [
+        'Rail de activo',
+        'Concepto regulatorio',
+        'Requisito de control',
+        'Necesidad de evidencia',
+        'Ruta de revisión',
+        'Decisión de gobernanza',
       ],
     },
     financialCrimeMonitoring: {

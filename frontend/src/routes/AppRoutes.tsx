@@ -89,6 +89,7 @@ import { FinancialCrimeMonitoringPage } from '../pages/FinancialCrimeMonitoringP
 import { HumanApprovalIntegrityPage } from '../pages/HumanApprovalIntegrityPage'
 import { InfrastructureSecurityPage } from '../pages/InfrastructureSecurityPage'
 import { OperationalResiliencePage } from '../pages/OperationalResiliencePage'
+import { RegulationEnginePage } from '../pages/RegulationEnginePage'
 import { RiskOperationsPage } from '../pages/RiskOperationsPage'
 import { SensitiveApprovalPage } from '../pages/SensitiveApprovalPage'
 import { StaffCustomerAccessPage } from '../pages/StaffCustomerAccessPage'
@@ -774,6 +775,14 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <TrustEnginePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bank-staff/regulation-engine"
+        element={
+          <ProtectedRoute>
+            <RegulationEnginePage />
           </ProtectedRoute>
         }
       />

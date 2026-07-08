@@ -348,6 +348,10 @@ const navigationItems: NavigationItem[] = [
             to: '/bank-staff/trust-engine',
           },
           {
+            label: 'Regulation Engine',
+            to: '/bank-staff/regulation-engine',
+          },
+          {
             label: 'Asset rail governance',
             to: '/bank-staff/asset-rail-governance',
           },
