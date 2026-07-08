@@ -47,6 +47,13 @@ const workspaceModules = [
     to: '/bank-staff/policy-engine',
   },
   {
+    title: 'Assessment Engine',
+    description:
+      'Evaluates readiness, maturity, control gaps, evidence needs and review paths before controlled decisions.',
+    status: 'Readiness assessment',
+    to: '/bank-staff/assessment-engine',
+  },
+  {
     title: 'Regulation Engine',
     description:
       'Maps asset rails and regulatory concepts into deterministic control requirements, evidence needs and review paths.',
