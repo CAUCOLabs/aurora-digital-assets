@@ -7546,7 +7546,7 @@ export const translations = {
       protectedArea: 'Protected bank staff area',
       title: 'Bank Staff Workspace',
       subtitle:
-        'Internal concept workspace for onboarding, customer-authorized access, compliance review, reports, and demo administration.',
+        "Review Aurora's staff-controlled trust infrastructure, risk, compliance, security, approval and banking operation modules from one internal workspace.",
       authenticatedSession: 'Authenticated session',
       workspaceModules: 'Workspace modules',
       staffTools: 'Staff tools',
@@ -7556,17 +7556,60 @@ export const translations = {
       accessModel: 'Access model',
       commonActions: 'Common actions',
       operatingGuardrails: 'Operating guardrails',
+      quickLinks: 'Quick links',
+      openTrustEngine: 'Open Aurora Trust Engine',
+      openRiskOperations: 'Open risk operations',
+      safetyNote:
+        'Local deterministic staff workspace only. No real banking operation, customer data, custody, PSP, digital euro, blockchain, cloud, credential, private key or secret is used or executed.',
+      groups: {
+        trustInfrastructureCore: {
+          title: 'Trust Infrastructure Core',
+          description:
+            'Shared intelligence, rail classification, regulatory mapping, policy, assessment, control and institutional knowledge layers.',
+        },
+        riskEvidenceCompliance: {
+          title: 'Risk, Evidence & Compliance',
+          description:
+            'Operational risk, audit evidence, compliance reasoning, financial crime monitoring and review-ready reporting.',
+        },
+        securityResilience: {
+          title: 'Security & Resilience',
+          description:
+            'Backend security, infrastructure posture, cryptographic readiness and continuity controls.',
+        },
+        humanAgentGovernance: {
+          title: 'Human & Agent Governance',
+          description:
+            'Human review integrity, agent identity, permission boundaries, revocation and step-up approval controls.',
+        },
+        bankingOperations: {
+          title: 'Banking Operations',
+          description:
+            'Bank-managed onboarding and customer-authorized staff access workflows.',
+        },
+        demoAdministration: {
+          title: 'Demo & Administration',
+          description:
+            'Local deterministic prototype data and demo environment controls.',
+        },
+      },
       modules: {
         onboarding: 'Customer onboarding',
         customerAccess: 'Customer access authorization',
         riskOperations: 'Risk operations console',
         trustEngine: 'Aurora Trust Engine',
+        controlEngine: 'Control Engine',
+        policyEngine: 'Policy Engine',
+        assessmentEngine: 'Assessment Engine',
+        knowledgeEngine: 'Knowledge Engine',
         regulationEngine: 'Regulation Engine',
         apiSecurity: 'API security control center',
         infrastructureSecurity: 'Infrastructure security control center',
         cryptoAgility: 'Cryptographic agility control center',
         assetRailGovernance: 'Asset Rail Governance',
         sensitiveApproval: 'Sensitive operations approval engine',
+        agentGovernance: 'Agent governance',
+        humanApprovalIntegrity: 'Human approval integrity',
         complianceReview: 'Compliance review',
         financialCrime: 'Financial crime monitoring',
         complianceIntelligence: 'Compliance intelligence',
@@ -7584,6 +7627,14 @@ export const translations = {
           'Unified command view for alerts, incidents, evidence readiness, escalations, paused operations, and staff priorities.',
         trustEngine:
           'Shared orchestration layer for risk, policy, evidence, assessment, control, regulation and knowledge modules.',
+        controlEngine:
+          'Blocks, pauses, routes, evidences or allows internal review for sensitive operations before state can change.',
+        policyEngine:
+          'Converts internal governance policies into deterministic control requirements before sensitive operations can proceed.',
+        assessmentEngine:
+          'Evaluates readiness, maturity, control gaps, evidence needs and review paths before controlled decisions.',
+        knowledgeEngine:
+          'Preserves institutional control logic, regulatory concepts, policy mappings, evidence context and explainable review memory.',
         regulationEngine:
           'Maps asset rails and regulatory concepts into deterministic control requirements, evidence needs and review paths.',
         apiSecurity:
@@ -7596,6 +7647,10 @@ export const translations = {
           'Classify digital euro, tokenized deposits, stablecoins, cryptoassets, and security tokens before applying the correct control path.',
         sensitiveApproval:
           'Model bank-style step-up approval, simulated mobile approval status, backend risk decisioning, audit evidence, and review routing.',
+        agentGovernance:
+          'Review simulated agent registry, passport, permissions, action audit, revocation, policy controls, abuse detection, and identity governance.',
+        humanApprovalIntegrity:
+          'Control human review as a risk event with dual control, segregation of duties, reviewer conflict checks, and post-approval audit evidence.',
         complianceReview:
           'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
         financialCrime:
@@ -7616,12 +7671,18 @@ export const translations = {
         customerAuthorization: 'Customer authorization',
         orchestrationLayer: 'Orchestration layer',
         sharedOrchestration: 'Shared orchestration',
+        controlledDecisionLayer: 'Controlled decision layer',
+        policyLayer: 'Policy layer',
+        readinessAssessment: 'Readiness assessment',
+        explainabilityLayer: 'Explainability layer',
         controlMapping: 'Control mapping',
         backendSecurityLayer: 'Backend security layer',
         crossLayerSecurity: 'Cross-layer security',
         cryptoAgility: 'Crypto-agility',
         railClassification: 'Rail classification',
         stepUpApproval: 'Step-up approval',
+        agentControl: 'Agent control',
+        approvalIntegrity: 'Approval integrity',
         complianceReview: 'Compliance review',
         monitoringAlerts: 'Monitoring alerts',
         reasoningLayer: 'Reasoning layer',
@@ -8708,7 +8769,7 @@ export const translations = {
       protectedArea: 'Área interna protegida del banco',
       title: 'Espacio interno del banco',
       subtitle:
-        'Espacio conceptual interno para incorporación, acceso autorizado por el cliente, revisión de cumplimiento, reportes y administración demo.',
+        'Revise la infraestructura de confianza, riesgo, cumplimiento, seguridad, aprobación y módulos operativos bancarios controlados por staff desde un espacio interno.',
       authenticatedSession: 'Sesión autenticada',
       workspaceModules: 'Módulos del espacio',
       staffTools: 'Herramientas internas',
@@ -8718,11 +8779,52 @@ export const translations = {
       accessModel: 'Modelo de acceso',
       commonActions: 'Acciones comunes',
       operatingGuardrails: 'Controles operativos',
+      quickLinks: 'Enlaces rápidos',
+      openTrustEngine: 'Abrir Motor de Confianza Aurora',
+      openRiskOperations: 'Abrir operaciones de riesgo',
+      safetyNote:
+        'Espacio interno local determinístico solamente. No se usa ni ejecuta operación bancaria real, datos de cliente, custodia, PSP, euro digital, blockchain, cloud, credencial, llave privada o secreto.',
+      groups: {
+        trustInfrastructureCore: {
+          title: 'Núcleo de infraestructura de confianza',
+          description:
+            'Capas compartidas de inteligencia, clasificación de rails, mapeo regulatorio, políticas, evaluación, control y conocimiento institucional.',
+        },
+        riskEvidenceCompliance: {
+          title: 'Riesgo, evidencia y cumplimiento',
+          description:
+            'Riesgo operacional, evidencia de auditoría, razonamiento de cumplimiento, monitoreo de delitos financieros y reportes listos para revisión.',
+        },
+        securityResilience: {
+          title: 'Seguridad y resiliencia',
+          description:
+            'Seguridad backend, postura de infraestructura, preparación criptográfica y controles de continuidad.',
+        },
+        humanAgentGovernance: {
+          title: 'Gobernanza humana y de agentes',
+          description:
+            'Integridad de revisión humana, identidad de agentes, límites de permisos, revocación y controles de aprobación reforzada.',
+        },
+        bankingOperations: {
+          title: 'Operaciones bancarias',
+          description:
+            'Flujos de incorporación gestionada por el banco y acceso de staff autorizado por el cliente.',
+        },
+        demoAdministration: {
+          title: 'Demo y administración',
+          description:
+            'Datos locales determinísticos del prototipo y controles del entorno demo.',
+        },
+      },
       modules: {
         onboarding: 'Incorporación de clientes',
         customerAccess: 'Autorización de acceso a clientes',
         riskOperations: 'Consola de operaciones de riesgo',
         trustEngine: 'Motor de Confianza Aurora',
+        controlEngine: 'Motor de control',
+        policyEngine: 'Motor de políticas',
+        assessmentEngine: 'Motor de evaluación',
+        knowledgeEngine: 'Motor de conocimiento',
         regulationEngine: 'Motor regulatorio',
         apiSecurity: 'Centro de control de seguridad API',
         infrastructureSecurity:
@@ -8731,6 +8833,8 @@ export const translations = {
         assetRailGovernance: 'Gobernanza de rails de activos',
         sensitiveApproval:
           'Motor de Aprobación de Operaciones Sensibles',
+        agentGovernance: 'Gobernanza de agentes',
+        humanApprovalIntegrity: 'Integridad de aprobación humana',
         complianceReview: 'Revisión de cumplimiento',
         financialCrime: 'Monitoreo de delitos financieros',
         complianceIntelligence: 'Inteligencia de cumplimiento',
@@ -8748,6 +8852,14 @@ export const translations = {
           'Vista de comando unificada para alertas, incidentes, preparación de evidencia, escalaciones, operaciones pausadas y prioridades del equipo.',
         trustEngine:
           'Capa compartida de orquestación para módulos de riesgo, políticas, evidencia, evaluación, control, regulación y conocimiento.',
+        controlEngine:
+          'Bloquea, pausa, enruta, evidencia o permite revisión interna de operaciones sensibles antes de cambiar estado.',
+        policyEngine:
+          'Convierte políticas internas de gobernanza en requisitos de control determinísticos antes de permitir operaciones sensibles.',
+        assessmentEngine:
+          'Evalúa preparación, madurez, brechas de control, necesidades de evidencia y rutas de revisión antes de decisiones controladas.',
+        knowledgeEngine:
+          'Preserva lógica institucional de control, conceptos regulatorios, mapeos de políticas, contexto de evidencia y memoria de revisión explicable.',
         regulationEngine:
           'Mapea rails de activos y conceptos regulatorios a requisitos de control determinísticos, necesidades de evidencia y rutas de revisión.',
         apiSecurity:
@@ -8760,6 +8872,10 @@ export const translations = {
           'Clasificar euro digital, depósitos tokenizados, stablecoins, criptoactivos y tokens valor antes de aplicar la ruta de control correcta.',
         sensitiveApproval:
           'Modelar aprobación reforzada de estilo bancario, aprobación móvil simulada, decisión de riesgo backend, evidencia de auditoría y enrutamiento a revisión.',
+        agentGovernance:
+          'Revisar registro simulado de agentes, pasaporte, permisos, auditoría de acciones, revocación, controles de política, detección de abuso y gobernanza de identidad.',
+        humanApprovalIntegrity:
+          'Controlar la revisión humana como evento de riesgo con doble control, segregación de funciones, revisión de conflictos y evidencia post-aprobación.',
         complianceReview:
           'Revisar resultados simulados de monitoreo transaccional, controles de riesgo de billetera y evidencia de escalamiento.',
         financialCrime:
@@ -8780,12 +8896,18 @@ export const translations = {
         customerAuthorization: 'Autorización del cliente',
         orchestrationLayer: 'Capa de orquestación',
         sharedOrchestration: 'Orquestación compartida',
+        controlledDecisionLayer: 'Capa de decisión controlada',
+        policyLayer: 'Capa de políticas',
+        readinessAssessment: 'Evaluación de preparación',
+        explainabilityLayer: 'Capa de explicabilidad',
         controlMapping: 'Mapeo de controles',
         backendSecurityLayer: 'Capa de seguridad backend',
         crossLayerSecurity: 'Seguridad transversal',
         cryptoAgility: 'Agilidad criptográfica',
         railClassification: 'Clasificación de rail',
         stepUpApproval: 'Aprobación reforzada',
+        agentControl: 'Control de agentes',
+        approvalIntegrity: 'Integridad de aprobación',
         complianceReview: 'Revisión de cumplimiento',
         monitoringAlerts: 'Alertas de monitoreo',
         reasoningLayer: 'Capa de razonamiento',

@@ -3,8 +3,50 @@ import { Panel } from '../components/Panel'
 import { TopBar } from '../components/TopBar'
 import { useLanguage } from '../context/LanguageContext'
 
-const workspaceModules = [
+type WorkspaceModuleId =
+  | 'onboarding'
+  | 'customerAccess'
+  | 'riskOperations'
+  | 'trustEngine'
+  | 'controlEngine'
+  | 'policyEngine'
+  | 'assessmentEngine'
+  | 'knowledgeEngine'
+  | 'regulationEngine'
+  | 'apiSecurity'
+  | 'infrastructureSecurity'
+  | 'cryptoAgility'
+  | 'assetRailGovernance'
+  | 'sensitiveApproval'
+  | 'agentGovernance'
+  | 'humanApprovalIntegrity'
+  | 'complianceReview'
+  | 'financialCrime'
+  | 'complianceIntelligence'
+  | 'evidencePackages'
+  | 'operationalResilience'
+  | 'reportsAuditTrail'
+  | 'demoAdministration'
+
+type WorkspaceGroupId =
+  | 'trustInfrastructureCore'
+  | 'riskEvidenceCompliance'
+  | 'securityResilience'
+  | 'humanAgentGovernance'
+  | 'bankingOperations'
+  | 'demoAdministration'
+
+type WorkspaceModule = {
+  id: WorkspaceModuleId
+  title: string
+  description: string
+  status: string
+  to: string
+}
+
+const workspaceModules: WorkspaceModule[] = [
   {
+    id: 'onboarding',
     title: 'Customer onboarding',
     description:
       'Review the bank-managed customer onboarding model before digital asset services become available.',
@@ -12,6 +54,7 @@ const workspaceModules = [
     to: '/bank-staff/onboarding',
   },
   {
+    id: 'customerAccess',
     title: 'Customer access authorization',
     description:
       'Look up a demo customer and request temporary customer-authorized staff access.',
@@ -19,6 +62,7 @@ const workspaceModules = [
     to: '/bank-staff/customer-access',
   },
   {
+    id: 'riskOperations',
     title: 'Risk operations console',
     description:
       'Unified command view for alerts, incidents, evidence readiness, escalations, paused operations, and staff priorities.',
@@ -26,6 +70,7 @@ const workspaceModules = [
     to: '/bank-staff/risk-operations',
   },
   {
+    id: 'trustEngine',
     title: 'Aurora Trust Engine',
     description:
       'Shared orchestration layer for risk, policy, evidence, assessment, control, regulation and knowledge modules.',
@@ -33,6 +78,7 @@ const workspaceModules = [
     to: '/bank-staff/trust-engine',
   },
   {
+    id: 'controlEngine',
     title: 'Control Engine',
     description:
       'Blocks, pauses, routes, evidences or allows internal review for sensitive operations before state can change.',
@@ -40,6 +86,7 @@ const workspaceModules = [
     to: '/bank-staff/control-engine',
   },
   {
+    id: 'policyEngine',
     title: 'Policy Engine',
     description:
       'Converts internal governance policies into deterministic control requirements before sensitive operations can proceed.',
@@ -47,6 +94,7 @@ const workspaceModules = [
     to: '/bank-staff/policy-engine',
   },
   {
+    id: 'assessmentEngine',
     title: 'Assessment Engine',
     description:
       'Evaluates readiness, maturity, control gaps, evidence needs and review paths before controlled decisions.',
@@ -54,6 +102,7 @@ const workspaceModules = [
     to: '/bank-staff/assessment-engine',
   },
   {
+    id: 'knowledgeEngine',
     title: 'Knowledge Engine',
     description:
       'Preserves institutional control logic, regulatory concepts, policy mappings, evidence context and explainable review memory.',
@@ -61,6 +110,7 @@ const workspaceModules = [
     to: '/bank-staff/knowledge-engine',
   },
   {
+    id: 'regulationEngine',
     title: 'Regulation Engine',
     description:
       'Maps asset rails and regulatory concepts into deterministic control requirements, evidence needs and review paths.',
@@ -68,6 +118,7 @@ const workspaceModules = [
     to: '/bank-staff/regulation-engine',
   },
   {
+    id: 'apiSecurity',
     title: 'API security control center',
     description:
       'Monitor sensitive backend actions, resolver authorization, business rate limits, schema exposure, step-up authentication, and audit logging.',
@@ -75,6 +126,7 @@ const workspaceModules = [
     to: '/bank-staff/api-security',
   },
   {
+    id: 'infrastructureSecurity',
     title: 'Infrastructure security control center',
     description:
       'Monitor application-to-cloud chain reaction risks across backend authorization, Kubernetes RBAC, IAM, secrets, audit evidence, and risk operations.',
@@ -82,6 +134,7 @@ const workspaceModules = [
     to: '/bank-staff/infrastructure-security',
   },
   {
+    id: 'cryptoAgility',
     title: 'Cryptographic agility control center',
     description:
       'Track cryptographic inventory, algorithm versioning, key rotation, long-term confidentiality risk, and post-quantum migration readiness.',
@@ -89,6 +142,7 @@ const workspaceModules = [
     to: '/bank-staff/crypto-agility',
   },
   {
+    id: 'assetRailGovernance',
     title: 'Asset Rail Governance',
     description:
       'Classify digital euro, tokenized deposits, stablecoins, cryptoassets, and security tokens before applying the correct control path.',
@@ -96,6 +150,7 @@ const workspaceModules = [
     to: '/bank-staff/asset-rail-governance',
   },
   {
+    id: 'sensitiveApproval',
     title: 'Sensitive operations approval engine',
     description:
       'Model bank-style step-up approval, simulated mobile approval status, backend risk decisioning, audit evidence, and review routing.',
@@ -103,6 +158,7 @@ const workspaceModules = [
     to: '/bank-staff/sensitive-approval',
   },
   {
+    id: 'agentGovernance',
     title: 'Agent governance',
     description:
       'Review simulated agent registry, passport, permissions, action audit, revocation, policy controls, abuse detection, and identity governance.',
@@ -110,6 +166,7 @@ const workspaceModules = [
     to: '/bank-staff/agent-governance',
   },
   {
+    id: 'humanApprovalIntegrity',
     title: 'Human approval integrity',
     description:
       'Control human review as a risk event with dual control, segregation of duties, reviewer conflict checks, and post-approval audit evidence.',
@@ -117,6 +174,7 @@ const workspaceModules = [
     to: '/bank-staff/human-approval-integrity',
   },
   {
+    id: 'complianceReview',
     title: 'Compliance review',
     description:
       'Review simulated transaction monitoring outcomes, wallet risk checks, and escalation evidence.',
@@ -124,6 +182,7 @@ const workspaceModules = [
     to: '/compliance-review',
   },
   {
+    id: 'financialCrime',
     title: 'Financial crime monitoring',
     description:
       'Review insider risk, shell company indicators, structured deposits, crypto off-ramp risk, foreign transfer risk, and network-linked suspicious activity.',
@@ -131,6 +190,7 @@ const workspaceModules = [
     to: '/bank-staff/financial-crime-monitoring',
   },
   {
+    id: 'complianceIntelligence',
     title: 'Compliance intelligence',
     description:
       'Explain financial crime alerts, review triggered controls, identify missing evidence, and prepare reviewer guidance before escalation.',
@@ -138,6 +198,7 @@ const workspaceModules = [
     to: '/bank-staff/compliance-intelligence',
   },
   {
+    id: 'evidencePackages',
     title: 'Evidence packages',
     description:
       'Prepare structured evidence packages for compliance review, audit, investigation, and regulator-facing documentation.',
@@ -145,6 +206,7 @@ const workspaceModules = [
     to: '/bank-staff/evidence-packages',
   },
   {
+    id: 'operationalResilience',
     title: 'Operational resilience',
     description:
       'Monitor service degradation, dependency failures, fallback modes, customer impact, and continuity controls.',
@@ -152,6 +214,7 @@ const workspaceModules = [
     to: '/bank-staff/operational-resilience',
   },
   {
+    id: 'reportsAuditTrail',
     title: 'Reports and audit trail',
     description:
       'Open customer-facing reports, tax report concepts, and prototype audit evidence.',
@@ -159,11 +222,66 @@ const workspaceModules = [
     to: '/reports',
   },
   {
+    id: 'demoAdministration',
     title: 'Demo administration',
     description:
       'Inspect and reset local prototype data used by the Aurora Digital Assets demo environment.',
     status: 'Prototype only',
     to: '/admin-demo',
+  },
+]
+
+const workspaceGroups: Array<{
+  id: WorkspaceGroupId
+  moduleIds: WorkspaceModuleId[]
+}> = [
+  {
+    id: 'trustInfrastructureCore',
+    moduleIds: [
+      'trustEngine',
+      'assetRailGovernance',
+      'regulationEngine',
+      'policyEngine',
+      'assessmentEngine',
+      'controlEngine',
+      'knowledgeEngine',
+    ],
+  },
+  {
+    id: 'riskEvidenceCompliance',
+    moduleIds: [
+      'riskOperations',
+      'evidencePackages',
+      'complianceIntelligence',
+      'complianceReview',
+      'financialCrime',
+      'reportsAuditTrail',
+    ],
+  },
+  {
+    id: 'securityResilience',
+    moduleIds: [
+      'apiSecurity',
+      'infrastructureSecurity',
+      'cryptoAgility',
+      'operationalResilience',
+    ],
+  },
+  {
+    id: 'humanAgentGovernance',
+    moduleIds: [
+      'humanApprovalIntegrity',
+      'agentGovernance',
+      'sensitiveApproval',
+    ],
+  },
+  {
+    id: 'bankingOperations',
+    moduleIds: ['onboarding', 'customerAccess'],
+  },
+  {
+    id: 'demoAdministration',
+    moduleIds: ['demoAdministration'],
   },
 ]
 
@@ -174,71 +292,89 @@ const workspaceControls = [
   'No real banking systems, custody providers, or customer records are connected.',
 ]
 
+const moduleById = new Map(workspaceModules.map((module) => [module.id, module]))
+
 export function BankStaffWorkspacePage() {
   const { t } = useLanguage()
-  const translatedModules = [
-    t.bankStaffWorkspace.modules.onboarding,
-    t.bankStaffWorkspace.modules.customerAccess,
-    t.bankStaffWorkspace.modules.riskOperations,
-    t.bankStaffWorkspace.modules.trustEngine,
-    t.bankStaffWorkspace.modules.regulationEngine,
-    t.bankStaffWorkspace.modules.apiSecurity,
-    t.bankStaffWorkspace.modules.infrastructureSecurity,
-    t.bankStaffWorkspace.modules.cryptoAgility,
-    t.bankStaffWorkspace.modules.assetRailGovernance,
-    t.bankStaffWorkspace.modules.sensitiveApproval,
-    'Agent governance',
-    'Human approval integrity',
-    t.bankStaffWorkspace.modules.complianceReview,
-    t.bankStaffWorkspace.modules.financialCrime,
-    t.bankStaffWorkspace.modules.complianceIntelligence,
-    t.bankStaffWorkspace.modules.evidencePackages,
-    t.bankStaffWorkspace.modules.operationalResilience,
-    t.bankStaffWorkspace.modules.reportsAuditTrail,
-    t.bankStaffWorkspace.modules.demoAdministration,
-  ]
-  const translatedStatuses = [
-    t.bankStaffWorkspace.statuses.bankStaffControl,
-    t.bankStaffWorkspace.statuses.customerAuthorization,
-    t.bankStaffWorkspace.statuses.orchestrationLayer,
-    t.bankStaffWorkspace.statuses.sharedOrchestration,
-    t.bankStaffWorkspace.statuses.controlMapping,
-    t.bankStaffWorkspace.statuses.backendSecurityLayer,
-    t.bankStaffWorkspace.statuses.crossLayerSecurity,
-    t.bankStaffWorkspace.statuses.cryptoAgility,
-    t.bankStaffWorkspace.statuses.railClassification,
-    t.bankStaffWorkspace.statuses.stepUpApproval,
-    'Agent control',
-    'Approval integrity',
-    t.bankStaffWorkspace.statuses.complianceReview,
-    t.bankStaffWorkspace.statuses.monitoringAlerts,
-    t.bankStaffWorkspace.statuses.reasoningLayer,
-    t.bankStaffWorkspace.statuses.packageReadiness,
-    t.bankStaffWorkspace.statuses.resilienceCommand,
-    t.bankStaffWorkspace.statuses.auditEvidence,
-    t.bankStaffWorkspace.statuses.prototypeOnly,
-  ]
-  const translatedDescriptions = [
-    t.bankStaffWorkspace.moduleDescriptions.onboarding,
-    t.bankStaffWorkspace.moduleDescriptions.customerAccess,
-    t.bankStaffWorkspace.moduleDescriptions.riskOperations,
-    t.bankStaffWorkspace.moduleDescriptions.trustEngine,
-    t.bankStaffWorkspace.moduleDescriptions.regulationEngine,
-    t.bankStaffWorkspace.moduleDescriptions.apiSecurity,
-    t.bankStaffWorkspace.moduleDescriptions.infrastructureSecurity,
-    t.bankStaffWorkspace.moduleDescriptions.cryptoAgility,
-    t.bankStaffWorkspace.moduleDescriptions.assetRailGovernance,
-    t.bankStaffWorkspace.moduleDescriptions.sensitiveApproval,
-    'Review simulated agent registry, passport, permissions, action audit, revocation, policy controls, abuse detection, and identity governance.',
-    'Control human review as a risk event with dual control, segregation of duties, reviewer conflict checks, and post-approval audit evidence.',
-    t.bankStaffWorkspace.moduleDescriptions.complianceReview,
-    t.bankStaffWorkspace.moduleDescriptions.financialCrime,
-    t.bankStaffWorkspace.moduleDescriptions.complianceIntelligence,
-    t.bankStaffWorkspace.moduleDescriptions.evidencePackages,
-    t.bankStaffWorkspace.moduleDescriptions.operationalResilience,
-    t.bankStaffWorkspace.moduleDescriptions.reportsAuditTrail,
-    t.bankStaffWorkspace.moduleDescriptions.demoAdministration,
-  ]
+  const labels = t.bankStaffWorkspace
+
+  const translatedModules: Record<WorkspaceModuleId, string> = {
+    onboarding: labels.modules.onboarding,
+    customerAccess: labels.modules.customerAccess,
+    riskOperations: labels.modules.riskOperations,
+    trustEngine: labels.modules.trustEngine,
+    controlEngine: labels.modules.controlEngine,
+    policyEngine: labels.modules.policyEngine,
+    assessmentEngine: labels.modules.assessmentEngine,
+    knowledgeEngine: labels.modules.knowledgeEngine,
+    regulationEngine: labels.modules.regulationEngine,
+    apiSecurity: labels.modules.apiSecurity,
+    infrastructureSecurity: labels.modules.infrastructureSecurity,
+    cryptoAgility: labels.modules.cryptoAgility,
+    assetRailGovernance: labels.modules.assetRailGovernance,
+    sensitiveApproval: labels.modules.sensitiveApproval,
+    agentGovernance: labels.modules.agentGovernance,
+    humanApprovalIntegrity: labels.modules.humanApprovalIntegrity,
+    complianceReview: labels.modules.complianceReview,
+    financialCrime: labels.modules.financialCrime,
+    complianceIntelligence: labels.modules.complianceIntelligence,
+    evidencePackages: labels.modules.evidencePackages,
+    operationalResilience: labels.modules.operationalResilience,
+    reportsAuditTrail: labels.modules.reportsAuditTrail,
+    demoAdministration: labels.modules.demoAdministration,
+  }
+
+  const translatedDescriptions: Record<WorkspaceModuleId, string> = {
+    onboarding: labels.moduleDescriptions.onboarding,
+    customerAccess: labels.moduleDescriptions.customerAccess,
+    riskOperations: labels.moduleDescriptions.riskOperations,
+    trustEngine: labels.moduleDescriptions.trustEngine,
+    controlEngine: labels.moduleDescriptions.controlEngine,
+    policyEngine: labels.moduleDescriptions.policyEngine,
+    assessmentEngine: labels.moduleDescriptions.assessmentEngine,
+    knowledgeEngine: labels.moduleDescriptions.knowledgeEngine,
+    regulationEngine: labels.moduleDescriptions.regulationEngine,
+    apiSecurity: labels.moduleDescriptions.apiSecurity,
+    infrastructureSecurity: labels.moduleDescriptions.infrastructureSecurity,
+    cryptoAgility: labels.moduleDescriptions.cryptoAgility,
+    assetRailGovernance: labels.moduleDescriptions.assetRailGovernance,
+    sensitiveApproval: labels.moduleDescriptions.sensitiveApproval,
+    agentGovernance: labels.moduleDescriptions.agentGovernance,
+    humanApprovalIntegrity: labels.moduleDescriptions.humanApprovalIntegrity,
+    complianceReview: labels.moduleDescriptions.complianceReview,
+    financialCrime: labels.moduleDescriptions.financialCrime,
+    complianceIntelligence: labels.moduleDescriptions.complianceIntelligence,
+    evidencePackages: labels.moduleDescriptions.evidencePackages,
+    operationalResilience: labels.moduleDescriptions.operationalResilience,
+    reportsAuditTrail: labels.moduleDescriptions.reportsAuditTrail,
+    demoAdministration: labels.moduleDescriptions.demoAdministration,
+  }
+
+  const translatedStatuses: Record<WorkspaceModuleId, string> = {
+    onboarding: labels.statuses.bankStaffControl,
+    customerAccess: labels.statuses.customerAuthorization,
+    riskOperations: labels.statuses.orchestrationLayer,
+    trustEngine: labels.statuses.sharedOrchestration,
+    controlEngine: labels.statuses.controlledDecisionLayer,
+    policyEngine: labels.statuses.policyLayer,
+    assessmentEngine: labels.statuses.readinessAssessment,
+    knowledgeEngine: labels.statuses.explainabilityLayer,
+    regulationEngine: labels.statuses.controlMapping,
+    apiSecurity: labels.statuses.backendSecurityLayer,
+    infrastructureSecurity: labels.statuses.crossLayerSecurity,
+    cryptoAgility: labels.statuses.cryptoAgility,
+    assetRailGovernance: labels.statuses.railClassification,
+    sensitiveApproval: labels.statuses.stepUpApproval,
+    agentGovernance: labels.statuses.agentControl,
+    humanApprovalIntegrity: labels.statuses.approvalIntegrity,
+    complianceReview: labels.statuses.complianceReview,
+    financialCrime: labels.statuses.monitoringAlerts,
+    complianceIntelligence: labels.statuses.reasoningLayer,
+    evidencePackages: labels.statuses.packageReadiness,
+    operationalResilience: labels.statuses.resilienceCommand,
+    reportsAuditTrail: labels.statuses.auditEvidence,
+    demoAdministration: labels.statuses.prototypeOnly,
+  }
 
   return (
     <div className="bank-shell">
@@ -247,64 +383,96 @@ export function BankStaffWorkspacePage() {
       <main className="page">
         <section className="welcome-card">
           <div>
-            <p className="eyebrow">{t.bankStaffWorkspace.protectedArea}</p>
-            <h1>{t.bankStaffWorkspace.title}</h1>
-            <p>{t.bankStaffWorkspace.subtitle}</p>
+            <p className="eyebrow">{labels.protectedArea}</p>
+            <h1>{labels.title}</h1>
+            <p>{labels.subtitle}</p>
           </div>
 
           <div className="security-badge">
             <span className="status-dot"></span>
-            {t.bankStaffWorkspace.authenticatedSession}
+            {labels.authenticatedSession}
           </div>
         </section>
 
         <section className="content-grid">
           <div className="left-column">
-            <Panel>
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">{t.bankStaffWorkspace.workspaceModules}</p>
-                  <h2>{t.bankStaffWorkspace.staffTools}</h2>
+            {workspaceGroups.slice(0, 3).map((group) => (
+              <Panel key={group.id}>
+                <div className="panel-header">
+                  <div>
+                    <p className="eyebrow">{labels.workspaceModules}</p>
+                    <h2>{labels.groups[group.id].title}</h2>
+                  </div>
+                  <span className="module-tag">{labels.conceptPrototype}</span>
                 </div>
-                <span className="module-tag">
-                  {t.bankStaffWorkspace.conceptPrototype}
-                </span>
-              </div>
+                <p>{labels.groups[group.id].description}</p>
 
-              <div className="account-list">
-                {workspaceModules.map((module, index) => (
-                  <Link
-                    className="account-row"
-                    key={module.to}
-                    to={module.to}
-                  >
-                    <div>
-                      <h3>{translatedModules[index] ?? module.title}</h3>
-                      <p>{translatedDescriptions[index] ?? module.description}</p>
-                      <span>{module.to}</span>
-                    </div>
-                    <strong>{translatedStatuses[index] ?? module.status}</strong>
-                  </Link>
-                ))}
-              </div>
-            </Panel>
+                <div className="account-list">
+                  {group.moduleIds.map((moduleId) => {
+                    const module = moduleById.get(moduleId)
+                    if (!module) {
+                      return null
+                    }
+
+                    return (
+                      <Link className="account-row" key={module.to} to={module.to}>
+                        <div>
+                          <h3>{translatedModules[module.id]}</h3>
+                          <p>{translatedDescriptions[module.id]}</p>
+                          <span>{module.to}</span>
+                        </div>
+                        <strong>{translatedStatuses[module.id]}</strong>
+                      </Link>
+                    )
+                  })}
+                </div>
+              </Panel>
+            ))}
           </div>
 
           <aside className="right-column">
+            {workspaceGroups.slice(3).map((group) => (
+              <Panel key={group.id}>
+                <div className="panel-header">
+                  <div>
+                    <p className="eyebrow">{labels.workspaceModules}</p>
+                    <h2>{labels.groups[group.id].title}</h2>
+                  </div>
+                  <span className="module-tag">{labels.conceptPrototype}</span>
+                </div>
+                <p>{labels.groups[group.id].description}</p>
+
+                <div className="account-list">
+                  {group.moduleIds.map((moduleId) => {
+                    const module = moduleById.get(moduleId)
+                    if (!module) {
+                      return null
+                    }
+
+                    return (
+                      <Link className="account-row" key={module.to} to={module.to}>
+                        <div>
+                          <h3>{translatedModules[module.id]}</h3>
+                          <p>{translatedDescriptions[module.id]}</p>
+                          <span>{module.to}</span>
+                        </div>
+                        <strong>{translatedStatuses[module.id]}</strong>
+                      </Link>
+                    )
+                  })}
+                </div>
+              </Panel>
+            ))}
+
             <Panel className="risk-panel">
-              <p className="eyebrow">{t.bankStaffWorkspace.staffBoundary}</p>
-              <h2>{t.bankStaffWorkspace.prototypeControls}</h2>
-              <p>
-                This workspace demonstrates banking-first control points for a
-                regulated digital assets concept. It is not connected to real
-                staff identities, customer records, custody systems, or banking
-                infrastructure.
-              </p>
+              <p className="eyebrow">{labels.staffBoundary}</p>
+              <h2>{labels.prototypeControls}</h2>
+              <p>{labels.safetyNote}</p>
             </Panel>
 
             <Panel>
-              <p className="eyebrow">{t.bankStaffWorkspace.operatingGuardrails}</p>
-              <h2>{t.bankStaffWorkspace.accessModel}</h2>
+              <p className="eyebrow">{labels.operatingGuardrails}</p>
+              <h2>{labels.accessModel}</h2>
               <div className="check-list">
                 {workspaceControls.map((control) => (
                   <div key={control}>
@@ -316,28 +484,24 @@ export function BankStaffWorkspacePage() {
             </Panel>
 
             <Panel>
-              <p className="eyebrow">Quick links</p>
-              <h2>{t.bankStaffWorkspace.commonActions}</h2>
+              <p className="eyebrow">{labels.quickLinks}</p>
+              <h2>{labels.commonActions}</h2>
               <div className="action-row vertical-actions">
-                <Link className="button-link" to="/bank-staff/onboarding">
-                  Open onboarding model
+                <Link className="button-link" to="/bank-staff/trust-engine">
+                  {labels.openTrustEngine}
                 </Link>
                 <Link
                   className="button-link secondary-button"
-                  to="/bank-staff/customer-access"
+                  to="/bank-staff/risk-operations"
                 >
-                  Request customer access
+                  {labels.openRiskOperations}
                 </Link>
               </div>
             </Panel>
           </aside>
         </section>
 
-        <p className="disclaimer">
-          Aurora Digital Assets is a concept prototype. No real financial
-          transactions, digital asset custody, staff access, or customer data are
-          processed.
-        </p>
+        <p className="disclaimer">{labels.safetyNote}</p>
       </main>
     </div>
   )
