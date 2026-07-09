@@ -69,6 +69,7 @@ from app.api.routes.staff_customer_access import (
     router as staff_customer_access_router,
 )
 from app.api.routes.withdrawals import router as withdrawals_router
+from app.api.routes import software_delivery_trust
 from app.core.config import settings
 from app.db.database import initialize_database
 from app.storage.sqlite_store import init_db
@@ -151,6 +152,7 @@ def create_app() -> FastAPI:
         prefix=settings.api_prefix,
     )
     app.include_router(auth_router, prefix=settings.api_prefix)
+    app.include_router(software_delivery_trust.router)
 
     return app
 
